@@ -5,7 +5,8 @@ PlatformDialog::PlatformDialog(QWidget *parent)
     : DbObjectDialog(parent)
 {
     setWindowTitle(tr("Set emulated platforms"));
-    nameDialog = new PlatformNameDialog(this);
+    nameDialog = 0;
+
 }
 
 int PlatformDialog::deleteObject()
@@ -17,7 +18,8 @@ void PlatformDialog::addObject()
 {
     if (!nameDialog)
     {
-	nameDialog = new PlatformNameDialog(this);
+        nameDialog = new PlatformNameDialog(this);
+        nameDialog = new PlatformNameDialog(this);
     }
     nameDialog->show();
     nameDialog->raise();
