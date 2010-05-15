@@ -1,12 +1,13 @@
 #ifndef DBOBJECTDIALOG_H
 #define DBOBJECTDIALOG_H
 
-#include "namedialog.h"
+#include <QDialog>
 
 class QPushButton;
 class QModelIndex;
 class QDialogButtonBox;
 class QListView;
+class NameDialog;
 
 class DbObjectDialog : public QDialog 
 {
@@ -22,6 +23,11 @@ class DbObjectDialog : public QDialog
 	//void enableEditButton();
 	//void enableDeleteButton();
 	void listObjectClicked(const QModelIndex &);
+
+    protected:
+	virtual int deleteObject() =0;
+	virtual void addObject() =0;
+	virtual void editObject() =0;
 	
     private:
 	QDialogButtonBox *buttonBox;
@@ -32,7 +38,6 @@ class DbObjectDialog : public QDialog
 	NameDialog *nameDialog;
 
 	void setButtonsEnabled(bool);
-	int deleteObject();
 	void connectSignals();
 	void layout();
 	void disableSelection();
