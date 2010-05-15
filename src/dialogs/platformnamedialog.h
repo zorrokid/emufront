@@ -1,5 +1,5 @@
-#ifndef PLATFORMDIALOG_H
-#define PLATFORMDIALOG_H
+#ifndef PLATFORMNAMEDIALOG_H
+#define PLATFORMNAMEDIALOG_H
 
 #include "namedialog.h"
 
@@ -9,6 +9,9 @@ class PlatformNameDialog : public NameDialog
 
 public:
 	PlatformNameDialog(QWidget *parent = 0, bool edit = false);
+
+protected:
+	virtual void save();
 };
 
 #endif

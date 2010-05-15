@@ -2,12 +2,12 @@
 #define DBOBJECTDIALOG_H
 
 #include <QDialog>
+#include "namedialog.h"
 
 class QPushButton;
 class QModelIndex;
 class QDialogButtonBox;
 class QListView;
-class NameDialog;
 
 class DbObjectDialog : public QDialog 
 {
@@ -28,6 +28,7 @@ class DbObjectDialog : public QDialog
 	virtual int deleteObject() =0;
 	virtual void addObject() =0;
 	virtual void editObject() =0;
+        NameDialog *nameDialog;
 	
     private:
 	QDialogButtonBox *buttonBox;
@@ -35,7 +36,6 @@ class DbObjectDialog : public QDialog
 	QPushButton *addButton;
 	QPushButton *deleteButton;
 	QListView *objectList;
-	NameDialog *nameDialog;
 
 	void setButtonsEnabled(bool);
 	void connectSignals();

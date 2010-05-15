@@ -16,8 +16,8 @@ NameDialog::NameDialog(QWidget *parent, bool edit)
 	setWindowTitle(tr("Set names"));
 }
 
-NameDialog::~NameDialog()
-{
+/*NameDialog::~NameDialog()
+{*/
 	/* deleting objects in heap is not needed here
 	 * because when deleting a parent widget
 	 * the child widgets will be also deleted:
@@ -26,7 +26,7 @@ NameDialog::~NameDialog()
 	 * delete saveButton;
 	 * delete closeButton;
 	 */
-}
+//}
 
 void NameDialog::setEdit(bool edit)
 {

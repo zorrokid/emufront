@@ -13,7 +13,7 @@ class NameDialog : public QDialog
 
 public:
 	NameDialog(QWidget *parent = 0, bool edit = false);
-	~NameDialog();
+	//~NameDialog();
 	void setEdit(bool edit);
 
 signals:
@@ -24,15 +24,15 @@ protected slots:
 	void enableSaveButton(const QString &);
 
 protected:
+	virtual void save() =0;
 	QLabel *nameLabel;
 	QLineEdit *nameEdit;
 	QPushButton *saveButton;
 	QPushButton *closeButton;
+	bool edit;
 private:
 	void connectSignals();
 	void layout();
-
-	bool edit;
 };
 
 #endif

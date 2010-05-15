@@ -31,6 +31,7 @@ void DbObjectDialog::connectSignals()
 void DbObjectDialog::addButtonClicked()
 {
     disableSelection();
+    addObject();
 }
 
 void DbObjectDialog::editButtonClicked()

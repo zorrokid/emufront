@@ -5,3 +5,7 @@ PlatformNameDialog::PlatformNameDialog(QWidget *parent, bool edit)
 {
 	setWindowTitle(tr("Set platform name"));
 }
+
+void PlatformNameDialog::save()
+{
+}
