@@ -1,6 +1,7 @@
 #include "databasemanager.h"
 #include <QObject>
 #include <QSqlDatabase>
+#include <QSqlTableModel>
 #include <QSqlError>
 #include <QSqlQuery>
 #include <QFile>
@@ -9,7 +10,9 @@
 #include <iostream>
 
 const QString DatabaseManager::DB_FILENAME = QString("my.db.sqlite");
-QSqlDatabase DatabaseManager::db = QSqlDatabase::addDatabase("QSQLITE");
+const QString DatabaseManager::DB_TABLE_NAME_PLATFORM = QString("platform");
+
+//QSqlDatabase DatabaseManager::db = QSqlDatabase::addDatabase("QSQLITE");
 
 DatabaseManager::DatabaseManager(QObject *parent)
 	: QObject(parent)
@@ -20,23 +23,21 @@ DatabaseManager::~DatabaseManager()
 
 bool DatabaseManager::openDB()
 {
-    if (DatabaseManager::db.databaseName().isEmpty())
-    {
-        DatabaseManager::db.setDatabaseName(DatabaseManager::getDbPath());
-    }
-    return DatabaseManager::db.open();
+    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
+    db.setDatabaseName(DatabaseManager::getDbPath());
+    return db.open();
 }
 
-QSqlError DatabaseManager::lastError()
+/*QSqlError DatabaseManager::lastError()
 {
 	return db.lastError();
-}
+}*/
 
-bool DatabaseManager::deleteDB()
+/*bool DatabaseManager::deleteDB()
 {
 	db.close();
 	return QFile::remove(getDbPath());
-}
+}*/
 
 QString DatabaseManager::getDbPath()
 {
@@ -54,25 +55,20 @@ QString DatabaseManager::getDbPath()
  * Check if database already exists.
  * Returns false if doesn't or we don't have a connection.
 */ 
-bool DatabaseManager::dbExists() const
+bool DatabaseManager::dbExists()
 {
-	using namespace std;
-	if (!db.isOpen()) 
-	{
-		cerr << "Database is not connected!" << endl;
-		return false;
-	}
 	QSqlQuery query;
-	query.exec("SELECT name FROM sqlite_master WHERE name='person'");
-	return query.next();
+    query.exec("SELECT name FROM sqlite_master WHERE name='" + DB_TABLE_NAME_PLATFORM + "'");
+    return query.next();
 }
 
-bool DatabaseManager::createDB() const
+bool DatabaseManager::createDB()
 {
 	bool ret = false;
-	if (db.isOpen())
-	{
+    /*if (db.isOpen())
+    {*/
 		QSqlQuery query;
+
 		ret = query.exec("create table platform "
 				"(id integer primary key, "
 				"name varchar(30), "
@@ -81,7 +77,7 @@ bool DatabaseManager::createDB() const
 						"(id integer primary key, "
 						"name varchar(30), "
 						"filename varchar(125))");*/
-	}
+    //}
 	return ret;
 }
 
@@ -89,8 +85,8 @@ int DatabaseManager::insertPlatform(QString name, QString filename)
 {
 	int newId = -1;
 	bool ret = false;
-	if (db.isOpen())
-	{
+    /*if (db.isOpen())
+    {*/
 		//http://www.sqlite.org/autoinc.html
 		// NULL = is the keyword for the autoincrement to generate next value
 		QSqlQuery query;
@@ -109,16 +105,16 @@ int DatabaseManager::insertPlatform(QString name, QString filename)
 			QVariant var = query.lastInsertId();
 			if (var.isValid()) newId = var.toInt();
 		}
-	}
+    //}
 	return newId;
 }
 
-QString DatabaseManager::getPlatform(int id) const
+QString DatabaseManager::getPlatform(int id)
 {
 	QString name;
 	QSqlQuery query(QString("select firstname, lastname from person where id = %1").arg(id));
 
-	if (query.next())
+    if (query.next())
 	{
 		name.append(query.value(0).toString());
 		name.append(query.value(1).toString());
@@ -126,3 +122,12 @@ QString DatabaseManager::getPlatform(int id) const
 	return name;
 }
 
+QSqlTableModel* DatabaseManager::getPlatforms()
+{
+    QSqlTableModel *model = new QSqlTableModel(this);
+    model->setTable(DB_TABLE_NAME_PLATFORM);
+    model->setSort(Platform_Name, Qt::AscendingOrder);
+    model->setHeaderData(Platform_Name, Qt::Horizontal, tr("Name"));
+    model->select();
+    return model;
+}

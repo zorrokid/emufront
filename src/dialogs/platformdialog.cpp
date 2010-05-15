@@ -1,3 +1,7 @@
+#include <QtGui>
+#include <QAbstractItemView>
+#include <QSqlTableModel>
+
 #include "platformdialog.h"
 #include "platformnamedialog.h"
 
@@ -6,7 +10,10 @@ PlatformDialog::PlatformDialog(QWidget *parent)
 {
     setWindowTitle(tr("Set emulated platforms"));
     nameDialog = 0;
-    
+
+    QSqlTableModel *model = dbManager->getPlatforms();
+    objectList->setModel(model);
+    objectList->setSelectionMode(QAbstractItemView::SingleSelection);
 }
 
 int PlatformDialog::deleteObject()

@@ -6,6 +6,7 @@
 
 class QSqlError;
 class QFile;
+class QSqlTableModel;
 
 class DatabaseManager : public QObject
 {
@@ -13,18 +14,27 @@ public:
 	DatabaseManager(QObject *parent = 0);
 	~DatabaseManager();
 
-        static bool openDB();
-	bool deleteDB();
-	bool dbExists() const;
-	QSqlError lastError();
-	bool createDB() const;
-        static int insertPlatform(QString name, QString filename = "");
-	QString getPlatform(int id) const;
+    static bool openDB();
+    static bool deleteDB();
+    static bool dbExists();
+    static QSqlError lastError();
+    static bool createDB();
+    static int insertPlatform(QString name, QString filename = "");
+    static QString getPlatform(int id);
+    QSqlTableModel* getPlatforms();
 
 private:
-        static QSqlDatabase db;
+    //static QSqlDatabase db;
 	static const QString DB_FILENAME;
-        static QString getDbPath();
+    static const QString DB_TABLE_NAME_PLATFORM;
+    static QString getDbPath();
+
+    enum {
+    Platform_Id = 0,
+    Platform_Name = 1,
+    Platform_Filename = 2
+    };
+
 };
 
 #endif
