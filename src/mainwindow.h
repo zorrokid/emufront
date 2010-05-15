@@ -36,8 +36,6 @@ private:
 	QAction *exitAction;
 	QLabel *messageLabel;
         DatabaseManager *dbManager;
-
-	// todo ks. s. 46 jatkoa...
 };
 
 #endif
