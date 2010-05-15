@@ -6,7 +6,7 @@ PlatformDialog::PlatformDialog(QWidget *parent)
 {
     setWindowTitle(tr("Set emulated platforms"));
     nameDialog = 0;
-
+    
 }
 
 int PlatformDialog::deleteObject()
@@ -18,8 +18,7 @@ void PlatformDialog::addObject()
 {
     if (!nameDialog)
     {
-        nameDialog = new PlatformNameDialog(this);
-        nameDialog = new PlatformNameDialog(this);
+	nameDialog = new PlatformNameDialog(this);
     }
     nameDialog->show();
     nameDialog->raise();
