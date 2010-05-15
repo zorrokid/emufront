@@ -2,7 +2,7 @@
 #include "namedialog.h"
 
 NameDialog::NameDialog(QWidget *parent, bool edit)
-	: QDialog(parent), edit(edit)
+        : EmuFrontDialog(parent), edit(edit)
 {
 	nameLabel = new QLabel(tr("&Name: "));	
 	nameEdit = new QLineEdit;
@@ -63,6 +63,8 @@ void NameDialog::saveButtonClicked()
 		return;
 
 	QString name = nameEdit->text().simplified();
+        if (save(name)) emit dbUpdated();
+        else errorMessage->showMessage("Database update failed!");
 	/*if (edit) updateDb(name);
 	else insertDb(name);*/
 }

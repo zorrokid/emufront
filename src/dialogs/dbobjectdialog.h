@@ -1,7 +1,7 @@
 #ifndef DBOBJECTDIALOG_H
 #define DBOBJECTDIALOG_H
 
-#include <QDialog>
+#include "emufrontdialog.h"
 #include "namedialog.h"
 
 class QPushButton;
@@ -9,7 +9,7 @@ class QModelIndex;
 class QDialogButtonBox;
 class QListView;
 
-class DbObjectDialog : public QDialog 
+class DbObjectDialog : public EmuFrontDialog
 {
     Q_OBJECT
 

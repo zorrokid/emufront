@@ -1,13 +1,13 @@
 #ifndef NAMEDIALOG_H
 #define NAMEDIALOG_H
 
-#include <QDialog>
+#include "emufrontdialog.h"
 
 class QLabel;
 class QLineEdit;
 class QPushButton;
 
-class NameDialog : public QDialog
+class NameDialog : public EmuFrontDialog
 {
 	Q_OBJECT
 
@@ -24,7 +24,7 @@ protected slots:
 	void enableSaveButton(const QString &);
 
 protected:
-	virtual void save() =0;
+        virtual int save(QString name, int = 0, QString fileName = 0) =0;
 	QLabel *nameLabel;
 	QLineEdit *nameEdit;
 	QPushButton *saveButton;

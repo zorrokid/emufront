@@ -2,7 +2,7 @@
 #include "dbobjectdialog.h"
 
 DbObjectDialog::DbObjectDialog(QWidget *parent)
-    : QDialog(parent)
+    : EmuFrontDialog(parent)
 {
     editButton = new QPushButton(tr("&Edit")); 
     addButton = new QPushButton(tr("&Add"));

@@ -1,6 +1,7 @@
 #include <QtGui>
 #include "mainwindow.h"
 #include "dialogs/platformdialog.h"
+#include "db/databasemanager.h"
 
 MainWindow::MainWindow()
 {
@@ -10,6 +11,7 @@ MainWindow::MainWindow()
     createStatusBar();
     readSettings();
     platformDialog = 0;
+    dbManager = new DatabaseManager;
 }
 
 void MainWindow::createActions()
@@ -70,5 +72,3 @@ bool MainWindow::okToContinue()
 {
     return true;
 }
-
-

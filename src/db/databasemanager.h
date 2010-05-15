@@ -13,18 +13,18 @@ public:
 	DatabaseManager(QObject *parent = 0);
 	~DatabaseManager();
 
-	bool openDB();
+        static bool openDB();
 	bool deleteDB();
 	bool dbExists() const;
 	QSqlError lastError();
 	bool createDB() const;
-	int insertPlatform(QString name, QString filename = 0) const;
+        static int insertPlatform(QString name, QString filename = "");
 	QString getPlatform(int id) const;
 
 private:
-	QSqlDatabase db;
+        static QSqlDatabase db;
 	static const QString DB_FILENAME;
-	QString getDbPath() const;
+        static QString getDbPath();
 };
 
 #endif

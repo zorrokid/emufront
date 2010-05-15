@@ -6,6 +6,7 @@
 class QAction;
 class PlatformDialog;
 class QLabel;
+class DatabaseManager;
 
 class MainWindow : public QMainWindow
 {
@@ -13,7 +14,7 @@ class MainWindow : public QMainWindow
 
 public:
 	MainWindow();
-	//~MainWindow();
+        //~MainWindow()
 
 protected:
 	void closeEvent(QCloseEvent *event);
@@ -34,6 +35,7 @@ private:
         QAction *configPlatformAction;	
 	QAction *exitAction;
 	QLabel *messageLabel;
+        DatabaseManager *dbManager;
 
 	// todo ks. s. 46 jatkoa...
 };

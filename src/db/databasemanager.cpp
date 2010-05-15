@@ -9,6 +9,7 @@
 #include <iostream>
 
 const QString DatabaseManager::DB_FILENAME = QString("my.db.sqlite");
+QSqlDatabase DatabaseManager::db = QSqlDatabase::addDatabase("QSQLITE");
 
 DatabaseManager::DatabaseManager(QObject *parent)
 	: QObject(parent)
@@ -19,9 +20,11 @@ DatabaseManager::~DatabaseManager()
 
 bool DatabaseManager::openDB()
 {
-	db = QSqlDatabase::addDatabase("QSQLITE");
-	db.setDatabaseName(getDbPath());
-	return db.open();
+    if (DatabaseManager::db.databaseName().isEmpty())
+    {
+        DatabaseManager::db.setDatabaseName(DatabaseManager::getDbPath());
+    }
+    return DatabaseManager::db.open();
 }
 
 QSqlError DatabaseManager::lastError()
@@ -35,7 +38,7 @@ bool DatabaseManager::deleteDB()
 	return QFile::remove(getDbPath());
 }
 
-QString DatabaseManager::getDbPath() const
+QString DatabaseManager::getDbPath()
 {
 	QString path;
 #ifdef Q_OS_LINUX
@@ -82,7 +85,7 @@ bool DatabaseManager::createDB() const
 	return ret;
 }
 
-int DatabaseManager::insertPlatform(QString name, QString filename) const
+int DatabaseManager::insertPlatform(QString name, QString filename)
 {
 	int newId = -1;
 	bool ret = false;

@@ -11,7 +11,7 @@ public:
 	PlatformNameDialog(QWidget *parent = 0, bool edit = false);
 
 protected:
-	virtual void save();
+        virtual int save(QString name, int id = 0, QString fileName = 0);
 };
 
 #endif
