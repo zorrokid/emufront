@@ -1,8 +1,8 @@
 #include "platformnamedialog.h"
 #include "../db/databasemanager.h"
 
-PlatformNameDialog::PlatformNameDialog(QWidget *parent, bool edit)
-	: NameDialog(parent, edit)
+PlatformNameDialog::PlatformNameDialog(QWidget *parent, EmuFrontObject *efObj)
+    : NameDialog(parent, efObj)
 {
     setWindowTitle(tr("Set platform name"));
 }

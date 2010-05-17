@@ -1,8 +1,8 @@
 #include <QtGui>
 #include "namedialog.h"
 
-NameDialog::NameDialog(QWidget *parent, bool edit)
-        : EmuFrontDialog(parent), edit(edit)
+NameDialog::NameDialog(QWidget *parent, EmuFrontObject *efObj)
+        : EmuFrontDialog(parent), efObject(efObj)
 {
 	nameLabel = new QLabel(tr("&Name: "));	
 	nameEdit = new QLineEdit;
@@ -16,8 +16,10 @@ NameDialog::NameDialog(QWidget *parent, bool edit)
 	setWindowTitle(tr("Set names"));
 }
 
-/*NameDialog::~NameDialog()
-{*/
+NameDialog::~NameDialog()
+{
+    delete efObject;
+
 	/* deleting objects in heap is not needed here
 	 * because when deleting a parent widget
 	 * the child widgets will be also deleted:
@@ -26,12 +28,8 @@ NameDialog::NameDialog(QWidget *parent, bool edit)
 	 * delete saveButton;
 	 * delete closeButton;
 	 */
-//}
-
-void NameDialog::setEdit(bool edit)
-{
-	this->edit = edit;
 }
+
 void NameDialog::connectSignals()
 {
 	connect(nameEdit, SIGNAL(textChanged(const QString &)), 

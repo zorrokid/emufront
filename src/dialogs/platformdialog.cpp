@@ -2,6 +2,7 @@
 #include <QAbstractItemView>
 #include <QSqlTableModel>
 
+#include "../dataobjects/platform.h"
 #include "platformdialog.h"
 #include "platformnamedialog.h"
 
@@ -27,7 +28,8 @@ void PlatformDialog::addObject()
 {
     if (!nameDialog)
     {
-	nameDialog = new PlatformNameDialog(this);
+        if (!dbObject) dbObject = new Platform;
+        nameDialog = new PlatformNameDialog(this, dbObject);
     }
     nameDialog->show();
     nameDialog->raise();
