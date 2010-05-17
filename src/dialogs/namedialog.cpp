@@ -57,14 +57,18 @@ void NameDialog::layout()
 
 void NameDialog::saveButtonClicked()
 {
-	if (nameEdit->text() == 0 || nameEdit->text().trimmed().isEmpty())
+    if (nameEdit->text() == 0 || nameEdit->text().trimmed().isEmpty())
 		return;
 
 	QString name = nameEdit->text().simplified();
-        if (save(name)) emit dbUpdated();
-        else errorMessage->showMessage("Database update failed!");
-	/*if (edit) updateDb(name);
-	else insertDb(name);*/
+    setDataObject(name);
+    /*
+
+
+    efObject->setName(name);
+    efObject->setFilename("");
+
+    emit accept();*/
 }
 
 void NameDialog::enableSaveButton(const QString &text)

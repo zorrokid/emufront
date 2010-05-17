@@ -25,7 +25,7 @@ protected slots:
 	void enableSaveButton(const QString &);
 
 protected:
-    virtual int save(QString name, int = 0, QString fileName = 0) =0;
+    virtual void setDataObject(QString name) =0;
 	QLabel *nameLabel;
 	QLineEdit *nameEdit;
 	QPushButton *saveButton;

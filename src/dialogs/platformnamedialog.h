@@ -2,17 +2,17 @@
 #define PLATFORMNAMEDIALOG_H
 
 #include "namedialog.h"
-//#include "../dataobjects/platform.h"
+#include "../dataobjects/platform.h"
 
 class PlatformNameDialog : public NameDialog
 {
 	Q_OBJECT
 
 public:
-    PlatformNameDialog(QWidget *parent = 0, EmuFrontObject * = 0);
+    PlatformNameDialog(QWidget *parent = 0, Platform * = 0);
 
 protected:
-    virtual int save(QString name, int id = 0, QString fileName = 0);
+    virtual void setDataObject(QString name);
 };
 
 #endif

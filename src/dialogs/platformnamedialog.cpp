@@ -1,15 +1,17 @@
 #include "platformnamedialog.h"
 #include "../db/databasemanager.h"
 
-PlatformNameDialog::PlatformNameDialog(QWidget *parent, EmuFrontObject *efObj)
+PlatformNameDialog::PlatformNameDialog(QWidget *parent, Platform *efObj)
     : NameDialog(parent, efObj)
 {
     setWindowTitle(tr("Set platform name"));
 }
 
-int PlatformNameDialog::save(QString name, int id, QString fileName)
+void PlatformNameDialog::setDataObject(QString name)
 {
-    if (id)
+    efObject->setName(name);
+    efObject->setFilename("");
+    /*if (id)
     {
         // return DatabaseManager::updatePlatform(..., ...);
     }
@@ -17,5 +19,5 @@ int PlatformNameDialog::save(QString name, int id, QString fileName)
     {
         return DatabaseManager::insertPlatform(name, fileName);
     }
-    return 0;
+    return 0;*/
 }

@@ -29,7 +29,7 @@ void PlatformDialog::addObject()
     if (!nameDialog)
     {
         if (!dbObject) dbObject = new Platform;
-        nameDialog = new PlatformNameDialog(this, dbObject);
+        nameDialog = new PlatformNameDialog(this, static_cast<Platform>(dbObject));
     }
     nameDialog->show();
     nameDialog->raise();
