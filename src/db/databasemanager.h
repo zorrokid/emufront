@@ -23,17 +23,17 @@ public:
     static QString getPlatform(int id);
     QSqlTableModel* getPlatforms();
 
-private:
-    //static QSqlDatabase db;
-	static const QString DB_FILENAME;
-    static const QString DB_TABLE_NAME_PLATFORM;
-    static QString getDbPath();
-
     enum {
     Platform_Id = 0,
     Platform_Name = 1,
     Platform_Filename = 2
     };
+
+private:
+    //static QSqlDatabase db;
+	static const QString DB_FILENAME;
+    static const QString DB_TABLE_NAME_PLATFORM;
+    static QString getDbPath();
 
 };
 

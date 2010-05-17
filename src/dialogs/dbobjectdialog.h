@@ -4,6 +4,7 @@
 #include "emufrontdialog.h"
 #include "namedialog.h"
 #include "../db/databasemanager.h"
+#include "../dataobjects/emufrontobject.h"
 
 class QPushButton;
 class QModelIndex;
@@ -33,11 +34,12 @@ class DbObjectDialog : public EmuFrontDialog
     NameDialog *nameDialog;
     DatabaseManager *dbManager;
     QTableView *objectList;
+    EmuFrontObject dbObject;
 
     private:
 	QDialogButtonBox *buttonBox;
 	QPushButton *editButton;
-	QPushButton *addButton;
+    QPushButton *addButton;
 	QPushButton *deleteButton;
 
 	void setButtonsEnabled(bool);

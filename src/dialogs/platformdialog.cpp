@@ -14,6 +14,8 @@ PlatformDialog::PlatformDialog(QWidget *parent)
     QSqlTableModel *model = dbManager->getPlatforms();
     objectList->setModel(model);
     objectList->setSelectionMode(QAbstractItemView::SingleSelection);
+    objectList->setColumnHidden(DatabaseManager::Platform_Id, true);
+    objectList->resizeColumnsToContents();
 }
 
 int PlatformDialog::deleteObject()

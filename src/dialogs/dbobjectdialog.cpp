@@ -5,10 +5,13 @@
 DbObjectDialog::DbObjectDialog(QWidget *parent)
     : EmuFrontDialog(parent)
 {
+    dbObject = 0;
     dbManager = new DatabaseManager(this);
     editButton = new QPushButton(tr("&Edit")); 
+    editButton->setEnabled(false);
     addButton = new QPushButton(tr("&Add"));
     deleteButton = new QPushButton(tr("&Delete"));
+    deleteButton->setEnabled(false);
     objectList = new QTableView(this);
     buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok, Qt::Vertical);
     buttonBox->addButton(editButton, QDialogButtonBox::ActionRole);
