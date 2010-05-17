@@ -34,7 +34,7 @@ class DbObjectDialog : public EmuFrontDialog
     NameDialog *nameDialog;
     DatabaseManager *dbManager;
     QTableView *objectList;
-    EmuFrontObject dbObject;
+    EmuFrontObject *dbObject;
 
     private:
 	QDialogButtonBox *buttonBox;
