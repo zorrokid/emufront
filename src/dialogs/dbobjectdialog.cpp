@@ -23,6 +23,11 @@ DbObjectDialog::DbObjectDialog(QWidget *parent)
     layout();
 } 
 
+DbObjectDialog::~DbObjectDialog()
+{
+    delete dbObject;
+}
+
 void DbObjectDialog::connectSignals()
 {
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(close()));

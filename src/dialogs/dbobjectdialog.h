@@ -16,7 +16,8 @@ class DbObjectDialog : public EmuFrontDialog
     Q_OBJECT
 
     public:
-	DbObjectDialog(QWidget *parent = 0);
+    DbObjectDialog(QWidget *parent = 0);
+    ~DbObjectDialog();
 
     protected slots:
 	void editButtonClicked();
