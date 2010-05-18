@@ -11,7 +11,7 @@ public:
     // No need for these as long we use QString (see Implicit Data Sharing)
     /*Platform(const Platform &);
     Platform &operator=(const Platform &);
-    ~Platform();*/
+    virtual ~Platform();*/
     const QString getFilename() const
     { return filename; }
     void setFilename(QString filename)

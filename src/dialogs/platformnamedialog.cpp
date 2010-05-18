@@ -10,14 +10,5 @@ PlatformNameDialog::PlatformNameDialog(QWidget *parent, Platform *efObj)
 void PlatformNameDialog::setDataObject(QString name)
 {
     efObject->setName(name);
-    efObject->setFilename("");
-    /*if (id)
-    {
-        // return DatabaseManager::updatePlatform(..., ...);
-    }
-    else
-    {
-        return DatabaseManager::insertPlatform(name, fileName);
-    }
-    return 0;*/
+    (dynamic_cast<Platform*>(efObject))->setFilename("");
 }

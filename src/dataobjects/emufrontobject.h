@@ -11,16 +11,16 @@ public:
 
     // No need for these as long we use QString (see Implicit Data Sharing)
     //EmuFrontObject(const EmuFrontObject &);
-    //~EmuFrontObject();
+    //virtual ~EmuFrontObject();
     //EmuFrontObject &operator=(const EmuFrontObject &);
 
-    const QString getName() const
+    virtual const QString getName() const
     { return name; }
-    int getId() const
+    virtual int getId() const
     { return id; }
-    void setName(QString name)
+    virtual void setName(QString name)
     { this->name = name; };
-    void setId(int id)
+    virtual void setId(int id)
     { this->id = id; }
 
 protected:
