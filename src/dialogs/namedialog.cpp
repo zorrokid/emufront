@@ -11,7 +11,7 @@ NameDialog::NameDialog(QWidget *parent, EmuFrontObject *efObj)
 	saveButton->setDefault(true);
 	saveButton->setEnabled(false);
 	closeButton = new QPushButton(tr("Close"));
-	connectSignals();
+    //connectSignals();
 	layout();
 	setWindowTitle(tr("Set names"));
 }

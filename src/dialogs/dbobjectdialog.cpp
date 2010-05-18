@@ -31,12 +31,12 @@ DbObjectDialog::~DbObjectDialog()
 void DbObjectDialog::connectSignals()
 {
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(close()));
-    connect(objectList, SIGNAL(clicked(const QModelIndex &)), 
-		this, SLOT(listObjectClicked(const QModelIndex &)));
-    connect(editButton, SIGNAL(clicked()), this, SLOT(editButtonClicked()));
+    /*connect(objectList, SIGNAL(clicked(const QModelIndex &)),
+        this, SLOT(listObjectClicked(const QModelIndex &)));*/
+    //connect(editButton, SIGNAL(clicked()), this, SLOT(editButtonClicked()));
     connect(addButton, SIGNAL(clicked()), this, SLOT(addButtonClicked()));
-    connect(deleteButton, SIGNAL(clicked()), this, SLOT(deleteButtonClicked()));
-    connect(nameDialog, SIGNAL(accepted()), this, SLOT(updateList()));
+    //connect(deleteButton, SIGNAL(clicked()), this, SLOT(deleteButtonClicked()));
+    //connect(nameDialog, SIGNAL(accepted()), this, SLOT(updateList()));
 }
 
 void DbObjectDialog::updateList() const

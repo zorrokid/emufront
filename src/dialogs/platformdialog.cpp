@@ -1,10 +1,14 @@
 #include <QtGui>
 #include <QAbstractItemView>
 #include <QSqlTableModel>
+#include <QTextStream>
 
 #include "../dataobjects/platform.h"
 #include "platformdialog.h"
 #include "platformnamedialog.h"
+
+
+QTextStream cout(stdout, QIODevice::WriteOnly);
 
 PlatformDialog::PlatformDialog(QWidget *parent)
     : DbObjectDialog(parent)
@@ -26,9 +30,11 @@ int PlatformDialog::deleteObject()
 
 void PlatformDialog::addObject()
 {
+    cout << "PlaformDialog::addObject" << endl;
     if (!nameDialog)
     {
         if (!dbObject) dbObject = new Platform;
+        cout << "PlaformDialog::addObject: creating nameDialog..." << endl;
         nameDialog = new PlatformNameDialog(this, dynamic_cast<Platform*>(dbObject));
     }
     nameDialog->show();
