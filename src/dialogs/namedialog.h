@@ -8,6 +8,7 @@
 class QLabel;
 class QLineEdit;
 class QPushButton;
+class QDialogButtonBox;
 
 class NameDialog : public EmuFrontDialog
 {
@@ -28,13 +29,15 @@ protected:
     virtual void setDataObject(QString name) =0;
 	QLabel *nameLabel;
 	QLineEdit *nameEdit;
-	QPushButton *saveButton;
-	QPushButton *closeButton;
+    QDialogButtonBox *buttonBox;
+    //QPushButton *saveButton;
+    //QPushButton *closeButton;
     EmuFrontObject *efObject;
 
 private:
 	void connectSignals();
 	void layout();
+    void close(bool);
 };
 
 #endif

@@ -4,14 +4,19 @@
 NameDialog::NameDialog(QWidget *parent, EmuFrontObject *efObj)
         : EmuFrontDialog(parent), efObject(efObj)
 {
+    // actually we need to create here a (deep) copy of the original object
+    // if the user clicks cancel the original remains unchanged
+    // if the user clicks or we set the pointer to modified object OR we update the original object:
+    //        - the copy object could be a stack object
 	nameLabel = new QLabel(tr("&Name: "));	
 	nameEdit = new QLineEdit;
 	nameLabel->setBuddy(nameEdit);
-	saveButton = new QPushButton(tr("&Save"));
+    buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Abort, Qt::Horizontal);
+    /*saveButton = new QPushButton(tr("&Save"));
 	saveButton->setDefault(true);
 	saveButton->setEnabled(false);
-	closeButton = new QPushButton(tr("Close"));
-    //connectSignals();
+    closeButton = new QPushButton(tr("Close"));*/
+    connectSignals();
 	layout();
 	setWindowTitle(tr("Set names"));
 }
@@ -32,10 +37,12 @@ NameDialog::~NameDialog()
 
 void NameDialog::connectSignals()
 {
-	connect(nameEdit, SIGNAL(textChanged(const QString &)), 
-			this, SLOT(enableSaveButton(const QString &)));
-	connect(saveButton, SIGNAL(clicked()), this, SLOT(saveButtonClicked()));
-	connect(closeButton, SIGNAL(clicked()), this, SLOT(close()));
+    connect(nameEdit, SIGNAL(textChanged(const QString &)), this, SLOT(enableSaveButton(const QString &)));
+    connect(buttonBox, SIGNAL(accepted()), this, SLOT(acceptChanges()));
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(close()));
+
+    /*connect(saveButton, SIGNAL(clicked()), this, SLOT(saveButtonClicked()));
+    connect(closeButton, SIGNAL(clicked()), this, SLOT(close()));*/
 }
 
 void NameDialog::layout()
@@ -45,9 +52,10 @@ void NameDialog::layout()
 	topLayout->addWidget(nameEdit);
 
 	QHBoxLayout *bottomLayout = new QHBoxLayout;
-	bottomLayout->addStretch();
+    bottomLayout->addWidget(buttonBox);
+    /*bottomLayout->addStretch();
 	bottomLayout->addWidget(saveButton);
-	bottomLayout->addWidget(closeButton);
+    bottomLayout->addWidget(closeButton);*/
 
 	QVBoxLayout *mainLayout = new QVBoxLayout;
 	mainLayout->addLayout(topLayout);
@@ -73,5 +81,13 @@ void NameDialog::saveButtonClicked()
 
 void NameDialog::enableSaveButton(const QString &text)
 {
-	saveButton->setEnabled(!text.isEmpty());
+    //saveButton->setEnabled(!text.isEmpty());
+}
+
+void NameDialog::close(bool save)
+{
+    if (!save)
+    {
+        // restore original instance
+    }
 }
