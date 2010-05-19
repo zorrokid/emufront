@@ -8,10 +8,6 @@ NameDialog::NameDialog(QWidget *parent, EmuFrontObject *efObj)
 	nameEdit = new QLineEdit;
 	nameLabel->setBuddy(nameEdit);
     buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Abort, Qt::Horizontal);
-    /*saveButton = new QPushButton(tr("&Save"));
-	saveButton->setDefault(true);
-	saveButton->setEnabled(false);
-    closeButton = new QPushButton(tr("Close"));*/
     connectSignals();
 	layout();
 	setWindowTitle(tr("Set names"));
@@ -21,13 +17,9 @@ NameDialog::~NameDialog()
 {
     delete efObject;
 
-	/* deleting objects in heap is not needed here
+    /* deleting parenteed QT-objects in heap is not needed here
 	 * because when deleting a parent widget
-	 * the child widgets will be also deleted:
-	 * delete nameLabel;
-	 * delete nameEdit;
-	 * delete saveButton;
-	 * delete closeButton;
+     * the child widgets will be also deleted
 	 */
 }
 
@@ -36,9 +28,6 @@ void NameDialog::connectSignals()
     connect(nameEdit, SIGNAL(textChanged(const QString &)), this, SLOT(enableSaveButton(const QString &)));
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(acceptChanges()));
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(close()));
-
-    /*connect(saveButton, SIGNAL(clicked()), this, SLOT(saveButtonClicked()));
-    connect(closeButton, SIGNAL(clicked()), this, SLOT(close()));*/
 }
 
 void NameDialog::layout()
@@ -49,9 +38,6 @@ void NameDialog::layout()
 
 	QHBoxLayout *bottomLayout = new QHBoxLayout;
     bottomLayout->addWidget(buttonBox);
-    /*bottomLayout->addStretch();
-	bottomLayout->addWidget(saveButton);
-    bottomLayout->addWidget(closeButton);*/
 
 	QVBoxLayout *mainLayout = new QVBoxLayout;
 	mainLayout->addLayout(topLayout);

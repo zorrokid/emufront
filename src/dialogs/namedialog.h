@@ -20,8 +20,6 @@ public:
 
 signals:
     void dataObjectUpdated();
-    /* 	void insertName(const QString &name, int id = 0);
-    void exitDialog();*/
 
 protected slots:
     void acceptChanges();
@@ -32,8 +30,6 @@ protected:
 	QLabel *nameLabel;
 	QLineEdit *nameEdit;
     QDialogButtonBox *buttonBox;
-    //QPushButton *saveButton;
-    //QPushButton *closeButton;
     EmuFrontObject *efObject;
 
 private:
