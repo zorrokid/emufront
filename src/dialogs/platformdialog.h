@@ -14,6 +14,9 @@ class PlatformDialog : public DbObjectDialog
 	virtual int deleteObject();
 	virtual void addObject();
 	virtual void editObject();
+
+    private slots:
+    virtual void updateData();
 	
         //PlatformNameDialog *nameDialog;
 };

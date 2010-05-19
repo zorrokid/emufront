@@ -19,7 +19,7 @@ DbObjectDialog::DbObjectDialog(QWidget *parent)
     buttonBox->addButton(deleteButton, QDialogButtonBox::ActionRole);
     // nameDialog will be created on request
     
-    connectSignals();
+    //connectSignals();
     layout();
 } 
 
@@ -37,6 +37,7 @@ void DbObjectDialog::connectSignals()
     connect(addButton, SIGNAL(clicked()), this, SLOT(addButtonClicked()));
     //connect(deleteButton, SIGNAL(clicked()), this, SLOT(deleteButtonClicked()));
     //connect(nameDialog, SIGNAL(accepted()), this, SLOT(updateList()));
+    connect(nameDialog, SIGNAL(dataObjectUpdated()), this, SLOT(updateData()));
 }
 
 void DbObjectDialog::updateList() const
@@ -85,4 +86,9 @@ void DbObjectDialog::setButtonsEnabled(bool enabled)
 void DbObjectDialog::disableSelection()
 {
     setButtonsEnabled(false);
+}
+
+void DbObjectDialog::updateData()
+{
+    updateList();
 }

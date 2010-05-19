@@ -26,6 +26,7 @@ class DbObjectDialog : public EmuFrontDialog
 	//void enableEditButton();
 	//void enableDeleteButton();
 	void listObjectClicked(const QModelIndex &);
+    virtual void updateData();
     void updateList() const;
 
     protected:
@@ -36,6 +37,7 @@ class DbObjectDialog : public EmuFrontDialog
     DatabaseManager *dbManager;
     QTableView *objectList;
     EmuFrontObject *dbObject;
+    void connectSignals();
 
     private:
 	QDialogButtonBox *buttonBox;
@@ -44,7 +46,6 @@ class DbObjectDialog : public EmuFrontDialog
 	QPushButton *deleteButton;
 
 	void setButtonsEnabled(bool);
-	void connectSignals();
 	void layout();
 	void disableSelection();
 };
