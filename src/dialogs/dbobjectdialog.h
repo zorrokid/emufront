@@ -36,6 +36,7 @@ class DbObjectDialog : public EmuFrontDialog
     NameDialog *nameDialog;
     DatabaseManager *dbManager;
     QTableView *objectList;
+    QSqlTableModel *sqlTableModel;
     EmuFrontObject *dbObject;
     void connectSignals();
 

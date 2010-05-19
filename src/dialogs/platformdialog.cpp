@@ -3,6 +3,7 @@
 #include <QSqlTableModel>
 #include <QTextStream>
 
+#include "../db/databasemanager.h"
 #include "../dataobjects/platform.h"
 #include "platformdialog.h"
 #include "platformnamedialog.h"
@@ -17,11 +18,14 @@ PlatformDialog::PlatformDialog(QWidget *parent)
     //nameDialog = 0;
     nameDialog = new PlatformNameDialog(this, dynamic_cast<Platform*>(dbObject));
 
-    QSqlTableModel *model = dbManager->getPlatforms();
-    objectList->setModel(model);
+    // let's create a table model for platforms
+    sqlTableModel = dbManager->getPlatforms();
+    objectList->setModel(sqlTableModel);
     objectList->setSelectionMode(QAbstractItemView::SingleSelection);
     objectList->setColumnHidden(DatabaseManager::Platform_Id, true);
     objectList->resizeColumnsToContents();
+
+    // do not move to parent class:
     connectSignals();
 }
 
@@ -54,7 +58,17 @@ void PlatformDialog::updateData()
 {
     // update data model
     if (!dbObject) return;
+
+
     QMessageBox::information(this, "Test", "We have a " + dbObject->getName());
+
+    int row = 0;
+    sqlTableModel->insertRows(row, 1);
+    sqlTableModel->setData(sqlTableModel->index(row, 0), dbObject->getId());
+    sqlTableModel->setData(sqlTableModel->index(row, 1), dbObject->getName());
+    sqlTableModel->setData(sqlTableModel->index(row, 2),
+                            (dynamic_cast<Platform*>(dbObject))->getFilename());
+    sqlTableModel->submitAll();
 
     // refresh...
     DbObjectDialog::updateData();
