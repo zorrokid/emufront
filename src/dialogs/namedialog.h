@@ -19,10 +19,12 @@ public:
     ~NameDialog();
 
 signals:
-	void insertName(const QString &name, int id = 0);
+    void dataObjectUpdated();
+    /* 	void insertName(const QString &name, int id = 0);
+    void exitDialog();*/
 
 protected slots:
-	void saveButtonClicked();
+    void acceptChanges();
 	void enableSaveButton(const QString &);
 
 protected:
@@ -37,7 +39,6 @@ protected:
 private:
 	void connectSignals();
 	void layout();
-    void close(bool);
 };
 
 #endif

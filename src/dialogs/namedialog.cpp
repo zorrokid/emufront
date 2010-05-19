@@ -4,10 +4,6 @@
 NameDialog::NameDialog(QWidget *parent, EmuFrontObject *efObj)
         : EmuFrontDialog(parent), efObject(efObj)
 {
-    // actually we need to create here a (deep) copy of the original object
-    // if the user clicks cancel the original remains unchanged
-    // if the user clicks or we set the pointer to modified object OR we update the original object:
-    //        - the copy object could be a stack object
 	nameLabel = new QLabel(tr("&Name: "));	
 	nameEdit = new QLineEdit;
 	nameLabel->setBuddy(nameEdit);
@@ -63,20 +59,18 @@ void NameDialog::layout()
 	setLayout(mainLayout);
 }
 
-void NameDialog::saveButtonClicked()
+void NameDialog::acceptChanges()
 {
     if (nameEdit->text() == 0 || nameEdit->text().trimmed().isEmpty())
+    {
+        QMessageBox::warning(this, tr("Invalid input"), tr("Empty string is not accepted as name!"));
 		return;
+    }
 
 	QString name = nameEdit->text().simplified();
     setDataObject(name);
-    /*
-
-
-    efObject->setName(name);
-    efObject->setFilename("");
-
-    emit accept();*/
+    emit dataObjectUpdated();
+    close();
 }
 
 void NameDialog::enableSaveButton(const QString &text)
@@ -84,10 +78,4 @@ void NameDialog::enableSaveButton(const QString &text)
     //saveButton->setEnabled(!text.isEmpty());
 }
 
-void NameDialog::close(bool save)
-{
-    if (!save)
-    {
-        // restore original instance
-    }
-}
+
