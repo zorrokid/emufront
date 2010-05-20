@@ -31,11 +31,11 @@ DbObjectDialog::~DbObjectDialog()
 void DbObjectDialog::connectSignals()
 {
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(close()));
-    /*connect(objectList, SIGNAL(clicked(const QModelIndex &)),
-        this, SLOT(listObjectClicked(const QModelIndex &)));*/
+    connect(objectList, SIGNAL(clicked(const QModelIndex &)),
+        this, SLOT(listObjectClicked(const QModelIndex &)));
     //connect(editButton, SIGNAL(clicked()), this, SLOT(editButtonClicked()));
     connect(addButton, SIGNAL(clicked()), this, SLOT(addButtonClicked()));
-    //connect(deleteButton, SIGNAL(clicked()), this, SLOT(deleteButtonClicked()));
+    connect(deleteButton, SIGNAL(clicked()), this, SLOT(deleteButtonClicked()));
     //connect(nameDialog, SIGNAL(accepted()), this, SLOT(updateList()));
     connect(nameDialog, SIGNAL(dataObjectUpdated()), this, SLOT(updateData()));
 }
@@ -59,7 +59,19 @@ void DbObjectDialog::editButtonClicked()
 
 void DbObjectDialog::deleteButtonClicked()
 {
+    QItemSelectionModel *selModel = objectList->selectionModel();
+    if (!selModel->hasSelection()) return;
+
+    QAbstractItemModel *tblModel = objectList->model();
+    QVariant vName = tblModel->data(selModel->currentIndex());
+    QString name = vName.toString();
     disableSelection();
+    QString msg =  tr("Do you want to delete") + name + "?";
+    int yn = QMessageBox::question(this, "Confirm", msg, QMessageBox::Yes | QMessageBox::No, QMessageBox::No);
+    if (yn == QMessageBox::Yes)
+    {
+        qDebug() << "Deleting item...";
+    }
 }
 
 void DbObjectDialog::layout()
@@ -72,6 +84,9 @@ void DbObjectDialog::layout()
 
 void DbObjectDialog::listObjectClicked(const QModelIndex &index)
 {
+    const QModelIndex *x;
+    x = &index;
+    qDebug() << "Row " << x->row() << ", column " << x->column() << " clicked.";
     setButtonsEnabled(index.isValid());
     if(!index.isValid()) 
 	return;
