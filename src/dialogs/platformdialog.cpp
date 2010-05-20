@@ -2,6 +2,8 @@
 #include <QAbstractItemView>
 #include <QSqlTableModel>
 #include <QTextStream>
+#include <QSqlRecord>
+#include <QSqlQuery>
 
 #include "../db/databasemanager.h"
 #include "../dataobjects/platform.h"
@@ -80,4 +82,36 @@ void PlatformDialog::updateData()
 
     // refresh...
     DbObjectDialog::updateData();
+}
+
+bool PlatformDialog::deleteItem()
+{
+    QModelIndex index = objectList->currentIndex();
+    if (!index.isValid()) return false;
+
+    QSqlDatabase::database().transaction();
+    QSqlRecord record = sqlTableModel->record(index.row());
+    int id = record.value(DatabaseManager::Platform_Id).toInt();
+    int numEntries = 0;
+    QSqlQuery query(QString("SELECT COUNT(*) FROM imagecontainer WHERE platformid = %1").arg(id));
+    if (query.next())
+        numEntries = query.value(0).toInt();
+    if (numEntries > 0)
+    {
+        int r = QMessageBox::warning(this, tr("Delete platform"),
+                                     QString("Do you want to delete platform %1 and all the related data?")
+                                     .arg(record.value(DatabaseManager::Platform_Name).toString()), QMessageBox::Yes | QMessageBox::No);
+        if ( r == QMessageBox::No )
+        {
+            QSqlDatabase::database().rollback();
+            return false;
+        }
+        query.exec(QString("DELETE FROM imagecontainer WHERE platformid = %1").arg(id));
+    }
+    sqlTableModel->removeRow(index.row());
+    sqlTableModel->submitAll();
+    QSqlDatabase::database().commit();
+    updateList();
+    objectList->setFocus();
+    return false;
 }

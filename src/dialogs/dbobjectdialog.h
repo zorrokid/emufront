@@ -33,6 +33,7 @@ class DbObjectDialog : public EmuFrontDialog
 	virtual int deleteObject() =0;
 	virtual void addObject() =0;
 	virtual void editObject() =0;
+    virtual bool deleteItem() = 0;
     NameDialog *nameDialog;
     DatabaseManager *dbManager;
     QTableView *objectList;

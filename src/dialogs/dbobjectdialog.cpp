@@ -63,14 +63,17 @@ void DbObjectDialog::deleteButtonClicked()
     if (!selModel->hasSelection()) return;
 
     QAbstractItemModel *tblModel = objectList->model();
-    QVariant vName = tblModel->data(selModel->currentIndex());
+    QModelIndex index = selModel->currentIndex();
+    QVariant vName = tblModel->data(index);
     QString name = vName.toString();
     disableSelection();
+
     QString msg =  tr("Do you want to delete") + name + "?";
     int yn = QMessageBox::question(this, "Confirm", msg, QMessageBox::Yes | QMessageBox::No, QMessageBox::No);
     if (yn == QMessageBox::Yes)
     {
-        qDebug() << "Deleting item...";
+        qDebug() << "Deleting item..." << name << ".";
+        deleteItem();
     }
 }
 
