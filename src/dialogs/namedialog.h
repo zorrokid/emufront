@@ -17,7 +17,7 @@ class NameDialog : public EmuFrontDialog
 public:
     NameDialog(QWidget *parent = 0, EmuFrontObject * = 0);
     ~NameDialog();
-    void setDataObject(EmuFrontObject *);
+    virtual void setDataObject(EmuFrontObject *) = 0;
 
 signals:
     void dataObjectUpdated();

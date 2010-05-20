@@ -22,11 +22,16 @@ PlatformDialog::PlatformDialog(QWidget *parent)
     sqlTableModel = dbManager->getPlatforms();
     objectList->setModel(sqlTableModel);
     objectList->setSelectionMode(QAbstractItemView::SingleSelection);
-    objectList->setColumnHidden(DatabaseManager::Platform_Id, true);
+    //objectList->setColumnHidden(DatabaseManager::Platform_Id, true);
     objectList->resizeColumnsToContents();
 
     // do not move to parent class:
     connectSignals();
+}
+
+PlatformDialog::~PlatformDialog()
+{
+    delete dynamic_cast<Platform*>(dbObject);
 }
 
 int PlatformDialog::deleteObject()
@@ -43,7 +48,10 @@ void PlatformDialog::addObject()
         cout << "PlaformDialog::addObject: creating nameDialog..." << endl;
         nameDialog = new PlatformNameDialog(this, dynamic_cast<Platform*>(dbObject));
     }*/
-    if (!dbObject) dbObject = new Platform;
+
+    delete dynamic_cast<Platform*>(dbObject);
+    dbObject = new Platform;
+    // we need to fetch a new id for this platform
     nameDialog->setDataObject(dbObject);
     nameDialog->show();
     nameDialog->raise();
@@ -64,7 +72,7 @@ void PlatformDialog::updateData()
 
     int row = 0;
     sqlTableModel->insertRows(row, 1);
-    sqlTableModel->setData(sqlTableModel->index(row, 0), dbObject->getId());
+    //sqlTableModel->setData(sqlTableModel->index(row, 0), NULL);
     sqlTableModel->setData(sqlTableModel->index(row, 1), dbObject->getName());
     sqlTableModel->setData(sqlTableModel->index(row, 2),
                             (dynamic_cast<Platform*>(dbObject))->getFilename());

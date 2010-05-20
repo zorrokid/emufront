@@ -9,6 +9,7 @@ class PlatformDialog : public DbObjectDialog
 
     public:
 	PlatformDialog(QWidget *parent = 0);
+    ~PlatformDialog();
 
     protected:
 	virtual int deleteObject();

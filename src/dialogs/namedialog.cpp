@@ -56,6 +56,7 @@ void NameDialog::acceptChanges()
 	QString name = nameEdit->text().simplified();
     setDataObject(name);
     emit dataObjectUpdated();
+    efObject = 0; // TODO we should also se efObject to null when user clicks abort
     close();
 }
 

@@ -10,6 +10,7 @@ class PlatformNameDialog : public NameDialog
 
 public:
     PlatformNameDialog(QWidget *parent = 0, Platform * = 0);
+    virtual void setDataObject(EmuFrontObject*);
 
 protected:
     virtual void setDataObject(QString name);

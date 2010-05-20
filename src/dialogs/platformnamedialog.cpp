@@ -12,3 +12,9 @@ void PlatformNameDialog::setDataObject(QString name)
     efObject->setName(name);
     (dynamic_cast<Platform*>(efObject))->setFilename("");
 }
+
+void PlatformNameDialog::setDataObject(EmuFrontObject *ob)
+{
+
+    efObject = dynamic_cast<Platform*>(ob);
+}
