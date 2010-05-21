@@ -37,13 +37,12 @@ class DbObjectDialog : public EmuFrontDialog
     NameDialog *nameDialog;
     DatabaseManager *dbManager;
     QTableView *objectList;
-    QSqlTableModel *sqlTableModel;
     EmuFrontObject *dbObject;
     void connectSignals();
     void activateNameDialog() const;
     virtual void updateDb(const EmuFrontObject*) const = 0;
     virtual void insertDb(const EmuFrontObject*) const = 0;
-    virtual QSqlTableModel* getDataObjects() = 0;
+    //virtual QSqlTableModel* getDataObjects() = 0;
 
     private:
 	QDialogButtonBox *buttonBox;

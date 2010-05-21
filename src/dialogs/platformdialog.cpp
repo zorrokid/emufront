@@ -2,10 +2,7 @@
 #include <QAbstractItemView>
 #include <QSqlTableModel>
 #include <QTextStream>
-#include <QSqlRecord>
-#include <QSqlQuery>
-
-#include "../db/databasemanager.h"
+#include "../db/dbplatform.h"
 #include "../dataobjects/platform.h"
 #include "platformdialog.h"
 #include "platformnamedialog.h"
@@ -13,18 +10,17 @@
 
 QTextStream cout(stdout, QIODevice::WriteOnly);
 
-const QString PlatformDialog::DB_TABLE_NAME_PLATFORM = QString("platform");
-
 PlatformDialog::PlatformDialog(QWidget *parent)
     : DbObjectDialog(parent)
 {
     setWindowTitle(tr("Set emulated platforms"));
     //nameDialog = 0;
     nameDialog = new PlatformNameDialog(this, dynamic_cast<Platform*>(dbObject));
+    dbManager = new DbPlatform(this);
 
     // let's create a table model for platforms
-    sqlTableModel = getDataObjects();
-    objectList->setModel(sqlTableModel);
+    
+    objectList->setModel(dbManager->getDataModel());
     objectList->setSelectionMode(QAbstractItemView::SingleSelection);
     //objectList->setColumnHidden(DatabaseManager::Platform_Id, true);
     objectList->resizeColumnsToContents();
@@ -67,14 +63,8 @@ void PlatformDialog::editObject()
     if (!index.isValid())
         return;
     qDebug() << "we have a valid index";
-    QSqlRecord record = sqlTableModel->record(index.row());
-    int id = record.value(Platform_Id).toInt();
-    QString name = record.value(Platform_Name).toString();
-    QString fileName = record.value(Platform_Filename).toString();
-    qDebug() << "Name " << name << " id " << id;
-    //EmuFrontObject *plf = new Platform(id, name, fileName);
     delete dbObject;
-    dbObject = new Platform(id, name, fileName);
+    dbObject = (dynamic_cast<DbPlatform*>(dbManager))->getPlatformFromModel(index);
     nameDialog->setDataObject(dbObject);
     activateNameDialog();
 }
@@ -103,69 +93,21 @@ void PlatformDialog::updateDb(const EmuFrontObject *ob) const
 {
     if (!ob) return;
     qDebug() << "Updating platform " << ob->getName();
-    sqlTableModel->setFilter(QString("id = %1").arg(ob->getId()));
-    sqlTableModel->select();
-    if (sqlTableModel->rowCount() == 1)
-    {
-        QSqlRecord record = sqlTableModel->record(0);
-        record.setValue("name", ob->getName());
-        record.setValue("filename", (dynamic_cast<const Platform *>(ob))->getFilename());
-        sqlTableModel->setRecord(0, record);
-        sqlTableModel->submitAll();
-    }
+    (dynamic_cast<DbPlatform*>(dbManager))->updatePlatformToModel(dynamic_cast<const Platform*>(ob));
 }
 
 void PlatformDialog::insertDb(const EmuFrontObject *ob) const
 {
-    qDebug() << "Inserting platform " << ob->getName();
-    int row = 0;
-    sqlTableModel->insertRows(row, 1);
-    //sqlTableModel->setData(sqlTableModel->index(row, 0), NULL);
-    sqlTableModel->setData(sqlTableModel->index(row, 1), ob->getName());
-    sqlTableModel->setData(sqlTableModel->index(row, 2),
-                            (dynamic_cast<const Platform*>(ob))->getFilename());
-    sqlTableModel->submitAll();
+    (dynamic_cast<DbPlatform*>(dbManager))->insertPlatformToModel(dynamic_cast<const Platform*>(ob));
 }
 
 bool PlatformDialog::deleteItem()
 {
     QModelIndex index = objectList->currentIndex();
     if (!index.isValid()) return false;
-
-    QSqlDatabase::database().transaction();
-    QSqlRecord record = sqlTableModel->record(index.row());
-    int id = record.value(Platform_Id).toInt();
-    int numEntries = 0;
-    QSqlQuery query(QString("SELECT COUNT(*) FROM imagecontainer WHERE platformid = %1").arg(id));
-    if (query.next())
-        numEntries = query.value(0).toInt();
-    if (numEntries > 0)
-    {
-        int r = QMessageBox::warning(this, tr("Delete platform"),
-                                     QString("Do you want to delete platform %1 and all the related data?")
-                                     .arg(record.value(Platform_Name).toString()), QMessageBox::Yes | QMessageBox::No);
-        if ( r == QMessageBox::No )
-        {
-            QSqlDatabase::database().rollback();
-            return false;
-        }
-        query.exec(QString("DELETE FROM imagecontainer WHERE platformid = %1").arg(id));
-    }
-    sqlTableModel->removeRow(index.row());
-    sqlTableModel->submitAll();
-    QSqlDatabase::database().commit();
+    (dynamic_cast<DbPlatform *>(dbManager))->deletePlatformFromModel(index);
     updateList();
     objectList->setFocus();
     return false;
-}
-
-QSqlTableModel* PlatformDialog::getDataObjects()
-{
-    QSqlTableModel *model = new QSqlTableModel(this);
-    model->setTable(DB_TABLE_NAME_PLATFORM);
-    model->setSort(Platform_Name, Qt::AscendingOrder);
-    model->setHeaderData(Platform_Name, Qt::Horizontal, tr("Name"));
-    model->select();
-    return model;
 }
 

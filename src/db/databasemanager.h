@@ -19,13 +19,17 @@ public:
     static bool dbExists();
     static QSqlError lastError();
     static bool createDB();
+    virtual QSqlTableModel* getDataModel() = 0;
+    void resetModel();
 
+protected:
+    QSqlTableModel *sqlTableModel;
 
 private:
     //static QSqlDatabase db;
 	static const QString DB_FILENAME;
     static QString getDbPath();
-
+    virtual QSqlTableModel* getData() = 0;
 };
 
 #endif

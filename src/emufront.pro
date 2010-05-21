@@ -20,7 +20,8 @@ HEADERS += mainwindow.h \
     dialogs/platformnamedialog.h \
     dialogs/emufrontdialog.h \
     dataobjects/emufrontobject.h \
-    dataobjects/platform.h
+    dataobjects/platform.h \
+    db/dbplatform.h
 SOURCES += main.cpp \
     mainwindow.cpp \
     db/databasemanager.cpp \
@@ -30,4 +31,5 @@ SOURCES += main.cpp \
     dialogs/platformnamedialog.cpp \
     dialogs/emufrontdialog.cpp \
     dataobjects/emufrontobject.cpp \
-    dataobjects/platform.cpp
+    dataobjects/platform.cpp \
+    db/dbplatform.cpp

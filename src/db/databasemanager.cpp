@@ -11,8 +11,6 @@
 
 const QString DatabaseManager::DB_FILENAME = QString("my.db.sqlite");
 
-//QSqlDatabase DatabaseManager::db = QSqlDatabase::addDatabase("QSQLITE");
-
 DatabaseManager::DatabaseManager(QObject *parent)
 	: QObject(parent)
 {}
@@ -64,70 +62,22 @@ bool DatabaseManager::dbExists()
 bool DatabaseManager::createDB()
 {
 	bool ret = false;
-    /*if (db.isOpen())
-    {*/
-		QSqlQuery query;
+    QSqlQuery query;
 
-		ret = query.exec("create table platform "
-				"(id integer primary key, "
-				"name varchar(30), "
-				"filename varchar(125))");
-		/*ret = query.exec("create table media "
+    ret = query.exec("create table platform "
+                     "(id integer primary key, "
+                     "name varchar(30), "
+                     "filename varchar(125))");
+    /*ret = query.exec("create table media "
 						"(id integer primary key, "
 						"name varchar(30), "
 						"filename varchar(125))");*/
-    //}
 	return ret;
 }
 
-/*int DatabaseManager::insertPlatform(QString name, QString filename)
+void DatabaseManager::resetModel()
 {
-	int newId = -1;
-    bool ret = false;*/
-    /*if (db.isOpen())
-    {*/
-		//http://www.sqlite.org/autoinc.html
-		// NULL = is the keyword for the autoincrement to generate next value
-        /*QSqlQuery query;
-		query.prepare("insert into platform (id, name, filename) "
-						"values (NULL, :name, :filename)");
-		query.bindValue(":name", name);
-		query.bindValue(":filename", filename);
-        ret = query.exec();*/
-
-		/*ret = query.exec(QString("insert into person values(NULL,'%1','%2',%3)")
-				.arg(firstname).arg(lastname).arg(age));*/
-		// Get database given autoincrement value
-        /*if (ret)
-		{
-			// http://www.sqlite.org/c3ref/last_insert_rowid.html  
-			QVariant var = query.lastInsertId();
-			if (var.isValid()) newId = var.toInt();
-		}
-    //}
-	return newId;
-}*/
-
-/*QString DatabaseManager::getPlatform(int id)
-{
-	QString name;
-	QSqlQuery query(QString("select firstname, lastname from person where id = %1").arg(id));
-
-    if (query.next())
-	{
-		name.append(query.value(0).toString());
-		name.append(query.value(1).toString());
-	}
-	return name;
+    if (!sqlTableModel) return;
+    sqlTableModel->setFilter("");
+    sqlTableModel->select();
 }
-
-QSqlTableModel* DatabaseManager::getPlatforms()
-{
-    QSqlTableModel *model = new QSqlTableModel(this);
-    model->setTable(DB_TABLE_NAME_PLATFORM);
-    model->setSort(Platform_Name, Qt::AscendingOrder);
-    model->setHeaderData(Platform_Name, Qt::Horizontal, tr("Name"));
-    model->select();
-    return model;
-}*/
-

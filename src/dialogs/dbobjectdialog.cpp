@@ -7,7 +7,8 @@ DbObjectDialog::DbObjectDialog(QWidget *parent)
     : EmuFrontDialog(parent)
 {
     dbObject = 0;
-    dbManager = new DatabaseManager(this);
+    dbManager = 0;
+    //dbManager = new DatabaseManager(this);
     editButton = new QPushButton(tr("&Edit")); 
     editButton->setEnabled(false);
     addButton = new QPushButton(tr("&Add"));
@@ -43,10 +44,8 @@ void DbObjectDialog::connectSignals()
 
 void DbObjectDialog::updateList() const
 {
-    sqlTableModel->setFilter("");
-    sqlTableModel->select();
-        // fetch items from database (virtual function for this)
-        // update the item list
+    if (!dbManager) return;
+    dbManager->resetModel();
 }
 
 void DbObjectDialog::addButtonClicked()
