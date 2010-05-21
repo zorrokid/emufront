@@ -40,6 +40,10 @@ class DbObjectDialog : public EmuFrontDialog
     QSqlTableModel *sqlTableModel;
     EmuFrontObject *dbObject;
     void connectSignals();
+    void activateNameDialog() const;
+    virtual void updateDb(const EmuFrontObject*) const = 0;
+    virtual void insertDb(const EmuFrontObject*) const = 0;
+    virtual QSqlTableModel* getDataObjects() = 0;
 
     private:
 	QDialogButtonBox *buttonBox;
@@ -48,8 +52,8 @@ class DbObjectDialog : public EmuFrontDialog
 	QPushButton *deleteButton;
 
 	void setButtonsEnabled(bool);
-	void layout();
-	void disableSelection();
+    void layout();
+    void disableSelection();
 };
 
 #endif

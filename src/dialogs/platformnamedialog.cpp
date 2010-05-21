@@ -1,3 +1,4 @@
+#include <QtGui>
 #include "platformnamedialog.h"
 #include "../db/databasemanager.h"
 
@@ -15,6 +16,11 @@ void PlatformNameDialog::setDataObject(QString name)
 
 void PlatformNameDialog::setDataObject(EmuFrontObject *ob)
 {
+    if (!ob) return;
+    efObject = dynamic_cast<Platform*>(ob);    
+    QString name = efObject->getName();
+    nameEdit->setText(name);
 
-    efObject = dynamic_cast<Platform*>(ob);
+    qDebug() << "Setting name to " << efObject->getName();
+    nameEdit->setText(efObject->getName());
 }

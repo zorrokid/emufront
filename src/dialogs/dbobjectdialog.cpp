@@ -1,4 +1,5 @@
 #include <QtGui>
+#include <QSqlTableModel>
 #include "dbobjectdialog.h"
 #include "../db/databasemanager.h"
 
@@ -33,7 +34,7 @@ void DbObjectDialog::connectSignals()
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(close()));
     connect(objectList, SIGNAL(clicked(const QModelIndex &)),
         this, SLOT(listObjectClicked(const QModelIndex &)));
-    //connect(editButton, SIGNAL(clicked()), this, SLOT(editButtonClicked()));
+    connect(editButton, SIGNAL(clicked()), this, SLOT(editButtonClicked()));
     connect(addButton, SIGNAL(clicked()), this, SLOT(addButtonClicked()));
     connect(deleteButton, SIGNAL(clicked()), this, SLOT(deleteButtonClicked()));
     //connect(nameDialog, SIGNAL(accepted()), this, SLOT(updateList()));
@@ -42,6 +43,8 @@ void DbObjectDialog::connectSignals()
 
 void DbObjectDialog::updateList() const
 {
+    sqlTableModel->setFilter("");
+    sqlTableModel->select();
         // fetch items from database (virtual function for this)
         // update the item list
 }
@@ -55,6 +58,7 @@ void DbObjectDialog::addButtonClicked()
 void DbObjectDialog::editButtonClicked()
 {
     disableSelection();
+    editObject();
 }
 
 void DbObjectDialog::deleteButtonClicked()
@@ -108,5 +112,15 @@ void DbObjectDialog::disableSelection()
 
 void DbObjectDialog::updateData()
 {
+    qDebug() << "DbObjectDialog::updateData()";
     updateList();
 }
+
+void DbObjectDialog::activateNameDialog() const
+{
+    if (!nameDialog) return;
+    nameDialog->show();
+    nameDialog->raise();
+    nameDialog->activateWindow();
+}
+
