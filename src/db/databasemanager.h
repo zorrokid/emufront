@@ -35,18 +35,12 @@ public:
 
     virtual QSqlTableModel* getDataModel() = 0;
     static bool openDB();
-    //static bool deleteDB();
-    //static bool dbExists();
-    //static bool tableExists(QString);
-    //static bool createDB();
     void resetModel() const;
-    enum
-    {
+    enum {
         Filetype_MediaImageContainer = 0,
         Filetype_Screenshot = 1,
         Filetype_PlatformIcon = 2,
-        Filetype_MediaTypeIcon = 3
-                             };
+        Filetype_MediaTypeIcon = 3 };
 
 protected:
     QSqlTableModel *sqlTableModel;
