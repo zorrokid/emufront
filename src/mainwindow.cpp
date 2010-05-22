@@ -30,7 +30,6 @@ MainWindow::MainWindow()
     createStatusBar();
     readSettings();
     platformDialog = 0;
-    //dbManager = new DatabaseManager;
 }
 
 void MainWindow::createActions()

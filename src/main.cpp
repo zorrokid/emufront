@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
 	QTextStream cout(stdout, QIODevice::WriteOnly);
 
     if (DatabaseManager::openDB())
-        cout << " Database opened succesflly!" << endl;
+        cout << " Database opened succesfully!" << endl;
 	else cout << " Database connection failed!" << endl;
 
     if (DatabaseManager::dbExists())
@@ -45,18 +45,6 @@ int main(int argc, char *argv[])
 			exit(1);
 		}
 	 }
-     /*
-
-	if (dbm.insertPerson("Testi","Tapaus",1) > 0)
-		cout << "Database insert successfull!" << endl;
-	else cout << "Database insert failed!" << endl;
-
-
-	cout << "Trying to select from database: " << dbm.getName(1) << endl;
-	*/
-
-	/*PlatformNameDialog *nameDialog = new PlatformNameDialog;
-	nameDialog->show();*/
 	MainWindow *mw = new MainWindow;
 	mw->show();
 	return app.exec();

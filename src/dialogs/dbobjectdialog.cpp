@@ -27,7 +27,6 @@ DbObjectDialog::DbObjectDialog(QWidget *parent)
 {
     dbObject = 0;
     dbManager = 0;
-    //dbManager = new DatabaseManager(this);
     editButton = new QPushButton(tr("&Edit")); 
     editButton->setEnabled(false);
     addButton = new QPushButton(tr("&Add"));
@@ -38,15 +37,18 @@ DbObjectDialog::DbObjectDialog(QWidget *parent)
     buttonBox->addButton(editButton, QDialogButtonBox::ActionRole);
     buttonBox->addButton(addButton, QDialogButtonBox::ActionRole);
     buttonBox->addButton(deleteButton, QDialogButtonBox::ActionRole);
-    // nameDialog will be created on request
-    
+    // this be called from the implementing classes:
     //connectSignals();
     layout();
 } 
 
 DbObjectDialog::~DbObjectDialog()
 {
-    delete dbObject;
+    // no need to explicitically delete widgets within a parented layout
+    // they are automatically parented and will be deleted
+    // dbManager is also parented and will be implicitically deleted
+    // this must be deleted in an implementing class
+    //delete dbObject;
 }
 
 void DbObjectDialog::connectSignals()
@@ -57,7 +59,6 @@ void DbObjectDialog::connectSignals()
     connect(editButton, SIGNAL(clicked()), this, SLOT(editButtonClicked()));
     connect(addButton, SIGNAL(clicked()), this, SLOT(addButtonClicked()));
     connect(deleteButton, SIGNAL(clicked()), this, SLOT(deleteButtonClicked()));
-    //connect(nameDialog, SIGNAL(accepted()), this, SLOT(updateList()));
     connect(nameDialog, SIGNAL(dataObjectUpdated()), this, SLOT(updateData()));
 }
 
@@ -134,7 +135,7 @@ void DbObjectDialog::updateData()
     updateList();
 }
 
-void DbObjectDialog::activateNameDialog() const
+void DbObjectDialog::activateNameDialog()
 {
     if (!nameDialog) return;
     nameDialog->show();

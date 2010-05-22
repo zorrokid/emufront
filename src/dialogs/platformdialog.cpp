@@ -41,7 +41,7 @@ PlatformDialog::PlatformDialog(QWidget *parent)
     
     objectList->setModel(dbManager->getDataModel());
     objectList->setSelectionMode(QAbstractItemView::SingleSelection);
-    //objectList->setColumnHidden(DatabaseManager::Platform_Id, true);
+    //objectList->setColumnHidden(Platform_Id, true);
     objectList->resizeColumnsToContents();
 
     // do not move to parent class:
@@ -60,17 +60,14 @@ int PlatformDialog::deleteObject()
 
 void PlatformDialog::addObject()
 {
-    cout << "PlaformDialog::addObject" << endl;
     /*if (!nameDialog)
     {
         if (!dbObject) dbObject = new Platform;
-        cout << "PlaformDialog::addObject: creating nameDialog..." << endl;
         nameDialog = new PlatformNameDialog(this, dynamic_cast<Platform*>(dbObject));
     }*/
 
     delete dynamic_cast<Platform*>(dbObject);
     dbObject = new Platform;
-    // we need to fetch a new id for this platform
     nameDialog->setDataObject(dbObject);
     activateNameDialog();
 }
@@ -96,13 +93,17 @@ void PlatformDialog::updateData()
 
     qDebug() << "dbObject is not 0";
 
-    QMessageBox::information(this, "Test", "We have a " + dbObject->getName());
+    qDebug() << "We have a " + dbObject->getName();
 
     qDebug() << "Data will be inserted/updated...";
 
     // if data object id > -1 we are updating the data otherwise we are inserting new data
     if (dbObject->getId() > -1) updateDb(dbObject);
     else insertDb(dbObject);
+
+    // we don't need dbObject anymore
+    delete dynamic_cast<Platform*>(dbObject);
+    dbObject = 0;
 
     // refresh...
     DbObjectDialog::updateData();

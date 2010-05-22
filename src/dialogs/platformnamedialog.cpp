@@ -27,6 +27,12 @@ PlatformNameDialog::PlatformNameDialog(QWidget *parent, Platform *efObj)
     setWindowTitle(tr("Set platform name"));
 }
 
+PlatformNameDialog::~PlatformNameDialog()
+{
+    // no need to delete efObject here, the calling widget will take care of it
+    // delete dynamic_cast<Platform*>(efObject);
+}
+
 void PlatformNameDialog::setDataObject(QString name)
 {
     efObject->setName(name);

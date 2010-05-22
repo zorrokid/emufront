@@ -23,7 +23,6 @@
 #include "../dataobjects/emufrontobject.h"
 #include "emufrontdialog.h"
 
-
 class QLabel;
 class QLineEdit;
 class QPushButton;
@@ -43,7 +42,8 @@ signals:
 
 protected slots:
     void acceptChanges();
-	void enableSaveButton(const QString &);
+    void rejectChanges();
+    void enableSaveButton(const QString &);
 
 protected:
     virtual void setDataObject(QString name) =0;

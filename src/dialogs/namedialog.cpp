@@ -34,9 +34,10 @@ NameDialog::NameDialog(QWidget *parent, EmuFrontObject *efObj)
 
 NameDialog::~NameDialog()
 {
-    delete efObject;
+    // should be deleted in implementing classes
+    // delete efObject;
 
-    /* deleting parenteed QT-objects in heap is not needed here
+    /* no need to delete parented QT-objects in heap here
 	 * because when deleting a parent widget
      * the child widgets will be also deleted
 	 */
@@ -46,7 +47,7 @@ void NameDialog::connectSignals()
 {
     connect(nameEdit, SIGNAL(textChanged(const QString &)), this, SLOT(enableSaveButton(const QString &)));
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(acceptChanges()));
-    connect(buttonBox, SIGNAL(rejected()), this, SLOT(close()));
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(rejectChanges()));
 }
 
 void NameDialog::layout()
@@ -64,6 +65,12 @@ void NameDialog::layout()
 	setLayout(mainLayout);
 }
 
+void NameDialog::rejectChanges()
+{
+    efObject = 0;
+    close();
+}
+
 void NameDialog::acceptChanges()
 {
     if (nameEdit->text() == 0 || nameEdit->text().trimmed().isEmpty())
@@ -75,7 +82,7 @@ void NameDialog::acceptChanges()
 	QString name = nameEdit->text().simplified();
     setDataObject(name);
     emit dataObjectUpdated();
-    efObject = 0; // TODO we should also se efObject to null when user clicks abort
+    efObject = 0; // TODO we should also set efObject to null when user clicks abort
     close();
 }
 
