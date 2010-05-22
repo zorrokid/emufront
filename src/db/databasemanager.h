@@ -37,9 +37,8 @@ public:
     static bool openDB();
     static bool deleteDB();
     static bool dbExists();
-    static QSqlError lastError();
     static bool createDB();
-    void resetModel();
+    void resetModel() const;
 
 protected:
     QSqlTableModel *sqlTableModel;

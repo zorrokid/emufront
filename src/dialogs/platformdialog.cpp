@@ -122,11 +122,41 @@ void PlatformDialog::insertDb(const EmuFrontObject *ob) const
 
 bool PlatformDialog::deleteItem()
 {
+    qDebug() << "PlatformDialog::deleteItem()";
     QModelIndex index = objectList->currentIndex();
     if (!index.isValid()) return false;
-    (dynamic_cast<DbPlatform *>(dbManager))->deletePlatformFromModel(&index);
+
+    qDebug() << "Index is valid";
+
+    // TODO: when implementing data bindings to platform
+    // we need to check if platform being removed has bindings
+    // and a) ask user if this platform should be removed
+    // b) remove all the data associated to this platform
+
+    Platform *plf = dynamic_cast<DbPlatform*>(dbManager)->getPlatformFromModel(&index);
+    if (!plf) return false;
+
+    qDebug() << "Got platform" << plf->getName();
+
+    int numBindings = dynamic_cast<DbPlatform*>(dbManager)->countPlatformBindings(plf->getId());
+    if (numBindings > 0)
+    {
+        qDebug() << "Got " << numBindings << " bindings";
+        int r = QMessageBox::warning(this, tr("Delete platform"),
+                                     QString("Do you really want to delete platform %1 with %2 data bindings?")
+                                     .arg(plf->getName()).arg(numBindings),
+                                     QMessageBox::Yes | QMessageBox::No);
+        if ( r == QMessageBox::No )
+            return false;
+    }
+    delete plf;
+    bool delOk = (dynamic_cast<DbPlatform *>(dbManager))->deletePlatformFromModel(&index);
+    if (!delOk)
+    {
+        qDebug() << "delete failed";
+        return false;
+    }
     updateList();
     objectList->setFocus();
     return false;
 }
-

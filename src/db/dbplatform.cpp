@@ -41,8 +41,7 @@ Platform* DbPlatform::getPlatformFromModel(QModelIndex *index)
     int id = record.value(Platform_Id).toInt();
     QString name = record.value(Platform_Name).toString();
     QString fileName = record.value(Platform_Filename).toString();
-    qDebug() << "Name " << name << " id " << id;
-    //EmuFrontObject *plf = new Platform(id, name, fileName);
+    //qDebug() << "Got platform Name " << name << " id " << id;
     return new Platform(id, name, fileName);
 }
 
@@ -65,37 +64,43 @@ bool DbPlatform::updatePlatformToModel(const Platform *ob)
 
 bool DbPlatform::insertPlatformToModel(const Platform *ob)
 {
-    qDebug() << "Inserting platform " << ob->getName();
     int row = 0;
     sqlTableModel->insertRows(row, 1);
+    // the null value for index will be set implicitily
+    // when we don't assign any value to cell 0 in the sql table model
     //sqlTableModel->setData(sqlTableModel->index(row, 0), NULL);
     sqlTableModel->setData(sqlTableModel->index(row, 1), ob->getName());
-    sqlTableModel->setData(sqlTableModel->index(row, 2),
-                            ob->getFilename());
+    sqlTableModel->setData(sqlTableModel->index(row, 2), ob->getFilename());
     return sqlTableModel->submitAll();
 }
 
+int DbPlatform::countPlatformBindings(int id) const
+{
+    int numEntries = 0;
+    QSqlQuery query(QString("SELECT COUNT(*) FROM imagecontainer WHERE platformid = %1").arg(id));
+    if (query.next())
+        numEntries = query.value(0).toInt();
+    return numEntries;
+}
+
+// WARNING: this will delete also all the databindings to selected platform
 bool DbPlatform::deletePlatformFromModel(QModelIndex *index)
 {
     QSqlDatabase::database().transaction();
     QSqlRecord record = sqlTableModel->record(index->row());
     int id = record.value(Platform_Id).toInt();
-    /*int numEntries = 0;
-    QSqlQuery query(QString("SELECT COUNT(*) FROM imagecontainer WHERE platformid = %1").arg(id));
-    if (query.next())
-        numEntries = query.value(0).toInt();
-    if (numEntries > 0)
+    qDebug() << "Deleting platform " << id;
+    int count = countPlatformBindings(id);
+    if (count > 0)
     {
-        int r = QMessageBox::warning(this, tr("Delete platform"),
-                                     QString("Do you want to delete platform %1 and all the related data?")
-                                     .arg(record.value(Platform_Name).toString()), QMessageBox::Yes | QMessageBox::No);
-        if ( r == QMessageBox::No )
+        QSqlQuery query;
+        if (!query.exec(QString("DELETE FROM imagecontainer WHERE platformid = %1").arg(id)))
         {
+            qDebug() << "Deleting data bindings failed!";
             QSqlDatabase::database().rollback();
             return false;
         }
-        query.exec(QString("DELETE FROM imagecontainer WHERE platformid = %1").arg(id));
-    }*/
+    }
     sqlTableModel->removeRow(index->row());
     sqlTableModel->submitAll();
     return QSqlDatabase::database().commit();

@@ -34,6 +34,7 @@ public:
     bool updatePlatformToModel(const Platform *);
     bool insertPlatformToModel(const Platform *);
     bool deletePlatformFromModel(QModelIndex*);
+    int countPlatformBindings(int) const;
 
 private:
     enum {

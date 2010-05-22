@@ -35,7 +35,11 @@ DatabaseManager::DatabaseManager(QObject *parent)
 {}
 
 DatabaseManager::~DatabaseManager()
-{}
+{
+    // no need to explicitily destroy sqlTableModel
+    // because it is parented QObject and will
+    // be destroyed when parent is destroyed
+}
 
 bool DatabaseManager::openDB()
 {
@@ -44,16 +48,11 @@ bool DatabaseManager::openDB()
     return db.open();
 }
 
-/*QSqlError DatabaseManager::lastError()
+bool DatabaseManager::deleteDB()
 {
-	return db.lastError();
-}*/
-
-/*bool DatabaseManager::deleteDB()
-{
-	db.close();
-	return QFile::remove(getDbPath());
-}*/
+    // return QFile::remove(getDbPath());
+    return false;
+}
 
 QString DatabaseManager::getDbPath()
 {
@@ -94,7 +93,7 @@ bool DatabaseManager::createDB()
 	return ret;
 }
 
-void DatabaseManager::resetModel()
+void DatabaseManager::resetModel() const
 {
     if (!sqlTableModel) return;
     sqlTableModel->setFilter("");
