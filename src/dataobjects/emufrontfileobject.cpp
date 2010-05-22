@@ -17,16 +17,18 @@
 // You should have received a copy of the GNU General Public License
 // along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef PLATFORM_H
-#define PLATFORM_H
-
 #include "emufrontfileobject.h"
 
-class Platform : public EmuFrontFileObject
-{
-public:
-    Platform();
-    Platform(int id, QString name, QString filename);
-};
+EmuFrontFileObject::EmuFrontFileObject() : EmuFrontObject()
+{ }
 
-#endif // PLATFORM_H
+EmuFrontFileObject::EmuFrontFileObject(int id, QString name, QString filename)
+    : EmuFrontObject(id, name), filename(filename)
+{}
+
+/*EmuFrontFileObject::EmuFrontFileObject(const EmuFrontFileObject&pl)
+    : EmuFrontObject(pl.id, pl.name), filename(pl.filename)
+{
+    // no need to perform deep copy here, see:
+    // http://doc.trolltech.com/4.0/shclass.html
+}*/

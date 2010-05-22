@@ -22,7 +22,10 @@ HEADERS += mainwindow.h \
     dataobjects/emufrontobject.h \
     dataobjects/platform.h \
     db/dbplatform.h \
-    db/dbcreator.h
+    db/dbcreator.h \
+    dialogs/mediatypedialog.h \
+    dataobjects/emufrontfileobject.h \
+    dataobjects/mediatype.h
 SOURCES += main.cpp \
     mainwindow.cpp \
     db/databasemanager.cpp \
@@ -34,4 +37,7 @@ SOURCES += main.cpp \
     dataobjects/emufrontobject.cpp \
     dataobjects/platform.cpp \
     db/dbplatform.cpp \
-    db/dbcreator.cpp
+    db/dbcreator.cpp \
+    dialogs/mediatypedialog.cpp \
+    dataobjects/emufrontfileobject.cpp \
+    dataobjects/mediatype.cpp

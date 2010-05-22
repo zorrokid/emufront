@@ -17,16 +17,27 @@
 // You should have received a copy of the GNU General Public License
 // along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef PLATFORM_H
-#define PLATFORM_H
+#ifndef EMUFRONTFILEOBJECT_H
+#define EMUFRONTFILEOBJECT_H
 
-#include "emufrontfileobject.h"
+#include "emufrontobject.h"
 
-class Platform : public EmuFrontFileObject
+class EmuFrontFileObject : public EmuFrontObject
 {
 public:
-    Platform();
-    Platform(int id, QString name, QString filename);
+    EmuFrontFileObject();
+    EmuFrontFileObject( int id, QString name, QString filename);
+    // No need for these as long we use QString (see Implicit Data Sharing)
+    /*EmuFrontFileObject(const EmuFrontFileObject&);
+    EmuFrontFileObject &operator=(const EmuFrontFileObject&);
+    virtual ~EmuFrontFileObject();*/
+    const QString getFilename() const
+    { return filename; }
+    void setFilename(QString filename)
+    { this->filename = filename; }
+
+private:
+    QString filename;
 };
 
-#endif // PLATFORM_H
+#endif // EMUFRONTFILEOBJECT_H

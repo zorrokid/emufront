@@ -17,16 +17,16 @@
 // You should have received a copy of the GNU General Public License
 // along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef PLATFORM_H
-#define PLATFORM_H
+#ifndef MEDIATYPE_H
+#define MEDIATYPE_H
 
 #include "emufrontfileobject.h"
 
-class Platform : public EmuFrontFileObject
+class MediaType : public EmuFrontFileObject
 {
 public:
-    Platform();
-    Platform(int id, QString name, QString filename);
+    MediaType();
+    MediaType(int id, QString name, QString filename);
 };
 
-#endif // PLATFORM_H
+#endif // MEDIATYPE_H

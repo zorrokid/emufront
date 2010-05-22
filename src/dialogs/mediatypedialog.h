@@ -17,16 +17,29 @@
 // You should have received a copy of the GNU General Public License
 // along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef PLATFORM_H
-#define PLATFORM_H
+#ifndef MEDIATYPEDIALOG_H
+#define MEDIATYPEDIALOG_H
 
-#include "emufrontfileobject.h"
+#include "dbobjectdialog.h"
 
-class Platform : public EmuFrontFileObject
+class MediaTypeDialog : public DbObjectDialog
 {
+    Q_OBJECT
+
 public:
-    Platform();
-    Platform(int id, QString name, QString filename);
+    MediaTypeDialog(QWidget *parent = 0);
+    ~MediaTypeDialog();
+
+protected:
+    virtual int deleteObject();
+    virtual void addObject();
+    virtual void editObject();
+    virtual bool deleteItem();
+    virtual void updateDb(const EmuFrontObject*) const;
+    virtual void insertDb(const EmuFrontObject*) const;
+
+private slots:
+    virtual void updateData();
 };
 
-#endif // PLATFORM_H
+#endif // MEDIATYPEDIALOG_H

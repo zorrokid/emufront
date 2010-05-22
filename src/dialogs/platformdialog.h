@@ -40,9 +40,6 @@ class PlatformDialog : public DbObjectDialog
 
     private slots:
     virtual void updateData();
-
-    private:
-        //PlatformNameDialog *nameDialog;
 };
 
 #endif
