@@ -24,8 +24,6 @@
 #include "db/databasemanager.h"
 #include "db/dbcreator.h"
 
-//#include "dialogs/platformnamedialog.h"
-
 int main(int argc, char *argv[])
 {
 	QApplication app(argc, argv);
@@ -36,18 +34,23 @@ int main(int argc, char *argv[])
 	else cout << " Database connection failed!" << endl;
 
     if (DbCreator::dbExists())
+    {
 		cout << " Database exists!" << endl;
+    }
 	else 
 	{
-		cout << " Database is missing!" << endl;
-        DbCreator dbCreator;
-        if (dbCreator.createDB())
-			cout << " Database created succesfully!" << endl;
-		else {
-			cout << "Failed creating database!" << endl;
+        try
+        {
+            cout << " Database is missing!" << endl;
+            DbCreator dbCreator;
+            dbCreator.createDB();
+            cout << " Database created succesfully!" << endl;
+        }
+        catch (QString str) {
+            cout << str << endl;
 			exit(1);
 		}
-	 }
+    }
 	MainWindow *mw = new MainWindow;
 	mw->show();
 	return app.exec();

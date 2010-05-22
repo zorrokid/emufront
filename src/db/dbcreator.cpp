@@ -20,7 +20,11 @@
 #include <QObject>
 #include <QSqlDatabase>
 #include <QSqlQuery>
+#include <QDebug>
+#include <exception>
 #include "dbcreator.h"
+
+using namespace std;
 
 DbCreator::DbCreator(QObject *parent) : QObject(parent)
 {
@@ -32,37 +36,52 @@ bool DbCreator::createDB()
     bool ret = false;
     QSqlQuery query;
 
-    if (!tableExists("platform"))
+    try
     {
-        query.exec("create table platform "
-                         "(id integer primary key, "
-                         "name varchar(30), "
-                         "filename varchar(125))");
-    }
-    if (!tableExists("mediatype"))
+        if (!tableExists("platform"))
+        {
+            qDebug() << "Creating table platform";
+            ret = query.exec("create table platform "
+                             "(id integer primary key, "
+                             "name varchar(30), "
+                             "filename varchar(125))");
+            if (!ret) throw QString("platform.");
+        }
+        if (!tableExists("mediatype"))
+        {
+            qDebug() << "Creating table mediatype";
+            ret = query.exec("create table mediatype "
+                             "(id integer primary key, "
+                             "name varchar(30), "
+                             "filename varchar(125))");
+            if (!ret) throw QString("mediatype.");
+        }
+        if (!tableExists("filetype"))
+        {
+            qDebug() << "Creating table filetype";
+            ret = query.exec("create table filetype "
+                             "(id integer primary key, "
+                             "name varchar(30))");
+            if (!ret) throw QString("filetype.");
+            query.exec("insert into filetype (id, name) values (1, 'media image container')");
+            query.exec("insert into filetype (id, name) values (2, 'screenshot')");
+            query.exec("insert into filetype (id, name) values (3, 'platform icon')");
+            query.exec("insert into filetype (id, name) values (4, 'media type icon')");
+        }
+        /*if (!tableExists("filepath"))
     {
-        query.exec("create table mediatype "
-                         "(id integer primary key, "
-                         "name varchar(30), "
-                         "filename varchar(125))");
-    }
-    if (!tableExists("filetype"))
-    {
-        query.exec("create table filetype "
-                            "(id integer primary key, "
-                            "name varchar(30))");
-        query.exec("insert into filetype (id, name) values (1, 'media image container')");
-        query.exec("insert into filetype (id, name) values (2, 'screenshot')");
-        query.exec("insert into filetype (id, name) values (3, 'platform icon')");
-        query.exec("insert into filetype (id, name) values (4, 'media type icon')");
-    }
-    /*if (!tableExists("filepath"))
-    {
+        qDebug() << "Creating table filepath";
         query.exec("create table filepath "
                     "(id integer primary key, "
                     "name varchar(255))");
 
+        if (!ret) throw QString("filepath");
     }*/
+    }
+    catch (QString tbl)
+    {
+        throw QString("Couldn't create database '%1'!").arg(tbl);
+    }
     return ret;
 }
 
