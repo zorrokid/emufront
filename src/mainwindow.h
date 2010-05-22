@@ -1,5 +1,5 @@
 // EmuFront
-// Copyright Mikko Keinänen 2010
+// Copyright 2010 Mikko Keinänen
 //
 // This file is part of EmuFront.
 //
