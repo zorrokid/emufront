@@ -26,6 +26,9 @@
 
 using namespace std;
 
+const int DbCreator::TABLES_COUNT = 3;
+const QString DbCreator::TABLES[] = {"platform", "mediatype", "filetype"};
+
 DbCreator::DbCreator(QObject *parent) : QObject(parent)
 {
 }
@@ -91,7 +94,16 @@ bool DbCreator::createDB()
 */
 bool DbCreator::dbExists()
 {
-    return tableExists("platform");
+    for (int i = 0; i < TABLES_COUNT; ++i)
+    {
+        if (!tableExists(TABLES[i]))
+        {
+            qDebug() << "Table " << TABLES[i] << " missing.";
+            return false;
+        }
+       qDebug() << "Table " << TABLES[i] << " exists.";
+    }
+    return true;
 }
 
 bool DbCreator::tableExists(QString table)

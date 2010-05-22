@@ -12,6 +12,12 @@ public:
     static bool tableExists(QString);
     static bool dbExists();
     bool createDB();
+
+private:
+
+    static const int TABLES_COUNT;
+    static const QString TABLES[];
+
 };
 
 #endif // DBCREATOR_H
