@@ -30,10 +30,10 @@ class DbPlatform : public DatabaseManager
 public:
     DbPlatform(QObject *);
     virtual QSqlTableModel* getDataModel();
-    Platform* getPlatformFromModel(QModelIndex);
+    Platform* getPlatformFromModel(QModelIndex*);
     bool updatePlatformToModel(const Platform *);
     bool insertPlatformToModel(const Platform *);
-    bool deletePlatformFromModel(QModelIndex);
+    bool deletePlatformFromModel(QModelIndex*);
 
 private:
     enum {

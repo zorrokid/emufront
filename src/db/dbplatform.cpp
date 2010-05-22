@@ -35,9 +35,9 @@ QSqlTableModel* DbPlatform::getDataModel()
     return sqlTableModel;
 }
 
-Platform* DbPlatform::getPlatformFromModel(QModelIndex index)
+Platform* DbPlatform::getPlatformFromModel(QModelIndex *index)
 {
-    QSqlRecord record = sqlTableModel->record(index.row());
+    QSqlRecord record = sqlTableModel->record(index->row());
     int id = record.value(Platform_Id).toInt();
     QString name = record.value(Platform_Name).toString();
     QString fileName = record.value(Platform_Filename).toString();
@@ -75,10 +75,10 @@ bool DbPlatform::insertPlatformToModel(const Platform *ob)
     return sqlTableModel->submitAll();
 }
 
-bool DbPlatform::deletePlatformFromModel(QModelIndex index)
+bool DbPlatform::deletePlatformFromModel(QModelIndex *index)
 {
     QSqlDatabase::database().transaction();
-    QSqlRecord record = sqlTableModel->record(index.row());
+    QSqlRecord record = sqlTableModel->record(index->row());
     int id = record.value(Platform_Id).toInt();
     /*int numEntries = 0;
     QSqlQuery query(QString("SELECT COUNT(*) FROM imagecontainer WHERE platformid = %1").arg(id));
@@ -96,7 +96,7 @@ bool DbPlatform::deletePlatformFromModel(QModelIndex index)
         }
         query.exec(QString("DELETE FROM imagecontainer WHERE platformid = %1").arg(id));
     }*/
-    sqlTableModel->removeRow(index.row());
+    sqlTableModel->removeRow(index->row());
     sqlTableModel->submitAll();
     return QSqlDatabase::database().commit();
 }

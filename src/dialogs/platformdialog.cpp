@@ -83,7 +83,7 @@ void PlatformDialog::editObject()
         return;
     qDebug() << "we have a valid index";
     delete dbObject;
-    dbObject = (dynamic_cast<DbPlatform*>(dbManager))->getPlatformFromModel(index);
+    dbObject = (dynamic_cast<DbPlatform*>(dbManager))->getPlatformFromModel(&index);
     nameDialog->setDataObject(dbObject);
     activateNameDialog();
 }
@@ -124,7 +124,7 @@ bool PlatformDialog::deleteItem()
 {
     QModelIndex index = objectList->currentIndex();
     if (!index.isValid()) return false;
-    (dynamic_cast<DbPlatform *>(dbManager))->deletePlatformFromModel(index);
+    (dynamic_cast<DbPlatform *>(dbManager))->deletePlatformFromModel(&index);
     updateList();
     objectList->setFocus();
     return false;
