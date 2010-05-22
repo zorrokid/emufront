@@ -22,6 +22,8 @@
 #include <iostream>
 #include "mainwindow.h"
 #include "db/databasemanager.h"
+#include "db/dbcreator.h"
+
 //#include "dialogs/platformnamedialog.h"
 
 int main(int argc, char *argv[])
@@ -33,12 +35,13 @@ int main(int argc, char *argv[])
         cout << " Database opened succesfully!" << endl;
 	else cout << " Database connection failed!" << endl;
 
-    if (DatabaseManager::dbExists())
+    if (DbCreator::dbExists())
 		cout << " Database exists!" << endl;
 	else 
 	{
 		cout << " Database is missing!" << endl;
-        if (DatabaseManager::createDB())
+        DbCreator dbCreator;
+        if (dbCreator.createDB())
 			cout << " Database created succesfully!" << endl;
 		else {
 			cout << "Failed creating database!" << endl;

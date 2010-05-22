@@ -26,9 +26,9 @@
 #include <QFile>
 #include <QDir>
 #include <QVariant>
-#include <iostream>
 
 const QString DatabaseManager::DB_FILENAME = QString("my.db.sqlite");
+const QString DatabaseManager::DATABASE = QString("QSQLITE");
 
 DatabaseManager::DatabaseManager(QObject *parent)
 	: QObject(parent)
@@ -48,12 +48,6 @@ bool DatabaseManager::openDB()
     return db.open();
 }
 
-bool DatabaseManager::deleteDB()
-{
-    // return QFile::remove(getDbPath());
-    return false;
-}
-
 QString DatabaseManager::getDbPath()
 {
 	QString path;
@@ -64,33 +58,6 @@ QString DatabaseManager::getDbPath()
 	path.append(DB_FILENAME);	
 #endif
 	return path;
-}
-
-/**
- * Check if database already exists.
- * Returns false if doesn't or we don't have a connection.
-*/ 
-bool DatabaseManager::dbExists()
-{
-	QSqlQuery query;
-    query.exec("SELECT name FROM sqlite_master WHERE name='platform'");
-    return query.next();
-}
-
-bool DatabaseManager::createDB()
-{
-	bool ret = false;
-    QSqlQuery query;
-
-    ret = query.exec("create table platform "
-                     "(id integer primary key, "
-                     "name varchar(30), "
-                     "filename varchar(125))");
-    /*ret = query.exec("create table media "
-						"(id integer primary key, "
-						"name varchar(30), "
-						"filename varchar(125))");*/
-	return ret;
 }
 
 void DatabaseManager::resetModel() const

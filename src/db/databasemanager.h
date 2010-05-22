@@ -35,16 +35,25 @@ public:
 
     virtual QSqlTableModel* getDataModel() = 0;
     static bool openDB();
-    static bool deleteDB();
-    static bool dbExists();
-    static bool createDB();
+    //static bool deleteDB();
+    //static bool dbExists();
+    //static bool tableExists(QString);
+    //static bool createDB();
     void resetModel() const;
+    enum
+    {
+        Filetype_MediaImageContainer = 0,
+        Filetype_Screenshot = 1,
+        Filetype_PlatformIcon = 2,
+        Filetype_MediaTypeIcon = 3
+                             };
 
 protected:
     QSqlTableModel *sqlTableModel;
 
 private:
 	static const QString DB_FILENAME;
+    static const QString DATABASE;
     virtual QSqlTableModel* getData() = 0;
     static QString getDbPath();
 };

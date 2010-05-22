@@ -21,7 +21,8 @@ HEADERS += mainwindow.h \
     dialogs/emufrontdialog.h \
     dataobjects/emufrontobject.h \
     dataobjects/platform.h \
-    db/dbplatform.h
+    db/dbplatform.h \
+    db/dbcreator.h
 SOURCES += main.cpp \
     mainwindow.cpp \
     db/databasemanager.cpp \
@@ -32,4 +33,5 @@ SOURCES += main.cpp \
     dialogs/emufrontdialog.cpp \
     dataobjects/emufrontobject.cpp \
     dataobjects/platform.cpp \
-    db/dbplatform.cpp
+    db/dbplatform.cpp \
+    db/dbcreator.cpp
