@@ -26,20 +26,19 @@ class PlatformDialog : public DbObjectDialog
 {
     Q_OBJECT
 
-    public:
+public:
 	PlatformDialog(QWidget *parent = 0);
     ~PlatformDialog();
 
-    protected:
-	virtual int deleteObject();
+protected:
+    virtual int deleteObject();
+    virtual void deleteCurrentObject();
 	virtual void addObject();
 	virtual void editObject();
     virtual bool deleteItem();
     virtual void updateDb(const EmuFrontObject*) const;
     virtual void insertDb(const EmuFrontObject*) const;
 
-    private slots:
-    virtual void updateData();
 };
 
 #endif

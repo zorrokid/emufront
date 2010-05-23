@@ -43,11 +43,14 @@ protected slots:
 	void addButtonClicked();
 	void deleteButtonClicked();
 	void listObjectClicked(const QModelIndex &);
-    virtual void updateData();
+    void updateData();
     void updateList() const;
+    private slots:
 
 protected:
 	virtual int deleteObject() =0;
+    // implementation specific, deletes current data object from memory
+    virtual void deleteCurrentObject();
 	virtual void addObject() =0;
 	virtual void editObject() =0;
     virtual bool deleteItem() = 0;
@@ -55,6 +58,8 @@ protected:
     virtual void insertDb(const EmuFrontObject*) const = 0;
     void connectSignals();
     void activateNameDialog();
+    void initDataTable();
+    bool confirmDelete(QString name, int numRefs);
     NameDialog *nameDialog;
     DatabaseManager *dbManager;
     QTableView *objectList;

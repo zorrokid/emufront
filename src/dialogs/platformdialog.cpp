@@ -27,7 +27,7 @@
 #include "platformnamedialog.h"
 
 
-QTextStream cout(stdout, QIODevice::WriteOnly);
+//QTextStream cout(stdout, QIODevice::WriteOnly);
 
 PlatformDialog::PlatformDialog(QWidget *parent)
     : DbObjectDialog(parent)
@@ -36,14 +36,8 @@ PlatformDialog::PlatformDialog(QWidget *parent)
     //nameDialog = 0;
     nameDialog = new PlatformNameDialog(this, dynamic_cast<Platform*>(dbObject));
     dbManager = new DbPlatform(this);
-
-    // let's create a table model for platforms
+    initDataTable();
     
-    objectList->setModel(dbManager->getDataModel());
-    objectList->setSelectionMode(QAbstractItemView::SingleSelection);
-    //objectList->setColumnHidden(Platform_Id, true);
-    objectList->resizeColumnsToContents();
-
     // do not move to parent class:
     connectSignals();
 }
@@ -80,45 +74,27 @@ void PlatformDialog::editObject()
         return;
     qDebug() << "we have a valid index";
     delete dbObject;
-    dbObject = (dynamic_cast<DbPlatform*>(dbManager))->getPlatformFromModel(&index);
+    dbObject = (dynamic_cast<DbPlatform*>(dbManager))->getDataObjectFromModel(&index);
     nameDialog->setDataObject(dbObject);
     activateNameDialog();
 }
 
-void PlatformDialog::updateData()
+void PlatformDialog::deleteCurrentObject()
 {
-    qDebug() << "Update data";
-    // update data model
-    if (!dbObject) return;
-
-    qDebug() << "dbObject is not 0";
-
-    qDebug() << "We have a " + dbObject->getName();
-
-    qDebug() << "Data will be inserted/updated...";
-
-    // if data object id > -1 we are updating the data otherwise we are inserting new data
-    if (dbObject->getId() > -1) updateDb(dbObject);
-    else insertDb(dbObject);
-
-    // we don't need dbObject anymore
     delete dynamic_cast<Platform*>(dbObject);
-    dbObject = 0;
-
-    // refresh...
-    DbObjectDialog::updateData();
 }
+
 
 void PlatformDialog::updateDb(const EmuFrontObject *ob) const
 {
     if (!ob) return;
     qDebug() << "Updating platform " << ob->getName();
-    (dynamic_cast<DbPlatform*>(dbManager))->updatePlatformToModel(dynamic_cast<const Platform*>(ob));
+    (dynamic_cast<DbPlatform*>(dbManager))->updateDataObjectToModel(ob);
 }
 
 void PlatformDialog::insertDb(const EmuFrontObject *ob) const
 {
-    (dynamic_cast<DbPlatform*>(dbManager))->insertPlatformToModel(dynamic_cast<const Platform*>(ob));
+    (dynamic_cast<DbPlatform*>(dbManager))->insertDataObjectToModel(ob);
 }
 
 bool PlatformDialog::deleteItem()
@@ -134,24 +110,20 @@ bool PlatformDialog::deleteItem()
     // and a) ask user if this platform should be removed
     // b) remove all the data associated to this platform
 
-    Platform *plf = dynamic_cast<DbPlatform*>(dbManager)->getPlatformFromModel(&index);
-    if (!plf) return false;
+    EmuFrontObject *ob = dynamic_cast<DbPlatform*>(dbManager)->getDataObjectFromModel(&index);
+    if (!ob) return false;
+
+    Platform *plf = dynamic_cast<Platform*>(ob);
 
     qDebug() << "Got platform" << plf->getName();
 
-    int numBindings = dynamic_cast<DbPlatform*>(dbManager)->countPlatformBindings(plf->getId());
-    if (numBindings > 0)
+    int numBindings = dynamic_cast<DbPlatform*>(dbManager)->countDataObjectRefs(plf->getId());
+    if (numBindings > 0 && !confirmDelete(plf->getName(), numBindings))
     {
-        qDebug() << "Got " << numBindings << " bindings";
-        int r = QMessageBox::warning(this, tr("Delete platform"),
-                                     QString("Do you really want to delete platform %1 with %2 data bindings?")
-                                     .arg(plf->getName()).arg(numBindings),
-                                     QMessageBox::Yes | QMessageBox::No);
-        if ( r == QMessageBox::No )
             return false;
     }
     delete plf;
-    bool delOk = (dynamic_cast<DbPlatform *>(dbManager))->deletePlatformFromModel(&index);
+    bool delOk = (dynamic_cast<DbPlatform *>(dbManager))->deleteDataObjectFromModel(&index);
     if (!delOk)
     {
         qDebug() << "delete failed";

@@ -66,3 +66,15 @@ void DatabaseManager::resetModel() const
     sqlTableModel->setFilter("");
     sqlTableModel->select();
 }
+
+// sql must return a count(*) value
+int DatabaseManager::countRows(QString tableName, QString columnName, int id) const
+{
+    QString sql = QString("SELECT COUNT(*) FROM %1 WHERE %2 = %3")
+        .arg(tableName).arg(columnName).arg(id);
+    int numEntries = 0;
+    QSqlQuery query(sql);
+    if (query.next())
+        numEntries = query.value(0).toInt();
+    return numEntries;
+}

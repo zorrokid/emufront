@@ -26,6 +26,8 @@
 class QSqlError;
 class QFile;
 class QSqlTableModel;
+class QModelIndex;
+class EmuFrontObject;
 
 class DatabaseManager : public QObject
 {
@@ -34,6 +36,11 @@ public:
 	~DatabaseManager();
 
     virtual QSqlTableModel* getDataModel() = 0;
+    virtual EmuFrontObject* getDataObjectFromModel(QModelIndex*) = 0;
+    virtual bool updateDataObjectToModel(const EmuFrontObject*) = 0;
+    virtual bool insertDataObjectToModel(const EmuFrontObject*) = 0;
+    virtual bool deleteDataObjectFromModel(QModelIndex*) = 0;
+    virtual int countDataObjectRefs(int id) const = 0;
     static bool openDB();
     void resetModel() const;
     enum {
@@ -43,7 +50,9 @@ public:
         Filetype_MediaTypeIcon = 3 };
 
 protected:
-    QSqlTableModel *sqlTableModel;
+    QSqlTableModel* sqlTableModel;
+    //virtual QSqlTableModel* getDataModel() = 0;
+    int countRows(QString tableName, QString columnName, int id) const;
 
 private:
 	static const QString DB_FILENAME;

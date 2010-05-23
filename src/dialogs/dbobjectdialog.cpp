@@ -129,12 +129,6 @@ void DbObjectDialog::disableSelection()
     setButtonsEnabled(false);
 }
 
-void DbObjectDialog::updateData()
-{
-    qDebug() << "DbObjectDialog::updateData()";
-    updateList();
-}
-
 void DbObjectDialog::activateNameDialog()
 {
     if (!nameDialog) return;
@@ -143,3 +137,46 @@ void DbObjectDialog::activateNameDialog()
     nameDialog->activateWindow();
 }
 
+void DbObjectDialog::initDataTable()
+{
+   objectList->setModel(dbManager->getDataModel());
+   objectList->setSelectionMode(QAbstractItemView::SingleSelection);
+   objectList->resizeColumnsToContents();
+}
+void DbObjectDialog::updateData()
+{
+    qDebug() << "Update data";
+    // update data model
+    if (!dbObject) return;
+
+    qDebug() << "dbObject is not 0";
+
+    qDebug() << "We have a " + dbObject->getName();
+
+    qDebug() << "Data will be inserted/updated...";
+
+    // if data object id > -1 we are updating the data otherwise we are inserting new data
+    if (dbObject->getId() > -1) updateDb(dbObject);
+    else insertDb(dbObject);
+
+    // we don't need dbObject anymore
+    deleteCurrentObject();
+    dbObject = 0;
+    updateList();
+}
+
+void DbObjectDialog::deleteCurrentObject()
+{
+    delete dbObject;
+}
+
+bool DbObjectDialog::confirmDelete(QString name, int numRefs)
+{
+    int r = QMessageBox::warning(this, tr("Confirm delete"),
+                                 QString("Do you really want to delete %1 with %2 data bindings?")
+                                 .arg(name).arg(numRefs),
+                                 QMessageBox::Yes | QMessageBox::No);
+    if ( r == QMessageBox::No )
+        return false;
+    return true;
+}

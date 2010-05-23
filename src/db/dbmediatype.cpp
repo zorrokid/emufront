@@ -21,33 +21,34 @@
 #include <QSqlQuery>
 #include <QSqlTableModel>
 #include <QDebug>
-#include "dbplatform.h"
+#include "dbmediatype.h"
 
-const QString DbPlatform::DB_TABLE_NAME_PLATFORM = QString("platform");
+const QString DbMediaType::DB_TABLE_NAME_MEDIATYPE = QString("mediatype");
 
-DbPlatform::DbPlatform(QObject *parent) : DatabaseManager(parent)
+
+DbMediaType::DbMediaType(QObject *parent) : DatabaseManager(parent)
 {
     sqlTableModel = getData();
 }
 
-QSqlTableModel* DbPlatform::getDataModel()
+QSqlTableModel* DbMediaType::getDataModel()
 {
     return sqlTableModel;
 }
 
-EmuFrontObject* DbPlatform::getDataObjectFromModel(QModelIndex *index)
+EmuFrontObject* DbMediaType::getDataObjectFromModel(QModelIndex *index)
 {
     QSqlRecord record = sqlTableModel->record(index->row());
-    int id = record.value(Platform_Id).toInt();
-    QString name = record.value(Platform_Name).toString();
-    QString fileName = record.value(Platform_Filename).toString();
+    int id = record.value(MediaType_Id).toInt();
+    QString name = record.value(MediaType_Name).toString();
+    QString fileName = record.value(MediaType_Filename).toString();
     //qDebug() << "Got platform Name " << name << " id " << id;
-    return new Platform(id, name, fileName);
+    return new MediaType(id, name, fileName);
 }
 
-bool DbPlatform::updateDataObjectToModel(const EmuFrontObject *ob)
+bool DbMediaType::updateDataObjectToModel(const EmuFrontObject *ob)
 {
-    const Platform *plf = dynamic_cast<const Platform*>(ob);
+    const MediaType *plf = dynamic_cast<const MediaType*>(ob);
     bool ret = false;
     sqlTableModel->setFilter(QString("id = %1").arg(plf->getId()));
     sqlTableModel->select();
@@ -63,9 +64,9 @@ bool DbPlatform::updateDataObjectToModel(const EmuFrontObject *ob)
     return ret;
 }
 
-bool DbPlatform::insertDataObjectToModel(const EmuFrontObject *ob)
+bool DbMediaType::insertDataObjectToModel(const EmuFrontObject *ob)
 {
-    const Platform *plf = dynamic_cast<const Platform*>(ob);
+    const MediaType *plf = dynamic_cast<const MediaType*>(ob);
     int row = 0;
     sqlTableModel->insertRows(row, 1);
     // the null value for index will be set implicitily
@@ -76,23 +77,23 @@ bool DbPlatform::insertDataObjectToModel(const EmuFrontObject *ob)
     return sqlTableModel->submitAll();
 }
 
-int DbPlatform::countDataObjectRefs(int id) const
+int DbMediaType::countDataObjectRefs(int id) const
 {
-    return countRows("imagecontainer", "platformid", id);
+    return countRows("imagecontainer", "mediatypeid", id);
 }
 
 // WARNING: this will delete also all the databindings to selected platform
-bool DbPlatform::deleteDataObjectFromModel(QModelIndex *index)
+bool DbMediaType::deleteDataObjectFromModel(QModelIndex *index)
 {
     QSqlDatabase::database().transaction();
     QSqlRecord record = sqlTableModel->record(index->row());
-    int id = record.value(Platform_Id).toInt();
-    qDebug() << "Deleting platform " << id;
+    int id = record.value(MediaType_Id).toInt();
+    qDebug() << "Deleting mediatype " << id;
     int count = countDataObjectRefs(id);
     if (count > 0)
     {
         QSqlQuery query;
-        if (!query.exec(QString("DELETE FROM imagecontainer WHERE platformid = %1").arg(id)))
+        if (!query.exec(QString("DELETE FROM imagecontainer WHERE mediatypeid = %1").arg(id)))
         {
             qDebug() << "Deleting data bindings failed!";
             QSqlDatabase::database().rollback();
@@ -104,12 +105,12 @@ bool DbPlatform::deleteDataObjectFromModel(QModelIndex *index)
     return QSqlDatabase::database().commit();
 }
 
-QSqlTableModel* DbPlatform::getData()
+QSqlTableModel* DbMediaType::getData()
 {
     QSqlTableModel *model = new QSqlTableModel(this);
-    model->setTable(DB_TABLE_NAME_PLATFORM);
-    model->setSort(Platform_Name, Qt::AscendingOrder);
-    model->setHeaderData(Platform_Name, Qt::Horizontal, tr("Name"));
+    model->setTable(DB_TABLE_NAME_MEDIATYPE);
+    model->setSort(MediaType_Name, Qt::AscendingOrder);
+    model->setHeaderData(MediaType_Name, Qt::Horizontal, tr("Name"));
     model->select();
     return model;
 }

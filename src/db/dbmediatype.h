@@ -17,32 +17,33 @@
 // You should have received a copy of the GNU General Public License
 // along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef DBPLATFORM_H
-#define DBPLATFORM_H
+#ifndef DBMEDIATYPE_H
+#define DBMEDIATYPE_H
 
 #include "databasemanager.h"
-#include "../dataobjects/platform.h"
+#include "../dataobjects/mediatype.h"
 
 class QModelIndex;
 
-class DbPlatform : public DatabaseManager
+class DbMediaType : public DatabaseManager
 {
 public:
-    DbPlatform(QObject *);
+    DbMediaType(QObject*);
     virtual QSqlTableModel* getDataModel();
     virtual EmuFrontObject* getDataObjectFromModel(QModelIndex*);
     virtual bool updateDataObjectToModel(const EmuFrontObject*);
-    bool insertDataObjectToModel(const EmuFrontObject*);
-    bool deleteDataObjectFromModel(QModelIndex*);
-    int countDataObjectRefs(int) const;
+    virtual bool insertDataObjectToModel(const EmuFrontObject*);
+    virtual bool deleteDataObjectFromModel(QModelIndex*);
+    virtual int countDataObjectRefs(int) const;
 
 private:
     enum {
-        Platform_Id = 0,
-        Platform_Name = 1,
-        Platform_Filename = 2 };
-    static const QString DB_TABLE_NAME_PLATFORM;
+        MediaType_Id = 0,
+        MediaType_Name = 1,
+        MediaType_Filename = 2 };
+    static const QString DB_TABLE_NAME_MEDIATYPE;
     virtual QSqlTableModel* getData();
+
 };
 
-#endif // DBPLATFORM_H
+#endif // DBMEDIATYPE_H

@@ -17,27 +17,24 @@
 // You should have received a copy of the GNU General Public License
 // along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef MEDIATYPEDIALOG_H
-#define MEDIATYPEDIALOG_H
+#ifndef MEDIATYPENAMEDIALOG_H
+#define MEDIATYPENAMEDIALOG_H
 
-#include "dbobjectdialog.h"
+#include "namedialog.h"
+#include "../dataobjects/mediatype.h"
 
-class MediaTypeDialog : public DbObjectDialog
+class MediaTypeNameDialog : public NameDialog
 {
     Q_OBJECT
-
 public:
-    MediaTypeDialog(QWidget *parent = 0);
-    ~MediaTypeDialog();
+    MediaTypeNameDialog(QWidget *parent, MediaType*);
+    ~MediaTypeNameDialog();
+    virtual void setDataObject(EmuFrontObject*);
+
 
 protected:
-    virtual int deleteObject();
-    virtual void deleteCurrentObject();
-    virtual void addObject();
-    virtual void editObject();
-    virtual bool deleteItem();
-    virtual void updateDb(const EmuFrontObject*) const;
-    virtual void insertDb(const EmuFrontObject*) const;
+    virtual void setDataObject(QString name);
+
 };
 
-#endif // MEDIATYPEDIALOG_H
+#endif // MEDIATYPENAMEDIALOG_H
