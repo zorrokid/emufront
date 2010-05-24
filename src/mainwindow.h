@@ -24,6 +24,7 @@
 
 class QAction;
 class PlatformDialog;
+class MediaTypeDialog;
 class QLabel;
 class DatabaseManager;
 
@@ -33,13 +34,14 @@ class MainWindow : public QMainWindow
 
 public:
 	MainWindow();
-        //~MainWindow()
+    //~MainWindow()
 
 protected:
 	void closeEvent(QCloseEvent *event);
 
 private slots:
 	void configurePlatforms();
+    void configureMediaTypes();
 
 private:
 	void createActions();
@@ -49,12 +51,14 @@ private:
 	void writeSettings();
 	bool okToContinue();
 	PlatformDialog *platformDialog;
+    MediaTypeDialog *mediaTypeDialog;
 	QMenu *configMenu;
 	QMenu *fileMenu;
-        QAction *configPlatformAction;	
+    QAction *configPlatformAction;
+    QAction *configMediaTypeAction;
 	QAction *exitAction;
 	QLabel *messageLabel;
-        DatabaseManager *dbManager;
+    DatabaseManager *dbManager;
 };
 
 #endif

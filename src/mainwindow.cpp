@@ -20,6 +20,7 @@
 #include <QtGui>
 #include "mainwindow.h"
 #include "dialogs/platformdialog.h"
+#include "dialogs/mediatypedialog.h"
 #include "db/databasemanager.h"
 
 MainWindow::MainWindow()
@@ -30,6 +31,7 @@ MainWindow::MainWindow()
     createStatusBar();
     readSettings();
     platformDialog = 0;
+    mediaTypeDialog = 0;
 }
 
 void MainWindow::createActions()
@@ -38,6 +40,10 @@ void MainWindow::createActions()
     configPlatformAction->setStatusTip(tr("Configure platforms"));
     connect(configPlatformAction, SIGNAL(triggered()),
 	    this, SLOT(configurePlatforms()));
+
+    configMediaTypeAction = new QAction(tr("&Media Types"), this);
+    configMediaTypeAction->setStatusTip(tr("Configure media types"));
+    connect(configMediaTypeAction, SIGNAL(triggered()), this, SLOT(configureMediaTypes()));
 
     exitAction = new QAction(tr("&Exit"), this);
     exitAction->setShortcut(tr("Ctrl+Q"));
@@ -56,6 +62,17 @@ void MainWindow::configurePlatforms()
    platformDialog->activateWindow();
 }
 
+void MainWindow::configureMediaTypes()
+{
+    if (!mediaTypeDialog)
+    {
+        mediaTypeDialog = new MediaTypeDialog(this);
+   }
+   mediaTypeDialog->show();
+   mediaTypeDialog->raise();
+   mediaTypeDialog->activateWindow();
+}
+
 void MainWindow::createMenus()
 {
     fileMenu = menuBar()->addMenu(tr("&File"));
@@ -63,6 +80,7 @@ void MainWindow::createMenus()
 
     configMenu = menuBar()->addMenu(tr("&Config"));
     configMenu->addAction(configPlatformAction);
+    configMenu->addAction(configMediaTypeAction);
 }
 
 void MainWindow::createStatusBar()
