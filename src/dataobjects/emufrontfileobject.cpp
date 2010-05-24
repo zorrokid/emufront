@@ -23,8 +23,13 @@ EmuFrontFileObject::EmuFrontFileObject() : EmuFrontObject()
 { }
 
 EmuFrontFileObject::EmuFrontFileObject(int id, QString name, QString filename)
-    : EmuFrontObject(id, name), filename(filename)
+    : EmuFrontObject(id, name), filename(filename), filetype(0)
 {}
+
+EmuFrontFileObject::EmuFrontFileObject(int id, QString name, QString filename, int filetype)
+    : EmuFrontObject(id, name), filename(filename), filetype(filetype)
+{}
+
 
 /*EmuFrontFileObject::EmuFrontFileObject(const EmuFrontFileObject&pl)
     : EmuFrontObject(pl.id, pl.name), filename(pl.filename)

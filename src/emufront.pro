@@ -27,7 +27,8 @@ HEADERS += mainwindow.h \
     dataobjects/emufrontfileobject.h \
     dataobjects/mediatype.h \
     db/dbmediatype.h \
-    dialogs/mediatypenamedialog.h
+    dialogs/mediatypenamedialog.h \
+    dataobjects/filepathobject.h
 SOURCES += main.cpp \
     mainwindow.cpp \
     db/databasemanager.cpp \
@@ -44,4 +45,5 @@ SOURCES += main.cpp \
     dataobjects/emufrontfileobject.cpp \
     dataobjects/mediatype.cpp \
     db/dbmediatype.cpp \
-    dialogs/mediatypenamedialog.cpp
+    dialogs/mediatypenamedialog.cpp \
+    dataobjects/filepathobject.cpp

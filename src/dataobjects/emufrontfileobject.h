@@ -27,17 +27,32 @@ class EmuFrontFileObject : public EmuFrontObject
 public:
     EmuFrontFileObject();
     EmuFrontFileObject( int id, QString name, QString filename);
+    EmuFrontFileObject( int id, QString name, QString filename, int filetype);
+
     // No need for these as long we use QString (see Implicit Data Sharing)
     /*EmuFrontFileObject(const EmuFrontFileObject&);
     EmuFrontFileObject &operator=(const EmuFrontFileObject&);
     virtual ~EmuFrontFileObject();*/
+
     const QString getFilename() const
     { return filename; }
     void setFilename(QString filename)
     { this->filename = filename; }
+    int getFiletype() const
+    { return filetype; }
+    void setFiletype(int t)
+    { filetype = t; }
 
-private:
+    enum {
+        FileType_MediaImageContainer = 1,
+        FileType_ScreenShot = 2,
+        FileType_PlatformIconPath = 3,
+        FileType_MediaTypeIconPath = 4
+    };
+
+protected:
     QString filename;
+    int filetype;
 };
 
 #endif // EMUFRONTFILEOBJECT_H
