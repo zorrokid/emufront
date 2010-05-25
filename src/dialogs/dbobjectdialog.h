@@ -21,7 +21,7 @@
 #define DBOBJECTDIALOG_H
 
 #include "emufrontdialog.h"
-#include "namedialog.h"
+#include "dataobjecteditdialog.h"
 #include "../db/databasemanager.h"
 #include "../dataobjects/emufrontobject.h"
 
@@ -60,7 +60,7 @@ protected:
     void activateNameDialog();
     void initDataTable();
     bool confirmDelete(QString name, int numRefs);
-    NameDialog *nameDialog;
+    DataObjectEditDialog *nameDialog;
     DatabaseManager *dbManager;
     QTableView *objectList;
     EmuFrontObject *dbObject;

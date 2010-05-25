@@ -17,43 +17,25 @@
 // You should have received a copy of the GNU General Public License
 // along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef NAMEDIALOG_H
-#define NAMEDIALOG_H
+#ifndef DBMEDIAIMAGEPATH_H
+#define DBMEDIAIMAGEPATH_H
 
-#include "../dataobjects/emufrontobject.h"
-#include "dataobjecteditdialog.h"
+#include "databasemanager.h"
 
-class QLabel;
-class QLineEdit;
-class QPushButton;
-class QDialogButtonBox;
-
-class NameDialog : public DataObjectEditDialog
+class DbMediaImagePath : public DatabaseManager
 {
-	Q_OBJECT
-
 public:
-    NameDialog(QWidget *parent = 0, EmuFrontObject * = 0);
-    ~NameDialog();
-    virtual void setDataObject(EmuFrontObject *) = 0;
-
-signals:
-    void dataObjectUpdated();
-
-protected slots:
-    void acceptChanges();
-    void rejectChanges();
-    void enableSaveButton(const QString &);
-
-protected:
-    virtual void setDataObject(QString name) =0;
-	QLabel *nameLabel;
-	QLineEdit *nameEdit;
-    QDialogButtonBox *buttonBox;
+    DbMediaImagePath(QObject *);
+    virtual QSqlTableModel* getDataModel();
+    virtual EmuFrontObject* getDataObjectFromModel(QModelIndex*);
+    virtual bool updateDataObjectToModel(const EmuFrontObject*);
+    bool insertDataObjectToModel(const EmuFrontObject*);
+    bool deleteDataObjectFromModel(QModelIndex*);
+    int countDataObjectRefs(int) const;
 
 private:
-	void connectSignals();
-	void layout();
+    virtual QSqlTableModel* getData();
+
 };
 
-#endif
+#endif // DBMEDIAIMAGEPATH_H

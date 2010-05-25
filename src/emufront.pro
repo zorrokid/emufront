@@ -28,7 +28,11 @@ HEADERS += mainwindow.h \
     dataobjects/mediatype.h \
     db/dbmediatype.h \
     dialogs/mediatypenamedialog.h \
-    dataobjects/filepathobject.h
+    dataobjects/filepathobject.h \
+    dialogs/mediaimagepathdialog.h \
+    dialogs/mediaimagepathmaindialog.h \
+    dialogs/dataobjecteditdialog.h \
+    db/dbmediaimagepath.h
 SOURCES += main.cpp \
     mainwindow.cpp \
     db/databasemanager.cpp \
@@ -46,4 +50,8 @@ SOURCES += main.cpp \
     dataobjects/mediatype.cpp \
     db/dbmediatype.cpp \
     dialogs/mediatypenamedialog.cpp \
-    dataobjects/filepathobject.cpp
+    dataobjects/filepathobject.cpp \
+    dialogs/mediaimagepathdialog.cpp \
+    dialogs/mediaimagepathmaindialog.cpp \
+    dialogs/dataobjecteditdialog.cpp \
+    db/dbmediaimagepath.cpp

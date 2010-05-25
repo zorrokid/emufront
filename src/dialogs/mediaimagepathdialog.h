@@ -17,43 +17,36 @@
 // You should have received a copy of the GNU General Public License
 // along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef NAMEDIALOG_H
-#define NAMEDIALOG_H
+#ifndef MEDIAIMAGEPATHDIALOG_H
+#define MEDIAIMAGEPATHDIALOG_H
 
-#include "../dataobjects/emufrontobject.h"
 #include "dataobjecteditdialog.h"
 
-class QLabel;
-class QLineEdit;
-class QPushButton;
 class QDialogButtonBox;
+class QComboBox;
+class QLabel;
+class QPushButton;
 
-class NameDialog : public DataObjectEditDialog
+class MediaImagePathDialog : public DataObjectEditDialog
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-    NameDialog(QWidget *parent = 0, EmuFrontObject * = 0);
-    ~NameDialog();
-    virtual void setDataObject(EmuFrontObject *) = 0;
-
-signals:
-    void dataObjectUpdated();
-
-protected slots:
-    void acceptChanges();
-    void rejectChanges();
-    void enableSaveButton(const QString &);
-
-protected:
-    virtual void setDataObject(QString name) =0;
-	QLabel *nameLabel;
-	QLineEdit *nameEdit;
-    QDialogButtonBox *buttonBox;
+    MediaImagePathDialog(QWidget *parent, EmuFrontObject*);
+    virtual void setDataObject(EmuFrontObject *);
 
 private:
-	void connectSignals();
-	void layout();
+    QDialogButtonBox *buttonBox;
+    QComboBox *mediaTypeComBox;
+    QComboBox *platformComBox;
+    QLabel *filePathLabel;
+    QPushButton *filePathButton;
+
+    void initWidgets();
+    void layout();
+    void connectSignals();
+    void populateMediaTypeComBox();
+    void populatePlatformComBox();
 };
 
-#endif
+#endif // MEDIAIMAGEPATHDIALOG_H

@@ -21,7 +21,7 @@
 #include "namedialog.h"
 
 NameDialog::NameDialog(QWidget *parent, EmuFrontObject *efObj)
-        : EmuFrontDialog(parent), efObject(efObj)
+        : DataObjectEditDialog(parent, efObj)
 {
 	nameLabel = new QLabel(tr("&Name: "));	
 	nameEdit = new QLineEdit;

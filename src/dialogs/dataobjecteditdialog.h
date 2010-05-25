@@ -17,43 +17,20 @@
 // You should have received a copy of the GNU General Public License
 // along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef NAMEDIALOG_H
-#define NAMEDIALOG_H
+#ifndef DATAOBJECTEDITDIALOG_H
+#define DATAOBJECTEDITDIALOG_H
 
+#include "emufrontdialog.h"
 #include "../dataobjects/emufrontobject.h"
-#include "dataobjecteditdialog.h"
 
-class QLabel;
-class QLineEdit;
-class QPushButton;
-class QDialogButtonBox;
-
-class NameDialog : public DataObjectEditDialog
+class DataObjectEditDialog : public EmuFrontDialog
 {
-	Q_OBJECT
-
+       Q_OBJECT
 public:
-    NameDialog(QWidget *parent = 0, EmuFrontObject * = 0);
-    ~NameDialog();
+    DataObjectEditDialog(QWidget *parent, EmuFrontObject *ob);
     virtual void setDataObject(EmuFrontObject *) = 0;
-
-signals:
-    void dataObjectUpdated();
-
-protected slots:
-    void acceptChanges();
-    void rejectChanges();
-    void enableSaveButton(const QString &);
-
 protected:
-    virtual void setDataObject(QString name) =0;
-	QLabel *nameLabel;
-	QLineEdit *nameEdit;
-    QDialogButtonBox *buttonBox;
-
-private:
-	void connectSignals();
-	void layout();
+    EmuFrontObject *efObject;
 };
 
-#endif
+#endif // DATAOBJECTEDITDIALOG_H
