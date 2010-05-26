@@ -19,6 +19,7 @@
 
 #include <QApplication>
 #include <QTextStream>
+#include <QDebug>
 #include <iostream>
 #include "mainwindow.h"
 #include "db/databasemanager.h"
@@ -28,16 +29,17 @@ int main(int argc, char *argv[])
 {
 	QApplication app(argc, argv);
 	QTextStream cout(stdout, QIODevice::WriteOnly);
+    QStringList arglst = app.arguments();
+
+    bool reset = arglst.contains("reset", Qt::CaseInsensitive);
+
+    if (reset) qDebug() << "Database Reset requested";
 
     if (DatabaseManager::openDB())
         cout << " Database opened succesfully!" << endl;
 	else cout << " Database connection failed!" << endl;
 
-    if (DbCreator::dbExists())
-    {
-		cout << " Database exists!" << endl;
-    }
-	else 
+    if (reset || !DbCreator::dbExists())
 	{
         try
         {
@@ -51,7 +53,9 @@ int main(int argc, char *argv[])
 			exit(1);
 		}
     }
-	MainWindow *mw = new MainWindow;
+    else cout << " Database exists!" << endl;
+
+    MainWindow *mw = new MainWindow;
 	mw->show();
 	return app.exec();
 }

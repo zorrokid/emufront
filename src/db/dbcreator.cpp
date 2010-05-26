@@ -27,7 +27,7 @@
 using namespace std;
 
 const int DbCreator::TABLES_COUNT = 3;
-const QString DbCreator::TABLES[] = {"platform", "mediatype", "filetype"};
+const QString DbCreator::TABLES[] = {"platform", "mediatype", "filepath"};
 
 DbCreator::DbCreator(QObject *parent) : QObject(parent)
 {
@@ -44,6 +44,7 @@ bool DbCreator::createDB()
         /*if (!tableExists("platform"))
         {*/
             qDebug() << "Creating table platform";
+            query.exec("drop table if exists platform");
             ret = query.exec("create table if not exists platform "
                              "(id integer primary key, "
                              "name varchar(30), "
@@ -53,6 +54,7 @@ bool DbCreator::createDB()
         if (!tableExists("mediatype"))
         {*/
             qDebug() << "Creating table mediatype ";
+            query.exec("drop table if exists mediatype");
             ret = query.exec("create table if not exists mediatype "
                              "(id integer primary key, "
                              "name varchar(30), "
@@ -74,13 +76,17 @@ bool DbCreator::createDB()
         if (!tableExists("filepath"))
         {*/
             qDebug() << "Creating table filepath";
-            query.exec("create table filepath "
+            query.exec("drop table if exists filepath");
+            ret = query.exec("create table if not exists filepath "
                        "(id integer primary key, "
                        "name text, "
                        "filetypeid integer, "
                        "platformid integer, "
                        "mediatypeid integer, "
-                       "lastscanned numeric)");
+                       "lastscanned numeric, "
+                       "foreign key (platformid) references platform(id), "
+                       "foreign key (mediatypeid) references mediatype(id))");
+            if (ret) qDebug() << "Table filepath created succesfully!";
 
             if (!ret) throw QString("filepath");
         //}
