@@ -86,6 +86,31 @@ void DbObjectDialog::editObject()
     activateNameDialog();
 }
 
+bool DbObjectDialog::deleteItem()
+{
+    QModelIndex index = objectList->currentIndex();
+    if (!index.isValid()) return false;
+
+    EmuFrontObject *ob = dbManager->getDataObjectFromModel(&index);
+    if (!ob) return false;
+
+    int numBindings = dbManager->countDataObjectRefs(ob->getId());
+    if (numBindings > 0 && !confirmDelete(ob->getName(), numBindings))
+    {
+            return false;
+    }
+    deleteCurrentObject();
+    bool delOk = dbManager->deleteDataObjectFromModel(&index);
+    if (!delOk)
+    {
+        qDebug() << "delete failed";
+        return false;
+    }
+    updateList();
+    objectList->setFocus();
+    return false;
+}
+
 void DbObjectDialog::updateDb(const EmuFrontObject *ob) const
 {
     if (!ob) return;

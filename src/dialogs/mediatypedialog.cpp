@@ -55,7 +55,7 @@ void MediaTypeDialog::deleteCurrentObject()
     delete dynamic_cast<MediaType*>(dbObject);
 }
 
-bool MediaTypeDialog::deleteItem()
+/*bool MediaTypeDialog::deleteItem()
 {
     qDebug() << "MediaTypeDialog::deleteItem()";
     QModelIndex index = objectList->currentIndex();
@@ -90,4 +90,4 @@ bool MediaTypeDialog::deleteItem()
     updateList();
     objectList->setFocus();
     return false;
-}
+}*/

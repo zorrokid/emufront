@@ -50,9 +50,3 @@ void MediaImagePathMainDialog::deleteCurrentObject()
 {
     delete dynamic_cast<FilePathObject*>(dbObject);
 }
-
-bool MediaImagePathMainDialog::deleteItem()
-{
-    return false;
-}
-

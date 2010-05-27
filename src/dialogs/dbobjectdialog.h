@@ -51,7 +51,7 @@ protected:
     // implementation specific, deletes current data object from memory
     virtual void deleteCurrentObject();
     virtual EmuFrontObject* createObject() = 0;
-    virtual bool deleteItem() = 0;
+    bool deleteItem();
     void addObject();
     void insertDb(const EmuFrontObject*) const;
     void updateDb(const EmuFrontObject*) const;

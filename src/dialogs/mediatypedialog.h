@@ -33,7 +33,6 @@ public:
 protected:
     virtual void deleteCurrentObject();
     virtual EmuFrontObject* createObject();
-    virtual bool deleteItem();
 };
 
 #endif // MEDIATYPEDIALOG_H
