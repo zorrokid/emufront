@@ -25,8 +25,10 @@
 class QAction;
 class PlatformDialog;
 class MediaTypeDialog;
+class MediaImagePathMainDialog;
 class QLabel;
 class DatabaseManager;
+class EmuFrontDialog;
 
 class MainWindow : public QMainWindow
 {
@@ -42,6 +44,7 @@ protected:
 private slots:
 	void configurePlatforms();
     void configureMediaTypes();
+    void configureMediaImagePaths();
 
 private:
 	void createActions();
@@ -50,13 +53,16 @@ private:
 	void readSettings();
 	void writeSettings();
 	bool okToContinue();
+    void activateDialog(EmuFrontDialog*) const;
 	PlatformDialog *platformDialog;
     MediaTypeDialog *mediaTypeDialog;
+    MediaImagePathMainDialog *mediaImagePathDialog;
 	QMenu *configMenu;
 	QMenu *fileMenu;
     QAction *configPlatformAction;
     QAction *configMediaTypeAction;
-	QAction *exitAction;
+    QAction *configMediaImagePathAction;
+    QAction *exitAction;
 	QLabel *messageLabel;
     DatabaseManager *dbManager;
 };

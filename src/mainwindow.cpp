@@ -21,6 +21,7 @@
 #include "mainwindow.h"
 #include "dialogs/platformdialog.h"
 #include "dialogs/mediatypedialog.h"
+#include "dialogs/mediaimagepathmaindialog.h"
 #include "db/databasemanager.h"
 
 MainWindow::MainWindow()
@@ -45,6 +46,11 @@ void MainWindow::createActions()
     configMediaTypeAction->setStatusTip(tr("Configure media types"));
     connect(configMediaTypeAction, SIGNAL(triggered()), this, SLOT(configureMediaTypes()));
 
+    configMediaImagePathAction = new QAction(tr("Media &Image Paths"), this);
+    configMediaImagePathAction->setStatusTip(tr("Configure media image file paths."));
+    connect(configMediaImagePathAction, SIGNAL(triggered()),
+        this, SLOT(configureMediaImagePaths()));
+
     exitAction = new QAction(tr("&Exit"), this);
     exitAction->setShortcut(tr("Ctrl+Q"));
     exitAction->setStatusTip(tr("Exit EmuFront"));
@@ -57,9 +63,7 @@ void MainWindow::configurePlatforms()
    {
        platformDialog = new PlatformDialog(this);
    } 
-   platformDialog->show();
-   platformDialog->raise();
-   platformDialog->activateWindow();
+   activateDialog(platformDialog);
 }
 
 void MainWindow::configureMediaTypes()
@@ -68,10 +72,26 @@ void MainWindow::configureMediaTypes()
     {
         mediaTypeDialog = new MediaTypeDialog(this);
    }
-   mediaTypeDialog->show();
-   mediaTypeDialog->raise();
-   mediaTypeDialog->activateWindow();
+   activateDialog(mediaTypeDialog);
 }
+
+void MainWindow::configureMediaImagePaths()
+{
+    /*if (!mediaImagePathDialog)
+    {
+        mediaImagePathDialog = new MediaImagePathMainDialog(this);
+    }
+    activateDialog(mediaImagePathDialog);
+    */
+}
+
+void MainWindow::activateDialog(EmuFrontDialog* dia) const
+{
+    dia->show();
+    dia->raise();
+    dia->activateWindow();
+}
+
 
 void MainWindow::createMenus()
 {
@@ -81,6 +101,7 @@ void MainWindow::createMenus()
     configMenu = menuBar()->addMenu(tr("&Config"));
     configMenu->addAction(configPlatformAction);
     configMenu->addAction(configMediaTypeAction);
+    configMenu->addAction(configMediaImagePathAction);
 }
 
 void MainWindow::createStatusBar()
