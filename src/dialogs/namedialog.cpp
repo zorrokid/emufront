@@ -68,6 +68,7 @@ void NameDialog::layout()
 void NameDialog::rejectChanges()
 {
     efObject = 0;
+    emit updateRejected();
     close();
 }
 
@@ -86,7 +87,7 @@ void NameDialog::acceptChanges()
     close();
 }
 
-void NameDialog::enableSaveButton(const QString &text)
+void NameDialog::enableSaveButton(const QString &/*text*/)
 {
     //saveButton->setEnabled(!text.isEmpty());
 }

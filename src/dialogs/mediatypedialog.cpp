@@ -53,41 +53,5 @@ EmuFrontObject* MediaTypeDialog::createObject()
 void MediaTypeDialog::deleteCurrentObject()
 {
     delete dynamic_cast<MediaType*>(dbObject);
+    dbObject = 0;
 }
-
-/*bool MediaTypeDialog::deleteItem()
-{
-    qDebug() << "MediaTypeDialog::deleteItem()";
-    QModelIndex index = objectList->currentIndex();
-    if (!index.isValid()) return false;
-
-    qDebug() << "Index is valid";
-
-    // TODO: when implementing data bindings to platform
-    // we need to check if platform being removed has bindings
-    // and a) ask user if this platform should be removed
-    // b) remove all the data associated to this platform
-
-    EmuFrontObject *ob = dynamic_cast<DbMediaType*>(dbManager)->getDataObjectFromModel(&index);
-    if (!ob) return false;
-
-    MediaType *plf = dynamic_cast<MediaType*>(ob);
-
-    qDebug() << "Got platform" << plf->getName();
-
-    int numBindings = dynamic_cast<DbMediaType*>(dbManager)->countDataObjectRefs(plf->getId());
-    if (numBindings > 0 && !confirmDelete(plf->getName(), numBindings))
-    {
-        return false;
-    }
-    delete plf;
-    bool delOk = (dynamic_cast<DbMediaType *>(dbManager))->deleteDataObjectFromModel(&index);
-    if (!delOk)
-    {
-        qDebug() << "delete failed";
-        return false;
-    }
-    updateList();
-    objectList->setFocus();
-    return false;
-}*/

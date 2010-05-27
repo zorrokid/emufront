@@ -78,3 +78,13 @@ void MediaImagePathDialog::layout()
 void MediaImagePathDialog::setDataObject(EmuFrontObject *)
 {
 }
+
+void MediaImagePathDialog::acceptChanges()
+{
+}
+
+void MediaImagePathDialog::rejectChanges()
+{
+    // we don't
+    efObject = 0;
+}

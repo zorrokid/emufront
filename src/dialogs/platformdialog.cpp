@@ -40,15 +40,19 @@ PlatformDialog::PlatformDialog(QWidget *parent)
 
 PlatformDialog::~PlatformDialog()
 {
+    qDebug() << "PlatformDialog destructor.";
     deleteCurrentObject();
 }
 
 EmuFrontObject* PlatformDialog::createObject()
 {
+    qDebug() << "PlatformDialog creating a Platform object.";
     return new Platform;
 }
 
 void PlatformDialog::deleteCurrentObject()
 {
+    qDebug() << "PlatformDialog deleting a Platform object.";
     delete dynamic_cast<Platform*>(dbObject);
+    dbObject = 0;
 }

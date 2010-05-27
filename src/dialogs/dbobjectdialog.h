@@ -44,8 +44,8 @@ protected slots:
 	void deleteButtonClicked();
 	void listObjectClicked(const QModelIndex &);
     void updateData();
+    void updateReject();
     void updateList() const;
-    private slots:
 
 protected:
     // implementation specific, deletes current data object from memory
@@ -66,7 +66,6 @@ private:
     void activateNameDialog();
     bool confirmDelete(QString name, int numRefs);
     QTableView *objectList;
-
 	void setButtonsEnabled(bool);
     void layout();
     void disableSelection();
@@ -74,7 +73,6 @@ private:
     QPushButton *editButton;
     QPushButton *addButton;
     QPushButton *deleteButton;
-
 };
 
 #endif

@@ -26,11 +26,18 @@
 class DataObjectEditDialog : public EmuFrontDialog
 {
        Q_OBJECT
+
 public:
     DataObjectEditDialog(QWidget *parent, EmuFrontObject *ob);
     virtual void setDataObject(EmuFrontObject *) = 0;
+
 protected:
     EmuFrontObject *efObject;
+
+protected slots:
+    virtual void acceptChanges() =0;
+    virtual void rejectChanges() =0;
+
 };
 
 #endif // DATAOBJECTEDITDIALOG_H

@@ -39,10 +39,11 @@ public:
 
 signals:
     void dataObjectUpdated();
+    void updateRejected();
 
 protected slots:
-    void acceptChanges();
-    void rejectChanges();
+    virtual void acceptChanges();
+    virtual void rejectChanges();
     void enableSaveButton(const QString &);
 
 protected:

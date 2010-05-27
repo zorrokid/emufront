@@ -35,6 +35,10 @@ public:
     MediaImagePathDialog(QWidget *parent, EmuFrontObject*);
     virtual void setDataObject(EmuFrontObject *);
 
+protected slots:
+    virtual void acceptChanges();
+    virtual void rejectChanges();
+
 private:
     QDialogButtonBox *buttonBox;
     QComboBox *mediaTypeComBox;

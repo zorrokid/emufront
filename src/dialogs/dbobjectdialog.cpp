@@ -60,6 +60,7 @@ void DbObjectDialog::connectSignals()
     connect(addButton, SIGNAL(clicked()), this, SLOT(addButtonClicked()));
     connect(deleteButton, SIGNAL(clicked()), this, SLOT(deleteButtonClicked()));
     connect(nameDialog, SIGNAL(dataObjectUpdated()), this, SLOT(updateData()));
+    connect(nameDialog, SIGNAL(updateRejected()), this, SLOT(updateReject()));
 }
 
 void DbObjectDialog::insertDb(const EmuFrontObject *ob) const
@@ -199,9 +200,17 @@ void DbObjectDialog::initDataTable()
    objectList->setSelectionMode(QAbstractItemView::SingleSelection);
    objectList->resizeColumnsToContents();
 }
+
+void DbObjectDialog::updateReject()
+{
+    qDebug() << "Update rejected ... going to delete current object.";
+    // we don't want to keep this in memory
+    deleteCurrentObject();
+}
+
 void DbObjectDialog::updateData()
 {
-    qDebug() << "Update data";
+    qDebug() << "Update accepted.";
     // update data model
     if (!dbObject) return;
 
