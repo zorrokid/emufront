@@ -67,6 +67,13 @@ void DbObjectDialog::insertDb(const EmuFrontObject *ob) const
     dbManager->insertDataObjectToModel(ob);
 }
 
+void DbObjectDialog::addObject()
+{
+    deleteCurrentObject();
+    dbObject = createObject();
+    nameDialog->setDataObject(dbObject);
+    activateNameDialog();
+}
 
 void DbObjectDialog::editObject()
 {

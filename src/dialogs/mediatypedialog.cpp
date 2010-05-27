@@ -45,12 +45,9 @@ MediaTypeDialog::~MediaTypeDialog()
     deleteCurrentObject();
 }
 
-void MediaTypeDialog::addObject()
+EmuFrontObject* MediaTypeDialog::createObject()
 {
-    deleteCurrentObject();
-    dbObject = new MediaType;
-    nameDialog->setDataObject(dbObject);
-    activateNameDialog();
+    return new MediaType;
 }
 
 void MediaTypeDialog::deleteCurrentObject()

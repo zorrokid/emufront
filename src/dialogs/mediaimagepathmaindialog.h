@@ -32,7 +32,7 @@ public:
 
 protected:
     virtual void deleteCurrentObject();
-    virtual void addObject();
+    virtual EmuFrontObject* createObject();
     virtual bool deleteItem();
 };
 

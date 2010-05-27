@@ -43,18 +43,9 @@ PlatformDialog::~PlatformDialog()
     deleteCurrentObject();
 }
 
-void PlatformDialog::addObject()
+EmuFrontObject* PlatformDialog::createObject()
 {
-    /*if (!nameDialog)
-    {
-        if (!dbObject) dbObject = new Platform;
-        nameDialog = new PlatformNameDialog(this, dynamic_cast<Platform*>(dbObject));
-    }*/
-
-    deleteCurrentObject();
-    dbObject = new Platform;
-    nameDialog->setDataObject(dbObject);
-    activateNameDialog();
+    return new Platform;
 }
 
 void PlatformDialog::deleteCurrentObject()

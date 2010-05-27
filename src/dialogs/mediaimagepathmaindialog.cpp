@@ -36,17 +36,14 @@ MediaImagePathMainDialog::MediaImagePathMainDialog(QWidget *parent)
     connectSignals();
 }
 
+EmuFrontObject* MediaImagePathMainDialog::createObject()
+{
+    return new FilePathObject;
+}
+
 MediaImagePathMainDialog::~MediaImagePathMainDialog()
 {
     deleteCurrentObject();
-}
-
-void MediaImagePathMainDialog::addObject()
-{
-    deleteCurrentObject();
-    dbObject = new FilePathObject;
-    nameDialog->setDataObject(dbObject);
-    activateNameDialog();
 }
 
 void MediaImagePathMainDialog::deleteCurrentObject()
