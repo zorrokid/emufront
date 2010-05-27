@@ -34,7 +34,6 @@ protected:
     virtual void deleteCurrentObject();
     virtual void addObject();
     virtual bool deleteItem();
-    virtual void insertDb(const EmuFrontObject*) const;
 };
 
 #endif // MEDIATYPEDIALOG_H

@@ -62,6 +62,12 @@ void DbObjectDialog::connectSignals()
     connect(nameDialog, SIGNAL(dataObjectUpdated()), this, SLOT(updateData()));
 }
 
+void DbObjectDialog::insertDb(const EmuFrontObject *ob) const
+{
+    dbManager->insertDataObjectToModel(ob);
+}
+
+
 void DbObjectDialog::editObject()
 {
     QModelIndex index = objectList->currentIndex();

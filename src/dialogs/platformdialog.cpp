@@ -62,11 +62,6 @@ void PlatformDialog::deleteCurrentObject()
     delete dynamic_cast<Platform*>(dbObject);
 }
 
-void PlatformDialog::insertDb(const EmuFrontObject *ob) const
-{
-    (dynamic_cast<DbPlatform*>(dbManager))->insertDataObjectToModel(ob);
-}
-
 bool PlatformDialog::deleteItem()
 {
     qDebug() << "PlatformDialog::deleteItem()";
