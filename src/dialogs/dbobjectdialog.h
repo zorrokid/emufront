@@ -51,21 +51,22 @@ protected:
     // implementation specific, deletes current data object from memory
     virtual void deleteCurrentObject();
     virtual EmuFrontObject* createObject() = 0;
+    void initDataTable();
+    void connectSignals();
+    DataObjectEditDialog *nameDialog;
+    EmuFrontObject *dbObject;
+    DatabaseManager *dbManager;
+
+private:
     bool deleteItem();
     void addObject();
     void insertDb(const EmuFrontObject*) const;
     void updateDb(const EmuFrontObject*) const;
     void editObject();
-    void connectSignals();
     void activateNameDialog();
-    void initDataTable();
     bool confirmDelete(QString name, int numRefs);
-    DataObjectEditDialog *nameDialog;
-    DatabaseManager *dbManager;
     QTableView *objectList;
-    EmuFrontObject *dbObject;
 
-private:
 	void setButtonsEnabled(bool);
     void layout();
     void disableSelection();
