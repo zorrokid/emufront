@@ -34,7 +34,6 @@ protected:
     virtual int deleteObject();
     virtual void deleteCurrentObject();
 	virtual void addObject();
-	virtual void editObject();
     virtual bool deleteItem();
     virtual void updateDb(const EmuFrontObject*) const;
     virtual void insertDb(const EmuFrontObject*) const;

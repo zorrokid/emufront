@@ -52,10 +52,10 @@ protected:
     // implementation specific, deletes current data object from memory
     virtual void deleteCurrentObject();
 	virtual void addObject() =0;
-	virtual void editObject() =0;
     virtual bool deleteItem() = 0;
     virtual void updateDb(const EmuFrontObject*) const = 0;
     virtual void insertDb(const EmuFrontObject*) const = 0;
+    void editObject();
     void connectSignals();
     void activateNameDialog();
     void initDataTable();

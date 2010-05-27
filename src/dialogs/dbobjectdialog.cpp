@@ -62,6 +62,17 @@ void DbObjectDialog::connectSignals()
     connect(nameDialog, SIGNAL(dataObjectUpdated()), this, SLOT(updateData()));
 }
 
+void DbObjectDialog::editObject()
+{
+    QModelIndex index = objectList->currentIndex();
+    if (!index.isValid())
+        return;
+    deleteCurrentObject();
+    dbObject = dbManager->getDataObjectFromModel(&index);
+    nameDialog->setDataObject(dbObject);
+    activateNameDialog();
+}
+
 void DbObjectDialog::updateList() const
 {
     if (!dbManager) return;

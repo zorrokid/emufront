@@ -26,14 +26,10 @@
 #include "platformdialog.h"
 #include "platformnamedialog.h"
 
-
-//QTextStream cout(stdout, QIODevice::WriteOnly);
-
 PlatformDialog::PlatformDialog(QWidget *parent)
     : DbObjectDialog(parent)
 {
     setWindowTitle(tr("Set emulated platforms"));
-    //nameDialog = 0;
     nameDialog = new PlatformNameDialog(this, dynamic_cast<Platform*>(dbObject));
     dbManager = new DbPlatform(this);
     initDataTable();
@@ -66,24 +62,10 @@ void PlatformDialog::addObject()
     activateNameDialog();
 }
 
-void PlatformDialog::editObject()
-{
-    qDebug() << "editObject called_";
-    QModelIndex index = objectList->currentIndex();
-    if (!index.isValid())
-        return;
-    qDebug() << "we have a valid index";
-    delete dbObject;
-    dbObject = (dynamic_cast<DbPlatform*>(dbManager))->getDataObjectFromModel(&index);
-    nameDialog->setDataObject(dbObject);
-    activateNameDialog();
-}
-
 void PlatformDialog::deleteCurrentObject()
 {
     delete dynamic_cast<Platform*>(dbObject);
 }
-
 
 void PlatformDialog::updateDb(const EmuFrontObject *ob) const
 {

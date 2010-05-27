@@ -32,16 +32,13 @@ MediaImagePathMainDialog::MediaImagePathMainDialog(QWidget *parent)
     nameDialog = new MediaImagePathDialog(this, dynamic_cast<FilePathObject*>(dbObject));
     dbManager = new DbMediaImagePath(this);
     initDataTable();
+    // do not move to parent class:
     connectSignals();
-}
-
-void MediaImagePathMainDialog::connectSignals()
-{
 }
 
 MediaImagePathMainDialog::~MediaImagePathMainDialog()
 {
-    delete dynamic_cast<FilePathObject*>(dbObject);
+    deleteCurrentObject();
 }
 
 int MediaImagePathMainDialog::deleteObject()
@@ -51,17 +48,15 @@ int MediaImagePathMainDialog::deleteObject()
 
 void MediaImagePathMainDialog::addObject()
 {
-
-}
-
-void MediaImagePathMainDialog::editObject()
-{
-
+    deleteCurrentObject();
+    dbObject = new FilePathObject;
+    nameDialog->setDataObject(dbObject);
+    activateNameDialog();
 }
 
 void MediaImagePathMainDialog::deleteCurrentObject()
 {
-
+    delete dynamic_cast<FilePathObject*>(dbObject);
 }
 
 void MediaImagePathMainDialog::updateDb(const EmuFrontObject *) const

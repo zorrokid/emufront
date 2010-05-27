@@ -42,26 +42,13 @@ MediaTypeDialog::MediaTypeDialog(QWidget* parent)
 
 MediaTypeDialog::~MediaTypeDialog()
 {
-    delete dynamic_cast<MediaType*>(dbObject);
+    deleteCurrentObject();
 }
 
 void MediaTypeDialog::addObject()
 {
-    delete dynamic_cast<MediaType*>(dbObject);
+    deleteCurrentObject();
     dbObject = new MediaType;
-    nameDialog->setDataObject(dbObject);
-    activateNameDialog();
-}
-
-void MediaTypeDialog::editObject()
-{
-    qDebug() << "editObject called";
-    QModelIndex index = objectList->currentIndex();
-    if (!index.isValid())
-        return;
-    qDebug() << "we have a valid index";
-    delete dbObject;
-    dbObject = (dynamic_cast<DbMediaType*>(dbManager))->getDataObjectFromModel(&index);
     nameDialog->setDataObject(dbObject);
     activateNameDialog();
 }
