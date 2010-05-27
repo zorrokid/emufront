@@ -52,8 +52,8 @@ protected:
     virtual void deleteCurrentObject();
 	virtual void addObject() =0;
     virtual bool deleteItem() = 0;
-    virtual void updateDb(const EmuFrontObject*) const = 0;
     virtual void insertDb(const EmuFrontObject*) const = 0;
+    void updateDb(const EmuFrontObject*) const;
     void editObject();
     void connectSignals();
     void activateNameDialog();

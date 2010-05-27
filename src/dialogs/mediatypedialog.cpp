@@ -58,13 +58,6 @@ void MediaTypeDialog::deleteCurrentObject()
     delete dynamic_cast<MediaType*>(dbObject);
 }
 
-void MediaTypeDialog::updateDb(const EmuFrontObject *ob) const
-{
-    if (!ob) return;
-    qDebug() << "Updating media type" << ob->getName();
-    (dynamic_cast<DbMediaType*>(dbManager))->updateDataObjectToModel(ob);
-}
-
 void MediaTypeDialog::insertDb(const EmuFrontObject *ob) const
 {
     (dynamic_cast<DbMediaType*>(dbManager))->insertDataObjectToModel(ob);

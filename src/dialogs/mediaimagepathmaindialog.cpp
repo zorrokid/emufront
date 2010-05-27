@@ -54,11 +54,6 @@ void MediaImagePathMainDialog::deleteCurrentObject()
     delete dynamic_cast<FilePathObject*>(dbObject);
 }
 
-void MediaImagePathMainDialog::updateDb(const EmuFrontObject *) const
-{
-
-}
-
 void MediaImagePathMainDialog::insertDb(const EmuFrontObject *) const
 {
 

@@ -40,7 +40,7 @@ PlatformDialog::PlatformDialog(QWidget *parent)
 
 PlatformDialog::~PlatformDialog()
 {
-    delete dynamic_cast<Platform*>(dbObject);
+    deleteCurrentObject();
 }
 
 void PlatformDialog::addObject()
@@ -51,7 +51,7 @@ void PlatformDialog::addObject()
         nameDialog = new PlatformNameDialog(this, dynamic_cast<Platform*>(dbObject));
     }*/
 
-    delete dynamic_cast<Platform*>(dbObject);
+    deleteCurrentObject();
     dbObject = new Platform;
     nameDialog->setDataObject(dbObject);
     activateNameDialog();
@@ -60,13 +60,6 @@ void PlatformDialog::addObject()
 void PlatformDialog::deleteCurrentObject()
 {
     delete dynamic_cast<Platform*>(dbObject);
-}
-
-void PlatformDialog::updateDb(const EmuFrontObject *ob) const
-{
-    if (!ob) return;
-    qDebug() << "Updating platform " << ob->getName();
-    (dynamic_cast<DbPlatform*>(dbManager))->updateDataObjectToModel(ob);
 }
 
 void PlatformDialog::insertDb(const EmuFrontObject *ob) const

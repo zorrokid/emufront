@@ -73,6 +73,13 @@ void DbObjectDialog::editObject()
     activateNameDialog();
 }
 
+void DbObjectDialog::updateDb(const EmuFrontObject *ob) const
+{
+    if (!ob) return;
+    qDebug() << "Updating platform " << ob->getName();
+    dbManager->updateDataObjectToModel(ob);
+}
+
 void DbObjectDialog::updateList() const
 {
     if (!dbManager) return;
