@@ -38,7 +38,7 @@ public:
     DbObjectDialog(QWidget *parent = 0);
     ~DbObjectDialog();
 
-protected slots:
+private slots:
 	void editButtonClicked();
 	void addButtonClicked();
 	void deleteButtonClicked();
