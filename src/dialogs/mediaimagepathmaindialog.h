@@ -31,7 +31,6 @@ public:
     ~MediaImagePathMainDialog();
 
 protected:
-    virtual int deleteObject();
     virtual void deleteCurrentObject();
     virtual void addObject();
     virtual bool deleteItem();

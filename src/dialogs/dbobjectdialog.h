@@ -48,7 +48,6 @@ protected slots:
     private slots:
 
 protected:
-	virtual int deleteObject() =0;
     // implementation specific, deletes current data object from memory
     virtual void deleteCurrentObject();
 	virtual void addObject() =0;

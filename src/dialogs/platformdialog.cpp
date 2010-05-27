@@ -43,11 +43,6 @@ PlatformDialog::~PlatformDialog()
     delete dynamic_cast<Platform*>(dbObject);
 }
 
-int PlatformDialog::deleteObject()
-{
-    return 0;
-}
-
 void PlatformDialog::addObject()
 {
     /*if (!nameDialog)

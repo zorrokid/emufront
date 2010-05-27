@@ -41,11 +41,6 @@ MediaImagePathMainDialog::~MediaImagePathMainDialog()
     deleteCurrentObject();
 }
 
-int MediaImagePathMainDialog::deleteObject()
-{
-    return 0;
-}
-
 void MediaImagePathMainDialog::addObject()
 {
     deleteCurrentObject();

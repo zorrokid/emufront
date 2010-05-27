@@ -58,11 +58,6 @@ void MediaTypeDialog::deleteCurrentObject()
     delete dynamic_cast<MediaType*>(dbObject);
 }
 
-int MediaTypeDialog::deleteObject()
-{
-    return 0;
-}
-
 void MediaTypeDialog::updateDb(const EmuFrontObject *ob) const
 {
     if (!ob) return;
