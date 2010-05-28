@@ -32,7 +32,7 @@ HEADERS += mainwindow.h \
     dialogs/mediaimagepathdialog.h \
     dialogs/mediaimagepathmaindialog.h \
     dialogs/dataobjecteditdialog.h \
-    db/dbmediaimagepath.h
+    db/dbfilepath.h
 SOURCES += main.cpp \
     mainwindow.cpp \
     db/databasemanager.cpp \
@@ -54,4 +54,4 @@ SOURCES += main.cpp \
     dialogs/mediaimagepathdialog.cpp \
     dialogs/mediaimagepathmaindialog.cpp \
     dialogs/dataobjecteditdialog.cpp \
-    db/dbmediaimagepath.cpp
+    db/dbfilepath.cpp

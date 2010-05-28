@@ -17,30 +17,31 @@
 // You should have received a copy of the GNU General Public License
 // along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef DBMEDIATYPE_H
-#define DBMEDIATYPE_H
+#ifndef DBFILEPATH_H
+#define DBFILEPATH_H
 
 #include "databasemanager.h"
 
-class DbMediaType : public DatabaseManager
+class DbFilePath : public DatabaseManager
 {
 public:
-    DbMediaType(QObject*);
+    DbFilePath(QObject *);    
     virtual QSqlTableModel* getDataModel();
     virtual EmuFrontObject* getDataObjectFromModel(QModelIndex*);
     virtual bool updateDataObjectToModel(const EmuFrontObject*);
-    virtual bool insertDataObjectToModel(const EmuFrontObject*);
-    virtual bool deleteDataObjectFromModel(QModelIndex*);
-    virtual int countDataObjectRefs(int) const;
+    bool insertDataObjectToModel(const EmuFrontObject*);
+    bool deleteDataObjectFromModel(QModelIndex*);
+    int countDataObjectRefs(int) const;
 
 private:
-    enum {
-        MediaType_Id = 0,
-        MediaType_Name = 1,
-        MediaType_Filename = 2 };
-    static const QString DB_TABLE_NAME_MEDIATYPE;
     virtual QSqlTableModel* getData();
-
+    enum { FilePath_Id = 0,
+           FilePath_Name = 1,
+           FilePath_FileTypeId = 3,
+           FilePath_PlatformId = 4,
+           FilePath_MediaTypeId = 5,
+           FilePath_LastScanned = 6 };
+    static const QString DB_TABLE_NAME_FILEPATH;
 };
 
-#endif // DBMEDIATYPE_H
+#endif // DBFILEPATH_H

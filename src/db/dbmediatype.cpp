@@ -22,6 +22,7 @@
 #include <QSqlTableModel>
 #include <QDebug>
 #include "dbmediatype.h"
+#include "../dataobjects/mediatype.h"
 
 const QString DbMediaType::DB_TABLE_NAME_MEDIATYPE = QString("mediatype");
 

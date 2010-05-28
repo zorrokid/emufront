@@ -77,12 +77,11 @@ void MainWindow::configureMediaTypes()
 
 void MainWindow::configureMediaImagePaths()
 {
-    /*if (!mediaImagePathDialog)
+    if (!mediaImagePathDialog)
     {
         mediaImagePathDialog = new MediaImagePathMainDialog(this);
     }
     activateDialog(mediaImagePathDialog);
-    */
 }
 
 void MainWindow::activateDialog(EmuFrontDialog* dia) const

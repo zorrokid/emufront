@@ -17,37 +17,46 @@
 // You should have received a copy of the GNU General Public License
 // along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <QtGui>
-
-#include "mediaimagepathmaindialog.h"
-#include "mediaimagepathdialog.h"
+#include <QSqlTableModel>
+#include "dbfilepath.h"
 #include "../dataobjects/filepathobject.h"
-#include "../db/dbfilepath.h"
 
-
-MediaImagePathMainDialog::MediaImagePathMainDialog(QWidget *parent)
-    : DbObjectDialog(parent)
+DbFilePath::DbFilePath(QObject *parent) : DatabaseManager(parent)
 {
-    setWindowTitle(tr("Set media image paths"));
-    nameDialog = new MediaImagePathDialog(this, dynamic_cast<FilePathObject*>(dbObject));
-    dbManager = new DbFilePath(this);
-    initDataTable();
-    // do not move to parent class:
-    connectSignals();
+}
+QSqlTableModel* DbFilePath::getDataModel()
+{
+    return sqlTableModel;
 }
 
-EmuFrontObject* MediaImagePathMainDialog::createObject()
+EmuFrontObject* DbFilePath::getDataObjectFromModel(QModelIndex *index)
 {
     return new FilePathObject;
 }
 
-MediaImagePathMainDialog::~MediaImagePathMainDialog()
+bool DbFilePath::updateDataObjectToModel(const EmuFrontObject *ob)
 {
-    deleteCurrentObject();
+    return false;
 }
 
-void MediaImagePathMainDialog::deleteCurrentObject()
+bool DbFilePath::insertDataObjectToModel(const EmuFrontObject *ob)
 {
-    delete dynamic_cast<FilePathObject*>(dbObject);
-    dbObject = 0;
+    return false;
+}
+
+int DbFilePath::countDataObjectRefs(int id) const
+{
+    return 0;
+}
+
+// WARNING: this will delete also all the databindings to selected media image path
+bool DbFilePath::deleteDataObjectFromModel(QModelIndex *index)
+{
+    return false;
+}
+
+QSqlTableModel* DbFilePath::getData()
+{
+   QSqlTableModel *model = new QSqlTableModel(this);
+   return model;
 }
