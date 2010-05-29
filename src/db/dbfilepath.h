@@ -41,7 +41,6 @@ private:
            FilePath_PlatformId = 4,
            FilePath_MediaTypeId = 5,
            FilePath_LastScanned = 6 };
-    static const QString DB_TABLE_NAME_FILEPATH;
 };
 
 #endif // DBFILEPATH_H

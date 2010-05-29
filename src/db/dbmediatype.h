@@ -25,21 +25,20 @@
 class DbMediaType : public DatabaseManager
 {
 public:
-    DbMediaType(QObject*);
+    DbMediaType(QObject *);
     virtual QSqlTableModel* getDataModel();
     virtual EmuFrontObject* getDataObjectFromModel(QModelIndex*);
     virtual bool updateDataObjectToModel(const EmuFrontObject*);
     virtual bool insertDataObjectToModel(const EmuFrontObject*);
     virtual bool deleteDataObjectFromModel(QModelIndex*);
     virtual int countDataObjectRefs(int) const;
-
-private:
     enum {
         MediaType_Id = 0,
         MediaType_Name = 1,
         MediaType_Filename = 2 };
-    static const QString DB_TABLE_NAME_MEDIATYPE;
-    virtual QSqlTableModel* getData();
+
+private:
+      virtual QSqlTableModel* getData();
 
 };
 

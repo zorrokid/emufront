@@ -33,6 +33,12 @@ MediaImagePathDialog::MediaImagePathDialog(QWidget *parent, EmuFrontObject *efOb
     connectSignals();
 }
 
+MediaImagePathDialog::~MediaImagePathDialog()
+{
+    delete mediaTypeComBox;
+    delete platformModel;
+}
+
 void MediaImagePathDialog::connectSignals()
 {
 }
@@ -49,6 +55,9 @@ void MediaImagePathDialog::initWidgets()
 
 void MediaImagePathDialog::populateMediaTypeComBox()
 {
+    dbMediaType = new DbMediaType(this);
+    mediaTypeComBox->setModel(dbMediaType->getDataModel());
+    mediaTypeComBox->setModelColumn(DbMediaType::MediaType_Name);
 }
 
 void MediaImagePathDialog::populatePlatformComBox()

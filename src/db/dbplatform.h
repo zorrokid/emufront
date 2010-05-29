@@ -41,7 +41,6 @@ private:
         Platform_Id = 0,
         Platform_Name = 1,
         Platform_Filename = 2 };
-    static const QString DB_TABLE_NAME_PLATFORM;
     virtual QSqlTableModel* getData();
 };
 

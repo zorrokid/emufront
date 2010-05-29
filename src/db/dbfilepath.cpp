@@ -17,13 +17,15 @@
 // You should have received a copy of the GNU General Public License
 // along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <QSqlTableModel>
+#include <QSqlRelationalTableModel>
 #include "dbfilepath.h"
 #include "../dataobjects/filepathobject.h"
 
 DbFilePath::DbFilePath(QObject *parent) : DatabaseManager(parent)
 {
+    sqlTableModel = getData();
 }
+
 QSqlTableModel* DbFilePath::getDataModel()
 {
     return sqlTableModel;
@@ -57,6 +59,15 @@ bool DbFilePath::deleteDataObjectFromModel(QModelIndex *index)
 
 QSqlTableModel* DbFilePath::getData()
 {
-   QSqlTableModel *model = new QSqlTableModel(this);
+   QSqlRelationalTableModel *model = new QSqlRelationalTableModel(this);
+   model->setTable(DB_TABLE_NAME_FILEPATH);
+   model->setRelation(FilePath_PlatformId,
+       QSqlRelation(DB_TABLE_NAME_PLATFORM, "id", "name"));
+   model->setRelation(FilePath_MediaTypeId,
+       QSqlRelation(DB_TABLE_NAME_MEDIATYPE, "id", "name"));
+   model->setSort(FilePath_Name, Qt::AscendingOrder);
+   model->setHeaderData(FilePath_MediaTypeId, Qt::Horizontal, tr("Media type"));
+   model->setHeaderData(FilePath_PlatformId, Qt::Horizontal, tr("Platform"));
+   model->select();
    return model;
 }

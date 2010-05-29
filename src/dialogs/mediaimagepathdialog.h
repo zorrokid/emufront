@@ -26,6 +26,9 @@ class QDialogButtonBox;
 class QComboBox;
 class QLabel;
 class QPushButton;
+class QSqlTableModel;
+class DbMediaType;
+class DbPlatform;
 
 class MediaImagePathDialog : public DataObjectEditDialog
 {
@@ -33,6 +36,7 @@ class MediaImagePathDialog : public DataObjectEditDialog
 
 public:
     MediaImagePathDialog(QWidget *parent, EmuFrontObject*);
+    ~MediaImagePathDialog();
     virtual void setDataObject(EmuFrontObject *);
 
 protected slots:
@@ -45,6 +49,10 @@ private:
     QComboBox *platformComBox;
     QLabel *filePathLabel;
     QPushButton *filePathButton;
+    QSqlTableModel *mediaTypeModel;
+    QSqlTableModel *platformModel;
+    DbMediaType *dbMediaType;
+    DbPlatform *dbPlatform;
 
     void initWidgets();
     void layout();

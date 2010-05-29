@@ -23,7 +23,6 @@
 #include <QDebug>
 #include "dbplatform.h"
 
-const QString DbPlatform::DB_TABLE_NAME_PLATFORM = QString("platform");
 
 DbPlatform::DbPlatform(QObject *parent) : DatabaseManager(parent)
 {

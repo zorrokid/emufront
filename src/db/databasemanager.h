@@ -53,6 +53,9 @@ protected:
     QSqlTableModel* sqlTableModel;
     //virtual QSqlTableModel* getDataModel() = 0;
     int countRows(QString tableName, QString columnName, int id) const;
+    static const QString DB_TABLE_NAME_FILEPATH;
+    static const QString DB_TABLE_NAME_MEDIATYPE;
+    static const QString DB_TABLE_NAME_PLATFORM;
 
 private:
 	static const QString DB_FILENAME;
