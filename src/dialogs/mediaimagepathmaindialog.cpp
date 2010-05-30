@@ -31,9 +31,9 @@ MediaImagePathMainDialog::MediaImagePathMainDialog(QWidget *parent)
     setWindowTitle(tr("Set media image paths"));
     nameDialog = new MediaImagePathDialog(this, dynamic_cast<FilePathObject*>(dbObject));
     dbManager = new DbFilePath(this);
-    initDataTable();
+    //initDataTable();
     // do not move to parent class:
-    connectSignals();
+    //connectSignals();
 }
 
 EmuFrontObject* MediaImagePathMainDialog::createObject()
