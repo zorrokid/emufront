@@ -46,7 +46,6 @@ protected slots:
     virtual void rejectChanges();
 
 private:
-    QDialogButtonBox *buttonBox;
     QComboBox *mediaTypeComBox;
     QComboBox *platformComBox;
     QLabel *filePathLabel;

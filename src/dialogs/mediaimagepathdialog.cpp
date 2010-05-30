@@ -28,14 +28,14 @@
 #include "../dataobjects/filepathobject.h"
 
 MediaImagePathDialog::MediaImagePathDialog(QWidget *parent, EmuFrontObject *efObject)
-    : DataObjectEditDialog(parent, efObject)
+    : DataObjectEditDialog(parent, efObject, Qt::Horizontal)
 {
     qDebug() << "Creating MediaImagePathDialog";
     initWidgets();
     populateMediaTypeComBox();
     populatePlatformComBox();
-    layout();
     connectSignals();
+    layout();
 }
 
 MediaImagePathDialog::~MediaImagePathDialog()
@@ -45,6 +45,7 @@ MediaImagePathDialog::~MediaImagePathDialog()
 
 void MediaImagePathDialog::connectSignals()
 {
+    DataObjectEditDialog::connectSignals();
     qDebug() << "MediaImagePathDialog Connecting signals";
 }
 
@@ -52,7 +53,6 @@ void MediaImagePathDialog::initWidgets()
 {
     qDebug() << "MediaImagePathDialog initializing widgets.";
     // these widgets will be automatically parented using layout components
-    buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, Qt::Horizontal);
     filePathLabel = new QLabel;
     filePathButton = new QPushButton(tr("&Browse filepath"));
     mediaTypeComBox = new QComboBox;
@@ -90,8 +90,10 @@ void MediaImagePathDialog::layout()
    gridLayout->addWidget(mediaTypeComBox, 1, 1);
    gridLayout->addWidget(filePathButton, 2, 0);
    gridLayout->addWidget(filePathLabel, 2, 1);
-   gridLayout->addWidget(buttonBox, 3, 0, 1, 2);
-   setLayout(gridLayout);
+   QVBoxLayout *mainLayout = new QVBoxLayout;
+   mainLayout->addLayout(gridLayout);
+   mainLayout->addWidget(buttonBox);
+   setLayout(mainLayout);
 
    setWindowTitle(tr("Set media image paths"));
 }
@@ -135,10 +137,12 @@ void MediaImagePathDialog::setSelected(const QSqlTableModel *model, QComboBox *c
 
 void MediaImagePathDialog::acceptChanges()
 {
+    close();
 }
 
 void MediaImagePathDialog::rejectChanges()
 {
-    // we don't
+    // we don't delete the data object here
     efObject = 0;
+    close();
 }

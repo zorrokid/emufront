@@ -23,12 +23,14 @@
 #include "emufrontdialog.h"
 #include "../dataobjects/emufrontobject.h"
 
+class QDialogButtonBox;
+
 class DataObjectEditDialog : public EmuFrontDialog
 {
        Q_OBJECT
 
 public:
-    DataObjectEditDialog(QWidget *parent, EmuFrontObject *ob);
+    DataObjectEditDialog(QWidget *parent, EmuFrontObject *ob, Qt::Orientation orientation = Qt::Horizontal);
     virtual void setDataObject(EmuFrontObject *) = 0;
 
 signals:
@@ -36,11 +38,16 @@ signals:
     void updateRejected();
 
 protected:
+    virtual void connectSignals();
     EmuFrontObject *efObject;
+    QDialogButtonBox *buttonBox;
 
 protected slots:
     virtual void acceptChanges() =0;
     virtual void rejectChanges() =0;
+
+private:
+    Qt::Orientation orientation;
 
 };
 

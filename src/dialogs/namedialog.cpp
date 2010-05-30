@@ -26,7 +26,6 @@ NameDialog::NameDialog(QWidget *parent, EmuFrontObject *efObj)
 	nameLabel = new QLabel(tr("&Name: "));	
 	nameEdit = new QLineEdit;
 	nameLabel->setBuddy(nameEdit);
-    buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Abort, Qt::Horizontal);
     connectSignals();
 	layout();
 	setWindowTitle(tr("Set names"));
@@ -45,9 +44,8 @@ NameDialog::~NameDialog()
 
 void NameDialog::connectSignals()
 {
+    DataObjectEditDialog::connectSignals();
     connect(nameEdit, SIGNAL(textChanged(const QString &)), this, SLOT(enableSaveButton(const QString &)));
-    connect(buttonBox, SIGNAL(accepted()), this, SLOT(acceptChanges()));
-    connect(buttonBox, SIGNAL(rejected()), this, SLOT(rejectChanges()));
 }
 
 void NameDialog::layout()

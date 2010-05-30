@@ -26,7 +26,6 @@
 class QLabel;
 class QLineEdit;
 class QPushButton;
-class QDialogButtonBox;
 
 class NameDialog : public DataObjectEditDialog
 {
@@ -46,7 +45,6 @@ protected:
     virtual void setDataObject(QString name) =0;
 	QLabel *nameLabel;
 	QLineEdit *nameEdit;
-    QDialogButtonBox *buttonBox;
 
 private:
 	void connectSignals();

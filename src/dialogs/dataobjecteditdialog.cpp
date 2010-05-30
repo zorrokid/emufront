@@ -17,9 +17,18 @@
 // You should have received a copy of the GNU General Public License
 // along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <QDialogButtonBox>
 #include "dataobjecteditdialog.h"
 
-DataObjectEditDialog::DataObjectEditDialog(QWidget *parent, EmuFrontObject *ob)
-    : EmuFrontDialog(parent), efObject(ob)
+DataObjectEditDialog::DataObjectEditDialog(QWidget *parent, EmuFrontObject *ob, Qt::Orientation orientation)
+    : EmuFrontDialog(parent), efObject(ob), orientation(orientation)
 {
+    qDebug("DataObjectEditDialog creating buttonBox");
+    buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Abort, orientation);
+}
+
+void DataObjectEditDialog::connectSignals()
+{
+    connect(buttonBox, SIGNAL(accepted()), this, SLOT(acceptChanges()));
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(rejectChanges()));
 }
