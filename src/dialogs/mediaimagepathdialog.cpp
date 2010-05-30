@@ -30,6 +30,7 @@
 MediaImagePathDialog::MediaImagePathDialog(QWidget *parent, EmuFrontObject *efObject)
     : DataObjectEditDialog(parent, efObject)
 {
+    qDebug() << "Creating MediaImagePathDialog";
     initWidgets();
     populateMediaTypeComBox();
     populatePlatformComBox();
@@ -39,14 +40,17 @@ MediaImagePathDialog::MediaImagePathDialog(QWidget *parent, EmuFrontObject *efOb
 
 MediaImagePathDialog::~MediaImagePathDialog()
 {
+    qDebug() << "Destroying MediaImagePathDialog";
 }
 
 void MediaImagePathDialog::connectSignals()
 {
+    qDebug() << "MediaImagePathDialog Connecting signals";
 }
 
 void MediaImagePathDialog::initWidgets()
 {
+    qDebug() << "MediaImagePathDialog initializing widgets.";
     // these widgets will be automatically parented using layout components
     buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, Qt::Horizontal);
     filePathLabel = new QLabel;
@@ -57,6 +61,7 @@ void MediaImagePathDialog::initWidgets()
 
 void MediaImagePathDialog::populateMediaTypeComBox()
 {
+    qDebug() << "MediaImagePathDialog populating media types combo box";
     dbMediaType = new DbMediaType(this);
     mediaTypeComBox->setModel(dbMediaType->getDataModel());
     mediaTypeComBox->setModelColumn(DbMediaType::MediaType_Name);
@@ -64,6 +69,7 @@ void MediaImagePathDialog::populateMediaTypeComBox()
 
 void MediaImagePathDialog::populatePlatformComBox()
 {
+    qDebug() << "MediaImagePathDialog populating platform combo box";
     dbPlatform = new DbPlatform(this);
     platformComBox->setModel(dbPlatform->getDataModel());
     platformComBox->setModelColumn(DbPlatform::Platform_Name);
@@ -71,6 +77,7 @@ void MediaImagePathDialog::populatePlatformComBox()
 
 void MediaImagePathDialog::layout()
 {
+    qDebug() << "MediaImagePathDialog setting layout";
    QLabel *platformLabel = new QLabel(tr("&Platform"));
    platformLabel->setBuddy(platformComBox);
    QLabel *mediaTypeLabel = new QLabel(tr("Media&Type"));
@@ -96,8 +103,8 @@ void MediaImagePathDialog::setDataObject(EmuFrontObject *ob)
     FilePathObject *fpo = dynamic_cast<FilePathObject*>(ob);
     QString fpath = fpo->getName();
     filePathLabel->setText(fpath);
-    setSelectedPlatform(fpo->getPlatform());
-    setSelectedMediaType(fpo->getMediaType());
+    if (fpo->getPlatform()) setSelectedPlatform(fpo->getPlatform());
+    if (fpo->getMediaType()) setSelectedMediaType(fpo->getMediaType());
 }
 
 void MediaImagePathDialog::setSelectedPlatform(const Platform *plf)

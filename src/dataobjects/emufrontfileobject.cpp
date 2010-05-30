@@ -19,11 +19,11 @@
 
 #include "emufrontfileobject.h"
 
-EmuFrontFileObject::EmuFrontFileObject() : EmuFrontObject()
+EmuFrontFileObject::EmuFrontFileObject() : EmuFrontObject(-1, ""), filename(""), filetype(-1)
 { }
 
 EmuFrontFileObject::EmuFrontFileObject(int id, QString name, QString filename)
-    : EmuFrontObject(id, name), filename(filename), filetype(0)
+    : EmuFrontObject(id, name), filename(filename), filetype(-1)
 {}
 
 EmuFrontFileObject::EmuFrontFileObject(int id, QString name, QString filename, int filetype)

@@ -19,7 +19,7 @@
 
 #include "emufrontobject.h"
 
-EmuFrontObject::EmuFrontObject() : id(-1), name(0)
+EmuFrontObject::EmuFrontObject() : id(-1), name("")
 {
 }
 

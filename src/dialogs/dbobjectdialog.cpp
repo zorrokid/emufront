@@ -27,6 +27,7 @@ DbObjectDialog::DbObjectDialog(QWidget *parent)
 {
     dbObject = 0;
     dbManager = 0;
+    nameDialog = 0;
     editButton = new QPushButton(tr("&Edit")); 
     editButton->setEnabled(false);
     addButton = new QPushButton(tr("&Add"));
@@ -53,6 +54,7 @@ DbObjectDialog::~DbObjectDialog()
 
 void DbObjectDialog::connectSignals()
 {
+    qDebug() << "DbObjectDialog connecting signals";
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(close()));
     connect(objectList, SIGNAL(clicked(const QModelIndex &)),
         this, SLOT(listObjectClicked(const QModelIndex &)));
@@ -70,6 +72,7 @@ void DbObjectDialog::insertDb(const EmuFrontObject *ob) const
 
 void DbObjectDialog::addObject()
 {
+    if (!nameDialog) return;
     deleteCurrentObject();
     dbObject = createObject();
     nameDialog->setDataObject(dbObject);

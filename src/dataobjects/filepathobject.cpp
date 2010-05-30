@@ -1,6 +1,6 @@
 #include "filepathobject.h"
 
-FilePathObject::FilePathObject()
+FilePathObject::FilePathObject() : EmuFrontFileObject(), platform(0), mediaType(0)
 {
 }
 
