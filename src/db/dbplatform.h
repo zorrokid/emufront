@@ -35,12 +35,12 @@ public:
     bool insertDataObjectToModel(const EmuFrontObject*);
     bool deleteDataObjectFromModel(QModelIndex*);
     int countDataObjectRefs(int) const;
-
-private:
     enum {
         Platform_Id = 0,
         Platform_Name = 1,
         Platform_Filename = 2 };
+
+private:
     virtual QSqlTableModel* getData();
 };
 

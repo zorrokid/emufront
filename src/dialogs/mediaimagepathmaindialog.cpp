@@ -19,21 +19,26 @@
 
 #include <QtGui>
 
-#include "mediaimagepathmaindialog.h"
-#include "mediaimagepathdialog.h"
 #include "../dataobjects/filepathobject.h"
 #include "../db/dbfilepath.h"
-
+#include "mediaimagepathmaindialog.h"
+#include "mediaimagepathdialog.h"
 
 MediaImagePathMainDialog::MediaImagePathMainDialog(QWidget *parent)
     : DbObjectDialog(parent)
 {
+    qDebug() << "MediaImagePathMainDialog";
     setWindowTitle(tr("Set media image paths"));
+    qDebug() << "Creating MediaImagePathDialog";
     nameDialog = new MediaImagePathDialog(this, dynamic_cast<FilePathObject*>(dbObject));
+    qDebug() << "Creating DbFilePath";
     dbManager = new DbFilePath(this);
-    //initDataTable();
+    qDebug() << "Initializing data table";
+    initDataTable();
+
+    qDebug() << "Connecting signals";
     // do not move to parent class:
-    //connectSignals();
+    connectSignals();
 }
 
 EmuFrontObject* MediaImagePathMainDialog::createObject()

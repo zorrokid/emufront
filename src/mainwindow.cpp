@@ -33,6 +33,7 @@ MainWindow::MainWindow()
     readSettings();
     platformDialog = 0;
     mediaTypeDialog = 0;
+    mediaImagePathDialog = 0;
 }
 
 void MainWindow::createActions()

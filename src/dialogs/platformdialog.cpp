@@ -18,9 +18,6 @@
 // along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QtGui>
-#include <QAbstractItemView>
-#include <QSqlTableModel>
-#include <QTextStream>
 #include "../db/dbplatform.h"
 #include "../dataobjects/platform.h"
 #include "platformdialog.h"

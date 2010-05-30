@@ -29,6 +29,8 @@ class QPushButton;
 class QSqlTableModel;
 class DbMediaType;
 class DbPlatform;
+class MediaType;
+class Platform;
 
 class MediaImagePathDialog : public DataObjectEditDialog
 {
@@ -59,6 +61,9 @@ private:
     void connectSignals();
     void populateMediaTypeComBox();
     void populatePlatformComBox();
+    void setSelectedMediaType(const MediaType *);
+    void setSelectedPlatform(const Platform *);
+    void setSelected(const QSqlTableModel*, QComboBox*, const EmuFrontObject*, int idIndex);
 };
 
 #endif // MEDIAIMAGEPATHDIALOG_H

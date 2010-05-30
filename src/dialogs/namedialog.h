@@ -37,10 +37,6 @@ public:
     ~NameDialog();
     virtual void setDataObject(EmuFrontObject *) = 0;
 
-signals:
-    void dataObjectUpdated();
-    void updateRejected();
-
 protected slots:
     virtual void acceptChanges();
     virtual void rejectChanges();

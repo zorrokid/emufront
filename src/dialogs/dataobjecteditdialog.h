@@ -31,6 +31,10 @@ public:
     DataObjectEditDialog(QWidget *parent, EmuFrontObject *ob);
     virtual void setDataObject(EmuFrontObject *) = 0;
 
+signals:
+    void dataObjectUpdated();
+    void updateRejected();
+
 protected:
     EmuFrontObject *efObject;
 

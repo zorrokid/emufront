@@ -19,9 +19,13 @@
 
 #include <QtGui>
 #include <QSqlTableModel>
+#include <QSqlRecord>
 #include "../db/dbplatform.h"
 #include "../db/dbmediatype.h"
 #include "mediaimagepathdialog.h"
+#include "../dataobjects/platform.h"
+#include "../dataobjects/mediatype.h"
+#include "../dataobjects/filepathobject.h"
 
 MediaImagePathDialog::MediaImagePathDialog(QWidget *parent, EmuFrontObject *efObject)
     : DataObjectEditDialog(parent, efObject)
@@ -35,8 +39,6 @@ MediaImagePathDialog::MediaImagePathDialog(QWidget *parent, EmuFrontObject *efOb
 
 MediaImagePathDialog::~MediaImagePathDialog()
 {
-    delete mediaTypeComBox;
-    delete platformModel;
 }
 
 void MediaImagePathDialog::connectSignals()
@@ -62,6 +64,9 @@ void MediaImagePathDialog::populateMediaTypeComBox()
 
 void MediaImagePathDialog::populatePlatformComBox()
 {
+    dbPlatform = new DbPlatform(this);
+    platformComBox->setModel(dbPlatform->getDataModel());
+    platformComBox->setModelColumn(DbPlatform::Platform_Name);
 }
 
 void MediaImagePathDialog::layout()
@@ -84,9 +89,42 @@ void MediaImagePathDialog::layout()
    setWindowTitle(tr("Set media image paths"));
 }
 
-void MediaImagePathDialog::setDataObject(EmuFrontObject *)
+void MediaImagePathDialog::setDataObject(EmuFrontObject *ob)
 {
+    if (!ob) return;
+    efObject = ob;
+    FilePathObject *fpo = dynamic_cast<FilePathObject*>(ob);
+    QString fpath = fpo->getName();
+    filePathLabel->setText(fpath);
+    setSelectedPlatform(fpo->getPlatform());
+    setSelectedMediaType(fpo->getMediaType());
 }
+
+void MediaImagePathDialog::setSelectedPlatform(const Platform *plf)
+{
+    setSelected(platformModel, platformComBox, plf, DbPlatform::Platform_Id);
+}
+
+void MediaImagePathDialog::setSelectedMediaType(const MediaType *plf)
+{
+    setSelected(mediaTypeModel, mediaTypeComBox, plf, DbMediaType::MediaType_Id);
+}
+
+// TODO: this might be useful to lever to upper classes
+void MediaImagePathDialog::setSelected(const QSqlTableModel *model, QComboBox *cbox, const EmuFrontObject *ob, int idIndex)
+{
+    if (!ob) return;
+    for (int i = 0; i < model->rowCount(); ++i)
+    {
+        QSqlRecord rec = model->record(i);
+        if (rec.value(idIndex) == ob->getId())
+        {
+            cbox->setCurrentIndex(i);
+            break;
+        }
+    }
+}
+
 
 void MediaImagePathDialog::acceptChanges()
 {
