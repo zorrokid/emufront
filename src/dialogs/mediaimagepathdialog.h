@@ -44,6 +44,7 @@ public:
 protected slots:
     virtual void acceptChanges();
     virtual void rejectChanges();
+    void browseFilePath();
 
 private:
     QComboBox *mediaTypeComBox;

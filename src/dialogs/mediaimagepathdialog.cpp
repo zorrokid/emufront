@@ -46,7 +46,13 @@ MediaImagePathDialog::~MediaImagePathDialog()
 void MediaImagePathDialog::connectSignals()
 {
     DataObjectEditDialog::connectSignals();
+    connect(filePathButton, SIGNAL(clicked()), this, SLOT(browseFilePath()));
     qDebug() << "MediaImagePathDialog Connecting signals";
+}
+
+void MediaImagePathDialog::browseFilePath()
+{
+
 }
 
 void MediaImagePathDialog::initWidgets()
