@@ -77,6 +77,7 @@ bool DbCreator::createDB()
         {*/
             qDebug() << "Creating table filepath";
             query.exec("drop table if exists filepath");
+            // TODO: add last scanned column
             ret = query.exec("create table if not exists filepath "
                        "(id integer primary key, "
                        "name text, "

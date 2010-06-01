@@ -35,6 +35,7 @@ public:
 
 private:
     virtual QSqlTableModel* getData();
+    // TODO: add last scanned column
     enum { FilePath_Id = 0,
            FilePath_Name = 1,
            FilePath_FileTypeId = 3,

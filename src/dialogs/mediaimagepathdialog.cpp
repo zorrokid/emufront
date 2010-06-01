@@ -52,7 +52,15 @@ void MediaImagePathDialog::connectSignals()
 
 void MediaImagePathDialog::browseFilePath()
 {
-
+    qDebug() << "Browse file path";
+    QString fpath = QFileDialog::getExistingDirectory(this, tr("Select a directory"), ".",
+        QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+    QDir d(fpath);
+    if (d.exists() && d.isReadable())
+    {
+        filePathLabel->setText(d.path());
+    }
+    qDebug() << fpath << " selected.";
 }
 
 void MediaImagePathDialog::initWidgets()
