@@ -51,8 +51,6 @@ private:
     QComboBox *platformComBox;
     QLabel *filePathLabel;
     QPushButton *filePathButton;
-    QSqlTableModel *mediaTypeModel;
-    QSqlTableModel *platformModel;
     DbMediaType *dbMediaType;
     DbPlatform *dbPlatform;
 
@@ -63,7 +61,7 @@ private:
     void populatePlatformComBox();
     void setSelectedMediaType(const MediaType *);
     void setSelectedPlatform(const Platform *);
-    void setSelected(const QSqlTableModel*, QComboBox*, const EmuFrontObject*, int idIndex);
+    void setSelected(QComboBox*, const EmuFrontObject*, int idIndex);
     Platform* getSelectedPlatform() const;
     MediaType* getSelectedMediaType() const;
 

@@ -125,18 +125,19 @@ void MediaImagePathDialog::setDataObject(EmuFrontObject *ob)
 
 void MediaImagePathDialog::setSelectedPlatform(const Platform *plf)
 {
-    setSelected(platformModel, platformComBox, plf, DbPlatform::Platform_Id);
+    setSelected(platformComBox, plf, DbPlatform::Platform_Id);
 }
 
 void MediaImagePathDialog::setSelectedMediaType(const MediaType *plf)
 {
-    setSelected(mediaTypeModel, mediaTypeComBox, plf, DbMediaType::MediaType_Id);
+    setSelected(mediaTypeComBox, plf, DbMediaType::MediaType_Id);
 }
 
 // TODO: this might be useful to lever to upper classes
-void MediaImagePathDialog::setSelected(const QSqlTableModel *model, QComboBox *cbox, const EmuFrontObject *ob, int idIndex)
+void MediaImagePathDialog::setSelected(QComboBox *cbox, const EmuFrontObject *ob, int idIndex)
 {
     if (!ob) return;
+    QSqlTableModel *model = dynamic_cast<QSqlTableModel*>(cbox->model());
     for (int i = 0; i < model->rowCount(); ++i)
     {
         QSqlRecord rec = model->record(i);
@@ -150,18 +151,51 @@ void MediaImagePathDialog::setSelected(const QSqlTableModel *model, QComboBox *c
 
 Platform* MediaImagePathDialog::getSelectedPlatform() const
 {
+    qDebug() << "MediaImagePathDialog Selecting platform";
     Platform *plf = 0;
+    int index = platformComBox->currentIndex();
+    qDebug() << "Current index " << index;
+    if (index < 0) return plf;
+    QSqlTableModel* platformModel = dynamic_cast<QSqlTableModel*>(platformComBox->model());
+    if (!platformModel)
+    {
+        qDebug() << "Data model missing";
+        return plf;
+    }
+    QSqlRecord rec = platformModel->record(index);
+    if (!rec.isEmpty())
+    {
+        qDebug() << "We have a record";
+        plf = new Platform(rec.value(DbPlatform::Platform_Id).toInt(),
+        rec.value(DbPlatform::Platform_Name).toString(),
+        rec.value(DbPlatform::Platform_Filename).toString());
+    }
+    else qDebug() << "Record missing";
     return plf;
 }
 
 MediaType* MediaImagePathDialog::getSelectedMediaType() const
 {
     MediaType *mt = 0;
+    int index = mediaTypeComBox->currentIndex();
+    if (index < 0) return mt;
+    QSqlTableModel* mediaTypeModel = dynamic_cast<QSqlTableModel*>(mediaTypeComBox->model());
+    if (!mediaTypeModel)
+    {
+        qDebug("Media type data model missing");
+        return mt;
+    }
+    QSqlRecord rec = mediaTypeModel->record(index);
+    if (!rec.isEmpty())
+        mt = new MediaType(rec.value(DbMediaType::MediaType_Id).toInt(),
+                           rec.value(DbMediaType::MediaType_Name).toString(),
+                           rec.value(DbMediaType::MediaType_Filename).toString());
     return mt;
 }
 
 void MediaImagePathDialog::acceptChanges()
 {
+    qDebug() << "Changes accepted";
     FilePathObject *fpo = dynamic_cast<FilePathObject*>(efObject);
     Platform *plf = getSelectedPlatform();
     if (!plf)
@@ -169,18 +203,21 @@ void MediaImagePathDialog::acceptChanges()
         QMessageBox::information(this, tr("Platform"), tr("Platform not selected"), QMessageBox::Ok);
         return;
     }
+    qDebug() << "Platform selected " << plf->getName();
     MediaType *mt = getSelectedMediaType();
     if (!mt)
     {
         QMessageBox::information(this, tr("Media type"), tr("Media type was not selected"), QMessageBox::Ok);
         return;
     }
+    qDebug() << "Media type selected " << mt->getName();
     QString filePath = filePathLabel->text();
     if (filePath.isEmpty())
     {
         QMessageBox::information(this, tr("File path"), tr("File path was not selected"), QMessageBox::Ok);
         return;
     }
+    qDebug() << "File path selected " << filePath;
     Platform *ptmp = fpo->getPlatform();
     if (plf != ptmp)
     {
