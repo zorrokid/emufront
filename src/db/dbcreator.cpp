@@ -27,7 +27,7 @@
 using namespace std;
 
 const int DbCreator::TABLES_COUNT = 3;
-const QString DbCreator::TABLES[] = {"platform", "mediatype", "filepath"};
+const QString DbCreator::TABLES[] = {"platform", "mediatype", "filepath", "mediaimagecontainer", "mediaimage", "mediaimagecontainer_mediaimage"};
 
 DbCreator::DbCreator(QObject *parent) : QObject(parent)
 {
@@ -41,29 +41,32 @@ bool DbCreator::createDB()
 
     try
     {
-        /*if (!tableExists("platform"))
-        {*/
-            qDebug() << "Creating table platform";
-            query.exec("drop table if exists platform");
-            ret = query.exec("create table if not exists platform "
-                             "(id integer primary key, "
-                             "name varchar(30), "
-                             "filename varchar(125))");
-            if (!ret) throw QString("platform.");
-        /*}
-        if (!tableExists("mediatype"))
-        {*/
-            qDebug() << "Creating table mediatype ";
-            query.exec("drop table if exists mediatype");
-            ret = query.exec("create table if not exists mediatype "
-                             "(id integer primary key, "
-                             "name varchar(30), "
-                             "filename varchar(125))");
-            if (!ret) throw QString("mediatype.");
-        /*}
-        if (!tableExists("filetype"))
-        {*/
-            /*qDebug() << "Creating table filetype";
+        query.exec("drop table if exists mediaimagecontainer_mediaimage");
+        query.exec("drop table if exists mediaimage");
+        query.exec("drop table if exists mediaimagecontainer");
+        query.exec("drop table if exists filepath");
+        query.exec("drop table if exists mediatype");
+        query.exec("drop table if exists platform");
+
+        qDebug() << "Creating table platform";
+
+        ret = query.exec("create table if not exists platform "
+                         "(id integer primary key, "
+                         "name varchar(30), "
+                         "filename varchar(125))");
+
+        if (!ret) throw QString("platform.");
+
+        qDebug() << "Creating table mediatype ";
+
+        ret = query.exec("create table if not exists mediatype "
+                         "(id integer primary key, "
+                         "name varchar(30), "
+                         "filename varchar(125))");
+
+        if (!ret) throw QString("mediatype.");
+
+        /*qDebug() << "Creating table filetype";
             ret = query.exec("create table filetype if not exists"
                              "(id integer primary key, "
                              "name varchar(30))");
@@ -72,25 +75,58 @@ bool DbCreator::createDB()
             query.exec("insert into filetype (id, name) values (2, 'screenshot')");
             query.exec("insert into filetype (id, name) values (3, 'platform icon')");
             query.exec("insert into filetype (id, name) values (4, 'media type icon')");*/
-        /*}
-        if (!tableExists("filepath"))
-        {*/
-            qDebug() << "Creating table filepath";
-            query.exec("drop table if exists filepath");
-            // TODO: add last scanned column
-            ret = query.exec("create table if not exists filepath "
-                       "(id integer primary key, "
-                       "name text, "
-                       "filetypeid integer, "
-                       "platformid integer, "
-                       "mediatypeid integer, "
-                       "lastscanned numeric, "
-                       "foreign key (platformid) references platform(id), "
-                       "foreign key (mediatypeid) references mediatype(id))");
-            if (ret) qDebug() << "Table filepath created succesfully!";
 
-            if (!ret) throw QString("filepath");
-        //}
+        qDebug() << "Creating table filepath";
+
+        ret = query.exec("create table if not exists filepath "
+                         "(id integer primary key, "
+                         "name text, "
+                         "filetypeid integer, "
+                         "platformid integer, "
+                         "mediatypeid integer, "
+                         "lastscanned numeric, "
+                         "foreign key (platformid) references platform(id), "
+                         "foreign key (mediatypeid) references mediatype(id))");
+
+        if (!ret) throw QString("filepath");
+
+        qDebug() << "Creating table mediaimagecontainer";
+
+        ret = query.exec("create table if not exists mediaimagecontainer "
+                        "(id integer primary key, "
+                        "name text, "
+                        "filename text, "
+                        "sha1 text, "
+                        "md5 text, "
+                        "filepathid integer, "
+                        "platformid integer, "
+                        "mediatypeid integer, "
+                        "updatetime numeric, "
+                        "foreign key (filepathid) references filepath(id), "
+                        "foreign key (platformid) references platform(id), "
+                        "foreign key (mediatypeid) references mediatype(id))");
+
+        if (!ret) throw QString("mediaimagecontainer");
+
+        qDebug() << "Creating table mediaimage";
+
+        ret = query.exec("create table if not exists mediaimage "
+                        "(id integer primary key, "
+                        "filename text, "
+                        "sha1 text, "
+                        "md5 text, "
+                        "filesize integer, "
+                        "updatetime numeric)");
+
+        qDebug() << "Creating table mediaimagecontainer_mediaimage";
+
+        ret = query.exec("create table if not exists mediaimagecontainer_mediaimage "
+                        "(mediaimagecontainerid integer, "
+                        "mediaimageid integer, "
+                        "foreign key (mediaimagecontainerid) references mediaimagecontainer(id), "
+                        "foreign key (mediaimageid) references mediaimage(id))");
+
+        if (!ret) throw QString("mediaimagecontainer_mediaimage");
     }
     catch (QString tbl)
     {
