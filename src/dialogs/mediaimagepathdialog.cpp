@@ -148,9 +148,54 @@ void MediaImagePathDialog::setSelected(const QSqlTableModel *model, QComboBox *c
     }
 }
 
+Platform* MediaImagePathDialog::getSelectedPlatform() const
+{
+    Platform *plf = 0;
+    return plf;
+}
+
+MediaType* MediaImagePathDialog::getSelectedMediaType() const
+{
+    MediaType *mt = 0;
+    return mt;
+}
 
 void MediaImagePathDialog::acceptChanges()
 {
+    FilePathObject *fpo = dynamic_cast<FilePathObject*>(efObject);
+    Platform *plf = getSelectedPlatform();
+    if (!plf)
+    {
+        QMessageBox::information(this, tr("Platform"), tr("Platform not selected"), QMessageBox::Ok);
+        return;
+    }
+    MediaType *mt = getSelectedMediaType();
+    if (!mt)
+    {
+        QMessageBox::information(this, tr("Media type"), tr("Media type was not selected"), QMessageBox::Ok);
+        return;
+    }
+    QString filePath = filePathLabel->text();
+    if (filePath.isEmpty())
+    {
+        QMessageBox::information(this, tr("File path"), tr("File path was not selected"), QMessageBox::Ok);
+        return;
+    }
+    Platform *ptmp = fpo->getPlatform();
+    if (plf != ptmp)
+    {
+        delete ptmp;
+        fpo->setPlatform(plf);
+    }
+    MediaType *mtmp = fpo->getMediaType();
+    if (mt != mtmp)
+    {
+        delete mtmp;
+        fpo->setMediaType(mt);
+    }
+    fpo->setName(filePath);
+    emit dataObjectUpdated();
+    efObject = 0;
     close();
 }
 
@@ -158,5 +203,6 @@ void MediaImagePathDialog::rejectChanges()
 {
     // we don't delete the data object here
     efObject = 0;
+    emit updateRejected();
     close();
 }

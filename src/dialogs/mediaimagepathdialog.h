@@ -64,6 +64,9 @@ private:
     void setSelectedMediaType(const MediaType *);
     void setSelectedPlatform(const Platform *);
     void setSelected(const QSqlTableModel*, QComboBox*, const EmuFrontObject*, int idIndex);
+    Platform* getSelectedPlatform() const;
+    MediaType* getSelectedMediaType() const;
+
 };
 
 #endif // MEDIAIMAGEPATHDIALOG_H
