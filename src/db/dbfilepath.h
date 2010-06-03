@@ -22,19 +22,26 @@
 
 #include "databasemanager.h"
 
+class DbPlatform;
+class DbMediaType;
+
 class DbFilePath : public DatabaseManager
 {
 public:
     DbFilePath(QObject *);    
     virtual QSqlTableModel* getDataModel();
-    virtual EmuFrontObject* getDataObjectFromModel(QModelIndex*);
     virtual bool updateDataObjectToModel(const EmuFrontObject*);
     bool insertDataObjectToModel(const EmuFrontObject*);
     bool deleteDataObjectFromModel(QModelIndex*);
     int countDataObjectRefs(int) const;
 
+protected:
+    virtual EmuFrontObject* recordToDataObject(const QSqlRecord* ) const;
+
 private:
     virtual QSqlTableModel* getData();
+    DbPlatform *dbPlatform;
+    DbMediaType *dbMediaType;
     // TODO: add last scanned column
     enum { FilePath_Id = 0,
            FilePath_Name = 1,

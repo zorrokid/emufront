@@ -35,13 +35,11 @@ QSqlTableModel* DbMediaType::getDataModel()
     return sqlTableModel;
 }
 
-EmuFrontObject* DbMediaType::getDataObjectFromModel(QModelIndex *index)
+EmuFrontObject* DbMediaType::recordToDataObject(const QSqlRecord *record) const
 {
-    QSqlRecord record = sqlTableModel->record(index->row());
-    int id = record.value(MediaType_Id).toInt();
-    QString name = record.value(MediaType_Name).toString();
-    QString fileName = record.value(MediaType_Filename).toString();
-    //qDebug() << "Got platform Name " << name << " id " << id;
+    int id = record->value(MediaType_Id).toInt();
+    QString name = record->value(MediaType_Name).toString();
+    QString fileName = record->value(MediaType_Filename).toString();
     return new MediaType(id, name, fileName);
 }
 
@@ -71,8 +69,8 @@ bool DbMediaType::insertDataObjectToModel(const EmuFrontObject *ob)
     // the null value for index will be set implicitily
     // when we don't assign any value to cell 0 in the sql table model
     //sqlTableModel->setData(sqlTableModel->index(row, 0), NULL);
-    sqlTableModel->setData(sqlTableModel->index(row, 1), plf->getName());
-    sqlTableModel->setData(sqlTableModel->index(row, 2), plf->getFilename());
+    sqlTableModel->setData(sqlTableModel->index(row, MediaType_Name), plf->getName());
+    sqlTableModel->setData(sqlTableModel->index(row, MediaType_Filename), plf->getFilename());
     return sqlTableModel->submitAll();
 }
 

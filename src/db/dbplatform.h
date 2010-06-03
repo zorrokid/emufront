@@ -30,7 +30,6 @@ class DbPlatform : public DatabaseManager
 public:
     DbPlatform(QObject *);
     virtual QSqlTableModel* getDataModel();
-    virtual EmuFrontObject* getDataObjectFromModel(QModelIndex*);
     virtual bool updateDataObjectToModel(const EmuFrontObject*);
     bool insertDataObjectToModel(const EmuFrontObject*);
     bool deleteDataObjectFromModel(QModelIndex*);
@@ -39,6 +38,9 @@ public:
         Platform_Id = 0,
         Platform_Name = 1,
         Platform_Filename = 2 };
+
+protected:
+    virtual EmuFrontObject* recordToDataObject(const QSqlRecord* ) const;
 
 private:
     virtual QSqlTableModel* getData();

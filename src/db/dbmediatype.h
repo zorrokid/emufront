@@ -27,7 +27,6 @@ class DbMediaType : public DatabaseManager
 public:
     DbMediaType(QObject *);
     virtual QSqlTableModel* getDataModel();
-    virtual EmuFrontObject* getDataObjectFromModel(QModelIndex*);
     virtual bool updateDataObjectToModel(const EmuFrontObject*);
     virtual bool insertDataObjectToModel(const EmuFrontObject*);
     virtual bool deleteDataObjectFromModel(QModelIndex*);
@@ -36,6 +35,9 @@ public:
         MediaType_Id = 0,
         MediaType_Name = 1,
         MediaType_Filename = 2 };
+
+protected:
+    virtual EmuFrontObject* recordToDataObject(const QSqlRecord* ) const;
 
 private:
       virtual QSqlTableModel* getData();

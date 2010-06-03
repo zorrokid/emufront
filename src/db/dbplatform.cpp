@@ -34,12 +34,11 @@ QSqlTableModel* DbPlatform::getDataModel()
     return sqlTableModel;
 }
 
-EmuFrontObject* DbPlatform::getDataObjectFromModel(QModelIndex *index)
+EmuFrontObject* DbPlatform::recordToDataObject(const QSqlRecord *record) const
 {
-    QSqlRecord record = sqlTableModel->record(index->row());
-    int id = record.value(Platform_Id).toInt();
-    QString name = record.value(Platform_Name).toString();
-    QString fileName = record.value(Platform_Filename).toString();
+    int id = record->value(Platform_Id).toInt();
+    QString name = record->value(Platform_Name).toString();
+    QString fileName = record->value(Platform_Filename).toString();
     //qDebug() << "Got platform Name " << name << " id " << id;
     return new Platform(id, name, fileName);
 }

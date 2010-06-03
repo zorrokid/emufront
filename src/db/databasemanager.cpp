@@ -23,6 +23,7 @@
 #include <QSqlTableModel>
 #include <QSqlError>
 #include <QSqlQuery>
+#include <QSqlRecord>
 #include <QFile>
 #include <QDir>
 #include <QVariant>
@@ -80,4 +81,23 @@ int DatabaseManager::countRows(QString tableName, QString columnName, int id) co
     if (query.next())
         numEntries = query.value(0).toInt();
     return numEntries;
+}
+
+EmuFrontObject* DatabaseManager::getDataObject(int id) const
+{
+    sqlTableModel->setFilter(QString("id = %1").arg(id));
+    sqlTableModel->select();
+    EmuFrontObject *plf = 0;
+    if (sqlTableModel->rowCount() == 1)
+    {
+        QSqlRecord record = sqlTableModel->record(0);
+        plf = recordToDataObject(&record);
+    }
+    return plf;
+}
+
+EmuFrontObject* DatabaseManager::getDataObjectFromModel(QModelIndex *index)
+{
+    QSqlRecord record = sqlTableModel->record(index->row());
+    return recordToDataObject(&record);
 }

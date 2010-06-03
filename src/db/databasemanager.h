@@ -36,7 +36,8 @@ public:
 	~DatabaseManager();
 
     virtual QSqlTableModel* getDataModel() = 0;
-    virtual EmuFrontObject* getDataObjectFromModel(QModelIndex*) = 0;
+    EmuFrontObject* getDataObjectFromModel(QModelIndex*);
+    EmuFrontObject* getDataObject(int id) const;
     virtual bool updateDataObjectToModel(const EmuFrontObject*) = 0;
     virtual bool insertDataObjectToModel(const EmuFrontObject*) = 0;
     virtual bool deleteDataObjectFromModel(QModelIndex*) = 0;
@@ -52,6 +53,7 @@ public:
 protected:
     QSqlTableModel* sqlTableModel;
     //virtual QSqlTableModel* getDataModel() = 0;
+    virtual EmuFrontObject* recordToDataObject(const QSqlRecord* ) const = 0;
     int countRows(QString tableName, QString columnName, int id) const;
     static const QString DB_TABLE_NAME_FILEPATH;
     static const QString DB_TABLE_NAME_MEDIATYPE;
