@@ -44,11 +44,11 @@ private:
     DbMediaType *dbMediaType;
     // TODO: add last scanned column
     enum { FilePath_Id = 0,
-           FilePath_Name = 1,
-           FilePath_FileTypeId = 3,
-           FilePath_PlatformId = 4,
-           FilePath_MediaTypeId = 5,
-           FilePath_LastScanned = 6 };
+           FilePath_Name,
+           FilePath_FileTypeId,
+           FilePath_PlatformId,
+           FilePath_MediaTypeId,
+           FilePath_LastScanned  };
 };
 
 #endif // DBFILEPATH_H
