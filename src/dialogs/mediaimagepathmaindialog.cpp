@@ -47,12 +47,33 @@ MediaImagePathMainDialog::MediaImagePathMainDialog(QWidget *parent)
 void MediaImagePathMainDialog::connectSignals()
 {
     DbObjectDialog::connectSignals();
-    connect(scanButton, SIGNAL(clicked()), this, SLOT(scanFilePath()));
+    connect(scanButton, SIGNAL(clicked()), this, SLOT(beginScanFilePath()));
 }
 
-void MediaImagePathMainDialog::scanFilePath()
+void MediaImagePathMainDialog::beginScanFilePath()
 {
     qDebug() << "Scan file path requested";
+    QModelIndex index = objectList->currentIndex();
+    if (!index.isValid()) return;
+    EmuFrontObject *ob = dbManager->getDataObjectFromModel(&index);
+    if (!ob) return;
+    FilePathObject *fpo = dynamic_cast<FilePathObject*>(ob);
+    try
+    {
+        scanFilePath(fpo->getName());
+    }
+    catch (QString s)
+    {
+        QMessageBox::warning(this, tr("Warning"), s, QMessageBox::Ok);
+    }
+}
+
+void MediaImagePathMainDialog::scanFilePath(const QString fp)
+{
+    qDebug() << "Will scan file path " << fp;
+    QDir dir(fp);
+    if (!dir.exists() || !dir.isReadable()) throw QString(tr("Directory %1 doesn't exists or isn't readable!").arg(fp));
+    throw QString("test");
 }
 
 EmuFrontObject* MediaImagePathMainDialog::createObject()

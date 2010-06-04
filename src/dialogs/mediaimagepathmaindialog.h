@@ -36,10 +36,11 @@ protected:
     virtual void connectSignals();
 
 private slots:
-    void scanFilePath();
+    void beginScanFilePath();
 
 private:
     QPushButton *scanButton;
+    void scanFilePath(const QString);
 };
 
 #endif // MEDIAIMAGEPATHMAINDIALOG_H

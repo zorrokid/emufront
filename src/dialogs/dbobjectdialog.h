@@ -57,6 +57,7 @@ protected:
     EmuFrontObject *dbObject;
     DatabaseManager *dbManager;
     QDialogButtonBox *buttonBox;
+    QTableView *objectList;
 
 private:
     bool deleteItem();
@@ -66,7 +67,6 @@ private:
     void editObject();
     void activateNameDialog();
     bool confirmDelete(QString name, int numRefs);
-    QTableView *objectList;
 	void setButtonsEnabled(bool);
     void layout();
     void disableSelection();
