@@ -52,10 +52,11 @@ protected:
     virtual void deleteCurrentObject();
     virtual EmuFrontObject* createObject() = 0;
     void initDataTable();
-    void connectSignals();
+    virtual void connectSignals();
     DataObjectEditDialog *nameDialog;
     EmuFrontObject *dbObject;
     DatabaseManager *dbManager;
+    QDialogButtonBox *buttonBox;
 
 private:
     bool deleteItem();
@@ -69,7 +70,6 @@ private:
 	void setButtonsEnabled(bool);
     void layout();
     void disableSelection();
-    QDialogButtonBox *buttonBox;
     QPushButton *editButton;
     QPushButton *addButton;
     QPushButton *deleteButton;

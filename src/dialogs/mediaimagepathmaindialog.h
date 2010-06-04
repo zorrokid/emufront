@@ -33,6 +33,13 @@ public:
 protected:
     virtual void deleteCurrentObject();
     virtual EmuFrontObject* createObject();
+    virtual void connectSignals();
+
+private slots:
+    void scanFilePath();
+
+private:
+    QPushButton *scanButton;
 };
 
 #endif // MEDIAIMAGEPATHMAINDIALOG_H

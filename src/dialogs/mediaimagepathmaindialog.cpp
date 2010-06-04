@@ -36,9 +36,23 @@ MediaImagePathMainDialog::MediaImagePathMainDialog(QWidget *parent)
     qDebug() << "Initializing data table";
     initDataTable();
 
+    scanButton = new QPushButton(tr("&Scan"));
+    buttonBox->addButton(scanButton, QDialogButtonBox::ActionRole);
+
     qDebug() << "Connecting signals";
     // do not move to parent class:
     connectSignals();
+}
+
+void MediaImagePathMainDialog::connectSignals()
+{
+    DbObjectDialog::connectSignals();
+    connect(scanButton, SIGNAL(clicked()), this, SLOT(scanFilePath()));
+}
+
+void MediaImagePathMainDialog::scanFilePath()
+{
+    qDebug() << "Scan file path requested";
 }
 
 EmuFrontObject* MediaImagePathMainDialog::createObject()
