@@ -40,7 +40,9 @@ private slots:
 
 private:
     QPushButton *scanButton;
-    void scanFilePath(const QString);
+
+    //  QString and QStringList are implicitly shared
+    void scanFilePath(const QString path, const QStringList filters);
 };
 
 #endif // MEDIAIMAGEPATHMAINDIALOG_H

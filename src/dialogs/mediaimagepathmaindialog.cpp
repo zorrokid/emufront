@@ -60,7 +60,8 @@ void MediaImagePathMainDialog::beginScanFilePath()
     FilePathObject *fpo = dynamic_cast<FilePathObject*>(ob);
     try
     {
-        scanFilePath(fpo->getName());
+        QStringList l;
+        scanFilePath(fpo->getName(), l); // TODO implement file filters
     }
     catch (QString s)
     {
@@ -68,12 +69,26 @@ void MediaImagePathMainDialog::beginScanFilePath()
     }
 }
 
-void MediaImagePathMainDialog::scanFilePath(const QString fp)
+void MediaImagePathMainDialog::scanFilePath(const QString fp, const QStringList filters)
 {
     qDebug() << "Will scan file path " << fp;
     QDir dir(fp);
-    if (!dir.exists() || !dir.isReadable()) throw QString(tr("Directory %1 doesn't exists or isn't readable!").arg(fp));
-    throw QString("test");
+    if (!dir.exists() || !dir.isReadable())
+        throw QString(tr("Directory %1 doesn't exists or isn't readable!").arg(fp));
+
+    dir.setFilter(QDir::Files | QDir::NoSymLinks | QDir::NoDotAndDotDot | QDir::Readable);
+
+    if (filters.count() > 0) dir.setNameFilters(filters);
+
+    QFileInfoList list = dir.entryInfoList();
+    for (int i = 0; i < list.size(); ++i)
+    {
+        QFileInfo fileInfo = list.at(i);
+        qDebug() << QString("%1 %2").arg(fileInfo.size(), 10).arg(fileInfo.absoluteFilePath());
+
+        QFile f(fileInfo.absoluteFilePath());
+
+    }
 }
 
 EmuFrontObject* MediaImagePathMainDialog::createObject()
