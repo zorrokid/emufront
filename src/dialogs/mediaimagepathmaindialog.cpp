@@ -20,7 +20,9 @@
 #include <QtGui>
 
 #include "../dataobjects/filepathobject.h"
+#include "../dataobjects/emufrontfileobject.h"
 #include "../db/dbfilepath.h"
+#include "../utils/fileutil.h"
 #include "mediaimagepathmaindialog.h"
 #include "mediaimagepathdialog.h"
 
@@ -54,6 +56,7 @@ void MediaImagePathMainDialog::beginScanFilePath()
 {
     qDebug() << "Scan file path requested";
     QModelIndex index = objectList->currentIndex();
+    FileUtil fileUtil(this);
     if (!index.isValid()) return;
     EmuFrontObject *ob = dbManager->getDataObjectFromModel(&index);
     if (!ob) return;
@@ -61,7 +64,9 @@ void MediaImagePathMainDialog::beginScanFilePath()
     try
     {
         QStringList l;
-        scanFilePath(fpo->getName(), l); // TODO implement file filters
+        l << "*.zip"; // TODO set filters in a global constant class
+
+        QList<EmuFrontFileObject*> files = fileUtil.scanFilePath(fpo, l);
     }
     catch (QString s)
     {

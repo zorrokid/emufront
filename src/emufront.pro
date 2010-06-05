@@ -32,7 +32,10 @@ HEADERS += mainwindow.h \
     dialogs/mediaimagepathdialog.h \
     dialogs/mediaimagepathmaindialog.h \
     dialogs/dataobjecteditdialog.h \
-    db/dbfilepath.h
+    db/dbfilepath.h \
+    utils/ziputil.h \
+    utils/fileutil.h \
+    utils/OSDaB-Zip/unzip.h
 SOURCES += main.cpp \
     mainwindow.cpp \
     db/databasemanager.cpp \
@@ -54,4 +57,7 @@ SOURCES += main.cpp \
     dialogs/mediaimagepathdialog.cpp \
     dialogs/mediaimagepathmaindialog.cpp \
     dialogs/dataobjecteditdialog.cpp \
-    db/dbfilepath.cpp
+    db/dbfilepath.cpp \
+    utils/ziputil.cpp \
+    utils/fileutil.cpp \
+    utils/OSDaB-Zip/unzip.cpp
