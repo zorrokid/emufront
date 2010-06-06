@@ -33,6 +33,7 @@ const QString DatabaseManager::DATABASE = QString("QSQLITE");
 const QString DatabaseManager::DB_TABLE_NAME_MEDIATYPE = QString("mediatype");
 const QString DatabaseManager::DB_TABLE_NAME_PLATFORM = QString("platform");
 const QString DatabaseManager::DB_TABLE_NAME_FILEPATH = QString("filepath");
+const QString DatabaseManager::DB_TABLE_NAME_SETUP = QString("setup");
 
 DatabaseManager::DatabaseManager(QObject *parent)
 	: QObject(parent)
@@ -43,6 +44,11 @@ DatabaseManager::~DatabaseManager()
     // no need to explicitily destroy sqlTableModel
     // because it is parented QObject and will
     // be destroyed when parent is destroyed
+}
+
+QSqlQueryModel* DatabaseManager::getDataModel()
+{
+    return sqlTableModel;
 }
 
 bool DatabaseManager::openDB()
@@ -64,11 +70,10 @@ QString DatabaseManager::getDbPath()
 	return path;
 }
 
-void DatabaseManager::resetModel() const
+void DatabaseManager::resetModel()
 {
     if (!sqlTableModel) return;
-    sqlTableModel->setFilter("");
-    sqlTableModel->select();
+    clearFilters();
 }
 
 // sql must return a count(*) value
@@ -83,10 +88,9 @@ int DatabaseManager::countRows(QString tableName, QString columnName, int id) co
     return numEntries;
 }
 
-EmuFrontObject* DatabaseManager::getDataObject(int id) const
+EmuFrontObject* DatabaseManager::getDataObject(int id)
 {
-    sqlTableModel->setFilter(QString("id = %1").arg(id));
-    sqlTableModel->select();
+    filterById(id);
     EmuFrontObject *plf = 0;
     if (sqlTableModel->rowCount() == 1)
     {

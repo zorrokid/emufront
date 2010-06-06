@@ -20,16 +20,14 @@
 #ifndef DBFILEPATH_H
 #define DBFILEPATH_H
 
-#include "databasemanager.h"
+#include "dbquerymodelmanager.h"
 
-class DbPlatform;
-class DbMediaType;
+class DbSetup;
 
-class DbFilePath : public DatabaseManager
+class DbFilePath : public DbQueryModelManager
 {
 public:
     DbFilePath(QObject *);    
-    virtual QSqlTableModel* getDataModel();
     virtual bool updateDataObjectToModel(const EmuFrontObject*);
     bool insertDataObjectToModel(const EmuFrontObject*);
     bool deleteDataObjectFromModel(QModelIndex*);
@@ -37,18 +35,19 @@ public:
 
 protected:
     virtual EmuFrontObject* recordToDataObject(const QSqlRecord* ) const;
+    virtual QString constructSelectById(int id) const;
+    virtual QString constructSelect(QString whereClause = "") const;
 
 private:
-    virtual QSqlTableModel* getData();
-    DbPlatform *dbPlatform;
-    DbMediaType *dbMediaType;
+    virtual QSqlQueryModel* getData();
+    DbSetup *dbSetup;
     // TODO: add last scanned column
     enum { FilePath_Id = 0,
            FilePath_Name,
            FilePath_FileTypeId,
-           FilePath_PlatformId,
-           FilePath_MediaTypeId,
-           FilePath_LastScanned  };
+           FilePath_LastScanned,
+           FilePath_SetupId,
+           FilePath_SetupName };
 };
 
 #endif // DBFILEPATH_H

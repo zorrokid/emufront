@@ -25,7 +25,7 @@
 
 class QSqlError;
 class QFile;
-class QSqlTableModel;
+class QSqlQueryModel;
 class QModelIndex;
 class EmuFrontObject;
 
@@ -35,15 +35,15 @@ public:
 	DatabaseManager(QObject *parent = 0);
 	~DatabaseManager();
 
-    virtual QSqlTableModel* getDataModel() = 0;
+    QSqlQueryModel* getDataModel();
     EmuFrontObject* getDataObjectFromModel(QModelIndex*);
-    EmuFrontObject* getDataObject(int id) const;
+    EmuFrontObject* getDataObject(int id);
     virtual bool updateDataObjectToModel(const EmuFrontObject*) = 0;
     virtual bool insertDataObjectToModel(const EmuFrontObject*) = 0;
     virtual bool deleteDataObjectFromModel(QModelIndex*) = 0;
     virtual int countDataObjectRefs(int id) const = 0;
     static bool openDB();
-    void resetModel() const;
+    void resetModel();
     enum {
         Filetype_MediaImageContainer = 0,
         Filetype_Screenshot = 1,
@@ -51,18 +51,20 @@ public:
         Filetype_MediaTypeIcon = 3 };
 
 protected:
-    QSqlTableModel* sqlTableModel;
-    //virtual QSqlTableModel* getDataModel() = 0;
+    QSqlQueryModel* sqlTableModel;
     virtual EmuFrontObject* recordToDataObject(const QSqlRecord* ) const = 0;
+    virtual void filterById(int id) = 0;
+    virtual void clearFilters() = 0;
     int countRows(QString tableName, QString columnName, int id) const;
     static const QString DB_TABLE_NAME_FILEPATH;
     static const QString DB_TABLE_NAME_MEDIATYPE;
     static const QString DB_TABLE_NAME_PLATFORM;
+    static const QString DB_TABLE_NAME_SETUP;
 
 private:
 	static const QString DB_FILENAME;
     static const QString DATABASE;
-    virtual QSqlTableModel* getData() = 0;
+    virtual QSqlQueryModel* getData() = 0;
     static QString getDbPath();
 };
 

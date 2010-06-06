@@ -17,28 +17,20 @@
 // You should have received a copy of the GNU General Public License
 // along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef FILEPATHOBJECT_H
-#define FILEPATHOBJECT_H
+#ifndef DBQUERYMODELMANAGER_H
+#define DBQUERYMODELMANAGER_H
 
-#include "emufrontfileobject.h"
+#include "databasemanager.h"
 
-class Setup;
-
-class FilePathObject : public EmuFrontFileObject
+class DbQueryModelManager : public DatabaseManager
 {
 public:
-    FilePathObject();
-    ~FilePathObject();
-    FilePathObject(int id, QString name, QString filename, int filetype);
-    FilePathObject(int id, QString name, QString filename, int filetype, Setup*);
-    FilePathObject(const FilePathObject &);
-    FilePathObject& operator=(const FilePathObject &);
-
-    Setup* getSetup() const;
-    void setSetup(Setup *);
-
-private:
-    Setup *setup;
+    DbQueryModelManager(QObject *parent);
+protected:
+    void filterById(int id);
+    void clearFilters();
+    virtual QString constructSelectById(int id) const = 0;
+    virtual QString constructSelect(QString whereClause = "") const = 0;
 };
 
-#endif // FILEPATHOBJECT_H
+#endif // DBQUERYMODELMANAGER_H

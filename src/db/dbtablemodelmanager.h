@@ -17,28 +17,18 @@
 // You should have received a copy of the GNU General Public License
 // along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef FILEPATHOBJECT_H
-#define FILEPATHOBJECT_H
+#ifndef DBTABLEMODELMANAGER_H
+#define DBTABLEMODELMANAGER_H
 
-#include "emufrontfileobject.h"
+#include "databasemanager.h"
 
-class Setup;
-
-class FilePathObject : public EmuFrontFileObject
+class DbTableModelManager : public DatabaseManager
 {
 public:
-    FilePathObject();
-    ~FilePathObject();
-    FilePathObject(int id, QString name, QString filename, int filetype);
-    FilePathObject(int id, QString name, QString filename, int filetype, Setup*);
-    FilePathObject(const FilePathObject &);
-    FilePathObject& operator=(const FilePathObject &);
-
-    Setup* getSetup() const;
-    void setSetup(Setup *);
-
-private:
-    Setup *setup;
+    DbTableModelManager(QObject *parent);
+protected:
+    void filterById(int id);
+    void clearFilters();
 };
 
-#endif // FILEPATHOBJECT_H
+#endif // DBTABLEMODELMANAGER_H

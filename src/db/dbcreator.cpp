@@ -45,6 +45,7 @@ bool DbCreator::createDB()
         query.exec("drop table if exists mediaimage");
         query.exec("drop table if exists mediaimagecontainer");
         query.exec("drop table if exists filepath");
+        query.exec("drop table if exists setup");
         query.exec("drop table if exists mediatype");
         query.exec("drop table if exists platform");
 
@@ -66,6 +67,16 @@ bool DbCreator::createDB()
 
         if (!ret) throw QString("mediatype.");
 
+        qDebug() << "Creating table setup";
+
+        ret = query.exec("create table if not exists setup "
+                        "(id integer primary key, "
+                        "platformid integer, "
+                        "mediatypeid integer, "
+                        "filetypeextensions text, "
+                        "foreign key (platformid) references platform(id), "
+                        "foreign key (mediatypeid) references mediatype(id))");
+
         /*qDebug() << "Creating table filetype";
             ret = query.exec("create table filetype if not exists"
                              "(id integer primary key, "
@@ -82,11 +93,9 @@ bool DbCreator::createDB()
                          "(id integer primary key, "
                          "name text, "
                          "filetypeid integer, "
-                         "platformid integer, "
-                         "mediatypeid integer, "
+                         "setupid integer, "
                          "lastscanned numeric, "
-                         "foreign key (platformid) references platform(id), "
-                         "foreign key (mediatypeid) references mediatype(id))");
+                         "foreign key (setupid) references setup(id))");
 
         if (!ret) throw QString("filepath");
 

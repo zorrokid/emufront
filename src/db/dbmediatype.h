@@ -20,13 +20,13 @@
 #ifndef DBMEDIATYPE_H
 #define DBMEDIATYPE_H
 
-#include "databasemanager.h"
+#include "dbtablemodelmanager.h"
+#include "../dataobjects/mediatype.h"
 
-class DbMediaType : public DatabaseManager
+class DbMediaType : public DbTableModelManager
 {
 public:
     DbMediaType(QObject *);
-    virtual QSqlTableModel* getDataModel();
     virtual bool updateDataObjectToModel(const EmuFrontObject*);
     virtual bool insertDataObjectToModel(const EmuFrontObject*);
     virtual bool deleteDataObjectFromModel(QModelIndex*);
@@ -40,7 +40,7 @@ protected:
     virtual EmuFrontObject* recordToDataObject(const QSqlRecord* ) const;
 
 private:
-      virtual QSqlTableModel* getData();
+      virtual QSqlQueryModel* getData();
 
 };
 

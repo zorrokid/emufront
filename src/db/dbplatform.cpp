@@ -24,14 +24,9 @@
 #include "dbplatform.h"
 
 
-DbPlatform::DbPlatform(QObject *parent) : DatabaseManager(parent)
+DbPlatform::DbPlatform(QObject *parent) : DbTableModelManager(parent)
 {
     sqlTableModel = getData();
-}
-
-QSqlTableModel* DbPlatform::getDataModel()
-{
-    return sqlTableModel;
 }
 
 EmuFrontObject* DbPlatform::recordToDataObject(const QSqlRecord *record) const
@@ -47,15 +42,16 @@ bool DbPlatform::updateDataObjectToModel(const EmuFrontObject *ob)
 {
     const Platform *plf = dynamic_cast<const Platform*>(ob);
     bool ret = false;
-    sqlTableModel->setFilter(QString("id = %1").arg(plf->getId()));
-    sqlTableModel->select();
-    if (sqlTableModel->rowCount() == 1)
+    QSqlTableModel *tmodel = dynamic_cast<QSqlTableModel*>(sqlTableModel);
+    tmodel->setFilter(QString("id = %1").arg(plf->getId()));
+    tmodel->select();
+    if (tmodel->rowCount() == 1)
     {
-        QSqlRecord record = sqlTableModel->record(0);
+        QSqlRecord record = tmodel->record(0);
         record.setValue("name", plf->getName());
         record.setValue("filename", plf->getFilename());
-        sqlTableModel->setRecord(0, record);
-        ret = sqlTableModel->submitAll();
+        tmodel->setRecord(0, record);
+        ret = tmodel->submitAll();
     }
     resetModel();
     return ret;
@@ -65,13 +61,14 @@ bool DbPlatform::insertDataObjectToModel(const EmuFrontObject *ob)
 {
     const Platform *plf = dynamic_cast<const Platform*>(ob);
     int row = 0;
-    sqlTableModel->insertRows(row, 1);
+    QSqlTableModel *tmodel = dynamic_cast<QSqlTableModel*>(sqlTableModel);
+    tmodel->insertRows(row, 1);
     // the null value for index will be set implicitily
     // when we don't assign any value to cell 0 in the sql table model
     //sqlTableModel->setData(sqlTableModel->index(row, 0), NULL);
-    sqlTableModel->setData(sqlTableModel->index(row, 1), plf->getName());
-    sqlTableModel->setData(sqlTableModel->index(row, 2), plf->getFilename());
-    return sqlTableModel->submitAll();
+    tmodel->setData(sqlTableModel->index(row, 1), plf->getName());
+    tmodel->setData(sqlTableModel->index(row, 2), plf->getFilename());
+    return tmodel->submitAll();
 }
 
 int DbPlatform::countDataObjectRefs(int id) const
@@ -83,7 +80,8 @@ int DbPlatform::countDataObjectRefs(int id) const
 bool DbPlatform::deleteDataObjectFromModel(QModelIndex *index)
 {
     QSqlDatabase::database().transaction();
-    QSqlRecord record = sqlTableModel->record(index->row());
+    QSqlTableModel *tmodel = dynamic_cast<QSqlTableModel*>(sqlTableModel);
+    QSqlRecord record = tmodel->record(index->row());
     int id = record.value(Platform_Id).toInt();
     qDebug() << "Deleting platform " << id;
     int count = countDataObjectRefs(id);
@@ -97,12 +95,12 @@ bool DbPlatform::deleteDataObjectFromModel(QModelIndex *index)
             return false;
         }
     }
-    sqlTableModel->removeRow(index->row());
-    sqlTableModel->submitAll();
+    tmodel->removeRow(index->row());
+    tmodel->submitAll();
     return QSqlDatabase::database().commit();
 }
 
-QSqlTableModel* DbPlatform::getData()
+QSqlQueryModel* DbPlatform::getData()
 {
     QSqlTableModel *model = new QSqlTableModel(this);
     model->setTable(DB_TABLE_NAME_PLATFORM);
@@ -111,3 +109,11 @@ QSqlTableModel* DbPlatform::getData()
     model->select();
     return model;
 }
+
+/*void DbPlatform::filterById(int id)
+{
+    QSqlTableModel *tmodel = dynamic_cast<QSqlTableModel*>(sqlTableModel);
+    tmodel->setFilter(QString("id = %1").arg(id));
+    tmodel->setQuery(constructSelectById(id));
+    tmodel->select();
+}*/

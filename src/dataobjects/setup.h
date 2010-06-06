@@ -17,28 +17,35 @@
 // You should have received a copy of the GNU General Public License
 // along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef FILEPATHOBJECT_H
-#define FILEPATHOBJECT_H
+#ifndef SETUP_H
+#define SETUP_H
+#include <QStringList>
+#include "emufrontobject.h"
 
-#include "emufrontfileobject.h"
+class Platform;
+class MediaType;
 
-class Setup;
-
-class FilePathObject : public EmuFrontFileObject
+class Setup : public EmuFrontObject
 {
 public:
-    FilePathObject();
-    ~FilePathObject();
-    FilePathObject(int id, QString name, QString filename, int filetype);
-    FilePathObject(int id, QString name, QString filename, int filetype, Setup*);
-    FilePathObject(const FilePathObject &);
-    FilePathObject& operator=(const FilePathObject &);
+    Setup();
+    ~Setup();
+    Setup(int id, Platform *, MediaType *, QStringList fileTypeExtensions);
+    Setup(const Setup &);
+    Setup& operator=(const Setup &);
+    Platform* getPlatform() const;
+    MediaType* getMediaType() const;
+    QStringList getSupportedFileTypeExtensions() const;
+    void setPlatform(Platform *);
+    void setMediaType(MediaType *);
+    void setSupportedFileTypeExtensions(QStringList);
 
-    Setup* getSetup() const;
-    void setSetup(Setup *);
 
 private:
-    Setup *setup;
+    Platform *platform;
+    MediaType *mediaType;
+    // QStringList is implicitly shared.
+    QStringList fileTypeExtensions;
 };
 
-#endif // FILEPATHOBJECT_H
+#endif // SETUP_H

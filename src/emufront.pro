@@ -35,7 +35,11 @@ HEADERS += mainwindow.h \
     db/dbfilepath.h \
     utils/ziputil.h \
     utils/fileutil.h \
-    utils/OSDaB-Zip/unzip.h
+    utils/OSDaB-Zip/unzip.h \
+    dataobjects/setup.h \
+    db/dbsetup.h \
+    db/dbtablemodelmanager.h \
+    db/dbquerymodelmanager.h
 SOURCES += main.cpp \
     mainwindow.cpp \
     db/databasemanager.cpp \
@@ -60,4 +64,10 @@ SOURCES += main.cpp \
     db/dbfilepath.cpp \
     utils/ziputil.cpp \
     utils/fileutil.cpp \
-    utils/OSDaB-Zip/unzip.cpp
+    utils/OSDaB-Zip/unzip.cpp \
+    dataobjects/setup.cpp \
+    db/dbsetup.cpp \
+    db/dbtablemodelmanager.cpp \
+    db/dbquerymodelmanager.cpp
+
+OTHER_FILES +=

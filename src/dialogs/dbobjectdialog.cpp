@@ -125,6 +125,7 @@ void DbObjectDialog::updateDb(const EmuFrontObject *ob) const
 void DbObjectDialog::updateList() const
 {
     if (!dbManager) return;
+    qDebug() << "Going to reset the data model";
     dbManager->resetModel();
 }
 

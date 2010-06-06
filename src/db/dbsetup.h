@@ -17,32 +17,38 @@
 // You should have received a copy of the GNU General Public License
 // along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef DBPLATFORM_H
-#define DBPLATFORM_H
+#ifndef DBSETUP_H
+#define DBSETUP_H
 
-#include "dbtablemodelmanager.h"
-#include "../dataobjects/platform.h"
+#include "dbquerymodelmanager.h"
+#include "../dataobjects/setup.h"
 
-class QModelIndex;
+class DbPlatform;
+class DbMediaType;
 
-class DbPlatform : public DbTableModelManager
+class DbSetup : public DbQueryModelManager
 {
 public:
-    DbPlatform(QObject *);
+    DbSetup(QObject *);
     virtual bool updateDataObjectToModel(const EmuFrontObject*);
     bool insertDataObjectToModel(const EmuFrontObject*);
     bool deleteDataObjectFromModel(QModelIndex*);
     int countDataObjectRefs(int) const;
-    enum {
-        Platform_Id = 0,
-        Platform_Name = 1,
-        Platform_Filename = 2 };
+    enum { Setup_Id = 0,
+           Setup_PlatformId,
+           Setup_MediaTypeId,
+           Setup_FileTypeExtensions,
+           Setup_Name };
+    static const QString FILE_TYPE_EXTENSION_SEPARATOR;
 
 protected:
     virtual EmuFrontObject* recordToDataObject(const QSqlRecord* ) const;
+    virtual QString constructSelectById(int id) const;
+    virtual QString constructSelect(QString whereClause = "") const;
 
 private:
     virtual QSqlQueryModel* getData();
+    DbPlatform *dbPlatform;
+    DbMediaType *dbMediaType;
 };
-
-#endif // DBPLATFORM_H
+#endif // DBSETUP_H

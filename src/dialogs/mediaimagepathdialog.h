@@ -27,10 +27,12 @@ class QComboBox;
 class QLabel;
 class QPushButton;
 class QSqlTableModel;
+class DbSetup;
+class Setup;
 class DbMediaType;
 class DbPlatform;
-class MediaType;
-class Platform;
+/* class MediaType;
+class Platform;*/
 
 class MediaImagePathDialog : public DataObjectEditDialog
 {
@@ -47,23 +49,28 @@ protected slots:
     void browseFilePath();
 
 private:
-    QComboBox *mediaTypeComBox;
-    QComboBox *platformComBox;
+    //QComboBox *mediaTypeComBox;
+    //QComboBox *platformComBox;
+    QComboBox *setupComBox;
     QLabel *filePathLabel;
     QPushButton *filePathButton;
+    DbSetup *dbSetup;
     DbMediaType *dbMediaType;
     DbPlatform *dbPlatform;
 
     void initWidgets();
     void layout();
     void connectSignals();
-    void populateMediaTypeComBox();
-    void populatePlatformComBox();
-    void setSelectedMediaType(const MediaType *);
-    void setSelectedPlatform(const Platform *);
+    void populateSetupComBox();
+    //void populateMediaTypeComBox();
+    //void populatePlatformComBox();
+    void setSelectedSetup(const Setup *);
+    //void setSelectedMediaType(const MediaType *);
+    //void setSelectedPlatform(const Platform *);
     void setSelected(QComboBox*, const EmuFrontObject*, int idIndex);
-    Platform* getSelectedPlatform() const;
-    MediaType* getSelectedMediaType() const;
+    Setup* getSelectedSetup();
+    //Platform* getSelectedPlatform() const;
+    //MediaType* getSelectedMediaType() const;
 
 };
 
