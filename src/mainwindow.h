@@ -26,6 +26,7 @@ class QAction;
 class PlatformDialog;
 class MediaTypeDialog;
 class MediaImagePathMainDialog;
+class SetupMainDialog;
 class QLabel;
 class DatabaseManager;
 class EmuFrontDialog;
@@ -45,6 +46,7 @@ private slots:
 	void configurePlatforms();
     void configureMediaTypes();
     void configureMediaImagePaths();
+    void configureSetups();
 
 private:
 	void createActions();
@@ -57,11 +59,13 @@ private:
 	PlatformDialog *platformDialog;
     MediaTypeDialog *mediaTypeDialog;
     MediaImagePathMainDialog *mediaImagePathDialog;
+    SetupMainDialog *setupMainDialog;
 	QMenu *configMenu;
 	QMenu *fileMenu;
     QAction *configPlatformAction;
     QAction *configMediaTypeAction;
     QAction *configMediaImagePathAction;
+    QAction *configSetupAction;
     QAction *exitAction;
 	QLabel *messageLabel;
     DatabaseManager *dbManager;

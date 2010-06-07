@@ -22,6 +22,7 @@
 #include "dialogs/platformdialog.h"
 #include "dialogs/mediatypedialog.h"
 #include "dialogs/mediaimagepathmaindialog.h"
+#include "dialogs/setupmaindialog.h"
 #include "db/databasemanager.h"
 
 MainWindow::MainWindow()
@@ -51,6 +52,10 @@ void MainWindow::createActions()
     configMediaImagePathAction->setStatusTip(tr("Configure media image file paths."));
     connect(configMediaImagePathAction, SIGNAL(triggered()),
         this, SLOT(configureMediaImagePaths()));
+
+    configSetupAction = new QAction(tr("S&etups"), this);
+    configSetupAction->setStatusTip(tr("Configure set ups"));
+    connect(configSetupAction, SIGNAL(triggered()), this, SLOT(configureSetups()));
 
     exitAction = new QAction(tr("&Exit"), this);
     exitAction->setShortcut(tr("Ctrl+Q"));
@@ -85,13 +90,21 @@ void MainWindow::configureMediaImagePaths()
     activateDialog(mediaImagePathDialog);
 }
 
+void MainWindow::configureSetups()
+{
+    if (!setupMainDialog)
+    {
+        setupMainDialog = new SetupMainDialog(this);
+    }
+    activateDialog(setupMainDialog);
+}
+
 void MainWindow::activateDialog(EmuFrontDialog* dia) const
 {
     dia->show();
     dia->raise();
     dia->activateWindow();
 }
-
 
 void MainWindow::createMenus()
 {
@@ -102,6 +115,7 @@ void MainWindow::createMenus()
     configMenu->addAction(configPlatformAction);
     configMenu->addAction(configMediaTypeAction);
     configMenu->addAction(configMediaImagePathAction);
+    configMenu->addAction(configSetupAction);
 }
 
 void MainWindow::createStatusBar()

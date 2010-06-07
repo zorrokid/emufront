@@ -39,7 +39,8 @@ HEADERS += mainwindow.h \
     dataobjects/setup.h \
     db/dbsetup.h \
     db/dbtablemodelmanager.h \
-    db/dbquerymodelmanager.h
+    db/dbquerymodelmanager.h \
+    dialogs/setupmaindialog.h
 SOURCES += main.cpp \
     mainwindow.cpp \
     db/databasemanager.cpp \
@@ -68,6 +69,7 @@ SOURCES += main.cpp \
     dataobjects/setup.cpp \
     db/dbsetup.cpp \
     db/dbtablemodelmanager.cpp \
-    db/dbquerymodelmanager.cpp
+    db/dbquerymodelmanager.cpp \
+    dialogs/setupmaindialog.cpp
 
 OTHER_FILES +=
