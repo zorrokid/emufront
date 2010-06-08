@@ -17,40 +17,37 @@
 // You should have received a copy of the GNU General Public License
 // along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef DATAOBJECTEDITDIALOG_H
-#define DATAOBJECTEDITDIALOG_H
+#ifndef SETUPEDITDIALOG_H
+#define SETUPEDITDIALOG_H
 
-#include "emufrontdialog.h"
-#include "../dataobjects/emufrontobject.h"
+#include "dataobjecteditdialog.h"
 
-class QDialogButtonBox;
 class QComboBox;
+class DbSetup;
+class DbMediaType;
+class DbPlatform;
+class StringListWidget;
 
-class DataObjectEditDialog : public EmuFrontDialog
+class SetupEditDialog : public DataObjectEditDialog
 {
-       Q_OBJECT
+    Q_OBJECT
 
 public:
-    DataObjectEditDialog(QWidget *parent, EmuFrontObject *ob, Qt::Orientation orientation = Qt::Horizontal);
-    virtual void setDataObject(EmuFrontObject *) = 0;
-
-signals:
-    void dataObjectUpdated();
-    void updateRejected();
-
-protected:
-    virtual void connectSignals();
-    EmuFrontObject *efObject;
-    QDialogButtonBox *buttonBox;
-    void setSelected(QComboBox*, const EmuFrontObject*, int idIndex);
+    SetupEditDialog(QWidget *parent, EmuFrontObject*);
+    //~SetupEditDialog();
+    virtual void setDataObject(EmuFrontObject *);
 
 protected slots:
-    virtual void acceptChanges() =0;
-    virtual void rejectChanges() =0;
+    virtual void acceptChanges();
+    virtual void rejectChanges();
 
 private:
-    Qt::Orientation orientation;
-
+    QComboBox *mediaTypeComBox;
+    QComboBox *platformComBox;
+    DbSetup *dbSetup;
+    DbPlatform *dbPlatform;
+    DbMediaType *dbMediaType;
+    StringListWidget *supportedFileTypesList;
 };
 
-#endif // DATAOBJECTEDITDIALOG_H
+#endif // SETUPEDITDIALOG_H

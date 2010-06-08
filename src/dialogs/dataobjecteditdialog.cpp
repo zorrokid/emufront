@@ -18,6 +18,9 @@
 // along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QDialogButtonBox>
+#include <QSqlQueryModel>
+#include <QSqlRecord>
+#include <QComboBox>
 #include "dataobjecteditdialog.h"
 
 DataObjectEditDialog::DataObjectEditDialog(QWidget *parent, EmuFrontObject *ob, Qt::Orientation orientation)
@@ -31,4 +34,19 @@ void DataObjectEditDialog::connectSignals()
 {
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(acceptChanges()));
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(rejectChanges()));
+}
+
+void DataObjectEditDialog::setSelected(QComboBox *cbox, const EmuFrontObject *ob, int idIndex)
+{
+    if (!ob) return;
+    QSqlQueryModel *model = dynamic_cast<QSqlQueryModel*>(cbox->model());
+    for (int i = 0; i < model->rowCount(); ++i)
+    {
+        QSqlRecord rec = model->record(i);
+        if (rec.value(idIndex) == ob->getId())
+        {
+            cbox->setCurrentIndex(i);
+            break;
+        }
+    }
 }

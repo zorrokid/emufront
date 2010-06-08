@@ -40,7 +40,9 @@ HEADERS += mainwindow.h \
     db/dbsetup.h \
     db/dbtablemodelmanager.h \
     db/dbquerymodelmanager.h \
-    dialogs/setupmaindialog.h
+    dialogs/setupmaindialog.h \
+    dialogs/setupeditdialog.h \
+    widgets/stringlistwidget.h
 SOURCES += main.cpp \
     mainwindow.cpp \
     db/databasemanager.cpp \
@@ -70,6 +72,8 @@ SOURCES += main.cpp \
     db/dbsetup.cpp \
     db/dbtablemodelmanager.cpp \
     db/dbquerymodelmanager.cpp \
-    dialogs/setupmaindialog.cpp
+    dialogs/setupmaindialog.cpp \
+    dialogs/setupeditdialog.cpp \
+    widgets/stringlistwidget.cpp
 
 OTHER_FILES +=

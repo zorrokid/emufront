@@ -155,21 +155,6 @@ void MediaImagePathDialog::setSelectedMediaType(const MediaType *plf)
     setSelected(mediaTypeComBox, plf, DbMediaType::MediaType_Id);
 }*/
 
-// TODO: this might be useful to lever to upper classes
-void MediaImagePathDialog::setSelected(QComboBox *cbox, const EmuFrontObject *ob, int idIndex)
-{
-    if (!ob) return;
-    QSqlTableModel *model = dynamic_cast<QSqlTableModel*>(cbox->model());
-    for (int i = 0; i < model->rowCount(); ++i)
-    {
-        QSqlRecord rec = model->record(i);
-        if (rec.value(idIndex) == ob->getId())
-        {
-            cbox->setCurrentIndex(i);
-            break;
-        }
-    }
-}
 
 Setup* MediaImagePathDialog::getSelectedSetup()
 {

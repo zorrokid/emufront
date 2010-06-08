@@ -67,7 +67,6 @@ private:
     void setSelectedSetup(const Setup *);
     //void setSelectedMediaType(const MediaType *);
     //void setSelectedPlatform(const Platform *);
-    void setSelected(QComboBox*, const EmuFrontObject*, int idIndex);
     Setup* getSelectedSetup();
     //Platform* getSelectedPlatform() const;
     //MediaType* getSelectedMediaType() const;
