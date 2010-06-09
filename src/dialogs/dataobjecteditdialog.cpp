@@ -21,6 +21,7 @@
 #include <QSqlQueryModel>
 #include <QSqlRecord>
 #include <QComboBox>
+#include <QDebug>
 #include "dataobjecteditdialog.h"
 
 DataObjectEditDialog::DataObjectEditDialog(QWidget *parent, EmuFrontObject *ob, Qt::Orientation orientation)
@@ -40,8 +41,10 @@ void DataObjectEditDialog::setSelected(QComboBox *cbox, const EmuFrontObject *ob
 {
     if (!ob) return;
     QSqlQueryModel *model = dynamic_cast<QSqlQueryModel*>(cbox->model());
-    for (int i = 0; i < model->rowCount(); ++i)
+    for (int i = 0; i < model->rowCount(); i++)
     {
+        qDebug() << "i: " << i << ", rowcount: " << model->rowCount();
+        qDebug() << ", object id:" << ob->getId();
         QSqlRecord rec = model->record(i);
         if (rec.value(idIndex) == ob->getId())
         {
@@ -49,4 +52,11 @@ void DataObjectEditDialog::setSelected(QComboBox *cbox, const EmuFrontObject *ob
             break;
         }
     }
+}
+
+void DataObjectEditDialog::rejectChanges()
+{
+    efObject = 0;
+    emit updateRejected();
+    close();
 }

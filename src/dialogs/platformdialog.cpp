@@ -27,7 +27,6 @@ PlatformDialog::PlatformDialog(QWidget *parent)
     : DbObjectDialog(parent)
 {
     setWindowTitle(tr("Set emulated platforms"));
-    nameDialog = new PlatformNameDialog(this, dynamic_cast<Platform*>(dbObject));
     dbManager = new DbPlatform(this);
     initDataTable();
     
@@ -39,6 +38,11 @@ PlatformDialog::~PlatformDialog()
 {
     qDebug() << "PlatformDialog destructor.";
     deleteCurrentObject();
+}
+
+void PlatformDialog::initEditDialog()
+{
+    nameDialog = new PlatformNameDialog(this, dynamic_cast<Platform*>(dbObject));
 }
 
 EmuFrontObject* PlatformDialog::createObject()

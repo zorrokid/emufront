@@ -27,6 +27,8 @@ class DbSetup;
 class DbMediaType;
 class DbPlatform;
 class StringListWidget;
+class MediaType;
+class Platform;
 
 class SetupEditDialog : public DataObjectEditDialog
 {
@@ -39,7 +41,6 @@ public:
 
 protected slots:
     virtual void acceptChanges();
-    virtual void rejectChanges();
 
 private:
     QComboBox *mediaTypeComBox;
@@ -48,6 +49,15 @@ private:
     DbPlatform *dbPlatform;
     DbMediaType *dbMediaType;
     StringListWidget *supportedFileTypesList;
+
+    void initWidgets();
+    void layout();
+    void populateMediaTypeComBox();
+    void populatePlatformComBox();
+    void setSelectedMediaType(const MediaType*);
+    void setSelectedPlatform(const Platform*);
+    MediaType* getSelectedMediaType() const;
+    Platform* getSelectedPlatform() const;
 };
 
 #endif // SETUPEDITDIALOG_H

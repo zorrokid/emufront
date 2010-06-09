@@ -35,6 +35,7 @@ MainWindow::MainWindow()
     platformDialog = 0;
     mediaTypeDialog = 0;
     mediaImagePathDialog = 0;
+    setupMainDialog = 0;
 }
 
 void MainWindow::createActions()
@@ -94,6 +95,7 @@ void MainWindow::configureSetups()
 {
     if (!setupMainDialog)
     {
+        qDebug() << "MainWindow: Creating a setup main dialog.";
         setupMainDialog = new SetupMainDialog(this);
     }
     activateDialog(setupMainDialog);

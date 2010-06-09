@@ -50,6 +50,7 @@ private slots:
 protected:
     // implementation specific, deletes current data object from memory
     virtual void deleteCurrentObject();
+    virtual void initEditDialog() = 0;
     virtual EmuFrontObject* createObject() = 0;
     void initDataTable();
     virtual void connectSignals();

@@ -31,8 +31,6 @@ class DbSetup;
 class Setup;
 class DbMediaType;
 class DbPlatform;
-/* class MediaType;
-class Platform;*/
 
 class MediaImagePathDialog : public DataObjectEditDialog
 {
@@ -45,12 +43,9 @@ public:
 
 protected slots:
     virtual void acceptChanges();
-    virtual void rejectChanges();
     void browseFilePath();
 
 private:
-    //QComboBox *mediaTypeComBox;
-    //QComboBox *platformComBox;
     QComboBox *setupComBox;
     QLabel *filePathLabel;
     QPushButton *filePathButton;
@@ -62,15 +57,8 @@ private:
     void layout();
     void connectSignals();
     void populateSetupComBox();
-    //void populateMediaTypeComBox();
-    //void populatePlatformComBox();
     void setSelectedSetup(const Setup *);
-    //void setSelectedMediaType(const MediaType *);
-    //void setSelectedPlatform(const Platform *);
     Setup* getSelectedSetup();
-    //Platform* getSelectedPlatform() const;
-    //MediaType* getSelectedMediaType() const;
-
 };
 
 #endif // MEDIAIMAGEPATHDIALOG_H

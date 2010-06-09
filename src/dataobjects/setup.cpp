@@ -21,7 +21,7 @@
 #include "platform.h"
 #include "mediatype.h"
 
-Setup::Setup() : EmuFrontObject()
+Setup::Setup() : EmuFrontObject(), platform(0), mediaType(0)
 {
 }
 
@@ -29,9 +29,9 @@ Setup::Setup(int id, Platform *plf, MediaType *mt, QStringList fileTypeExtension
     : EmuFrontObject(id,
         QString("%1%2")
             .arg(plf ? plf->getName() : "")
-            .arg(mt ? mt->getName() : "")),
-        fileTypeExtensions(fileTypeExtensions)
-{
+            .arg(mt ? mt->getName() : "")), platform(plf), mediaType(mt),
+            fileTypeExtensions(fileTypeExtensions){
+
 }
 
 Setup::~Setup()

@@ -26,7 +26,7 @@
 
 DbPlatform::DbPlatform(QObject *parent) : DbTableModelManager(parent)
 {
-    sqlTableModel = getData();
+    sqlTableModel = 0; //getData();
 }
 
 EmuFrontObject* DbPlatform::recordToDataObject(const QSqlRecord *record) const

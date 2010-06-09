@@ -46,7 +46,7 @@ protected:
 
 protected slots:
     virtual void acceptChanges() =0;
-    virtual void rejectChanges() =0;
+    virtual void rejectChanges();
 
 private:
     Qt::Orientation orientation;

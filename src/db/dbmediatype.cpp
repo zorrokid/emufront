@@ -27,7 +27,8 @@
 
 DbMediaType::DbMediaType(QObject *parent) : DbTableModelManager(parent)
 {
-    sqlTableModel = getData();
+    qDebug() << "Creating Media type database manager";
+    sqlTableModel = 0; //getData();
 }
 
 EmuFrontObject* DbMediaType::recordToDataObject(const QSqlRecord *record) const
@@ -107,6 +108,7 @@ QSqlQueryModel* DbMediaType::getData()
     model->setSort(MediaType_Name, Qt::AscendingOrder);
     model->setHeaderData(MediaType_Name, Qt::Horizontal, tr("Name"));
     model->select();
+    qDebug() << "Created a data model for media type data";
     return model;
 }
 

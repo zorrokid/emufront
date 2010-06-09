@@ -72,7 +72,7 @@ void DbObjectDialog::insertDb(const EmuFrontObject *ob) const
 
 void DbObjectDialog::addObject()
 {
-    if (!nameDialog) return;
+    if (!nameDialog) initEditDialog();
     deleteCurrentObject();
     dbObject = createObject();
     nameDialog->setDataObject(dbObject);
@@ -84,6 +84,7 @@ void DbObjectDialog::editObject()
     QModelIndex index = objectList->currentIndex();
     if (!index.isValid())
         return;
+    if (!nameDialog) initEditDialog();
     deleteCurrentObject();
     dbObject = dbManager->getDataObjectFromModel(&index);
     nameDialog->setDataObject(dbObject);

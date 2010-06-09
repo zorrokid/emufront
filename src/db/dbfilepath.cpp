@@ -27,7 +27,7 @@
 DbFilePath::DbFilePath(QObject *parent) : DbQueryModelManager(parent)
 {
     dbSetup = new DbSetup(this);
-    sqlTableModel = getData();
+    sqlTableModel = 0; //getData();
 }
 
 EmuFrontObject* DbFilePath::recordToDataObject(const QSqlRecord *rec) const

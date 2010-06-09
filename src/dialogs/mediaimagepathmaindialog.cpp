@@ -31,8 +31,6 @@ MediaImagePathMainDialog::MediaImagePathMainDialog(QWidget *parent)
 {
     qDebug() << "MediaImagePathMainDialog";
     setWindowTitle(tr("Set media image paths"));
-    qDebug() << "Creating MediaImagePathDialog";
-    nameDialog = new MediaImagePathDialog(this, dynamic_cast<FilePathObject*>(dbObject));
     qDebug() << "Creating DbFilePath";
     dbManager = new DbFilePath(this);
     qDebug() << "Initializing data table";
@@ -50,6 +48,12 @@ void MediaImagePathMainDialog::connectSignals()
 {
     DbObjectDialog::connectSignals();
     connect(scanButton, SIGNAL(clicked()), this, SLOT(beginScanFilePath()));
+}
+
+void MediaImagePathMainDialog::initEditDialog()
+{
+    qDebug() << "Creating MediaImagePathDialog";
+    nameDialog = new MediaImagePathDialog(this, dynamic_cast<FilePathObject*>(dbObject));
 }
 
 void MediaImagePathMainDialog::beginScanFilePath()

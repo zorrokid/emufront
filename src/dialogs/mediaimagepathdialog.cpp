@@ -24,8 +24,6 @@
 #include "../db/dbmediatype.h"
 #include "../db/dbsetup.h"
 #include "mediaimagepathdialog.h"
-//#include "../dataobjects/platform.h"
-//#include "../dataobjects/mediatype.h"
 #include "../dataobjects/filepathobject.h"
 
 MediaImagePathDialog::MediaImagePathDialog(QWidget *parent, EmuFrontObject *efObject)
@@ -33,8 +31,6 @@ MediaImagePathDialog::MediaImagePathDialog(QWidget *parent, EmuFrontObject *efOb
 {
     qDebug() << "Creating MediaImagePathDialog";
     initWidgets();
-    //populateMediaTypeComBox();
-    //populatePlatformComBox();
     dbPlatform = 0;
     dbMediaType = 0;
     connectSignals();
@@ -72,9 +68,7 @@ void MediaImagePathDialog::initWidgets()
     // these widgets will be automatically parented using layout components
     filePathLabel = new QLabel;
     filePathButton = new QPushButton(tr("&Browse filepath"));
-    /*mediaTypeComBox = new QComboBox;
-    platformComBox = new QComboBox;*/
-    setupComBox = new QComboBox;
+     setupComBox = new QComboBox;
 }
 
 void MediaImagePathDialog::populateSetupComBox()
@@ -85,29 +79,9 @@ void MediaImagePathDialog::populateSetupComBox()
     setupComBox->setModelColumn(DbSetup::Setup_Name);
 }
 
-/*void MediaImagePathDialog::populateMediaTypeComBox()
-{
-    qDebug() << "MediaImagePathDialog populating media types combo box";
-    dbMediaType = new DbMediaType(this);
-    mediaTypeComBox->setModel(dbMediaType->getDataModel());
-    mediaTypeComBox->setModelColumn(DbMediaType::MediaType_Name);
-}
-
-void MediaImagePathDialog::populatePlatformComBox()
-{
-    qDebug() << "MediaImagePathDialog populating platform combo box";
-    dbPlatform = new DbPlatform(this);
-    platformComBox->setModel(dbPlatform->getDataModel());
-    platformComBox->setModelColumn(DbPlatform::Platform_Name);
-}*/
-
 void MediaImagePathDialog::layout()
 {
     qDebug() << "MediaImagePathDialog setting layout";
-   /*QLabel *platformLabel = new QLabel(tr("&Platform"));
-   platformLabel->setBuddy(platformComBox);
-   QLabel *mediaTypeLabel = new QLabel(tr("Media&Type"));
-   mediaTypeLabel->setBuddy(mediaTypeComBox);*/
    QLabel *setupLabel = new QLabel(tr("&Set up"));
    setupLabel->setBuddy(setupComBox);
 
@@ -136,25 +110,12 @@ void MediaImagePathDialog::setDataObject(EmuFrontObject *ob)
     QString fpath = fpo->getName();
     filePathLabel->setText(fpath);
     if (fpo->getSetup()) setSelectedSetup(fpo->getSetup());
-    /*if (fpo->getPlatform()) setSelectedPlatform(fpo->getPlatform());
-    if (fpo->getMediaType()) setSelectedMediaType(fpo->getMediaType());*/
 }
 
 void MediaImagePathDialog::setSelectedSetup(const Setup *sup)
 {
     setSelected(setupComBox, sup, DbSetup::Setup_Id);
 }
-
-/*void MediaImagePathDialog::setSelectedPlatform(const Platform *plf)
-{
-    setSelected(platformComBox, plf, DbPlatform::Platform_Id);
-}
-
-void MediaImagePathDialog::setSelectedMediaType(const MediaType *plf)
-{
-    setSelected(mediaTypeComBox, plf, DbMediaType::MediaType_Id);
-}*/
-
 
 Setup* MediaImagePathDialog::getSelectedSetup()
 {
@@ -189,49 +150,6 @@ Setup* MediaImagePathDialog::getSelectedSetup()
     else qDebug() << "Record missing";
     return sup;
 }
-/*Platform* MediaImagePathDialog::getSelectedPlatform() const
-{
-    qDebug() << "MediaImagePathDialog Selecting platform";
-    Platform *plf = 0;
-    int index = platformComBox->currentIndex();
-    qDebug() << "Current index " << index;
-    if (index < 0) return plf;
-    QSqlTableModel* platformModel = dynamic_cast<QSqlTableModel*>(platformComBox->model());
-    if (!platformModel)
-    {
-        qDebug() << "Data model missing";
-        return plf;
-    }
-    QSqlRecord rec = platformModel->record(index);
-    if (!rec.isEmpty())
-    {
-        qDebug() << "We have a record";
-        plf = new Platform(rec.value(DbPlatform::Platform_Id).toInt(),
-        rec.value(DbPlatform::Platform_Name).toString(),
-        rec.value(DbPlatform::Platform_Filename).toString());
-    }
-    else qDebug() << "Record missing";
-    return plf;
-}
-
-MediaType* MediaImagePathDialog::getSelectedMediaType() const
-{
-    MediaType *mt = 0;
-    int index = mediaTypeComBox->currentIndex();
-    if (index < 0) return mt;
-    QSqlTableModel* mediaTypeModel = dynamic_cast<QSqlTableModel*>(mediaTypeComBox->model());
-    if (!mediaTypeModel)
-    {
-        qDebug("Media type data model missing");
-        return mt;
-    }
-    QSqlRecord rec = mediaTypeModel->record(index);
-    if (!rec.isEmpty())
-        mt = new MediaType(rec.value(DbMediaType::MediaType_Id).toInt(),
-                           rec.value(DbMediaType::MediaType_Name).toString(),
-                           rec.value(DbMediaType::MediaType_Filename).toString());
-    return mt;
-}*/
 
 void MediaImagePathDialog::acceptChanges()
 {
@@ -244,20 +162,6 @@ void MediaImagePathDialog::acceptChanges()
         return;
     }
     qDebug() << "Setup selected " << sup->getName();
-    /*Platform *plf = getSelectedPlatform();
-    if (!plf)
-    {
-        QMessageBox::information(this, tr("Platform"), tr("Platform not selected"), QMessageBox::Ok);
-        return;
-    }
-    qDebug() << "Platform selected " << plf->getName();
-    MediaType *mt = getSelectedMediaType();
-    if (!mt)
-    {
-        QMessageBox::information(this, tr("Media type"), tr("Media type was not selected"), QMessageBox::Ok);
-        return;
-    }
-    qDebug() << "Media type selected " << mt->getName();*/
     QString filePath = filePathLabel->text();
     if (filePath.isEmpty())
     {
@@ -271,28 +175,8 @@ void MediaImagePathDialog::acceptChanges()
         delete tmp;
         fpo->setSetup(sup);
     }
-    /*Platform *ptmp = fpo->getPlatform();
-    if (plf != ptmp)
-    {
-        delete ptmp;
-        fpo->setPlatform(plf);
-    }
-    MediaType *mtmp = fpo->getMediaType();
-    if (mt != mtmp)
-    {
-        delete mtmp;
-        fpo->setMediaType(mt);
-    }*/
     fpo->setName(filePath);
     emit dataObjectUpdated();
     efObject = 0;
-    close();
-}
-
-void MediaImagePathDialog::rejectChanges()
-{
-    // we don't delete the data object here
-    efObject = 0;
-    emit updateRejected();
     close();
 }

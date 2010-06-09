@@ -33,6 +33,7 @@ public:
 protected:
     virtual void deleteCurrentObject();
     virtual EmuFrontObject* createObject();
+    virtual void initEditDialog();
 };
 
 #endif

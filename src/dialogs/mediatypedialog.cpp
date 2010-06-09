@@ -30,8 +30,6 @@ MediaTypeDialog::MediaTypeDialog(QWidget* parent)
     :DbObjectDialog(parent)
 {
     setWindowTitle(tr("Set media types"));
-    //nameDialog = 0;
-    nameDialog = new MediaTypeNameDialog(this, dynamic_cast<MediaType*>(dbObject));
     dbManager = new DbMediaType(this);
     initDataTable();
 
@@ -43,6 +41,11 @@ MediaTypeDialog::MediaTypeDialog(QWidget* parent)
 MediaTypeDialog::~MediaTypeDialog()
 {
     deleteCurrentObject();
+}
+
+void MediaTypeDialog::initEditDialog()
+{
+    nameDialog = new MediaTypeNameDialog(this, dynamic_cast<MediaType*>(dbObject));
 }
 
 EmuFrontObject* MediaTypeDialog::createObject()

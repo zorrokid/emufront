@@ -33,8 +33,7 @@ public:
 protected:
     virtual void deleteCurrentObject();
     virtual EmuFrontObject* createObject();
-    //virtual void connectSignals();
-
+    virtual void initEditDialog();
 };
 
 #endif // SETUPMAINDIALOG_H

@@ -38,12 +38,11 @@ public:
 
 protected slots:
     virtual void acceptChanges();
-    virtual void rejectChanges();
     void enableSaveButton(const QString &);
 
 protected:
     virtual void setDataObject(QString name) =0;
-	QLabel *nameLabel;
+    QLabel *nameLabel;
 	QLineEdit *nameEdit;
 
 private:

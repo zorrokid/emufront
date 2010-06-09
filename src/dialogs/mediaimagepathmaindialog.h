@@ -31,6 +31,7 @@ public:
     ~MediaImagePathMainDialog();
 
 protected:
+    virtual void initEditDialog();
     virtual void deleteCurrentObject();
     virtual EmuFrontObject* createObject();
     virtual void connectSignals();

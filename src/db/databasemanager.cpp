@@ -48,6 +48,7 @@ DatabaseManager::~DatabaseManager()
 
 QSqlQueryModel* DatabaseManager::getDataModel()
 {
+    if (!sqlTableModel) sqlTableModel = getData();
     return sqlTableModel;
 }
 

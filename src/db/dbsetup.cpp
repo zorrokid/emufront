@@ -31,7 +31,7 @@ DbSetup::DbSetup(QObject *parent) : DbQueryModelManager(parent)
 {
     dbPlatform = new DbPlatform(this);
     dbMediaType = new DbMediaType(this);
-    sqlTableModel = getData();
+    sqlTableModel = 0; //getData();
 }
 
 EmuFrontObject* DbSetup::recordToDataObject(const QSqlRecord *rec) const

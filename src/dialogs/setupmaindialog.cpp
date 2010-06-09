@@ -19,21 +19,31 @@
 
 #include <QtGui>
 #include "setupmaindialog.h"
+#include "setupeditdialog.h"
 #include "../db/dbsetup.h"
 
 SetupMainDialog::SetupMainDialog(QWidget *parent)
     : DbObjectDialog(parent)
 {
+    qDebug() << "Creating setup main dialog.";
     setWindowTitle(tr("Setups"));
-    //nameDialog = new SetupEditor(this, dynamic_cast<Setup*>(dbObject));
+    qDebug() << "Creating setup db manager";
     dbManager = new DbSetup(this);
+    qDebug() << "Initializing data table";
     initDataTable();
+    qDebug() << "Connecting signals";
     connectSignals();
 }
 
 SetupMainDialog::~SetupMainDialog()
 {
     deleteCurrentObject();
+}
+
+void SetupMainDialog::initEditDialog()
+{
+    qDebug() << "Creating setup edit dialog.";
+    nameDialog = new SetupEditDialog(this, dynamic_cast<Setup*>(dbObject));
 }
 
 void SetupMainDialog::deleteCurrentObject()

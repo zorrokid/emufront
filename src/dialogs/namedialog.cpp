@@ -63,13 +63,6 @@ void NameDialog::layout()
 	setLayout(mainLayout);
 }
 
-void NameDialog::rejectChanges()
-{
-    efObject = 0;
-    emit updateRejected();
-    close();
-}
-
 void NameDialog::acceptChanges()
 {
     if (nameEdit->text() == 0 || nameEdit->text().trimmed().isEmpty())
