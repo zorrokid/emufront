@@ -23,7 +23,6 @@
 StringListWidget::StringListWidget(QWidget *parent, bool sort, int sortIndex) :
     QWidget(parent), sort(sort), sortIndex(sortIndex)
 {
-    //model = new QStringListModel(this);
     initUi();
     connectSignals();
 }
@@ -31,7 +30,6 @@ StringListWidget::StringListWidget(QWidget *parent, bool sort, int sortIndex) :
 void StringListWidget::initUi()
 {
     stringList = new QListWidget(this);
-    //stringList->setModel(model);
     btnAdd = new QPushButton(tr("&Add"), this);
     btnRemove = new QPushButton(tr("&Remove"), this);
 
@@ -59,11 +57,7 @@ void StringListWidget::addClicked()
     if (input.isEmpty()) return;
     stringList->addItem(input);
     stringList->sortItems();
-    /*QStringList l = model->stringList();
-    l << input;
-    model->setStringList(l);
-    if (sort) model->sort(sortIndex);*/
-    //emit stringListUpdated;
+    emit stringListUpdated();
 }
 
 void StringListWidget::removeClicked()
@@ -74,16 +68,7 @@ void StringListWidget::removeClicked()
     {
         stringList->takeItem(row);
     }
-    /*QModelIndexList selected = stringList->selectedIndexes();
-    if (selected.count() < 1) return;
-    qDebug() <<  selected.count() << " items selected for removal.";
-    foreach(QModelIndex i, selected)
-    {
-        if (!i.isValid()) continue;
-        int row = i.row();
-        model->removeRows(row, 1);
-    }*/
-    //emit stringListUpdated;
+    emit stringListUpdated();
 }
 
 QStringList StringListWidget::getItems()
