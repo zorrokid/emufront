@@ -17,9 +17,11 @@
 // You should have received a copy of the GNU General Public License
 // along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <QDebug>
 #include <QStringList>
 #include <QSqlRecord>
 #include <QSqlQuery>
+#include <QSqlError>
 #include <QSqlRelationalTableModel>
 #include "dbsetup.h"
 #include "dbplatform.h"
@@ -85,16 +87,21 @@ bool DbSetup::updateDataObjectToModel(const EmuFrontObject *ob)
 
 bool DbSetup::insertDataObjectToModel(const EmuFrontObject *ob)
 {
+    qDebug() << "Inserting setup to database...";
     const Setup *fpo = dynamic_cast<const Setup*>(ob);
     QSqlQuery query;
-    query.prepare("INSERT INTO setup (id, platformid, mediatypeid, fileextensions)"
+    query.prepare("INSERT INTO setup (id, platformid, mediatypeid, filetypeextensions)"
         "VALUES (NULL, :platformid, :mediatypeid, :fileextensions)");
-    if (fpo->getPlatform())
-        query.bindValue(":platformid", fpo->getPlatform()->getId());
-    if (fpo->getMediaType())
-        query.bindValue(":mediatypeid", fpo->getMediaType()->getId());
-    query.bindValue(":filetypeextensions", fpo->getSupportedFileTypeExtensions().join(FILE_TYPE_EXTENSION_SEPARATOR));
-    return query.exec();
+    int plfId = fpo->getPlatform() ? fpo->getPlatform()->getId() : -1;
+    int mtId = fpo->getMediaType() ? fpo->getMediaType()->getId() : -1;
+    QString exts = fpo->getSupportedFileTypeExtensions().join(FILE_TYPE_EXTENSION_SEPARATOR);
+    qDebug() << "Going to insert setup with platform " << plfId << ", media type " << mtId << " and extensions " << exts;
+    query.bindValue(":platformid", plfId);
+    query.bindValue(":mediatypeid", mtId);
+    query.bindValue(":filetypeextensions", exts);
+    bool ret = query.exec();
+    if (!ret) qDebug() << query.lastError().text() << query.executedQuery();
+    return ret;
 
     /*int row = 0;
     sqlTableModel->insertRows(row, 1);

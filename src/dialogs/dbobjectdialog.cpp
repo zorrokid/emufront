@@ -73,7 +73,9 @@ void DbObjectDialog::testSlot()
 
 void DbObjectDialog::insertDb(const EmuFrontObject *ob) const
 {
-    dbManager->insertDataObjectToModel(ob);
+    if ( dbManager->insertDataObjectToModel(ob) )
+        qDebug() << "Db insert ok";
+    else qDebug() << "Db insert failed";
 }
 
 void DbObjectDialog::addObject()
@@ -126,7 +128,10 @@ void DbObjectDialog::updateDb(const EmuFrontObject *ob) const
 {
     if (!ob) return;
     qDebug() << "Updating platform " << ob->getName();
-    dbManager->updateDataObjectToModel(ob);
+    if ( dbManager->updateDataObjectToModel(ob) )
+    { qDebug() << "Db update ok!"; }
+    else qDebug() << "Db update failed";
+
 }
 
 void DbObjectDialog::updateList() const
