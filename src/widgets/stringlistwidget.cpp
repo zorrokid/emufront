@@ -69,6 +69,11 @@ void StringListWidget::addClicked()
 void StringListWidget::removeClicked()
 {
     qDebug() << "StringListWidget::removeClicked";
+    int row = stringList->currentRow();
+    if (row >= 0 && row < stringList->count())
+    {
+        stringList->takeItem(row);
+    }
     /*QModelIndexList selected = stringList->selectedIndexes();
     if (selected.count() < 1) return;
     qDebug() <<  selected.count() << " items selected for removal.";
