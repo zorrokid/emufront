@@ -82,6 +82,7 @@ void SetupEditDialog::layout()
    gridLayout->addWidget(platformComBox, 0, 1);
    gridLayout->addWidget(mediaTypeLabel, 1, 0);
    gridLayout->addWidget(mediaTypeComBox, 1, 1);
+   gridLayout->addWidget(supportedFileTypesList, 2, 0, 2, 2);
    QVBoxLayout *mainLayout = new QVBoxLayout;
    mainLayout->addLayout(gridLayout);
    mainLayout->addWidget(buttonBox);
