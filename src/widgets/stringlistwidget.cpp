@@ -73,12 +73,15 @@ void StringListWidget::removeClicked()
 
 QStringList StringListWidget::getItems()
 {
-    //return model->stringList();
     QStringList l;
+    for(int i = 0; i < stringList->count(); ++i)
+        l << stringList->item(i)->text();
     return l;
 }
 
 void StringListWidget::setItems(QStringList list)
 {
-    //model->setStringList(list);
+    stringList->clear();
+    foreach(QString s, list)
+        stringList->addItem(s);
 }
