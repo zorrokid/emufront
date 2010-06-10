@@ -39,6 +39,7 @@ MediaImagePathMainDialog::MediaImagePathMainDialog(QWidget *parent)
     scanButton = new QPushButton(tr("&Scan"));
     buttonBox->addButton(scanButton, QDialogButtonBox::ActionRole);
 
+    initEditDialog();
     qDebug() << "Connecting signals";
     // do not move to parent class:
     connectSignals();

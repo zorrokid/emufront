@@ -28,6 +28,7 @@ NameDialog::NameDialog(QWidget *parent, EmuFrontObject *efObj)
 	nameLabel->setBuddy(nameEdit);
     connectSignals();
 	layout();
+    emit test();
 	setWindowTitle(tr("Set names"));
 }
 
@@ -72,8 +73,10 @@ void NameDialog::acceptChanges()
     }
 
 	QString name = nameEdit->text().simplified();
+    qDebug() << "We have a name " << name << ".";
     setDataObject(name);
     emit dataObjectUpdated();
+    qDebug() << "Signal emitted.";
     efObject = 0; // TODO we should also set efObject to null when user clicks abort
     close();
 }

@@ -46,6 +46,7 @@ private slots:
     void updateData();
     void updateReject();
     void updateList() const;
+    void testSlot();
 
 protected:
     // implementation specific, deletes current data object from memory

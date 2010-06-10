@@ -29,6 +29,7 @@ PlatformDialog::PlatformDialog(QWidget *parent)
     setWindowTitle(tr("Set emulated platforms"));
     dbManager = new DbPlatform(this);
     initDataTable();
+    initEditDialog();
     
     // do not move to parent class:
     connectSignals();

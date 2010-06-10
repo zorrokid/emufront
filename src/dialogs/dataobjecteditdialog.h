@@ -34,15 +34,15 @@ public:
     DataObjectEditDialog(QWidget *parent, EmuFrontObject *ob, Qt::Orientation orientation = Qt::Horizontal);
     virtual void setDataObject(EmuFrontObject *) = 0;
 
-signals:
-    void dataObjectUpdated();
-    void updateRejected();
-
 protected:
     virtual void connectSignals();
     EmuFrontObject *efObject;
     QDialogButtonBox *buttonBox;
     void setSelected(QComboBox*, const EmuFrontObject*, int idIndex);
+
+signals:
+    void updateRejected();
+    void dataObjectUpdated();
 
 protected slots:
     virtual void acceptChanges() =0;

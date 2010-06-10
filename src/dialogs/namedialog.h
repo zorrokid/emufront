@@ -36,6 +36,9 @@ public:
     ~NameDialog();
     virtual void setDataObject(EmuFrontObject *) = 0;
 
+signals:
+    void test();
+
 protected slots:
     virtual void acceptChanges();
     void enableSaveButton(const QString &);

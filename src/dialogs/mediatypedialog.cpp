@@ -32,6 +32,7 @@ MediaTypeDialog::MediaTypeDialog(QWidget* parent)
     setWindowTitle(tr("Set media types"));
     dbManager = new DbMediaType(this);
     initDataTable();
+    initEditDialog();
 
     // do not move to parent class:
     connectSignals();

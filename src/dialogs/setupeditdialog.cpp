@@ -126,6 +126,7 @@ void SetupEditDialog::acceptChanges()
     sup->setSupportedFileTypeExtensions(supportedFileTypesList->getItems());
     emit dataObjectUpdated();
     efObject = 0;
+    qDebug() << "Closing setup edit dialog";
     close();
 }
 

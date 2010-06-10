@@ -31,6 +31,7 @@ SetupMainDialog::SetupMainDialog(QWidget *parent)
     dbManager = new DbSetup(this);
     qDebug() << "Initializing data table";
     initDataTable();
+    initEditDialog();
     qDebug() << "Connecting signals";
     connectSignals();
 }

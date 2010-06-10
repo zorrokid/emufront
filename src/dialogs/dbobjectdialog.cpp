@@ -63,6 +63,12 @@ void DbObjectDialog::connectSignals()
     connect(deleteButton, SIGNAL(clicked()), this, SLOT(deleteButtonClicked()));
     connect(nameDialog, SIGNAL(dataObjectUpdated()), this, SLOT(updateData()));
     connect(nameDialog, SIGNAL(updateRejected()), this, SLOT(updateReject()));
+    connect(nameDialog, SIGNAL(test()), this, SLOT(testSlot()));
+}
+
+void DbObjectDialog::testSlot()
+{
+    qDebug() << "TEST SIGNAL RECEIVED!";
 }
 
 void DbObjectDialog::insertDb(const EmuFrontObject *ob) const
