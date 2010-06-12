@@ -43,7 +43,9 @@ HEADERS += mainwindow.h \
     dialogs/setupmaindialog.h \
     dialogs/setupeditdialog.h \
     widgets/stringlistwidget.h \
-    exceptions/emufrontexception.h
+    exceptions/emufrontexception.h \
+    dataobjects/mediaimage.h \
+    dataobjects/mediaimagecontainer.h
 SOURCES += main.cpp \
     mainwindow.cpp \
     db/databasemanager.cpp \
@@ -76,5 +78,7 @@ SOURCES += main.cpp \
     dialogs/setupmaindialog.cpp \
     dialogs/setupeditdialog.cpp \
     widgets/stringlistwidget.cpp \
-    exceptions/emufrontexception.cpp
+    exceptions/emufrontexception.cpp \
+    dataobjects/mediaimage.cpp \
+    dataobjects/mediaimagecontainer.cpp
 OTHER_FILES += 

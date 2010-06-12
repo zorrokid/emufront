@@ -6,6 +6,8 @@
 #include "../dataobjects/filepathobject.h"
 
 class QStringList;
+class MediaImageContainer;
+class MediaImage;
 
 class FileUtil : QObject
 {
@@ -14,9 +16,10 @@ class FileUtil : QObject
 public:
     FileUtil(QObject *parent);
 
-    QList<EmuFrontFileObject*> scanFilePath(const FilePathObject *fpo, const QStringList filters);
+    QList<MediaImageContainer*> scanFilePath(const FilePathObject *fpo, const QStringList filters);
 private:
-    QList<EmuFrontFileObject*>  listContents(const QString filePath, const FilePathObject *fp);
+    QList<MediaImage*>  listContents(const QString filePath, const FilePathObject *fp);
+    bool isSupportedFile(const QString filename, const QStringList supportedFileExtensions);
 };
 
 #endif // FILEUTIL_H

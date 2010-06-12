@@ -67,33 +67,14 @@ void MediaImagePathMainDialog::beginScanFilePath()
         QStringList l;
         l << "*.zip"; // TODO set filters in a global constant class
 
-        QList<EmuFrontFileObject*> files = fileUtil.scanFilePath(fpo, l);
+        QList<MediaImageContainer*> files = fileUtil.scanFilePath(fpo, l);
+
+        // TODO
     }
-    catch (QString s)
+    catch (EmuFrontException s)
     {
-        QMessageBox::warning(this, tr("Warning"), s, QMessageBox::Ok);
-    }
-}
-
-void MediaImagePathMainDialog::scanFilePath(const QString fp, const QStringList filters)
-{
-    QDir dir(fp);
-    if (!dir.exists() || !dir.isReadable())
-        throw QString(tr("Directory %1 doesn't exists or isn't readable!").arg(fp));
-
-    dir.setFilter(QDir::Files | QDir::NoSymLinks | QDir::NoDotAndDotDot | QDir::Readable);
-
-    if (filters.count() > 0) dir.setNameFilters(filters);
-
-    QFileInfoList list = dir.entryInfoList();
-    for (int i = 0; i < list.size(); ++i)
-    {
-        QFileInfo fileInfo = list.at(i);
-        qDebug() << QString("%1 %2").arg(fileInfo.size(), 10).arg(fileInfo.absoluteFilePath());
-
-        QFile f(fileInfo.absoluteFilePath());
-
-    }
+        errorMessage->showMessage( s.what() );
+   }
 }
 
 EmuFrontObject* MediaImagePathMainDialog::createObject()
