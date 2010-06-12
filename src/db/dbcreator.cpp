@@ -151,6 +151,13 @@ bool DbCreator::createDB()
             "END;"
             );
 
+        ret = query.exec(
+            "CREATE TRIGGER IF NOT EXISTS trg_onsetupdelete "
+            "AFTER DELETE ON setup"
+            "BEGIN "
+            "   DELETE FROM filepath WHERE filepath.setupid = old.id;"
+            "END;"
+            );
     }
     catch (QString tbl)
     {

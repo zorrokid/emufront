@@ -39,7 +39,7 @@ EmuFrontObject* DbFilePath::recordToDataObject(const QSqlRecord *rec) const
     Setup *sup = dynamic_cast<Setup*>(dbSetup->getDataObject(setupId));
        // TODO
     //int lastScanned = 0;
-    return new FilePathObject(id, fpath, fpath, 0, sup);
+    return new FilePathObject(id, fpath, fpath, 0,   sup);
 }
 
 bool DbFilePath::updateDataObjectToModel(const EmuFrontObject *ob)
