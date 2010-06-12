@@ -32,6 +32,11 @@ public:
     bool insertDataObjectToModel(const EmuFrontObject*);
     bool deleteDataObjectFromModel(QModelIndex*);
     int countDataObjectRefs(int) const;
+    enum { FilePath_Id = 0,
+           FilePath_Name,
+           FilePath_LastScanned,
+           FilePath_SetupId,
+           FilePath_SetupName };
 
 protected:
     virtual EmuFrontObject* recordToDataObject(const QSqlRecord* ) const;
@@ -41,13 +46,6 @@ protected:
 private:
     virtual QSqlQueryModel* getData();
     DbSetup *dbSetup;
-    // TODO: add last scanned column
-    enum { FilePath_Id = 0,
-           FilePath_Name,
-           FilePath_FileTypeId,
-           FilePath_LastScanned,
-           FilePath_SetupId,
-           FilePath_SetupName };
 };
 
 #endif // DBFILEPATH_H

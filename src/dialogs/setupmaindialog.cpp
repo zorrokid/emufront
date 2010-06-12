@@ -25,14 +25,13 @@
 SetupMainDialog::SetupMainDialog(QWidget *parent)
     : DbObjectDialog(parent)
 {
-    qDebug() << "Creating setup main dialog.";
     setWindowTitle(tr("Setups"));
-    qDebug() << "Creating setup db manager";
     dbManager = new DbSetup(this);
-    qDebug() << "Initializing data table";
     initDataTable();
     initEditDialog();
-    qDebug() << "Connecting signals";
+    objectList->hideColumn(DbSetup::Setup_Id);
+    objectList->hideColumn(DbSetup::Setup_PlatformId);
+    objectList->hideColumn(DbSetup::Setup_MediaTypeId);
     connectSignals();
 }
 
@@ -43,7 +42,6 @@ SetupMainDialog::~SetupMainDialog()
 
 void SetupMainDialog::initEditDialog()
 {
-    qDebug() << "Creating setup edit dialog.";
     nameDialog = new SetupEditDialog(this, dynamic_cast<Setup*>(dbObject));
 }
 
@@ -57,7 +55,3 @@ EmuFrontObject* SetupMainDialog::createObject()
 {
     return new Setup;
 }
-
-/*void SetupMainDialog::connectSignals()
-{
-}*/

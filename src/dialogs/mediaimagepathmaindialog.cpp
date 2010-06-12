@@ -29,18 +29,16 @@
 MediaImagePathMainDialog::MediaImagePathMainDialog(QWidget *parent)
     : DbObjectDialog(parent)
 {
-    qDebug() << "MediaImagePathMainDialog";
     setWindowTitle(tr("Set media image paths"));
-    qDebug() << "Creating DbFilePath";
     dbManager = new DbFilePath(this);
-    qDebug() << "Initializing data table";
     initDataTable();
 
     scanButton = new QPushButton(tr("&Scan"));
     buttonBox->addButton(scanButton, QDialogButtonBox::ActionRole);
 
     initEditDialog();
-    qDebug() << "Connecting signals";
+    objectList->hideColumn(DbFilePath::FilePath_Id);
+    objectList->hideColumn(DbFilePath::FilePath_SetupId);
     // do not move to parent class:
     connectSignals();
 }
@@ -53,13 +51,11 @@ void MediaImagePathMainDialog::connectSignals()
 
 void MediaImagePathMainDialog::initEditDialog()
 {
-    qDebug() << "Creating MediaImagePathDialog";
     nameDialog = new MediaImagePathDialog(this, dynamic_cast<FilePathObject*>(dbObject));
 }
 
 void MediaImagePathMainDialog::beginScanFilePath()
 {
-    qDebug() << "Scan file path requested";
     QModelIndex index = objectList->currentIndex();
     FileUtil fileUtil(this);
     if (!index.isValid()) return;
@@ -81,7 +77,6 @@ void MediaImagePathMainDialog::beginScanFilePath()
 
 void MediaImagePathMainDialog::scanFilePath(const QString fp, const QStringList filters)
 {
-    qDebug() << "Will scan file path " << fp;
     QDir dir(fp);
     if (!dir.exists() || !dir.isReadable())
         throw QString(tr("Directory %1 doesn't exists or isn't readable!").arg(fp));
