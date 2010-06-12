@@ -267,3 +267,8 @@ bool DbObjectDialog::confirmDelete(QString name, int numRefs)
         return false;
     return true;
 }
+
+void DbObjectDialog::refreshDataModel()
+{
+    dbManager->resetModel();
+}

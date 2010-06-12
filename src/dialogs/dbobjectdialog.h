@@ -37,6 +37,7 @@ class DbObjectDialog : public EmuFrontDialog
 public:
     DbObjectDialog(QWidget *parent = 0);
     ~DbObjectDialog();
+    virtual void refreshDataModel();
 
 private slots:
 	void editButtonClicked();

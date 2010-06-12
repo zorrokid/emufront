@@ -99,6 +99,7 @@ void MainWindow::configureSetups()
         setupMainDialog = new SetupMainDialog(this);
     }
     activateDialog(setupMainDialog);
+    setupMainDialog->refreshDataModel();
 }
 
 void MainWindow::activateDialog(EmuFrontDialog* dia) const
