@@ -60,7 +60,8 @@ void MediaImagePathDialog::initWidgets()
     // these widgets will be automatically parented using layout components
     filePathLabel = new QLabel;
     filePathButton = new QPushButton(tr("&Browse filepath"));
-     setupComBox = new QComboBox;
+    setupComBox = new QComboBox;
+    populateSetupComBox();
 }
 
 void MediaImagePathDialog::populateSetupComBox()
