@@ -104,23 +104,39 @@ bool DbObjectDialog::deleteItem()
     QModelIndex index = objectList->currentIndex();
     if (!index.isValid()) return false;
 
-    EmuFrontObject *ob = dbManager->getDataObjectFromModel(&index);
-    if (!ob) return false;
+    qDebug() << "DbObjectDialog going to delete item at row " << index.row();
 
-    int numBindings = dbManager->countDataObjectRefs(ob->getId());
-    if (numBindings > 0 && !confirmDelete(ob->getName(), numBindings))
+    try
     {
+        EmuFrontObject *ob = dbManager->getDataObjectFromModel(&index);
+
+        if (!ob) return false;
+        qDebug() << "DbObjectDialog going to delete item" << ob->getName();
+
+        int numBindings = dbManager->countDataObjectRefs(ob->getId());
+
+        qDebug() << "Got " << numBindings << " bindings.";
+
+        if (numBindings > 0 && !confirmDelete(ob->getName(), numBindings))
+        { return false; }
+        deleteCurrentObject();
+
+        qDebug() << "Deleted object from memory, going to delete from db.";
+
+        bool delOk = dbManager->deleteDataObjectFromModel(&index);
+        if (!delOk)
+        {
+            qDebug() << "delete failed";
             return false;
+        }
+        qDebug() << "Object deleted from database";
+        updateList();
+        objectList->setFocus();
     }
-    deleteCurrentObject();
-    bool delOk = dbManager->deleteDataObjectFromModel(&index);
-    if (!delOk)
+    catch(EmuFrontException e)
     {
-        qDebug() << "delete failed";
-        return false;
+        errorMessage->showMessage(e.what());
     }
-    updateList();
-    objectList->setFocus();
     return false;
 }
 

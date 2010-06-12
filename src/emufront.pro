@@ -42,7 +42,8 @@ HEADERS += mainwindow.h \
     db/dbquerymodelmanager.h \
     dialogs/setupmaindialog.h \
     dialogs/setupeditdialog.h \
-    widgets/stringlistwidget.h
+    widgets/stringlistwidget.h \
+    exceptions/emufrontexception.h
 SOURCES += main.cpp \
     mainwindow.cpp \
     db/databasemanager.cpp \
@@ -74,6 +75,6 @@ SOURCES += main.cpp \
     db/dbquerymodelmanager.cpp \
     dialogs/setupmaindialog.cpp \
     dialogs/setupeditdialog.cpp \
-    widgets/stringlistwidget.cpp
-
-OTHER_FILES +=
+    widgets/stringlistwidget.cpp \
+    exceptions/emufrontexception.cpp
+OTHER_FILES += 

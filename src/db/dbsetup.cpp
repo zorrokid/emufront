@@ -38,14 +38,23 @@ DbSetup::DbSetup(QObject *parent) : DbQueryModelManager(parent)
 
 EmuFrontObject* DbSetup::recordToDataObject(const QSqlRecord *rec) const
 {
+    Setup *s = 0;
+    if (!rec) return s;
     int id = rec->value(Setup_Id).toInt();
+    qDebug() << "Creating a Setup object with id " << id;
     QString extensions = rec->value(Setup_FileTypeExtensions).toString();
+    qDebug() << "Supported file types" << extensions;
     QStringList list = extensions.split(FILE_TYPE_EXTENSION_SEPARATOR);
     int plfId = rec->value(Setup_PlatformId).toInt();
+    qDebug() <<  "Platform id " << plfId;
     int mtId = rec->value(Setup_MediaTypeId).toInt();
+    qDebug() <<  "Media type id " << mtId;
     Platform *plf = dynamic_cast<Platform*>(dbPlatform->getDataObject(plfId));
+    qDebug() << "Platform " << plf->getName();
     MediaType *mt = dynamic_cast<MediaType*>(dbMediaType->getDataObject(mtId));
-    return new Setup(id, plf, mt, list);
+    qDebug() << "Media type " << mt->getName();
+    s = new Setup(id, plf, mt, list);
+    return s;
 }
 
 bool DbSetup::updateDataObjectToModel(const EmuFrontObject *ob)
@@ -133,7 +142,7 @@ QString DbSetup::constructSelect(QString whereClause) const
         "setup.platformid AS PlatformId, "
         "setup.mediatypeid AS MediaTypeId, "
         "setup.filetypeextensions AS SupportedFileTypeExtensions, "
-        "platform.name || ' ' || mediatype.name AS SetupName, "
+        "platform.name || ' ' || mediatype.name AS SetupName "
         "FROM setup %1"
         "INNER JOIN platform ON setup.platformid=platform.id "
         "INNER JOIN mediatype ON setup.mediatypeid=mediatype.id "
@@ -155,25 +164,15 @@ bool DbSetup::deleteDataObjectFromModel(QModelIndex */*index*/)
 QSqlQueryModel* DbSetup::getData()
 {
     QSqlQueryModel *model = new QSqlQueryModel;
-    model->setQuery(constructSelect());
+    QString select = constructSelect();
+    qDebug() << select;
+    model->setQuery(select);
     model->setHeaderData(Setup_Id, Qt::Horizontal, tr("Id"));
     model->setHeaderData(Setup_PlatformId, Qt::Horizontal, tr("Platform id"));
     model->setHeaderData(Setup_MediaTypeId, Qt::Horizontal, tr("Media type id"));
     model->setHeaderData(Setup_FileTypeExtensions, Qt::Horizontal, tr("File types"));
     model->setHeaderData(Setup_Name, Qt::Horizontal, tr("Name"));
     return model;
-
-   /*QSqlRelationalTableModel *model = new QSqlRelationalTableModel(this);
-   model->setTable(DB_TABLE_NAME_FILEPATH);
-   model->setRelation(FilePath_PlatformId,
-       QSqlRelation(DB_TABLE_NAME_PLATFORM, "id", "name"));
-   model->setRelation(FilePath_MediaTypeId,
-       QSqlRelation(DB_TABLE_NAME_MEDIATYPE, "id", "name"));
-   model->setSort(FilePath_Name, Qt::AscendingOrder);
-   model->setHeaderData(FilePath_MediaTypeId, Qt::Horizontal, tr("Media type"));
-   model->setHeaderData(FilePath_PlatformId, Qt::Horizontal, tr("Platform"));
-   model->select();
-   return model;*/
 }
 
 /*void DbMediaType::filterById(int id)

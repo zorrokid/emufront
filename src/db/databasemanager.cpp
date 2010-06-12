@@ -27,6 +27,7 @@
 #include <QFile>
 #include <QDir>
 #include <QVariant>
+#include <QDebug>
 
 const QString DatabaseManager::DB_FILENAME = QString("my.db.sqlite");
 const QString DatabaseManager::DATABASE = QString("QSQLITE");
@@ -91,18 +92,24 @@ int DatabaseManager::countRows(QString tableName, QString columnName, int id) co
 
 EmuFrontObject* DatabaseManager::getDataObject(int id)
 {
+    qDebug() << "DatabaseManager::getDataObject, id " << id;
     filterById(id);
     EmuFrontObject *plf = 0;
     if (sqlTableModel->rowCount() == 1)
     {
         QSqlRecord record = sqlTableModel->record(0);
-        plf = recordToDataObject(&record);
+        if (record.isEmpty())
+        {
+            qDebug() << "No record";
+        }
+        else plf = recordToDataObject(&record);
     }
     return plf;
 }
 
 EmuFrontObject* DatabaseManager::getDataObjectFromModel(QModelIndex *index)
 {
+    qDebug() << "Data-object from row " <<  index->row() << " requested.";
     QSqlRecord record = sqlTableModel->record(index->row());
     return recordToDataObject(&record);
 }

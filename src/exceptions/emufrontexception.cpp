@@ -17,24 +17,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef EMUFRONTDIALOG_H
-#define EMUFRONTDIALOG_H
-#include <QDialog>
-#include "../exceptions/emufrontexception.h"
+#include "emufrontexception.h"
 
-class QErrorMessage;
+EmuFrontException::EmuFrontException(QString msg) : msg(msg)
+{ }
 
-class EmuFrontDialog : public QDialog
-{
-        Q_OBJECT
-public:
-        EmuFrontDialog(QWidget *parent);
-protected:
-        QErrorMessage *errorMessage;
-signals:
-        void dbUpdated();
+const QString EmuFrontException::what() const
+{ return msg; }
 
-};
-
-
-#endif // EMUFRONTDIALOG_H
+void EmuFrontException::addInfo(QString str)
+{ msg.append(str); }
