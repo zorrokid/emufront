@@ -143,8 +143,6 @@ bool DbCreator::createDB()
             "END;"
             );
 
-        if (!ret) throw QString("trg_onplatformdelete");
-
         ret = query.exec(
             "CREATE TRIGGER IF NOT EXISTS trg_onmediatypedelete "
             "AFTER DELETE ON mediatype"
@@ -152,8 +150,6 @@ bool DbCreator::createDB()
             "   DELETE FROM setup WHERE setup.mediatypeid = old.id;"
             "END;"
             );
-
-        if (!ret) throw QString("trg_onmediatypedelete");
 
     }
     catch (QString tbl)

@@ -24,8 +24,6 @@
 #include <QSqlError>
 #include <QSqlRelationalTableModel>
 #include "dbsetup.h"
-#include "dbplatform.h"
-#include "dbmediatype.h"
 
 const QString DbSetup::FILE_TYPE_EXTENSION_SEPARATOR = QString("|");
 

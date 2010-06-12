@@ -20,16 +20,13 @@
 #include <QtGui>
 #include <QSqlTableModel>
 #include <QSqlRecord>
-#include "../db/dbplatform.h"
-#include "../db/dbmediatype.h"
-#include "../db/dbsetup.h"
 #include "mediaimagepathdialog.h"
+#include "../db/dbsetup.h"
 #include "../dataobjects/filepathobject.h"
 
 MediaImagePathDialog::MediaImagePathDialog(QWidget *parent, EmuFrontObject *efObject)
     : DataObjectEditDialog(parent, efObject, Qt::Horizontal)
 {
-    qDebug() << "Creating MediaImagePathDialog";
     initWidgets();
     dbPlatform = 0;
     dbMediaType = 0;
@@ -39,19 +36,16 @@ MediaImagePathDialog::MediaImagePathDialog(QWidget *parent, EmuFrontObject *efOb
 
 MediaImagePathDialog::~MediaImagePathDialog()
 {
-    qDebug() << "Destroying MediaImagePathDialog";
 }
 
 void MediaImagePathDialog::connectSignals()
 {
     DataObjectEditDialog::connectSignals();
     connect(filePathButton, SIGNAL(clicked()), this, SLOT(browseFilePath()));
-    qDebug() << "MediaImagePathDialog Connecting signals";
 }
 
 void MediaImagePathDialog::browseFilePath()
 {
-    qDebug() << "Browse file path";
     QString fpath = QFileDialog::getExistingDirectory(this, tr("Select a directory"), ".",
         QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
     QDir d(fpath);
@@ -59,12 +53,10 @@ void MediaImagePathDialog::browseFilePath()
     {
         filePathLabel->setText(d.path());
     }
-    qDebug() << fpath << " selected.";
 }
 
 void MediaImagePathDialog::initWidgets()
 {
-    qDebug() << "MediaImagePathDialog initializing widgets.";
     // these widgets will be automatically parented using layout components
     filePathLabel = new QLabel;
     filePathButton = new QPushButton(tr("&Browse filepath"));
@@ -73,7 +65,6 @@ void MediaImagePathDialog::initWidgets()
 
 void MediaImagePathDialog::populateSetupComBox()
 {
-    qDebug() << "MediaImagePathDialog populating media types combo box";
     dbSetup = new DbSetup(this);
     setupComBox->setModel(dbSetup->getDataModel());
     setupComBox->setModelColumn(DbSetup::Setup_Name);
@@ -81,15 +72,10 @@ void MediaImagePathDialog::populateSetupComBox()
 
 void MediaImagePathDialog::layout()
 {
-    qDebug() << "MediaImagePathDialog setting layout";
    QLabel *setupLabel = new QLabel(tr("&Set up"));
    setupLabel->setBuddy(setupComBox);
 
    QGridLayout *gridLayout = new QGridLayout;
-   /*gridLayout->addWidget(platformLabel, 0, 0);
-   gridLayout->addWidget(platformComBox, 0, 1);
-   gridLayout->addWidget(mediaTypeLabel, 1, 0);
-   gridLayout->addWidget(mediaTypeComBox, 1, 1);*/
    gridLayout->addWidget(setupLabel, 0, 0);
    gridLayout->addWidget(setupComBox, 0, 1);
    gridLayout->addWidget(filePathButton, 1, 0);
@@ -121,22 +107,19 @@ Setup* MediaImagePathDialog::getSelectedSetup()
 {
     if (!dbPlatform) dbPlatform = new DbPlatform(this);
     if (!dbMediaType) dbMediaType = new DbMediaType(this);
-    qDebug() << "MediaImagePathDialog Selecting setup";
     Setup *sup = 0;
     int index = setupComBox->currentIndex();
-    qDebug() << "Current index " << index;
     if (index < 0) return sup;
     QSqlQueryModel *model
         = dynamic_cast<QSqlQueryModel*>(setupComBox->model());
     if (!model)
     {
-        qDebug() << "Data model missing";
+        errorMessage->showMessage(tr("Data model missing."));
         return sup;
     }
     QSqlRecord rec = model->record(index);
     if (!rec.isEmpty())
     {
-        qDebug() << "We have a record";
         EmuFrontObject *efPlf = dbPlatform->getDataObject(rec.value(DbSetup::Setup_PlatformId).toInt());
         EmuFrontObject *efMt = dbMediaType->getDataObject(rec.value(DbSetup::Setup_MediaTypeId).toInt());
 
@@ -147,13 +130,12 @@ Setup* MediaImagePathDialog::getSelectedSetup()
         sup = new Setup(rec.value(DbSetup::Setup_Id).toInt(), plf, mt,
             exts.split(DbSetup::FILE_TYPE_EXTENSION_SEPARATOR));
     }
-    else qDebug() << "Record missing";
+    else errorMessage->showMessage("Record missing");
     return sup;
 }
 
 void MediaImagePathDialog::acceptChanges()
 {
-    qDebug() << "Changes accepted";
     FilePathObject *fpo = dynamic_cast<FilePathObject*>(efObject);
     Setup *sup = getSelectedSetup();
     if (!sup)
@@ -168,7 +150,6 @@ void MediaImagePathDialog::acceptChanges()
         QMessageBox::information(this, tr("File path"), tr("File path was not selected"), QMessageBox::Ok);
         return;
     }
-    qDebug() << "File path selected " << filePath;
     Setup *tmp = fpo->getSetup();
     if (sup != tmp)
     {

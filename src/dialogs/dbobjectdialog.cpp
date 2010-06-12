@@ -73,9 +73,8 @@ void DbObjectDialog::testSlot()
 
 void DbObjectDialog::insertDb(const EmuFrontObject *ob) const
 {
-    if ( dbManager->insertDataObjectToModel(ob) )
-        qDebug() << "Db insert ok";
-    else qDebug() << "Db insert failed";
+    if (!dbManager->insertDataObjectToModel(ob))
+        errorMessage->showMessage(tr("Inserting data object %1 failed.").arg(ob->getName()));
 }
 
 void DbObjectDialog::addObject()
@@ -225,22 +224,14 @@ void DbObjectDialog::initDataTable()
 
 void DbObjectDialog::updateReject()
 {
-    qDebug() << "Update rejected ... going to delete current object.";
     // we don't want to keep this in memory
     deleteCurrentObject();
 }
 
 void DbObjectDialog::updateData()
 {
-    qDebug() << "Update accepted.";
     // update data model
     if (!dbObject) return;
-
-    qDebug() << "dbObject is not 0";
-
-    qDebug() << "We have a " + dbObject->getName();
-
-    qDebug() << "Data will be inserted/updated...";
 
     // if data object id > -1 we are updating the data otherwise we are inserting new data
     if (dbObject->getId() > -1) updateDb(dbObject);

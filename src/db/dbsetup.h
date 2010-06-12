@@ -22,9 +22,8 @@
 
 #include "dbquerymodelmanager.h"
 #include "../dataobjects/setup.h"
-
-class DbPlatform;
-class DbMediaType;
+#include "dbplatform.h"
+#include "dbmediatype.h"
 
 class DbSetup : public DbQueryModelManager
 {
