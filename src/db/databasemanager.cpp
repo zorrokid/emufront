@@ -92,7 +92,6 @@ int DatabaseManager::countRows(QString tableName, QString columnName, int id) co
 
 EmuFrontObject* DatabaseManager::getDataObject(int id)
 {
-    qDebug() << "DatabaseManager::getDataObject, id " << id;
     filterById(id);
     EmuFrontObject *plf = 0;
     if (sqlTableModel->rowCount() == 1)
@@ -100,7 +99,7 @@ EmuFrontObject* DatabaseManager::getDataObject(int id)
         QSqlRecord record = sqlTableModel->record(0);
         if (record.isEmpty())
         {
-            qDebug() << "No record";
+            throw new EmuFrontException(tr("No data available for id %1").arg(id));
         }
         else plf = recordToDataObject(&record);
     }
@@ -109,7 +108,6 @@ EmuFrontObject* DatabaseManager::getDataObject(int id)
 
 EmuFrontObject* DatabaseManager::getDataObjectFromModel(QModelIndex *index)
 {
-    qDebug() << "Data-object from row " <<  index->row() << " requested.";
     QSqlRecord record = sqlTableModel->record(index->row());
     return recordToDataObject(&record);
 }

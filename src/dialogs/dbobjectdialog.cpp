@@ -65,7 +65,7 @@ void DbObjectDialog::connectSignals()
     connect(nameDialog, SIGNAL(updateRejected()), this, SLOT(updateReject()));
     connect(nameDialog, SIGNAL(test()), this, SLOT(testSlot()));
 }
-
+    
 void DbObjectDialog::testSlot()
 {
     qDebug() << "TEST SIGNAL RECEIVED!";
@@ -103,33 +103,28 @@ bool DbObjectDialog::deleteItem()
 {
     QModelIndex index = objectList->currentIndex();
     if (!index.isValid()) return false;
-
-    qDebug() << "DbObjectDialog going to delete item at row " << index.row();
-
     try
     {
         EmuFrontObject *ob = dbManager->getDataObjectFromModel(&index);
 
-        if (!ob) return false;
-        qDebug() << "DbObjectDialog going to delete item" << ob->getName();
+        if (!ob)
+        {
+            errorMessage->showMessage(tr("Couldn't find the selected data object from data model!"));
+            return false;
+        }
 
         int numBindings = dbManager->countDataObjectRefs(ob->getId());
-
-        qDebug() << "Got " << numBindings << " bindings.";
 
         if (numBindings > 0 && !confirmDelete(ob->getName(), numBindings))
         { return false; }
         deleteCurrentObject();
 
-        qDebug() << "Deleted object from memory, going to delete from db.";
-
         bool delOk = dbManager->deleteDataObjectFromModel(&index);
         if (!delOk)
         {
-            qDebug() << "delete failed";
+            errorMessage->showMessage(tr("Deleting data object %1 failed!").arg(ob->getName()));
             return false;
         }
-        qDebug() << "Object deleted from database";
         updateList();
         objectList->setFocus();
     }
@@ -143,17 +138,13 @@ bool DbObjectDialog::deleteItem()
 void DbObjectDialog::updateDb(const EmuFrontObject *ob) const
 {
     if (!ob) return;
-    qDebug() << "Updating platform " << ob->getName();
-    if ( dbManager->updateDataObjectToModel(ob) )
-    { qDebug() << "Db update ok!"; }
-    else qDebug() << "Db update failed";
-
+    if ( !dbManager->updateDataObjectToModel(ob) )
+    { errorMessage->showMessage("Database update failed!"); }
 }
 
 void DbObjectDialog::updateList() const
 {
     if (!dbManager) return;
-    qDebug() << "Going to reset the data model";
     dbManager->resetModel();
 }
 
@@ -184,7 +175,6 @@ void DbObjectDialog::deleteButtonClicked()
     int yn = QMessageBox::question(this, "Confirm", msg, QMessageBox::Yes | QMessageBox::No, QMessageBox::No);
     if (yn == QMessageBox::Yes)
     {
-        qDebug() << "Deleting item..." << name << ".";
         deleteItem();
     }
 }

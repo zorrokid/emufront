@@ -41,18 +41,12 @@ EmuFrontObject* DbSetup::recordToDataObject(const QSqlRecord *rec) const
     Setup *s = 0;
     if (!rec) return s;
     int id = rec->value(Setup_Id).toInt();
-    qDebug() << "Creating a Setup object with id " << id;
     QString extensions = rec->value(Setup_FileTypeExtensions).toString();
-    qDebug() << "Supported file types" << extensions;
     QStringList list = extensions.split(FILE_TYPE_EXTENSION_SEPARATOR);
     int plfId = rec->value(Setup_PlatformId).toInt();
-    qDebug() <<  "Platform id " << plfId;
     int mtId = rec->value(Setup_MediaTypeId).toInt();
-    qDebug() <<  "Media type id " << mtId;
     Platform *plf = dynamic_cast<Platform*>(dbPlatform->getDataObject(plfId));
-    qDebug() << "Platform " << plf->getName();
     MediaType *mt = dynamic_cast<MediaType*>(dbMediaType->getDataObject(mtId));
-    qDebug() << "Media type " << mt->getName();
     s = new Setup(id, plf, mt, list);
     return s;
 }
@@ -74,23 +68,6 @@ bool DbSetup::updateDataObjectToModel(const EmuFrontObject *ob)
     query.bindValue(":filetypeextensions", fpo->getSupportedFileTypeExtensions().join(FILE_TYPE_EXTENSION_SEPARATOR));
     query.bindValue(":id", fpo->getId());
     query.exec();
-
-    /*sqlTableModel->setFilter(QString("id = %1").arg(fpo->getId()));
-    sqlTableModel->select();
-    if (sqlTableModel->rowCount() == 1)
-    {
-        QSqlRecord rec = sqlTableModel->record(0);
-        rec.setValue("filetypeid", fpo->getFiletype());
-
-        Platform *pl = fpo->getPlatform();
-        MediaType *mt = fpo->getMediaType();
-        if (pl) rec.setValue("platformid", pl->getId());
-        if (mt) rec.setValue("mediatypeid", mt->getId());
-
-        QStringList list = fpo->getSupportedFileTypeExtensions();
-        if (list.count() > 0)
-            rec.setValue("filetypeextensions", list.join(FILE_TYPE_EXTENSION_SEPARATOR));
-    }*/
     return ret;
 }
 
@@ -111,21 +88,6 @@ bool DbSetup::insertDataObjectToModel(const EmuFrontObject *ob)
     bool ret = query.exec();
     if (!ret) qDebug() << query.lastError().text() << query.executedQuery();
     return ret;
-
-    /*int row = 0;
-    sqlTableModel->insertRows(row, 1);
-
-    Platform *pl = fpo->getPlatform();
-    MediaType *mt = fpo->getMediaType();
-
-    //sqlTableModel->setData(sqlTableModel->index(row, FilePath_Id), NULL);
-    // not all the file path types have platform and/or media type
-    if (pl) sqlTableModel->setData(sqlTableModel->index(row, Setup_PlatformId), pl->getId());
-    if (mt) sqlTableModel->setData(sqlTableModel->index(row, Setup_MediaTypeId), mt->getId());
-    QStringList list = fpo->getSupportedFileTypeExtensions();
-    if (list.count() > 0)
-        sqlTableModel->setData(sqlTableModel->index(row, Setup_FileTypeExtensions), list.join(FILE_TYPE_EXTENSION_SEPARATOR));
-    return sqlTableModel->submitAll();*/
 }
 
 int DbSetup::countDataObjectRefs(int ) const
@@ -174,8 +136,3 @@ QSqlQueryModel* DbSetup::getData()
     model->setHeaderData(Setup_Name, Qt::Horizontal, tr("Name"));
     return model;
 }
-
-/*void DbMediaType::filterById(int id)
-{
-    sqlTableModel->setQuery(constructSelectById(id));
-}*/
