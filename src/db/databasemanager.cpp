@@ -108,6 +108,7 @@ EmuFrontObject* DatabaseManager::getDataObject(int id)
 
 EmuFrontObject* DatabaseManager::getDataObjectFromModel(QModelIndex *index)
 {
+    if (!sqlTableModel) sqlTableModel = getDataModel();
     QSqlRecord record = sqlTableModel->record(index->row());
     return recordToDataObject(&record);
 }

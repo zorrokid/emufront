@@ -57,8 +57,8 @@ void MediaImagePathMainDialog::initEditDialog()
 void MediaImagePathMainDialog::beginScanFilePath()
 {
     QModelIndex index = objectList->currentIndex();
-    FileUtil fileUtil(this);
     if (!index.isValid()) return;
+    FileUtil fileUtil(this);
     EmuFrontObject *ob = dbManager->getDataObjectFromModel(&index);
     if (!ob) return;
     FilePathObject *fpo = dynamic_cast<FilePathObject*>(ob);

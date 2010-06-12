@@ -28,6 +28,7 @@ DbQueryModelManager::DbQueryModelManager(QObject *parent)
 
 void DbQueryModelManager::filterById(int id)
 {
+    if (!sqlTableModel) sqlTableModel = getDataModel();
     sqlTableModel->setQuery(constructSelectById(id));
 }
 
