@@ -64,7 +64,9 @@ QList<MediaImage*> FileUtil::listContents(const QString filePath, const FilePath
     QList<MediaImage*>  fileList;
     foreach(UnZip::ZipEntry entry, list)
     {
-        qDebug() << "We have an entry " << entry.filename;
+        qDebug() << "We have an entry " << entry.filename
+            << "with crc32 " << entry.crc32
+            << " and file size " << entry.uncompressedSize;
 
         if (isSupportedFile(entry.filename, sup->getSupportedFileTypeExtensions()))
         {

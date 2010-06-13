@@ -297,9 +297,9 @@ QList<UnZip::ZipEntry> UnZip::entryList() const
 			const ZipEntryP* entry = it.value();
 			Q_ASSERT(entry != 0);
 
-			ZipEntry z;
+            ZipEntry z;
 
-			z.filename = it.key();
+            z.filename = it.key();
 			if (!entry->comment.isEmpty())
 				z.comment = entry->comment;
 			z.compressedSize = entry->szComp;

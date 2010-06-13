@@ -20,6 +20,7 @@
 #include <QObject>
 #include <QSqlDatabase>
 #include <QSqlQuery>
+#include <QSqlError>
 #include <QDebug>
 #include <exception>
 #include "dbcreator.h"
@@ -41,20 +42,32 @@ bool DbCreator::createDB()
 
     try
     {
-        query.exec("DROP TABLE IF EXISTS mediaimagecontainer_mediaimage");
-        query.exec("DROP TABLE IF EXISTS mediaimage");
+        query.exec("DROP TABLE IF EXISTS mediaimagecontainer_file");
         query.exec("DROP TABLE IF EXISTS mediaimagecontainer");
         query.exec("DROP TABLE IF EXISTS filepath");
         query.exec("DROP TABLE IF EXISTS setup");
         query.exec("DROP TABLE IF EXISTS mediatype");
         query.exec("DROP TABLE IF EXISTS platform");
+        query.exec("DROP TABLE IF EXISTS file");
+
+        qDebug() << "Creating TABLE file";
+
+        ret = query.exec("CREATE TABLE IF NOT EXISTS file"
+                        "(id INTEGER PRIMARY KEY, "
+                        "filename TEXT, "
+                        "filetype INTEGER, "
+                        "crc32 TEXT, "
+                        "md5 TEXT, "
+                        "sha1 TEXT, "
+                        "filesize INTEGER, "
+                        "updatetime NUMERIC)");
 
         qDebug() << "Creating TABLE platform";
 
         ret = query.exec("CREATE TABLE IF NOT EXISTS platform "
                          "(id INTEGER PRIMARY KEY, "
                          "name TEXT, "
-                         "filename TEXT)");
+                         "iconfileid INTEGER REFERENCES file(id))");
 
         if (!ret) throw QString("platform.");
 
@@ -63,7 +76,7 @@ bool DbCreator::createDB()
         ret = query.exec("CREATE TABLE IF NOT EXISTS mediatype "
                          "(id INTEGER PRIMARY KEY, "
                          "name TEXT, "
-                         "filename TEXT)");
+                         "iconfileid INTEGER REFERENCES file(id))");
 
         if (!ret) throw QString("mediatype.");
 
@@ -101,41 +114,24 @@ bool DbCreator::createDB()
 
         ret = query.exec("CREATE TABLE IF NOT EXISTS mediaimagecontainer "
                         "(id INTEGER PRIMARY KEY, "
-                        "name TEXT, "
-                        "filename TEXT, "
-                        "sha1 TEXT, "
-                        "md5 TEXT, "
-                        "filepathid INTEGER, "
-                        "platformid INTEGER, "
-                        "mediatypeid INTEGER, "
-                        "updatetime NUMERIC, "
-                        "FOREIGN KEY (filepathid) REFERENCES filepath(id), "
-                        "FOREIGN KEY (platformid) REFERENCES platform(id), "
-                        "FOREIGN KEY (mediatypeid) REFERENCES mediatype(id))");
+                        "fileid INTEGER REFERENCES file(id), "
+                        "filepathid INTEGER REFERENCES filepath(id), "
+                        "updatetime NUMERIC)");
 
         if (!ret) throw QString("mediaimagecontainer");
 
-        qDebug() << "Creating TABLE mediaimage";
-
-        ret = query.exec("CREATE TABLE IF NOT EXISTS mediaimage "
-                        "(id INTEGER PRIMARY KEY, "
-                        "filename TEXT, "
-                        "sha1 TEXT, "
-                        "md5 TEXT, "
-                        "filesize INTEGER, "
-                        "updatetime NUMERIC)");
 
         qDebug() << "Creating TABLE mediaimagecontainer_mediaimage";
 
         ret = query.exec("CREATE TABLE IF NOT EXISTS mediaimagecontainer_mediaimage "
                         "(mediaimagecontainerid INTEGER, "
-                        "mediaimageid INTEGER, "
+                        "fileid INTEGER, "
                         "FOREIGN KEY (mediaimagecontainerid) REFERENCES mediaimagecontainer(id), "
-                        "FOREIGN KEY (mediaimageid) REFERENCES mediaimage(id))");
+                        "FOREIGN KEY (fileid) REFERENCES file(id))");
 
         if (!ret) throw QString("mediaimagecontainer_mediaimage");
 
-        ret = query.exec(
+        query.exec(
             "CREATE TRIGGER IF NOT EXISTS trg_onplatformdelete "
             "AFTER DELETE ON platform "
             "BEGIN "
@@ -143,25 +139,35 @@ bool DbCreator::createDB()
             "END;"
             );
 
-        ret = query.exec(
+        query.exec(
             "CREATE TRIGGER IF NOT EXISTS trg_onmediatypedelete "
-            "AFTER DELETE ON mediatype"
+            "AFTER DELETE ON mediatype "
             "BEGIN "
             "   DELETE FROM setup WHERE setup.mediatypeid = old.id;"
             "END;"
             );
 
-        ret = query.exec(
+        query.exec(
             "CREATE TRIGGER IF NOT EXISTS trg_onsetupdelete "
-            "AFTER DELETE ON setup"
+            "AFTER DELETE ON setup "
             "BEGIN "
             "   DELETE FROM filepath WHERE filepath.setupid = old.id;"
             "END;"
             );
+        query.exec(
+            "CREATE TRIGGER IF NOT EXISTS trg_onfiledelete "
+            "AFTER DELETE ON file "
+            "BEGIN "
+            "   UPDATE platform SET platform.inconfileid=NULL WHERE platform.iconfileid = old.id;"
+            "   UPDATE mediatype SET mediatype.iconfileid=NULL WHERE mediatype.iconfileid = old.id;"
+            "   DELETE FROM mediaimagecontainer_mediaimage WHERE mediaimagecontainer_mediaimage.fileid = old.id;"
+            "END;"
+        );
     }
     catch (QString tbl)
     {
-        throw QString("Couldn't CREATE database '%1'!").arg(tbl);
+        QString err = query.lastError().text();
+        throw QString("Couldn't CREATE table '%1'!").arg(tbl).append(err);
     }
     return ret;
 }
