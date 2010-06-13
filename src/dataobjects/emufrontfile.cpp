@@ -17,31 +17,27 @@
 // You should have received a copy of the GNU General Public License
 // along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef FILEPATHOBJECT_H
-#define FILEPATHOBJECT_H
+#include "emufrontfile.h"
 
-#include "emufrontfileobject.h"
+EmuFrontFile::EmuFrontFile() : EmuFrontObject() { }
 
-class Setup;
+EmuFrontFile::EmuFrontFile(int id, QString name, QString checksum, int size, int type)
+   : EmuFrontObject(id, name), checkSum(checksum), size(size), type(type) { }
 
-class FilePathObject : public EmuFrontObject
-{
-public:
-    FilePathObject();
-    ~FilePathObject();
-    FilePathObject(int id, QString name, int filetype);
-    FilePathObject(int id, QString name, int filetype, Setup*);
-    FilePathObject(const FilePathObject &);
-    FilePathObject& operator=(const FilePathObject &);
+QString EmuFrontFile::getCheckSum() const
+{ return checkSum; }
 
-    Setup* getSetup() const;
-    void setSetup(Setup *);
-    int getType() const;
-    void setType(int);
+void EmuFrontFile::setCheckSum(QString s)
+{ checkSum = s; }
 
-private:
-    int type;
-    Setup *setup;
-};
+int EmuFrontFile::getSize() const
+{ return size; }
 
-#endif // FILEPATHOBJECT_H
+void EmuFrontFile::setSize(int s)
+{ size = s; }
+
+void EmuFrontFile::setType(int t)
+{ type = t; }
+
+int EmuFrontFile::getType() const
+{ return type; }

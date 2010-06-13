@@ -26,7 +26,8 @@ class Platform : public EmuFrontFileObject
 {
 public:
     Platform();
-    Platform(int id, QString name, QString filename);
+    Platform(int id, QString name);
+    Platform(int id, QString name, EmuFrontFile*);
 };
 
 #endif // PLATFORM_H

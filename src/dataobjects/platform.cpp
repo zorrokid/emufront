@@ -19,11 +19,12 @@
 
 #include "platform.h"
 
-Platform::Platform() : EmuFrontFileObject()
-{
-}
+Platform::Platform() : EmuFrontFileObject() { }
 
-Platform::Platform(int id, QString name, QString filename)
-        : EmuFrontFileObject(id, name, filename)
+Platform::Platform(int id, QString name)
+        : EmuFrontFileObject(id, name, 0) { }
+
+Platform::Platform(int id, QString name, EmuFrontFile *file)
+        : EmuFrontFileObject(id, name, file)
 {
 }

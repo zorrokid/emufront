@@ -20,29 +20,20 @@
 #ifndef DBPLATFORM_H
 #define DBPLATFORM_H
 
-#include "dbtablemodelmanager.h"
+#include "dbemufrontfileobject.h"
 #include "../dataobjects/platform.h"
 
 class QModelIndex;
 
-class DbPlatform : public DbTableModelManager
+
+class DbPlatform : public DbEmuFrontFileObject
 {
 public:
     DbPlatform(QObject *);
-    virtual bool updateDataObjectToModel(const EmuFrontObject*);
-    bool insertDataObjectToModel(const EmuFrontObject*);
-    bool deleteDataObjectFromModel(QModelIndex*);
-    int countDataObjectRefs(int) const;
-    enum {
-        Platform_Id = 0,
-        Platform_Name = 1,
-        Platform_Filename = 2 };
 
 protected:
-    virtual EmuFrontObject* recordToDataObject(const QSqlRecord* ) const;
-
-private:
-    virtual QSqlQueryModel* getData();
+    static QString tableName;
+    virtual EmuFrontObject* createEmuFrontFileObject(int id, QString name, EmuFrontFile *f);
 };
 
 #endif // DBPLATFORM_H

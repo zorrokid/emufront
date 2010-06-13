@@ -41,7 +41,7 @@ public:
     static const QString FILE_TYPE_EXTENSION_SEPARATOR;
 
 protected:
-    virtual EmuFrontObject* recordToDataObject(const QSqlRecord* ) const;
+    virtual EmuFrontObject* recordToDataObject(const QSqlRecord* );
     virtual QString constructSelectById(int id) const;
     virtual QString constructSelect(QString whereClause = "") const;
 

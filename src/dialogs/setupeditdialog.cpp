@@ -56,7 +56,7 @@ void SetupEditDialog::populateMediaTypeComBox()
     if (!model) return;
     qDebug() << "We have a media type data model";
     mediaTypeComBox->setModel(model);
-    mediaTypeComBox->setModelColumn(DbMediaType::MediaType_Name);
+    mediaTypeComBox->setModelColumn(DbMediaType::EmuFrontFileObject_Name);
 }
 
 void SetupEditDialog::populatePlatformComBox()
@@ -66,7 +66,7 @@ void SetupEditDialog::populatePlatformComBox()
     QSqlQueryModel *model = dbPlatform->getDataModel();
     if (!model) return;
     platformComBox->setModel(model);
-    platformComBox->setModelColumn(DbPlatform::Platform_Name);
+    platformComBox->setModelColumn(DbPlatform::EmuFrontFileObject_Name);
     qDebug() << "platform combo box populated";
 }
 
@@ -142,36 +142,30 @@ void SetupEditDialog::setDataObject(EmuFrontObject *ob)
 
 void SetupEditDialog::setSelectedPlatform(const Platform *plf)
 {
-    setSelected(platformComBox, plf, DbPlatform::Platform_Id);
+    setSelected(platformComBox, plf, DbPlatform::EmuFrontFileObject_Id);
 }
 
 void SetupEditDialog::setSelectedMediaType(const MediaType *plf)
 {
-    setSelected(mediaTypeComBox, plf, DbMediaType::MediaType_Id);
+    setSelected(mediaTypeComBox, plf, DbMediaType::EmuFrontFileObject_Id);
 }
 
 Platform* SetupEditDialog::getSelectedPlatform() const
 {
-    qDebug() << "MediaImagePathDialog Selecting platform";
     Platform *plf = 0;
     int index = platformComBox->currentIndex();
-    qDebug() << "Current index " << index;
     if (index < 0) return plf;
     QSqlTableModel* platformModel = dynamic_cast<QSqlTableModel*>(platformComBox->model());
     if (!platformModel)
     {
-        qDebug() << "Data model missing";
         return plf;
     }
     QSqlRecord rec = platformModel->record(index);
     if (!rec.isEmpty())
     {
-        qDebug() << "We have a record";
-        plf = new Platform(rec.value(DbPlatform::Platform_Id).toInt(),
-        rec.value(DbPlatform::Platform_Name).toString(),
-        rec.value(DbPlatform::Platform_Filename).toString());
+        EmuFrontObject *o = dbPlatform->getDataObject(rec.value(DbPlatform::EmuFrontFileObject_Id).toInt());
+        plf = dynamic_cast<Platform*>(o);
     }
-    else qDebug() << "Record missing";
     return plf;
 }
 
@@ -188,8 +182,9 @@ MediaType* SetupEditDialog::getSelectedMediaType() const
     }
     QSqlRecord rec = mediaTypeModel->record(index);
     if (!rec.isEmpty())
-        mt = new MediaType(rec.value(DbMediaType::MediaType_Id).toInt(),
-                           rec.value(DbMediaType::MediaType_Name).toString(),
-                           rec.value(DbMediaType::MediaType_Filename).toString());
+    {
+        EmuFrontObject *o = dbMediaType->getDataObject(rec.value(DbMediaType::EmuFrontFileObject_Id).toInt());
+        mt = dynamic_cast<MediaType*>(o);
+    }
     return mt;
 }

@@ -23,7 +23,7 @@ MediaType::MediaType() : EmuFrontFileObject()
 {
 }
 
-MediaType::MediaType(int id, QString name, QString filename)
-        : EmuFrontFileObject(id, name, filename)
+MediaType::MediaType(int id, QString name, EmuFrontFile *file)
+        : EmuFrontFileObject(id, name, file)
 {
 }

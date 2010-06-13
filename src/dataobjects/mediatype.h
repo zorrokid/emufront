@@ -26,7 +26,8 @@ class MediaType : public EmuFrontFileObject
 {
 public:
     MediaType();
-    MediaType(int id, QString name, QString filename);
+    MediaType(int id, QString name);
+    MediaType(int id, QString name, EmuFrontFile*);
 };
 
 #endif // MEDIATYPE_H

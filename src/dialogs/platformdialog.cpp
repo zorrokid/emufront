@@ -30,7 +30,7 @@ PlatformDialog::PlatformDialog(QWidget *parent)
     dbManager = new DbPlatform(this);
     initDataTable();
     initEditDialog();
-    objectList->hideColumn(DbPlatform::Platform_Id);
+    objectList->hideColumn(DbPlatform::EmuFrontFileObject_Id);
     
     // do not move to parent class:
     connectSignals();

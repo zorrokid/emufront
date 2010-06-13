@@ -17,35 +17,34 @@
 // You should have received a copy of the GNU General Public License
 // along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef DBFILEPATH_H
-#define DBFILEPATH_H
+#ifndef DBEMUFRONTFILEOBJECT_H
+#define DBEMUFRONTFILEOBJECT_H
 
-#include "dbquerymodelmanager.h"
+#include "dbtablemodelmanager.h"
+#include "dbfile.h"
+#include "dataobjects/emufrontfileobject.h"
 
-class DbSetup;
-
-class DbFilePath : public DbQueryModelManager
+class DbEmuFrontFileObject : public DbTableModelManager
 {
 public:
-    DbFilePath(QObject *);    
+    DbEmuFrontFileObject(QObject *parent);
     virtual bool updateDataObjectToModel(const EmuFrontObject*);
     bool insertDataObjectToModel(const EmuFrontObject*);
     bool deleteDataObjectFromModel(QModelIndex*);
     int countDataObjectRefs(int) const;
-    enum { FilePath_Id = 0,
-           FilePath_Name,
-           FilePath_LastScanned,
-           FilePath_SetupId,
-           FilePath_SetupName };
+    enum {
+        EmuFrontFileObject_Id= 0,
+        EmuFrontFileObject_Name,
+        EmuFrontFileObject_FileId };
 
 protected:
     virtual EmuFrontObject* recordToDataObject(const QSqlRecord* );
-    virtual QString constructSelectById(int id) const;
-    virtual QString constructSelect(QString whereClause = "") const;
+    QString tableName;
+    virtual EmuFrontObject* createEmuFrontFileObject(int id, QString name, EmuFrontFile *f) = 0;
 
 private:
     virtual QSqlQueryModel* getData();
-    DbSetup *dbSetup;
+    DbFile *dbFile;
 };
 
-#endif // DBFILEPATH_H
+#endif // DBEMUFRONTFILEOBJECT_H

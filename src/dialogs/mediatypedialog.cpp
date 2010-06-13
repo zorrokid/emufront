@@ -33,7 +33,7 @@ MediaTypeDialog::MediaTypeDialog(QWidget* parent)
     dbManager = new DbMediaType(this);
     initDataTable();
     initEditDialog();
-    objectList->hideColumn(DbMediaType::MediaType_Id);
+    objectList->hideColumn(DbMediaType::EmuFrontFileObject_FileId);
 
     // do not move to parent class:
     connectSignals();

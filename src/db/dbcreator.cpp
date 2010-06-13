@@ -54,12 +54,10 @@ bool DbCreator::createDB()
 
         ret = query.exec("CREATE TABLE IF NOT EXISTS file"
                         "(id INTEGER PRIMARY KEY, "
-                        "filename TEXT, "
-                        "filetype INTEGER, "
-                        "crc32 TEXT, "
-                        "md5 TEXT, "
-                        "sha1 TEXT, "
-                        "filesize INTEGER, "
+                        "name TEXT, "
+                        "type INTEGER, "
+                        "checksum TEXT, "
+                        "size INTEGER, "
                         "updatetime NUMERIC)");
 
         qDebug() << "Creating TABLE platform";
@@ -67,7 +65,7 @@ bool DbCreator::createDB()
         ret = query.exec("CREATE TABLE IF NOT EXISTS platform "
                          "(id INTEGER PRIMARY KEY, "
                          "name TEXT, "
-                         "iconfileid INTEGER REFERENCES file(id))");
+                         "fileid INTEGER REFERENCES file(id))");
 
         if (!ret) throw QString("platform.");
 
@@ -76,7 +74,7 @@ bool DbCreator::createDB()
         ret = query.exec("CREATE TABLE IF NOT EXISTS mediatype "
                          "(id INTEGER PRIMARY KEY, "
                          "name TEXT, "
-                         "iconfileid INTEGER REFERENCES file(id))");
+                         "fileid INTEGER REFERENCES file(id))");
 
         if (!ret) throw QString("mediatype.");
 

@@ -27,10 +27,9 @@
 DbFilePath::DbFilePath(QObject *parent) : DbQueryModelManager(parent)
 {
     dbSetup = new DbSetup(this);
-    sqlTableModel = 0; //getData();
 }
 
-EmuFrontObject* DbFilePath::recordToDataObject(const QSqlRecord *rec) const
+EmuFrontObject* DbFilePath::recordToDataObject(const QSqlRecord *rec)
 {
     int id = rec->value(FilePath_Id).toInt();
     QString fpath = rec->value(FilePath_Name).toString();
@@ -39,7 +38,7 @@ EmuFrontObject* DbFilePath::recordToDataObject(const QSqlRecord *rec) const
     Setup *sup = dynamic_cast<Setup*>(dbSetup->getDataObject(setupId));
        // TODO
     //int lastScanned = 0;
-    return new FilePathObject(id, fpath, fpath, 0,   sup);
+    return new FilePathObject(id, fpath, /* TODO */ 0, sup);
 }
 
 bool DbFilePath::updateDataObjectToModel(const EmuFrontObject *ob)
@@ -54,7 +53,7 @@ bool DbFilePath::updateDataObjectToModel(const EmuFrontObject *ob)
         "lastscanned=:lastscanned "
         "WHERE id=:id"));
     query.bindValue(":name", fpo->getName());
-    query.bindValue(":filetypeid", fpo->getFiletype());
+    query.bindValue(":filetypeid", fpo->getType());
     query.bindValue(":lastscanned", 0); // TODO
     query.bindValue(":id", fpo->getId());
     ret = query.exec();
@@ -83,7 +82,7 @@ bool DbFilePath::insertDataObjectToModel(const EmuFrontObject *ob)
     query.prepare("INSERT INTO filepath (id, name, filetypeid, setupid, lastscanned) "
         "VALUES (NULL, :name, :filetypeid, :setupid, :lastscanned) ");
     query.bindValue(":name", fpo->getName());
-    query.bindValue(":filetypeid", fpo->getFiletype());
+    query.bindValue(":filetypeid", fpo->getType());
     if (fpo->getSetup())
         query.bindValue(":setupid", fpo->getSetup()->getId());
     query.bindValue(":lastscanned", 0); // TODO

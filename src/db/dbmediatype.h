@@ -20,28 +20,17 @@
 #ifndef DBMEDIATYPE_H
 #define DBMEDIATYPE_H
 
-#include "dbtablemodelmanager.h"
+#include "dbemufrontfileobject.h"
 #include "../dataobjects/mediatype.h"
 
-class DbMediaType : public DbTableModelManager
+class DbMediaType : public DbEmuFrontFileObject
 {
 public:
     DbMediaType(QObject *);
-    virtual bool updateDataObjectToModel(const EmuFrontObject*);
-    virtual bool insertDataObjectToModel(const EmuFrontObject*);
-    virtual bool deleteDataObjectFromModel(QModelIndex*);
-    virtual int countDataObjectRefs(int) const;
-    enum {
-        MediaType_Id = 0,
-        MediaType_Name = 1,
-        MediaType_Filename = 2 };
 
 protected:
-    virtual EmuFrontObject* recordToDataObject(const QSqlRecord* ) const;
-
-private:
-      virtual QSqlQueryModel* getData();
-
+    static QString tableName;
+    virtual EmuFrontObject* createEmuFrontFileObject(int id, QString name, EmuFrontFile *f);
 };
 
 #endif // DBMEDIATYPE_H

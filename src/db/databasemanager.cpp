@@ -33,12 +33,15 @@ const QString DatabaseManager::DB_FILENAME = QString("my.db.sqlite");
 const QString DatabaseManager::DATABASE = QString("QSQLITE");
 const QString DatabaseManager::DB_TABLE_NAME_MEDIATYPE = QString("mediatype");
 const QString DatabaseManager::DB_TABLE_NAME_PLATFORM = QString("platform");
+const QString DatabaseManager::DB_TABLE_NAME_FILE= QString("file");
 const QString DatabaseManager::DB_TABLE_NAME_FILEPATH = QString("filepath");
 const QString DatabaseManager::DB_TABLE_NAME_SETUP = QString("setup");
 
 DatabaseManager::DatabaseManager(QObject *parent)
 	: QObject(parent)
-{}
+{
+    sqlTableModel = 0;
+}
 
 DatabaseManager::~DatabaseManager()
 {

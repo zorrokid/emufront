@@ -53,10 +53,11 @@ public:
 
 protected:
     QSqlQueryModel* sqlTableModel;
-    virtual EmuFrontObject* recordToDataObject(const QSqlRecord* ) const = 0;
+    virtual EmuFrontObject* recordToDataObject(const QSqlRecord* ) = 0;
     virtual void filterById(int id) = 0;
     virtual void clearFilters() = 0;
     int countRows(QString tableName, QString columnName, int id) const;
+    static const QString DB_TABLE_NAME_FILE;
     static const QString DB_TABLE_NAME_FILEPATH;
     static const QString DB_TABLE_NAME_MEDIATYPE;
     static const QString DB_TABLE_NAME_PLATFORM;

@@ -19,21 +19,31 @@
 
 #include "emufrontfileobject.h"
 
-EmuFrontFileObject::EmuFrontFileObject() : EmuFrontObject(-1, ""), filename(""), filetype(-1)
-{ }
+EmuFrontFileObject::EmuFrontFileObject()
+    : EmuFrontObject(-1, ""), file(0) { }
 
-EmuFrontFileObject::EmuFrontFileObject(int id, QString name, QString filename)
-    : EmuFrontObject(id, name), filename(filename), filetype(-1)
-{}
+EmuFrontFileObject::EmuFrontFileObject(int id, QString name, EmuFrontFile *file)
+    : EmuFrontObject(id, name), file(file) {}
 
-EmuFrontFileObject::EmuFrontFileObject(int id, QString name, QString filename, int filetype)
-    : EmuFrontObject(id, name), filename(filename), filetype(filetype)
-{}
-
-
-/*EmuFrontFileObject::EmuFrontFileObject(const EmuFrontFileObject&pl)
-    : EmuFrontObject(pl.id, pl.name), filename(pl.filename)
+EmuFrontFileObject::EmuFrontFileObject(const EmuFrontFileObject &pl)
+    : EmuFrontObject(pl.id, pl.name)
 {
-    // no need to perform deep copy here, see:
-    // http://doc.trolltech.com/4.0/shclass.html
-}*/
+    EmuFrontFile *f = pl.file;
+    file = new EmuFrontFile(*f);
+}
+
+EmuFrontFileObject::~EmuFrontFileObject()
+{
+    if (file) delete file;
+}
+
+EmuFrontFileObject& EmuFrontFileObject::operator =(const EmuFrontFileObject &ob)
+{
+    if (this == &ob) return (*this);
+    id = ob.id;
+    name = ob.name;
+    if (file) delete file;
+    EmuFrontFile *f = ob.file;
+    file = new EmuFrontFile(*f);
+    return (*this);
+}

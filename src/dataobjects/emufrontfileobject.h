@@ -21,40 +21,24 @@
 #define EMUFRONTFILEOBJECT_H
 
 #include "emufrontobject.h"
+#include "emufrontfile.h"
 
 class EmuFrontFileObject : public EmuFrontObject
 {
 public:
     EmuFrontFileObject();
-    EmuFrontFileObject( int id, QString name, QString filename);
-    EmuFrontFileObject( int id, QString name, QString filename, int filetype);
+    EmuFrontFileObject(int id, QString name, EmuFrontFile *file);
+    EmuFrontFileObject(const EmuFrontFileObject&);
+    EmuFrontFileObject& operator=(const EmuFrontFileObject&);
+    ~EmuFrontFileObject();
 
-    // No need for these as long we use QString (see Implicit Data Sharing)
-    /*EmuFrontFileObject(const EmuFrontFileObject&);
-    EmuFrontFileObject &operator=(const EmuFrontFileObject&);
-    virtual ~EmuFrontFileObject();*/
-
-    const QString getFilename() const
-    { return filename; }
-    void setFilename(QString filename)
-    { this->filename = filename; }
-    int getFiletype() const
-    { return filetype; }
-    void setFiletype(int t)
-    { filetype = t; }
-
-    enum {
-        FileType_MediaImageContainerDir = 0,
-        FileType_MediaImageContainer,
-        FileType_MediaImage,
-        FileType_ScreenShot,
-        FileType_PlatformIconPath,
-        FileType_MediaTypeIconPath
-      };
+    EmuFrontFile* getFile() const
+    { return file; }
+    void setFile(EmuFrontFile *file)
+    { this->file = file; }
 
 protected:
-    QString filename;
-    int filetype;
+    EmuFrontFile *file;
 };
 
 #endif // EMUFRONTFILEOBJECT_H

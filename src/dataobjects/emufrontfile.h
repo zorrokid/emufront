@@ -17,31 +17,36 @@
 // You should have received a copy of the GNU General Public License
 // along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef FILEPATHOBJECT_H
-#define FILEPATHOBJECT_H
+#ifndef EMUFRONTFILE_H
+#define EMUFRONTFILE_H
 
-#include "emufrontfileobject.h"
+#include "emufrontobject.h"
 
-class Setup;
-
-class FilePathObject : public EmuFrontObject
+class EmuFrontFile : public EmuFrontObject
 {
 public:
-    FilePathObject();
-    ~FilePathObject();
-    FilePathObject(int id, QString name, int filetype);
-    FilePathObject(int id, QString name, int filetype, Setup*);
-    FilePathObject(const FilePathObject &);
-    FilePathObject& operator=(const FilePathObject &);
-
-    Setup* getSetup() const;
-    void setSetup(Setup *);
-    int getType() const;
+    EmuFrontFile();
+    EmuFrontFile(int id, QString name, QString checksum, int size, int type);
+    QString getCheckSum() const;
+    void setCheckSum(QString);
+    int getSize() const;
+    void setSize(int);
     void setType(int);
+    int getType() const;
 
-private:
+    enum {
+        FileType_MediaImageContainerDir = 1,
+        FileType_MediaImageContainer,
+        FileType_MediaImage,
+        FileType_ScreenShot,
+        FileType_PlatformIconPath,
+        FileType_MediaTypeIconPath
+      };
+
+protected:
+    QString checkSum;
+    int size;
     int type;
-    Setup *setup;
 };
 
-#endif // FILEPATHOBJECT_H
+#endif // EMUFRONTFILE_H

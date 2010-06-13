@@ -45,7 +45,10 @@ HEADERS += mainwindow.h \
     widgets/stringlistwidget.h \
     exceptions/emufrontexception.h \
     dataobjects/mediaimage.h \
-    dataobjects/mediaimagecontainer.h
+    dataobjects/mediaimagecontainer.h \
+    dataobjects/emufrontfile.h \
+    db/dbfile.h \
+    db/dbemufrontfileobject.h
 SOURCES += main.cpp \
     mainwindow.cpp \
     db/databasemanager.cpp \
@@ -80,5 +83,8 @@ SOURCES += main.cpp \
     widgets/stringlistwidget.cpp \
     exceptions/emufrontexception.cpp \
     dataobjects/mediaimage.cpp \
-    dataobjects/mediaimagecontainer.cpp
+    dataobjects/mediaimagecontainer.cpp \
+    dataobjects/emufrontfile.cpp \
+    db/dbfile.cpp \
+    db/dbemufrontfileobject.cpp
 OTHER_FILES += 

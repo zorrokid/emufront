@@ -17,31 +17,33 @@
 // You should have received a copy of the GNU General Public License
 // along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef FILEPATHOBJECT_H
-#define FILEPATHOBJECT_H
+#ifndef DBFILE_H
+#define DBFILE_H
 
-#include "emufrontfileobject.h"
+#include "dbtablemodelmanager.h"
+#include "../dataobjects/emufrontfile.h"
 
-class Setup;
-
-class FilePathObject : public EmuFrontObject
+class DbFile : public DbTableModelManager
 {
 public:
-    FilePathObject();
-    ~FilePathObject();
-    FilePathObject(int id, QString name, int filetype);
-    FilePathObject(int id, QString name, int filetype, Setup*);
-    FilePathObject(const FilePathObject &);
-    FilePathObject& operator=(const FilePathObject &);
+    DbFile(QObject*);
+    virtual bool updateDataObjectToModel(const EmuFrontObject*);
+    bool insertDataObjectToModel(const EmuFrontObject*);
+    bool deleteDataObjectFromModel(QModelIndex*);
+    int countDataObjectRefs(int) const;
+    enum {
+        File_Id = 0,
+        File_Name,
+        File_FileType,
+        File_CheckSum,
+        File_FileSize,
+        File_UpdateTime };
 
-    Setup* getSetup() const;
-    void setSetup(Setup *);
-    int getType() const;
-    void setType(int);
+protected:
+    virtual EmuFrontObject* recordToDataObject(const QSqlRecord*);
 
 private:
-    int type;
-    Setup *setup;
+    virtual QSqlQueryModel* getData();
 };
 
-#endif // FILEPATHOBJECT_H
+#endif // DBFILE_H

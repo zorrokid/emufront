@@ -35,7 +35,7 @@ MediaTypeNameDialog::~MediaTypeNameDialog()
 void MediaTypeNameDialog::setDataObject(QString name)
 {
     efObject->setName(name);
-    (dynamic_cast<MediaType*>(efObject))->setFilename("");
+    (dynamic_cast<MediaType*>(efObject))->setFile(0);
 }
 
 void MediaTypeNameDialog::setDataObject(EmuFrontObject *ob)

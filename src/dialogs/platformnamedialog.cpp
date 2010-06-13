@@ -36,7 +36,7 @@ PlatformNameDialog::~PlatformNameDialog()
 void PlatformNameDialog::setDataObject(QString name)
 {
     efObject->setName(name);
-    (dynamic_cast<Platform*>(efObject))->setFilename("");
+    (dynamic_cast<Platform*>(efObject))->setFile(0);
 }
 
 void PlatformNameDialog::setDataObject(EmuFrontObject *ob)
