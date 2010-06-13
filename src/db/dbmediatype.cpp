@@ -19,7 +19,7 @@
 
 #include "dbmediatype.h"
 
-QString DbMediaType::tableName = DbMediaType::DB_TABLE_NAME_MEDIATYPE;
+//QString DbMediaType::tableName = DbMediaType::DB_TABLE_NAME_MEDIATYPE;
 
 DbMediaType::DbMediaType(QObject *parent) : DbEmuFrontFileObject(parent)
 {  }

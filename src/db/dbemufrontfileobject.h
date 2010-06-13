@@ -22,7 +22,7 @@
 
 #include "dbtablemodelmanager.h"
 #include "dbfile.h"
-#include "dataobjects/emufrontfileobject.h"
+#include "../dataobjects/emufrontfileobject.h"
 
 class DbEmuFrontFileObject : public DbTableModelManager
 {

@@ -28,10 +28,11 @@
 int main(int argc, char *argv[])
 {
 	QApplication app(argc, argv);
-	QTextStream cout(stdout, QIODevice::WriteOnly);
+    QTextStream cout(stdout, QIODevice::WriteOnly);
     QStringList arglst = app.arguments();
 
     bool reset = arglst.contains("reset", Qt::CaseInsensitive);
+
 
     if (reset) qDebug() << "Database Reset requested";
 
