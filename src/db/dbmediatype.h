@@ -29,7 +29,6 @@ public:
     DbMediaType(QObject *);
 
 protected:
-    static QString tableName;
     virtual EmuFrontObject* createEmuFrontFileObject(int id, QString name, EmuFrontFile *f);
 };
 

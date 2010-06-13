@@ -22,7 +22,9 @@
 //QString DbPlatform::tableName = DbPlatform::DB_TABLE_NAME_PLATFORM;
 
 DbPlatform::DbPlatform(QObject *parent) : DbEmuFrontFileObject(parent)
-{ }
+{
+    tableName = DbPlatform::DB_TABLE_NAME_PLATFORM;
+ }
 
 EmuFrontObject* DbPlatform::createEmuFrontFileObject(int id, QString name, EmuFrontFile *f)
 {   return new Platform(id, name, f); }
