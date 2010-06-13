@@ -44,11 +44,13 @@ public:
     { filetype = t; }
 
     enum {
-        FileType_MediaImageContainer = 1,
-        FileType_ScreenShot = 2,
-        FileType_PlatformIconPath = 3,
-        FileType_MediaTypeIconPath = 4
-    };
+        FileType_MediaImageContainerDir = 0,
+        FileType_MediaImageContainer,
+        FileType_MediaImage,
+        FileType_ScreenShot,
+        FileType_PlatformIconPath,
+        FileType_MediaTypeIconPath
+      };
 
 protected:
     QString filename;
