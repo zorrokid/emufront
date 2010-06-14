@@ -114,9 +114,10 @@ bool DbEmuFrontFileObject::deleteDataObjectFromModel(QModelIndex *index)
 QSqlQueryModel* DbEmuFrontFileObject::getData()
 {
     QSqlRelationalTableModel *model = new QSqlRelationalTableModel(this);
-    qDebug() << "table" << tableName;
     model->setTable(tableName);
-    model->setRelation(EmuFrontFileObject_FileId, QSqlRelation("file", "id", "name"));
+    // TODO: table realtion model seems not to be suitable for this
+    // since not always does data object have a file relation:
+    //model->setRelation(EmuFrontFileObject_FileId, QSqlRelation("file", "id", "name"));
     model->setSort(EmuFrontFileObject_Name, Qt::AscendingOrder);
     model->setHeaderData(EmuFrontFileObject_Name, Qt::Horizontal, tr("Name"));
     model->setHeaderData(EmuFrontFileObject_FileId, Qt::Horizontal, tr("Icon"));
