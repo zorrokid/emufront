@@ -40,7 +40,8 @@ QList<MediaImageContainer*> FileUtil::scanFilePath(const FilePathObject *fp, QSt
         // - time created / updated
         if (files.count() > 0)
         {
-            MediaImageContainer *con = new MediaImageContainer();
+            MediaImageContainer *con = new MediaImageContainer;
+
             containers.append(con);
         }
 
@@ -65,13 +66,16 @@ QList<MediaImage*> FileUtil::listContents(const QString filePath, const FilePath
     QList<MediaImage*>  fileList;
     foreach(UnZip::ZipEntry entry, list)
     {
-        qDebug() << "We have an entry " << entry.filename
-            << "with crc32 " << entry.crc32
-            << " and file size " << entry.uncompressedSize;
-
         if (isSupportedFile(entry.filename, sup->getSupportedFileTypeExtensions()))
         {
-            MediaImage *effo = new MediaImage();
+            QString checksum = QString("%1").arg(entry.crc32, 0, 16);
+            EmuFrontFile *eff = new EmuFrontFile;
+            eff->setName(entry.filename);
+            eff->setCheckSum(checksum);
+            eff->setSize(entry.uncompressedSize);
+            eff->setType(EmuFrontFile::FileType_MediaImage);
+            MediaImage *effo = new MediaImage;
+            effo->setFile(eff);
             fileList << effo;
         }
     }

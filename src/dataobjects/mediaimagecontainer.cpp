@@ -19,6 +19,6 @@
 
 #include "mediaimagecontainer.h"
 
-MediaImageContainer::MediaImageContainer()
+MediaImageContainer::MediaImageContainer() : EmuFrontFileObject()
 {
 }

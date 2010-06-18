@@ -21,11 +21,17 @@
 #define MEDIAIMAGECONTAINER_H
 
 #include "emufrontfileobject.h"
+#include "mediaimage.h"
 
 class MediaImageContainer : public EmuFrontFileObject
 {
 public:
     MediaImageContainer();
+    QList<MediaImage*> getMediaImages();
+    void setMediaImages(QList<MediaImage*>);
+    void addMediaImage(MediaImage*);
+private:
+    QList<MediaImage*> lstMediaImage;
 };
 
 #endif // MEDIAIMAGECONTAINER_H

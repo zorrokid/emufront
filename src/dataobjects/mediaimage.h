@@ -14,7 +14,7 @@
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
-// You should have received a copy of the GNU General Public License
+// You shortould have received a copy of the GNU General Public License
 // along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
 
 #ifndef MEDIAIMAGE_H
@@ -26,6 +26,7 @@ class MediaImage : public EmuFrontFileObject
 {
 public:
     MediaImage();
+    MediaImage(int id, QString name, EmuFrontFile *file);
 };
 
 #endif // MEDIAIMAGE_H
