@@ -19,6 +19,17 @@
 
 #include "mediaimagecontainer.h"
 
-MediaImageContainer::MediaImageContainer() : EmuFrontFileObject()
+MediaImageContainer::MediaImageContainer()
+    : EmuFrontFileObject()
 {
+    lstMediaImage = QList<MediaImage*>();
+}
+
+MediaImageContainer::MediaImageContainer(int id, QString name, EmuFrontFile *file)
+    : EmuFrontFileObject(id, name, file) { }
+
+void MediaImageContainer::setMediaImages(QList<MediaImage *> list)
+{
+    // TODO destroy old list
+    // connect new list
 }

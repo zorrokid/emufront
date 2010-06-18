@@ -27,6 +27,7 @@ class MediaImageContainer : public EmuFrontFileObject
 {
 public:
     MediaImageContainer();
+    MediaImageContainer(int id, QString name, EmuFrontFile *file);
     QList<MediaImage*> getMediaImages();
     void setMediaImages(QList<MediaImage*>);
     void addMediaImage(MediaImage*);
