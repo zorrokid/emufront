@@ -10,6 +10,7 @@
 FileUtil::FileUtil(QObject *parent) : QObject(parent)
 {}
 
+// TODO: fp is missing setup object reference!
 QList<MediaImageContainer*> FileUtil::scanFilePath(const FilePathObject *fp, QStringList filters)
 {
     QList<MediaImageContainer*> containers;

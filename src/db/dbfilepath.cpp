@@ -58,20 +58,6 @@ bool DbFilePath::updateDataObjectToModel(const EmuFrontObject *ob)
     query.bindValue(":id", fpo->getId());
     ret = query.exec();
     if (ret) resetModel();
-    /*sqlTableModel->setFilter(QString("id = %1").arg(fpo->getId()));
-    sqlTableModel->select();
-    if (sqlTableModel->rowCount() == 1)
-    {
-        QSqlRecord rec = sqlTableModel->record(0);
-        rec.setValue("name", fpo->getName());
-        rec.setValue("filetypeid", fpo->getFilet.bype());
-
-        Setup *sup = fpo->getSetup();
-        if (sup) rec.setValue("setupid", sup->getId());
-
-        // TODO
-        //rec.setValue("lastscanned", 0);
-    }*/
     return ret;
 }
 
@@ -87,25 +73,6 @@ bool DbFilePath::insertDataObjectToModel(const EmuFrontObject *ob)
         query.bindValue(":setupid", fpo->getSetup()->getId());
     query.bindValue(":lastscanned", 0); // TODO
     return query.exec();
-    /*int row = 0;
-
-    sqlTableModel->insertRows(row, 1);
-
-
-    Setup *sup = fpo->getSetup();
-    //Platform *pl = fpo->getPlatform();
-    //MediaType *mt = fpo->getMediaType();
-
-    //sqlTableModel->setData(sqlTableModel->index(row, FilePath_Id), NULL);
-    sqlTableModel->setData(sqlTableModel->index(row, FilePath_Name), fpo->getName());
-    sqlTableModel->setData(sqlTableModel->index(row, FilePath_FileTypeId), fpo->getFiletype());
-    // not all the file path types have platform and/or media type
-    //if (pl) sqlTableModel->setData(sqlTableModel->index(row, FilePath_PlatformId), pl->getId());
-    //if (mt) sqlTableModel->setData(sqlTableModel->index(row, FilePath_MediaTypeId), mt->getId());
-    if (sup) sqlTableModel->setData(sqlTableModel->index(row, FilePath_SetupId), sup->getId());
-    // TODO:
-    sqlTableModel->setData(sqlTableModel->index(row, FilePath_LastScanned), 0);
-    return sqlTableModel->submitAll();*/
 }
 
 int DbFilePath::countDataObjectRefs(int id) const
@@ -152,20 +119,4 @@ QSqlQueryModel* DbFilePath::getData()
     model->setHeaderData(FilePath_SetupId, Qt::Horizontal, tr("Set up id"));
     model->setHeaderData(FilePath_SetupName, Qt::Horizontal, tr("Set up"));
     return model;
-
-            //"platform.name, mediatype.name
-   /*QSqlRelationalTableModel *model = new QSqlRelationalTableModel(this);
-   model->setTable(DB_TABLE_NAME_FILEPATH);*/
-   /*model->setRelation(FilePath_PlatformId,
-       QSqlRelation(DB_TABLE_NAME_PLATFORM, "id", "name"));
-   model->setRelation(FilePath_MediaTypeId,
-       QSqlRelation(DB_TABLE_NAME_MEDIATYPE, "id", "name"e));*/
-    /*model->setRelation(FilePath_SetupId,
-        QSqlRelation(DB_TABLE_NAME_SETUP, "id", ""));
-           model->setSort(FilePath_Name, Qt::AscendingOrder);*/
-
-   //model->setHeaderData(FilePath_MediaTypeId, Qt::Horizontal, tr("Media type"));
-   //model->setHeaderData(FilePath_PlatformId, Qt::Horizontal, tr("Platform"));
-   /*model->select();
-   return model;*/
 }

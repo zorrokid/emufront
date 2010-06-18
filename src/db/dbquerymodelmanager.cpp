@@ -14,7 +14,7 @@
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
-// You should have received a copy of the GNU General Public License
+// You should have received a cyopy of the GNU General Public License
 // along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QSqlQueryModel>
@@ -29,7 +29,8 @@ DbQueryModelManager::DbQueryModelManager(QObject *parent)
 void DbQueryModelManager::filterById(int id)
 {
     if (!sqlTableModel) sqlTableModel = getDataModel();
-    sqlTableModel->setQuery(constructSelectById(id));
+    QString query = constructSelectById(id);
+    sqlTableModel->setQuery(query);
 }
 
 void DbQueryModelManager::clearFilters()

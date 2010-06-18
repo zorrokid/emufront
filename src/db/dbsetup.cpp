@@ -102,9 +102,9 @@ QString DbSetup::constructSelect(QString whereClause) const
         "setup.mediatypeid AS MediaTypeId, "
         "setup.filetypeextensions AS SupportedFileTypeExtensions, "
         "platform.name || ' ' || mediatype.name AS SetupName "
-        "FROM setup %1"
+        "FROM setup "
         "INNER JOIN platform ON setup.platformid=platform.id "
-        "INNER JOIN mediatype ON setup.mediatypeid=mediatype.id "
+        "INNER JOIN mediatype ON setup.mediatypeid=mediatype.id %1 "
         "ORDER BY SetupName"
         ).arg(where);
 }
