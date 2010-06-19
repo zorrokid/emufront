@@ -23,19 +23,21 @@ MediaImageContainer::MediaImageContainer()
     : EmuFrontFile(EmuFrontFile::FileType_MediaImageContainer)
 {
     lstMediaImage = QList<MediaImage*>();
+    setup = 0;
 }
 
-MediaImageContainer::MediaImageContainer(int id, QString name, QString checksum, int size, QList<MediaImage *>images)
-    : EmuFrontFile(id, name, checksum, size, EmuFrontFile::FileType_MediaImageContainer), lstMediaImage(images)
+MediaImageContainer::MediaImageContainer(int id, QString name, QString checksum, int size, QList<MediaImage *>images, Setup *setup)
+    : EmuFrontFile(id, name, checksum, size, EmuFrontFile::FileType_MediaImageContainer), lstMediaImage(images), setup(setup)
 { }
 
-MediaImageContainer::MediaImageContainer(QString name, QString checksum, int size, QList<MediaImage *>images)
-    : EmuFrontFile(-1, name, checksum, size, EmuFrontFile::FileType_MediaImageContainer), lstMediaImage(images)
+MediaImageContainer::MediaImageContainer(QString name, QString checksum, int size, QList<MediaImage *>images, Setup *setup)
+    : EmuFrontFile(-1, name, checksum, size, EmuFrontFile::FileType_MediaImageContainer), lstMediaImage(images), setup(setup)
 { }
 
 MediaImageContainer::~MediaImageContainer()
 {
     qDeleteAll(lstMediaImage);
+    delete setup;
 }
 
 MediaImageContainer::MediaImageContainer(MediaImageContainer &mic)
@@ -44,6 +46,7 @@ MediaImageContainer::MediaImageContainer(MediaImageContainer &mic)
     lstMediaImage = QList<MediaImage*>();
     foreach(MediaImage *mi, mic.lstMediaImage)
         lstMediaImage.append(new MediaImage(*mi));
+    setup = new Setup(*(mic.setup));
 }
 
 MediaImageContainer& MediaImageContainer::operator =(MediaImageContainer &mic)
@@ -57,6 +60,7 @@ MediaImageContainer& MediaImageContainer::operator =(MediaImageContainer &mic)
     qDeleteAll(lstMediaImage);
     foreach(MediaImage *mi, mic.lstMediaImage)
         lstMediaImage.append(new MediaImage(*mi));
+    setup = new Setup(*(mic.setup));
     return (*this);
 }
 
@@ -66,5 +70,14 @@ void MediaImageContainer::setMediaImages(QList<MediaImage *> list)
     lstMediaImage = list;
 }
 
+QList<MediaImage *> MediaImageContainer::getMediaImages() const
+{   return lstMediaImage; }
+
 void MediaImageContainer::addMediaImage(MediaImage *mi)
 {   lstMediaImage.append(mi); }
+
+Setup* MediaImageContainer::getSetup() const
+{ return setup; }
+
+void MediaImageContainer::setSetup(Setup *s)
+{ setup = s; }

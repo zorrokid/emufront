@@ -29,26 +29,21 @@ QList<MediaImageContainer*> FileUtil::scanFilePath(const FilePathObject *fp, QSt
         QFileInfo fileInfo = list.at(i);
         qDebug() << QString("%1 %2").arg(fileInfo.size(), 10).arg(fileInfo.absoluteFilePath());
 
-
         //... and collect the contents of each archive
         QList<MediaImage*> files = listContents(fileInfo.absoluteFilePath(), fp);
 
-        // if the archive contained supported file types we will create a media image container object
-        // - platform
-        // - meditype
-        // - media image objects in a list
-        // - time created / updated
         if (files.count() > 0)
         {
-            /* MediaImageContainer *con = new MediaImageContainer(fileInfo.fileName(), // TODO;
-
-            containers.append(con);*/
+            MediaImageContainer *con = new MediaImageContainer
+                (
+                    fileInfo.fileName(),
+                    "" /* TODO */,
+                    fileInfo.size(),
+                    files,
+                    fp->getSetup() // TODO: maybe assign a copy of the setup object, we cannot guarantee that the setup object in file path object will stay alive!!!
+                );
+            containers.append(con);
         }
-
-        /*foreach (EmuFrontFileObject *o, files)
-        {
-            qDebug() << o->getFilename();
-        }*/
     }
     return containers;
 }
