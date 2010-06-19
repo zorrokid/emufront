@@ -23,11 +23,15 @@
 #include "emufrontfileobject.h"
 #include "mediaimage.h"
 
-class MediaImageContainer : public EmuFrontFileObject
+class MediaImageContainer : public EmuFrontFile
 {
 public:
     MediaImageContainer();
-    MediaImageContainer(int id, QString name, EmuFrontFile *file);
+    MediaImageContainer(int id, QString name, QString checksum, int size, QList<MediaImage*> images);
+    MediaImageContainer(QString name, QString checksum, int size, QList<MediaImage*> images);
+    ~MediaImageContainer();
+    MediaImageContainer(MediaImageContainer&);
+    MediaImageContainer& operator=(MediaImageContainer&);
     QList<MediaImage*> getMediaImages();
     void setMediaImages(QList<MediaImage*>);
     void addMediaImage(MediaImage*);

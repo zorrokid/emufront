@@ -40,9 +40,9 @@ QList<MediaImageContainer*> FileUtil::scanFilePath(const FilePathObject *fp, QSt
         // - time created / updated
         if (files.count() > 0)
         {
-            MediaImageContainer *con = new MediaImageContainer;
+            /* MediaImageContainer *con = new MediaImageContainer(fileInfo.fileName(), // TODO;
 
-            containers.append(con);
+            containers.append(con);*/
         }
 
         /*foreach (EmuFrontFileObject *o, files)
@@ -69,13 +69,8 @@ QList<MediaImage*> FileUtil::listContents(const QString filePath, const FilePath
         if (isSupportedFile(entry.filename, sup->getSupportedFileTypeExtensions()))
         {
             QString checksum = QString("%1").arg(entry.crc32, 0, 16);
-            EmuFrontFile *eff = new EmuFrontFile;
-            eff->setName(entry.filename);
-            eff->setCheckSum(checksum);
-            eff->setSize(entry.uncompressedSize);
-            eff->setType(EmuFrontFile::FileType_MediaImage);
-            MediaImage *effo = new MediaImage;
-            effo->setFile(eff);
+            MediaImage *effo = new MediaImage(entry.filename,
+                checksum, entry.uncompressedSize);
             fileList << effo;
         }
     }

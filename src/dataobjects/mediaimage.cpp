@@ -20,9 +20,15 @@
 #include "mediaimage.h"
 
 MediaImage::MediaImage()
-    : EmuFrontFileObject()
+    : EmuFrontFile(EmuFrontFile::FileType_MediaImage)
 { }
 
-MediaImage::MediaImage(int id, QString name, EmuFrontFile *file)
-    : EmuFrontFileObject(id, name, file) { }
+MediaImage::MediaImage(int id, QString name, QString checksum, int size)
+    : EmuFrontFile(id, name, checksum, size, EmuFrontFile::FileType_MediaImage)
+{ }
+
+MediaImage::MediaImage(QString name, QString checksum, int size)
+    : EmuFrontFile(-1, name, checksum, size, EmuFrontFile::FileType_MediaImage)
+{ }
+
 

@@ -26,6 +26,7 @@ class EmuFrontFile : public EmuFrontObject
 {
 public:
     EmuFrontFile();
+    EmuFrontFile(int type);
     EmuFrontFile(int id, QString name, QString checksum, int size, int type);
     QString getCheckSum() const;
     void setCheckSum(QString);

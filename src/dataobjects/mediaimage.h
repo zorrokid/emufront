@@ -22,11 +22,12 @@
 
 #include "emufrontfileobject.h"
 
-class MediaImage : public EmuFrontFileObject
+class MediaImage : public EmuFrontFile
 {
 public:
     MediaImage();
-    MediaImage(int id, QString name, EmuFrontFile *file);
+    MediaImage(QString name, QString checksum, int size);
+    MediaImage(int id, QString name, QString checksum, int size);
 };
 
 #endif // MEDIAIMAGE_H
