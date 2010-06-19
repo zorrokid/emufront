@@ -28,7 +28,6 @@ public:
     EmuFrontObject();
     EmuFrontObject(int id, QString name);
 
-    // No need for these as long we use QString (see Implicit Data Sharing)
     EmuFrontObject(const EmuFrontObject &);
     ~EmuFrontObject();
     EmuFrontObject &operator=(const EmuFrontObject &);

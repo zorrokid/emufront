@@ -28,6 +28,7 @@ public:
     EmuFrontFile();
     EmuFrontFile(int type);
     EmuFrontFile(int id, QString name, QString checksum, int size, int type);
+    EmuFrontFile(EmuFrontFile &);
     QString getCheckSum() const;
     void setCheckSum(QString);
     int getSize() const;

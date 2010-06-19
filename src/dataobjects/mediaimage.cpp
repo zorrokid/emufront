@@ -31,4 +31,7 @@ MediaImage::MediaImage(QString name, QString checksum, int size)
     : EmuFrontFile(-1, name, checksum, size, EmuFrontFile::FileType_MediaImage)
 { }
 
+MediaImage::MediaImage(MediaImage &mi)
+    : EmuFrontFile(mi) {}
+
 

@@ -26,16 +26,12 @@ MediaImageContainer::MediaImageContainer()
 }
 
 MediaImageContainer::MediaImageContainer(int id, QString name, QString checksum, int size, QList<MediaImage *>images)
-    : EmuFrontFile(id, name, checksum, size, EmuFrontFile::FileType_MediaImageContainer)
-{
-    lstMediaImage = QList<MediaImage*>();
-}
+    : EmuFrontFile(id, name, checksum, size, EmuFrontFile::FileType_MediaImageContainer), lstMediaImage(images)
+{ }
 
 MediaImageContainer::MediaImageContainer(QString name, QString checksum, int size, QList<MediaImage *>images)
-    : EmuFrontFile(-1, name, checksum, size, EmuFrontFile::FileType_MediaImageContainer)
-{
-    lstMediaImage = QList<MediaImage*>();
-}
+    : EmuFrontFile(-1, name, checksum, size, EmuFrontFile::FileType_MediaImageContainer), lstMediaImage(images)
+{ }
 
 MediaImageContainer::~MediaImageContainer()
 {
@@ -43,11 +39,11 @@ MediaImageContainer::~MediaImageContainer()
 }
 
 MediaImageContainer::MediaImageContainer(MediaImageContainer &mic)
-    : EmuFrontFile(mic.id, mic.name, mic.checkSum, mic.size, mic.type)
+    : EmuFrontFile(mic)
 {
     lstMediaImage = QList<MediaImage*>();
     foreach(MediaImage *mi, mic.lstMediaImage)
-        lstMediaImage.append(new MediaImage(mi));
+        lstMediaImage.append(new MediaImage(*mi));
 }
 
 MediaImageContainer& MediaImageContainer::operator =(MediaImageContainer &mic)
@@ -59,8 +55,8 @@ MediaImageContainer& MediaImageContainer::operator =(MediaImageContainer &mic)
     checkSum = mic.checkSum;
     size = mic.size;
     qDeleteAll(lstMediaImage);
-    foreach(MediaImage *mi, mic)
-        lstMediaImage.append(new MediaImage(mi));
+    foreach(MediaImage *mi, mic.lstMediaImage)
+        lstMediaImage.append(new MediaImage(*mi));
     return (*this);
 }
 

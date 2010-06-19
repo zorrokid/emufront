@@ -28,6 +28,7 @@ public:
     MediaImage();
     MediaImage(QString name, QString checksum, int size);
     MediaImage(int id, QString name, QString checksum, int size);
+    MediaImage(MediaImage&);
 };
 
 #endif // MEDIAIMAGE_H
