@@ -82,5 +82,5 @@ QList<MediaImage*> FileUtil::listContents(const QString filePath, const FilePath
 bool FileUtil::isSupportedFile(const QString filename, const QStringList supportedFileExtensions)
 {
     QString ext = filename.section('.', -1);
-    return (supportedFileExtensions.indexOf(ext) > -1);
+    return supportedFileExtensions.contains(ext, Qt::CaseInsensitive);
 }

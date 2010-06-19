@@ -69,6 +69,8 @@ void MediaImagePathMainDialog::beginScanFilePath()
 
         QList<MediaImageContainer*> files = fileUtil.scanFilePath(fpo, l);
 
+        qDebug();
+
         // TODO
     }
     catch (EmuFrontException s)
