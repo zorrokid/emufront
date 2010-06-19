@@ -40,7 +40,12 @@ QList<MediaImageContainer*> FileUtil::scanFilePath(const FilePathObject *fp, QSt
                     "" /* TODO */,
                     fileInfo.size(),
                     files,
-                    fp->getSetup() // TODO: maybe assign a copy of the setup object, we cannot guarantee that the setup object in file path object will stay alive!!!
+                    // TODO: is it guaranteed, that the file path object containing the setup object remains alive
+                    // the whole lifecycle of (this) media image container object?
+                    // * if we assign a copy of the setup object -> waste of memory and time
+                    // * this function is designed to be used from media image path main dialog
+                    //   where we can ensure the lifecycle of file path object -> maybe move the implementation there!?
+                    fp->getSetup()
                 );
             containers.append(con);
         }
