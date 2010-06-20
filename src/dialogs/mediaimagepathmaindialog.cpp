@@ -31,6 +31,7 @@ MediaImagePathMainDialog::MediaImagePathMainDialog(QWidget *parent)
 {
     setWindowTitle(tr("Set media image paths"));
     dbManager = new DbFilePath(this);
+    dbMediaImageContainer = new DbMediaImageContainer(this);
     initDataTable();
 
     scanButton = new QPushButton(tr("&Scan"));
@@ -68,8 +69,6 @@ void MediaImagePathMainDialog::beginScanFilePath()
         l << "*.zip"; // TODO set filters in a global constant class
 
         QList<MediaImageContainer*> files = fileUtil.scanFilePath(fpo, l);
-
-        qDebug();
 
         // TODO
     }

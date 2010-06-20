@@ -17,35 +17,25 @@
 // You should have received a copy of the GNU General Public License
 // along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef MEDIAIMAGEPATHMAINDIALOG_H
-#define MEDIAIMAGEPATHMAINDIALOG_H
+#ifndef DBMEDIAIMAGECONTAINER_H
+#define DBMEDIAIMAGECONTAINER_H
 
-#include "dbobjectdialog.h"
-#include "../db/dbmediaimagecontainer.h"
+#include "dbquerymodelmanager.h"
 
-class MediaImagePathMainDialog : public DbObjectDialog
+class DbMediaImageContainer : public DbQueryModelManager
 {
-    Q_OBJECT
-
 public:
-    MediaImagePathMainDialog(QWidget *parent);
-    ~MediaImagePathMainDialog();
-
+    DbMediaImageContainer(QObject *parent);
+    virtual bool updateDataObjectToModel(const EmuFrontObject *);
+    virtual bool insertDataObjectToModel(const EmuFrontObject *);
+    virtual bool deleteDataObjectFromModel(QModelIndex *);
+    virtual int countDataObjectRefs(int id) const;
 protected:
-    virtual void initEditDialog();
-    virtual void deleteCurrentObject();
-    virtual EmuFrontObject* createObject();
-    virtual void connectSignals();
-
-private slots:
-    void beginScanFilePath();
-
+    virtual QString constructSelect(QString whereClause) const;
+    virtual QString constructSelectById(int id) const;
+    virtual EmuFrontObject* recordToDataObject(const QSqlRecord *);
 private:
-    QPushButton *scanButton;
-    DbMediaImageContainer *dbMediaImageContainer;
+    virtual QSqlQueryModel* getData();
+ };
 
-    //  QString and QStringList are implicitly shared
-    void scanFilePath(const QString path, const QStringList filters);
-};
-
-#endif // MEDIAIMAGEPATHMAINDIALOG_H
+#endif // DBMEDIAIMAGECONTAINER_H

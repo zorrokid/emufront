@@ -36,6 +36,8 @@ const QString DatabaseManager::DB_TABLE_NAME_PLATFORM = QString("platform");
 const QString DatabaseManager::DB_TABLE_NAME_FILE= QString("file");
 const QString DatabaseManager::DB_TABLE_NAME_FILEPATH = QString("filepath");
 const QString DatabaseManager::DB_TABLE_NAME_SETUP = QString("setup");
+const QString DatabaseManager::DB_TABLE_MEDIAIMAGECONTAINER = QString("mediaimagecontainer");
+const QString DatabaseManager::DB_TABLE_MEDIAIMAGECONTAINER_MEDIAIMAGE = QString("mediaimagecontainer_mediaimage");
 
 DatabaseManager::DatabaseManager(QObject *parent)
 	: QObject(parent)
