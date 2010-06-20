@@ -20,7 +20,10 @@
 #include "dbmediaimagecontainer.h"
 
 DbMediaImageContainer::DbMediaImageContainer(QObject *parent)
-    : DbQueryModelManager(parent) { }
+    : DbQueryModelManager(parent)
+{
+    dbMediaImage = 0;
+}
 
 bool DbMediaImageContainer::updateDataObjectToModel(const EmuFrontObject *efo)
 {
@@ -60,4 +63,31 @@ EmuFrontObject* DbMediaImageContainer::recordToDataObject(const QSqlRecord *)
 QSqlQueryModel* DbMediaImageContainer::getData()
 {
     return 0;
+}
+
+int DbMediaImageContainer::getMediaImageContainer(QString checksum) const
+{
+    return -1;
+}
+
+void DbMediaImageContainer::storeContainers(QList<MediaImageContainer *> lst)
+{
+    foreach(MediaImageContainer *mic, lst)
+    {
+        QList<MediaImage*> images = mic->getMediaImages();
+        if (getMediaImageContainer(mic->getCheckSum()) >= 0)
+            continue;
+        // this is a new media image container, lets build a list
+        // of media image id's for this container
+        QList<int> ids = dbMediaImage->storeMediaImages(images);
+
+        if (ids.count() > 0)
+        {
+            // store media image to id
+
+            // get last insert id of stored media image
+
+            // link all the ids in ids-list to media image id
+        }
+    }
 }

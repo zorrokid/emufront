@@ -17,30 +17,29 @@
 // You should have received a copy of the GNU General Public License
 // along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef DBMEDIAIMAGECONTAINER_H
-#define DBMEDIAIMAGECONTAINER_H
+#ifndef DBMEDIAIMAGE_H
+#define DBMEDIAIMAGE_H
 
 #include "dbquerymodelmanager.h"
-#include "dbmediaimage.h"
-#include "../dataobjects/mediaimagecontainer.h"
+#include "../dataobjects/mediaimage.h"
 
-class DbMediaImageContainer : public DbQueryModelManager
+class DbMediaImage : public DbQueryModelManager
 {
 public:
-    DbMediaImageContainer(QObject *parent);
+    DbMediaImage(QObject *parent);
+    QList<int> storeMediaImages(QList<MediaImage*>);
     virtual bool updateDataObjectToModel(const EmuFrontObject *);
     virtual bool insertDataObjectToModel(const EmuFrontObject *);
     virtual bool deleteDataObjectFromModel(QModelIndex *);
     virtual int countDataObjectRefs(int id) const;
-    void storeContainers(QList<MediaImageContainer*>);
-    int getMediaImageContainer(QString checksum) const;
+    int getMediaImage(QString checksum) const;
+    int insertMediaImage(const MediaImage*);
 protected:
     virtual QString constructSelect(QString whereClause) const;
     virtual QString constructSelectById(int id) const;
     virtual EmuFrontObject* recordToDataObject(const QSqlRecord *);
 private:
     virtual QSqlQueryModel* getData();
-    DbMediaImage *dbMediaImage;
- };
+};
 
-#endif // DBMEDIAIMAGECONTAINER_H
+#endif // DBMEDIAIMAGE_H

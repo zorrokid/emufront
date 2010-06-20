@@ -49,7 +49,8 @@ HEADERS += mainwindow.h \
     dataobjects/emufrontfile.h \
     db/dbfile.h \
     db/dbemufrontfileobject.h \
-    db/dbmediaimagecontainer.h
+    db/dbmediaimagecontainer.h \
+    db/dbmediaimage.h
 SOURCES += main.cpp \
     mainwindow.cpp \
     db/databasemanager.cpp \
@@ -88,5 +89,6 @@ SOURCES += main.cpp \
     dataobjects/emufrontfile.cpp \
     db/dbfile.cpp \
     db/dbemufrontfileobject.cpp \
-    db/dbmediaimagecontainer.cpp
+    db/dbmediaimagecontainer.cpp \
+    db/dbmediaimage.cpp
 OTHER_FILES += 
