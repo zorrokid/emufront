@@ -20,11 +20,12 @@
 #include <QSqlRecord>
 #include <QSqlQuery>
 #include <QSqlTableModel>
-#include <QDateTime>
 #include "dbfile.h"
 
 DbFile::DbFile(QObject *parent) : DbTableModelManager(parent)
-{ }
+{
+    type = -1;
+}
 
 EmuFrontObject* DbFile::recordToDataObject(const QSqlRecord *record)
 {
@@ -50,7 +51,7 @@ bool DbFile::updateDataObjectToModel(const EmuFrontObject *ob)
         record.setValue("type", plf->getType());
         record.setValue("checksum", plf->getCheckSum());
         record.setValue("size", plf->getSize());
-        record.setValue("updatetime", QDateTime::currentDateTime().toTime_t());
+        record.setValue("updatetime", getCurrentTimeStamp());
         tmodel->setRecord(0, record);
         ret = tmodel->submitAll();
     }
@@ -71,9 +72,26 @@ bool DbFile::insertDataObjectToModel(const EmuFrontObject *ob)
     tmodel->setData(sqlTableModel->index(row, File_FileType), plf->getType());
     tmodel->setData(sqlTableModel->index(row, File_CheckSum), plf->getCheckSum());
     tmodel->setData(sqlTableModel->index(row, File_FileSize), plf->getSize());
-    tmodel->setData(sqlTableModel->index(row, File_UpdateTime),
-        QDateTime::currentDateTime().toTime_t());
+    tmodel->setData(sqlTableModel->index(row, File_UpdateTime), getCurrentTimeStamp());
     return tmodel->submitAll();
+}
+
+int DbFile::insertFile(const EmuFrontFile *mi)
+{
+    QSqlQuery q;
+    q.prepare("INSERT INTO file "
+        "(id, name, type, checksum, size, updatetime) "
+        "VALUES (NULL, :name, :type, :checksum, :size, :updatetime)");
+    q.bindValue(":name", mi->getName());
+    q.bindValue(":type", mi->getType());
+    q.bindValue(":checksum", mi->getCheckSum());
+    q.bindValue(":size", mi->getSize());
+    q.bindValue(":updatetime", DatabaseManager::getCurrentTimeStamp());
+    int id = -1;
+    if (q.exec())
+        id = q.lastInsertId().toInt();
+   return id;
+
 }
 
 int DbFile::countDataObjectRefs(int id) const
@@ -116,6 +134,12 @@ QSqlQueryModel* DbFile::getData()
     model->setHeaderData(File_CheckSum, Qt::Horizontal, tr("Checksum"));
     model->setHeaderData(File_FileSize, Qt::Horizontal, tr("Size"));
     model->setHeaderData(File_UpdateTime, Qt::Horizontal, tr("Updated"));
+    if (type >= 0) model->setFilter(QString("type=%1").arg(type));
     model->select();
     return model;
+}
+
+EmuFrontObject* DbFile::getFileByChecksum(QString checksum)
+{
+    return getDataObject(QString("checksum LIKE '%1'").arg(checksum));
 }

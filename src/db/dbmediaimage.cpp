@@ -18,61 +18,69 @@
 // along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QDebug>
+#include <QSqlTableModel>
+#include <QSqlQuery>
 #include "dbmediaimage.h"
 
 DbMediaImage::DbMediaImage(QObject *parent)
-    : DbQueryModelManager(parent)
-{ }
-
-bool DbMediaImage::updateDataObjectToModel(const EmuFrontObject *efo)
+    : DbFile(parent)
 {
-    return false;
+    type = EmuFrontFile::FileType_MediaImage;
 }
 
-bool DbMediaImage::insertDataObjectToModel(const EmuFrontObject *efo)
+/*bool DbMediaImage::updateDataObjectToModel(const EmuFrontObject *efo)
 {
+    // TODO
     return false;
-}
+}*/
 
-bool DbMediaImage::deleteDataObjectFromModel(QModelIndex *i)
+/*bool DbMediaImage::insertDataObjectToModel(const EmuFrontObject *efo)
 {
+    // TODO
     return false;
-}
+}*/
 
-int DbMediaImage::countDataObjectRefs(int id) const
+/*bool DbMediaImage::deleteDataObjectFromModel(QModelIndex *i)
 {
+    // TODO
+    return false;
+}*/
+
+/*int DbMediaImage::countDataObjectRefs(int id) const
+{
+    // TODO
     return -1;
-}
+}*/
 
-QString DbMediaImage::constructSelect(QString whereClause) const
+/*QString DbMediaImage::constructSelect(QString whereClause) const
 {
+    // TODO
     return "";
 }
 
 QString DbMediaImage::constructSelectById(int id) const
 {
+    // TODO
     return "";
-}
+}*/
 
-EmuFrontObject* DbMediaImage::recordToDataObject(const QSqlRecord *)
+/*EmuFrontObject* DbMediaImage::recordToDataObject(const QSqlRecord *)
 {
+    // TODO
     return 0;
-}
+}*/
 
-QSqlQueryModel* DbMediaImage::getData()
+/*QSqlQueryModel* DbMediaImage::getData()
 {
-    return 0;
-}
+    QSqlTableModel *model = new QSqlTableModel;
+    model->setTable(DB_TABLE_NAME_FILE);
+}*/
 
-int DbMediaImage::getMediaImage(QString checksum) const
-{
-    return -1;
 
-}
 
 int DbMediaImage::insertMediaImage(const MediaImage *mi)
 {
-    return -1;
+    return DbFile::insertFile(mi);
 }
 
 QList<int> DbMediaImage::storeMediaImages(QList<MediaImage *> images)
@@ -81,27 +89,22 @@ QList<int> DbMediaImage::storeMediaImages(QList<MediaImage *> images)
     foreach(MediaImage* mi, images)
     {
         QString cksum = mi->getCheckSum();
-        int id = getMediaImage(cksum);
+        EmuFrontObject *o = getFileByChecksum(cksum);
+        int id = o ? o->getId() : -1;
         if (id >= 0)
         {
             // this media image is already in the database
             // TODO: what if the name differs?
-            ids.append(id);
-            continue;
         }
-        if (id < 0)
+        else if (id < 0)
         {
-            // insert new media image to db
             id = insertMediaImage(mi);
             if (id < 0)
             {
                 // TODO: Build an error message of failed inserts
                 qDebug() << "Failed inserting media image" << mi->getName();
             }
-            else
-            {
-                ids.append(id);
-            }
         }
+        ids.append(id);
     }
 }

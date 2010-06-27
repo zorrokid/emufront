@@ -28,6 +28,7 @@ public:
     DbQueryModelManager(QObject *parent);
 protected:
     void filterById(int id);
+    void filterDataObjects(QString filter);
     void clearFilters();
     virtual QString constructSelectById(int id) const = 0;
     virtual QString constructSelect(QString whereClause = "") const = 0;

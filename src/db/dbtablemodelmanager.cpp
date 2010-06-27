@@ -27,9 +27,14 @@ DbTableModelManager::DbTableModelManager(QObject *parent)
 
 void DbTableModelManager::filterById(int id)
 {
+    return filterDataObjects(QString("id = %1").arg(id));
+}
+
+void DbTableModelManager::filterDataObjects(QString filter)
+{
     if (!sqlTableModel) sqlTableModel = getDataModel(); // throw EmuFrontException("Data model not available!");
     QSqlTableModel *tmodel = dynamic_cast<QSqlTableModel*>(sqlTableModel);
-    tmodel->setFilter(QString("id = %1").arg(id));
+    tmodel->setFilter(filter);
     tmodel->select();
 }
 

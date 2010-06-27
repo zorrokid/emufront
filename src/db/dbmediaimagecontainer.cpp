@@ -27,46 +27,55 @@ DbMediaImageContainer::DbMediaImageContainer(QObject *parent)
 
 bool DbMediaImageContainer::updateDataObjectToModel(const EmuFrontObject *efo)
 {
+    // TODO
     return false;
 }
 
 bool DbMediaImageContainer::insertDataObjectToModel(const EmuFrontObject *efo)
 {
+    // TODO
     return false;
 }
 
 bool DbMediaImageContainer::deleteDataObjectFromModel(QModelIndex *i)
 {
+    // TODO
     return false;
 }
 
 int DbMediaImageContainer::countDataObjectRefs(int id) const
 {
+    // TODO
     return -1;
 }
 
 QString DbMediaImageContainer::constructSelect(QString whereClause) const
 {
+    // TODO
     return "";
 }
 
 QString DbMediaImageContainer::constructSelectById(int id) const
 {
+    // TODO
     return "";
 }
 
 EmuFrontObject* DbMediaImageContainer::recordToDataObject(const QSqlRecord *)
 {
+    // TODO
     return 0;
 }
 
 QSqlQueryModel* DbMediaImageContainer::getData()
 {
+    // TODO
     return 0;
 }
 
 int DbMediaImageContainer::getMediaImageContainer(QString checksum) const
 {
+    // TODO
     return -1;
 }
 

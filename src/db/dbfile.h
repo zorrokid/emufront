@@ -31,6 +31,9 @@ public:
     bool insertDataObjectToModel(const EmuFrontObject*);
     bool deleteDataObjectFromModel(QModelIndex*);
     int countDataObjectRefs(int) const;
+    EmuFrontObject* getFileByChecksum(QString checksum);
+    int insertFile(const EmuFrontFile *);
+
     enum {
         File_Id = 0,
         File_Name,
@@ -41,6 +44,7 @@ public:
 
 protected:
     virtual EmuFrontObject* recordToDataObject(const QSqlRecord*);
+    int type;
 
 private:
     virtual QSqlQueryModel* getData();

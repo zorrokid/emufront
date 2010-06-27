@@ -28,6 +28,7 @@
 #include <QDir>
 #include <QVariant>
 #include <QDebug>
+#include <QDateTime>
 
 const QString DatabaseManager::DB_FILENAME = QString("my.db.sqlite");
 const QString DatabaseManager::DATABASE = QString("QSQLITE");
@@ -98,7 +99,8 @@ int DatabaseManager::countRows(QString tableName, QString columnName, int id) co
 EmuFrontObject* DatabaseManager::getDataObject(int id)
 {
     filterById(id);
-    EmuFrontObject *plf = 0;
+    return getFilteredDataObject();
+    /*EmuFrontObject *plf = 0;
     if (sqlTableModel->rowCount() == 1)
     {
         QSqlRecord record = sqlTableModel->record(0);
@@ -108,7 +110,28 @@ EmuFrontObject* DatabaseManager::getDataObject(int id)
         }
         else plf = recordToDataObject(&record);
     }
-    return plf;
+    return plf;*/
+}
+
+EmuFrontObject* DatabaseManager::getDataObject(QString filter)
+{
+    filterDataObjects(filter);
+    return getFilteredDataObject();
+}
+
+EmuFrontObject* DatabaseManager::getFilteredDataObject()
+{
+    EmuFrontObject *plf = 0;
+    if (sqlTableModel->rowCount() == 1)
+    {
+        QSqlRecord record = sqlTableModel->record(0);
+        if (record.isEmpty())
+        {
+            throw new EmuFrontException(tr("No filtered data available"));
+        }
+        else plf = recordToDataObject(&record);
+    }
+     return plf;
 }
 
 EmuFrontObject* DatabaseManager::getDataObjectFromModel(QModelIndex *index)
@@ -116,4 +139,8 @@ EmuFrontObject* DatabaseManager::getDataObjectFromModel(QModelIndex *index)
     if (!sqlTableModel) sqlTableModel = getDataModel();
     QSqlRecord record = sqlTableModel->record(index->row());
     return recordToDataObject(&record);
+}
+
+int DatabaseManager::getCurrentTimeStamp() {
+    return QDateTime::currentDateTime().toTime_t();
 }

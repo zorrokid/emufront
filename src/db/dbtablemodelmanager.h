@@ -28,6 +28,7 @@ public:
     DbTableModelManager(QObject *parent);
 protected:
     void filterById(int id);
+    void filterDataObjects(QString filter);
     void clearFilters();
 };
 

@@ -39,10 +39,12 @@ public:
     QSqlQueryModel* getDataModel();
     EmuFrontObject* getDataObjectFromModel(QModelIndex*);
     EmuFrontObject* getDataObject(int id);
+    EmuFrontObject* getDataObject(QString filter);
     virtual bool updateDataObjectToModel(const EmuFrontObject*) = 0;
     virtual bool insertDataObjectToModel(const EmuFrontObject*) = 0;
     virtual bool deleteDataObjectFromModel(QModelIndex*) = 0;
     virtual int countDataObjectRefs(int id) const = 0;
+    static int getCurrentTimeStamp();
     static bool openDB();
     void resetModel();
     enum {
@@ -55,6 +57,7 @@ protected:
     QSqlQueryModel* sqlTableModel;
     virtual EmuFrontObject* recordToDataObject(const QSqlRecord* ) = 0;
     virtual void filterById(int id) = 0;
+    virtual void filterDataObjects(QString filter) = 0;
     virtual void clearFilters() = 0;
     int countRows(QString tableName, QString columnName, int id) const;
     static const QString DB_TABLE_NAME_FILE;
@@ -71,6 +74,8 @@ private:
     static const QString DATABASE;
     virtual QSqlQueryModel* getData() = 0;
     static QString getDbPath();
+    EmuFrontObject* getFilteredDataObject();
+
 };
 
 #endif

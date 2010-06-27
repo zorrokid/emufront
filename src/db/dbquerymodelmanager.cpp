@@ -20,7 +20,6 @@
 #include <QSqlQueryModel>
 #include "dbquerymodelmanager.h"
 
-
 DbQueryModelManager::DbQueryModelManager(QObject *parent)
     : DatabaseManager(parent)
 {
@@ -28,8 +27,14 @@ DbQueryModelManager::DbQueryModelManager(QObject *parent)
 
 void DbQueryModelManager::filterById(int id)
 {
-    if (!sqlTableModel) sqlTableModel = getDataModel();
-    QString query = constructSelectById(id);
+    return filterDataObjects(QString("setup.id = %1").arg(id));
+}
+
+/* filter must be in SQL where clause format (without the WHERE word) */
+void DbQueryModelManager::filterDataObjects(QString filter)
+{
+   if (!sqlTableModel) sqlTableModel = getDataModel();
+    QString query = constructSelect(filter);
     sqlTableModel->setQuery(query);
 }
 
