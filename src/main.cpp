@@ -38,7 +38,11 @@ int main(int argc, char *argv[])
 
     if (DatabaseManager::openDB())
         cout << " Database opened succesfully!" << endl;
-	else cout << " Database connection failed!" << endl;
+    else
+    {
+        cout << " Database connection failed!" << endl;
+        exit(1);
+    }
 
     if (reset || !DbCreator::dbExists())
 	{
