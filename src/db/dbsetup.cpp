@@ -56,7 +56,7 @@ bool DbSetup::updateDataObjectToModel(const EmuFrontObject *ob)
     query.prepare(QString("UPDATE setup SET "
         "platformid=:platformid, "
         "mediatypeid=:mediatypeid, "
-        "filetypeextensions:=filetypeextensions "
+        "filetypeextensions=:filetypeextensions "
         "WHERE id = :id"));
     if (fpo->getPlatform())
         query.bindValue(":platformid", fpo->getPlatform()->getId());
@@ -64,7 +64,8 @@ bool DbSetup::updateDataObjectToModel(const EmuFrontObject *ob)
         query.bindValue(":mediatypeid", fpo->getMediaType()->getId());
     query.bindValue(":filetypeextensions", fpo->getSupportedFileTypeExtensions().join(FILE_TYPE_EXTENSION_SEPARATOR));
     query.bindValue(":id", fpo->getId());
-    query.exec();
+    ret = query.exec();
+    if (!ret) qDebug() << query.lastError().text() << query.executedQuery();
     return ret;
 }
 
@@ -117,6 +118,7 @@ QString DbSetup::constructSelectById(int id) const
 // WARNING: this will delete also all the databindings to selected media image path
 bool DbSetup::deleteDataObjectFromModel(QModelIndex */*index*/)
 {
+    qDebug() << "This is not currently supported";
     return false;
 }
 
