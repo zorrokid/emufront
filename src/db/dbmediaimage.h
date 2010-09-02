@@ -28,18 +28,18 @@ class DbMediaImage : public DbFile
 public:
     DbMediaImage(QObject *parent);
     QList<int> storeMediaImages(QList<MediaImage*>);
-    //virtual bool updateDataObjectToModel(const EmuFrontObject *);
-    //virtual bool insertDataObjectToModel(const EmuFrontObject *);
-    //virtual bool deleteDataObjectFromModel(QModelIndex *);
-    //virtual int countDataObjectRefs(int id) const;
-    //int getMediaImage(QString checksum) const;
+    virtual bool updateDataObjectToModel(const EmuFrontObject *);
+    virtual bool insertDataObjectToModel(const EmuFrontObject *);
+    virtual bool deleteDataObjectFromModel(QModelIndex *);
+    virtual int countDataObjectRefs(int id) const;
+    int getMediaImage(QString checksum) const;
     int insertMediaImage(const MediaImage*);
 protected:
-    //virtual QString constructSelect(QString whereClause) const;
-    //virtual QString constructSelectById(int id) const;
-    //virtual EmuFrontObject* recordToDataObject(const QSqlRecord *);
+    virtual QString constructSelect(QString whereClause) const;
+    virtual QString constructSelectById(int id) const;
+    virtual EmuFrontObject* recordToDataObject(const QSqlRecord *);
 private:
-    //virtual QSqlQueryModel* getData();
+    virtual QSqlQueryModel* getData();
 };
 
 #endif // DBMEDIAIMAGE_H

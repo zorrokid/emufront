@@ -115,7 +115,9 @@ EmuFrontObject* DatabaseManager::getDataObject(int id)
 
 EmuFrontObject* DatabaseManager::getDataObject(QString filter)
 {
+    qDebug() << "Filtering data object" << filter;
     filterDataObjects(filter);
+    qDebug() << "...done filtering.";
     return getFilteredDataObject();
 }
 

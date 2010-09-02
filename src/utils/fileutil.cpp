@@ -33,6 +33,7 @@ QList<MediaImageContainer*> FileUtil::scanFilePath(const FilePathObject *fp, QSt
     if (!dir.exists() || !dir.isReadable())
         throw EmuFrontException(tr("Directory %1 doesn't exists or isn't readable!").arg(fp->getName()));
 
+    qDebug() << QString("Scanning directory %1.").arg(fp->getName());
     dir.setFilter(QDir::Files | QDir::NoSymLinks | QDir::NoDotAndDotDot | QDir::Readable);
 
     if (filters.count() > 0) dir.setNameFilters(filters);
@@ -60,11 +61,14 @@ QList<MediaImageContainer*> FileUtil::scanFilePath(const FilePathObject *fp, QSt
                     // * if we assign a copy of the setup object -> waste of memory and time
                     // * this function is designed to be used from media image path main dialog
                     //   where we can ensure the lifecycle of file path object -> maybe move the implementation there!?
+                    // TODO: Ensure this! We really need a reference instead of 1000s of copies of setup object!!!
                     fp->getSetup()
                 );
             containers.append(con);
+            qDebug() << "We have " << containers.size() << " containers.";
         }
     }
+    qDebug() << "Done scanning files!";
     return containers;
 }
 
@@ -76,20 +80,27 @@ QList<MediaImage*> FileUtil::listContents(const QString filePath, const FilePath
     if (ec != UnZip::Ok)
         throw EmuFrontException(tr("Error while opening zip-file %1, error code %2").arg(filePath).arg(ec));
 
+    if (!fp->getSetup()){
+        throw EmuFrontException(tr("Setup not available with %1.").arg(fp->getName()));
+    }
+
     Setup *sup = fp->getSetup();
     QList<UnZip::ZipEntry> list = uz.entryList();
     QList<MediaImage*>  fileList;
     foreach(UnZip::ZipEntry entry, list)
     {
+        qDebug() << "Zip entry " << entry.filename;
         if (isSupportedFile(entry.filename, sup->getSupportedFileTypeExtensions()))
         {
             QString checksum = QString("%1").arg(entry.crc32, 0, 16);
+            qDebug() << "Checksum " << checksum;
             MediaImage *effo = new MediaImage(entry.filename,
                 checksum, entry.uncompressedSize);
             fileList << effo;
         }
     }
 
+    qDebug() << "File list has " << fileList.size() << " entries.";
     return fileList;
 
 }

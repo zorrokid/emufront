@@ -17,6 +17,7 @@
 // You should have received a copy of the GNU General Public License
 // along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <QDebug>
 #include <QSqlRecord>
 #include <QSqlQuery>
 #include <QSqlTableModel>
@@ -78,6 +79,7 @@ bool DbFile::insertDataObjectToModel(const EmuFrontObject *ob)
 
 int DbFile::insertFile(const EmuFrontFile *mi)
 {
+    qDebug() << "Inserting file " << mi->getName() << " to db.";
     QSqlQuery q;
     q.prepare("INSERT INTO file "
         "(id, name, type, checksum, size, updatetime) "

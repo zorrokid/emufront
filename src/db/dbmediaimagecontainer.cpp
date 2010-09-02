@@ -17,6 +17,7 @@
 // You should have received a copy of the GNU General Public License
 // along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <QDebug>
 #include "dbmediaimagecontainer.h"
 
 DbMediaImageContainer::DbMediaImageContainer(QObject *parent)
@@ -81,8 +82,10 @@ int DbMediaImageContainer::getMediaImageContainer(QString checksum) const
 
 void DbMediaImageContainer::storeContainers(QList<MediaImageContainer *> lst)
 {
+    qDebug() << "Storing media image containers to database.";
     foreach(MediaImageContainer *mic, lst)
     {
+        qDebug() << "Media image container " << mic->getName();
         QList<MediaImage*> images = mic->getMediaImages();
         if (getMediaImageContainer(mic->getCheckSum()) >= 0)
             continue;

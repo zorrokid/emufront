@@ -69,7 +69,9 @@ void MediaImagePathMainDialog::beginScanFilePath()
         l << "*.zip"; // TODO set filters in a global constant class
 
         QList<MediaImageContainer*> files = fileUtil.scanFilePath(fpo, l);
+        qDebug() << "Storing scanned " << files.size() << " files to database";
         dbMediaImageContainer->storeContainers(files);
+        qDebug() << "Done storing scanned " << files.size() << " files to database";
     }
     catch (EmuFrontException s)
     {
