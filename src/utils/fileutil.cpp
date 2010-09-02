@@ -6,13 +6,28 @@
 #include "../dataobjects/setup.h"
 #include "../dataobjects/mediaimage.h"
 #include "../dataobjects/mediaimagecontainer.h"
+#include "../dataobjects/mediatype.h"
+#include "../dataobjects/platform.h"
 
 FileUtil::FileUtil(QObject *parent) : QObject(parent)
 {}
 
-// TODO: fp is missing setup object reference!
 QList<MediaImageContainer*> FileUtil::scanFilePath(const FilePathObject *fp, QStringList filters)
 {
+    if (!fp->getSetup()){
+        throw EmuFrontException(tr("Setup not available with %1.").arg(fp->getName()));
+    }
+    else if(!fp->getSetup()->getPlatform()){
+        throw EmuFrontException(tr("No platform object available with %1.")
+            .arg(fp->getSetup()->getName()));
+    }
+    else if (!fp->getSetup()->getMediaType()){
+        throw new EmuFrontException(tr("No media type available with %1.")
+            .arg(fp->getSetup()->getName()));
+    }
+    qDebug() << QString("We have a platform %1, media type %2")
+        .arg(fp->getSetup()->getPlatform()->getName())
+        .arg(fp->getSetup()->getMediaType()->getName());
     QList<MediaImageContainer*> containers;
     QDir dir(fp->getName());
     if (!dir.exists() || !dir.isReadable())
