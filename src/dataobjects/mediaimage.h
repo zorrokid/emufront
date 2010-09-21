@@ -22,6 +22,7 @@
 
 #include "emufrontfileobject.h"
 
+/* MediaImage is a EmuFrontFile of type  FileType_MediaImage */
 class MediaImage : public EmuFrontFile
 {
 public:

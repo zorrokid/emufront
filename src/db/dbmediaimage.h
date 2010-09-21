@@ -23,6 +23,7 @@
 #include "dbfile.h"
 #include "../dataobjects/mediaimage.h"
 
+/* TODO: I suppose this class is not even needed anymore! */
 class DbMediaImage : public DbFile
 {
 public:

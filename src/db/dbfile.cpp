@@ -20,10 +20,10 @@
 #include <QDebug>
 #include <QSqlRecord>
 #include <QSqlQuery>
-#include <QSqlTableModel>
+#include <QSqlRelationalTableModel>
 #include "dbfile.h"
 
-DbFile::DbFile(QObject *parent) : DbTableModelManager(parent)
+DbFile::DbFile(QObject *parent) : DbQueryModelManager(parent)
 {
     type = -1;
 }
@@ -42,7 +42,24 @@ bool DbFile::updateDataObjectToModel(const EmuFrontObject *ob)
 {
     const EmuFrontFile *plf = dynamic_cast<const EmuFrontFile*>(ob);
     bool ret = false;
-    QSqlTableModel *tmodel = dynamic_cast<QSqlTableModel*>(sqlTableModel);
+
+    QSqlQuery query;
+    query.prepare(QString("UPDATE file SET"
+                          "name=:name, "
+                          "type=:type, "
+                          "checksum=:checksum, "
+                          "size=:size, "
+                          "updatetime:=updatetime "
+                          "WHERE id=:id"));
+    query.bindValue(":name", plf->getName());
+    query.bindValue(":type", plf->getType());
+    query.bindValue(":checksum", plf->getCheckSum());
+    query.bindValue(":size", plf->getSize());
+    query.bindValue(":updatetime", getCurrentTimeStamp());
+    ret = query.exec();
+    if (ret) resetModel();
+
+    /*QSqlTableModel *tmodel = dynamic_cast<QSqlTableModel*>(sqlTableModel);
     tmodel->setFilter(QString("id = %1").arg(plf->getId()));
     tmodel->select();
     if (tmodel->rowCount() == 1)
@@ -56,14 +73,28 @@ bool DbFile::updateDataObjectToModel(const EmuFrontObject *ob)
         tmodel->setRecord(0, record);
         ret = tmodel->submitAll();
     }
-    resetModel();
+    resetModel();*/
     return ret;
 }
 
 bool DbFile::insertDataObjectToModel(const EmuFrontObject *ob)
 {
-    const EmuFrontFile *plf = dynamic_cast<const EmuFrontFile*>(ob);
-    int row = 0;
+    const EmuFrontFile *fi = dynamic_cast<const EmuFrontFile*>(ob);
+    QSqlQuery q;
+    q.prepare("INSERT INTO file "
+              "(id, name, type, checksum, size, updatetime) "
+              "VALUES (NULL, :name, :type, :checksum, :size, :updatetime)");
+    q.bindValue(":name", fi->getName());
+    q.bindValue(":type", fi->getType());
+    q.bindValue(":checksum", fi->getCheckSum());
+    q.bindValue(":size", fi->getSize());
+    q.bindValue(":updatetime", DatabaseManager::getCurrentTimeStamp());
+    int id = -1;
+    if (q.exec())
+        id = q.lastInsertId().toInt();
+    return id;
+
+    /*int row = 0;
     QSqlTableModel *tmodel = dynamic_cast<QSqlTableModel*>(sqlTableModel);
     tmodel->insertRows(row, 1);
     // the null value for index will be set implicitily
@@ -74,10 +105,10 @@ bool DbFile::insertDataObjectToModel(const EmuFrontObject *ob)
     tmodel->setData(sqlTableModel->index(row, File_CheckSum), plf->getCheckSum());
     tmodel->setData(sqlTableModel->index(row, File_FileSize), plf->getSize());
     tmodel->setData(sqlTableModel->index(row, File_UpdateTime), getCurrentTimeStamp());
-    return tmodel->submitAll();
+    return tmodel->submitAll();*/
 }
 
-int DbFile::insertFile(const EmuFrontFile *mi)
+/*int DbFile::insertFile(const EmuFrontFile *mi)
 {
     qDebug() << "Inserting file " << mi->getName() << " to db.";
     QSqlQuery q;
@@ -94,7 +125,7 @@ int DbFile::insertFile(const EmuFrontFile *mi)
         id = q.lastInsertId().toInt();
    return id;
 
-}
+}*/
 
 int DbFile::countDataObjectRefs(int id) const
 {
@@ -106,8 +137,10 @@ int DbFile::countDataObjectRefs(int id) const
 // the delete must be confirmed in the UI
 bool DbFile::deleteDataObjectFromModel(QModelIndex *index)
 {
+    return false;
+
     /*QSqlDatabase::database().transaction();*/
-    QSqlTableModel *tmodel = dynamic_cast<QSqlTableModel*>(sqlTableModel);
+    //QSqlTableModel *tmodel = dynamic_cast<QSqlTableModel*>(sqlTableModel);
     /*QSqlRecord record = tmodel->record(index->row());
     int id = record.value(File_Id).toInt();
     int count = countDataObjectRefs(id);
@@ -121,23 +154,41 @@ bool DbFile::deleteDataObjectFromModel(QModelIndex *index)
             return false;
         }
     }*/
-    tmodel->removeRow(index->row());
-    tmodel->submitAll();
-    return QSqlDatabase::database().commit();
+    //tmodel->removeRow(index->row());
+    //tmodel->submitAll();
+    //return QSqlDatabase::database().commit();
+}
+
+QString DbFile::constructSelect(QString whereClause) const
+{
+    QString where = whereClause.isEmpty()
+                    ? "" : QString("WHERE ").append(whereClause);
+
+    return QString("SELECT file.id AS FileId, "
+                   "file.name AS Name, "
+                   "file.type AS FileType, "
+                   "file.checksum AS Checksum, "
+                   "file.size AS FileSize, "
+                   "file.updatetime AS UpdateTime "
+                   "FROM file "
+                   "%1 "
+                   "ORDER BY Name").arg(where);
+}
+
+QString DbFile::constructSelectById(int id) const
+{
+    return constructSelect(QString("file.id = %1").arg(id));
 }
 
 QSqlQueryModel* DbFile::getData()
 {
-    QSqlTableModel *model = new QSqlTableModel(this);
-    model->setTable(DB_TABLE_NAME_FILE);
-    model->setSort(File_Name, Qt::AscendingOrder);
+    QSqlQueryModel *model = new QSqlQueryModel(this);
+    model->setQuery(constructSelect());
     model->setHeaderData(File_Name, Qt::Horizontal, tr("Name"));
     model->setHeaderData(File_FileType, Qt::Horizontal, tr("Type"));
     model->setHeaderData(File_CheckSum, Qt::Horizontal, tr("Checksum"));
     model->setHeaderData(File_FileSize, Qt::Horizontal, tr("Size"));
     model->setHeaderData(File_UpdateTime, Qt::Horizontal, tr("Updated"));
-    if (type >= 0) model->setFilter(QString("type=%1").arg(type));
-    model->select();
     return model;
 }
 

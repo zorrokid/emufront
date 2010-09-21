@@ -20,10 +20,10 @@
 #ifndef DBFILE_H
 #define DBFILE_H
 
-#include "dbtablemodelmanager.h"
+#include "dbquerymodelmanager.h"
 #include "../dataobjects/emufrontfile.h"
 
-class DbFile : public DbTableModelManager
+class DbFile : public DbQueryModelManager
 {
 public:
     DbFile(QObject*);
@@ -44,6 +44,8 @@ public:
 
 protected:
     virtual EmuFrontObject* recordToDataObject(const QSqlRecord*);
+    virtual QString constructSelectById(int id) const;
+    virtual QString constructSelect(QString whereClause = "") const;
     int type;
 
 private:

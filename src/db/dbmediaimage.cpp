@@ -79,7 +79,7 @@ QSqlQueryModel* DbMediaImage::getData()
 
 int DbMediaImage::insertMediaImage(const MediaImage *mi)
 {
-    return DbFile::insertFile(mi);
+    return DbFile::insertDataObjectToModel(mi);
 }
 
 QList<int> DbMediaImage::storeMediaImages(QList<MediaImage *> images)
