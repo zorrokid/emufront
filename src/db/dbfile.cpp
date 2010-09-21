@@ -194,6 +194,5 @@ QSqlQueryModel* DbFile::getData()
 
 EmuFrontObject* DbFile::getFileByChecksum(QString checksum)
 {
-    filterDataObjects(QString("checksum LIKE '%1'").arg(checksum));
-    return getDataObject();
+    return getDataObject(QString("checksum LIKE '%1'").arg(checksum));
 }
