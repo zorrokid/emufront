@@ -28,7 +28,7 @@ DbMediaImage::DbMediaImage(QObject *parent)
     type = EmuFrontFile::FileType_MediaImage;
 }
 
-bool DbMediaImage::updateDataObjectToModel(const EmuFrontObject *efo)
+/*bool DbMediaImage::updateDataObjectToModel(const EmuFrontObject *efo)
 {
     // TODO
     return false;
@@ -68,19 +68,19 @@ EmuFrontObject* DbMediaImage::recordToDataObject(const QSqlRecord *)
 {
     // TODO
     return 0;
-}
+}*/
 
-QSqlQueryModel* DbMediaImage::getData()
+/*QSqlQueryModel* DbMediaImage::getData()
 {
     QSqlTableModel *model = new QSqlTableModel;
     model->setTable(DB_TABLE_NAME_FILE);
     return model;
-}
+}*/
 
-int DbMediaImage::insertMediaImage(const MediaImage *mi)
+/*int DbMediaImage::insertMediaImage(const MediaImage *mi)
 {
     return DbFile::insertDataObjectToModel(mi);
-}
+}*/
 
 QList<int> DbMediaImage::storeMediaImages(QList<MediaImage *> images)
 {
@@ -91,8 +91,6 @@ QList<int> DbMediaImage::storeMediaImages(QList<MediaImage *> images)
         QString cksum = mi->getCheckSum();
         qDebug() << "Storing media image " << mi->getName()
             << " with checksum " << cksum;
-        // TODO: Crashed: Filtering never gets to dbtablemodelmanagers
-        // filterDataObjects!
         EmuFrontObject *o = getFileByChecksum(cksum);
         int id = o ? o->getId() : -1;
         if (id >= 0)
@@ -104,7 +102,7 @@ QList<int> DbMediaImage::storeMediaImages(QList<MediaImage *> images)
         else if (id < 0)
         {
             qDebug() << "This media image is not yet in the db.";
-            id = insertMediaImage(mi);
+            id = insertDataObjectToModel(mi);
             if (id < 0)
             {
                 // TODO: Build an error message of failed inserts

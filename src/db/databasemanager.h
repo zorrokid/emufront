@@ -39,7 +39,7 @@ public:
     QSqlQueryModel* getDataModel();
     EmuFrontObject* getDataObjectFromModel(QModelIndex*);
     EmuFrontObject* getDataObject(int id);
-    EmuFrontObject* getDataObject(QString filter);
+    EmuFrontObject* getDataObject();
     virtual bool updateDataObjectToModel(const EmuFrontObject*) = 0;
     virtual bool insertDataObjectToModel(const EmuFrontObject*) = 0;
     virtual bool deleteDataObjectFromModel(QModelIndex*) = 0;

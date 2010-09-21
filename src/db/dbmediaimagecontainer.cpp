@@ -23,7 +23,7 @@
 DbMediaImageContainer::DbMediaImageContainer(QObject *parent)
     : DbQueryModelManager(parent)
 {
-    dbMediaImage = 0;
+    dbMediaImage = new DbMediaImage(parent);
 }
 
 bool DbMediaImageContainer::updateDataObjectToModel(const EmuFrontObject *efo)

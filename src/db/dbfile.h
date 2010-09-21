@@ -32,7 +32,7 @@ public:
     bool deleteDataObjectFromModel(QModelIndex*);
     int countDataObjectRefs(int) const;
     EmuFrontObject* getFileByChecksum(QString checksum);
-    int insertFile(const EmuFrontFile *);
+    //int insertFile(const EmuFrontFile *);
 
     enum {
         File_Id = 0,
