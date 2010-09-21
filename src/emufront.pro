@@ -50,7 +50,9 @@ HEADERS += mainwindow.h \
     db/dbfile.h \
     db/dbemufrontfileobject.h \
     db/dbmediaimagecontainer.h \
-    db/dbmediaimage.h
+    db/dbmediaimage.h \
+    utils/OSDaB-Zip/zipentry_p.h \
+    utils/OSDaB-Zip/unzip_p.h
 SOURCES += main.cpp \
     mainwindow.cpp \
     db/databasemanager.cpp \
