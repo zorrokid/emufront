@@ -32,10 +32,10 @@ bool DbMediaImageContainer::updateDataObjectToModel(const EmuFrontObject *efo)
     return false;
 }
 
-bool DbMediaImageContainer::insertDataObjectToModel(const EmuFrontObject *efo)
+int DbMediaImageContainer::insertDataObjectToModel(const EmuFrontObject *efo)
 {
     // TODO
-    return false;
+    return -1;
 }
 
 bool DbMediaImageContainer::deleteDataObjectFromModel(QModelIndex *i)
@@ -51,6 +51,12 @@ int DbMediaImageContainer::countDataObjectRefs(int id) const
 }
 
 QString DbMediaImageContainer::constructSelect(QString whereClause) const
+{
+    // TODO
+    return "";
+}
+
+QString DbMediaImageContainer::constructFilterById(int id) const
 {
     // TODO
     return "";

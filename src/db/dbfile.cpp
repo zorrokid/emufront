@@ -77,7 +77,7 @@ bool DbFile::updateDataObjectToModel(const EmuFrontObject *ob)
     return ret;
 }
 
-bool DbFile::insertDataObjectToModel(const EmuFrontObject *ob)
+int DbFile::insertDataObjectToModel(const EmuFrontObject *ob)
 {
     const EmuFrontFile *fi = dynamic_cast<const EmuFrontFile*>(ob);
     QSqlQuery q;
@@ -175,9 +175,14 @@ QString DbFile::constructSelect(QString whereClause) const
                    "ORDER BY Name").arg(where);
 }
 
+QString DbFile::constructFilterById(int id) const
+{
+    return QString("file.id = %1").arg(id);
+}
+
 QString DbFile::constructSelectById(int id) const
 {
-    return constructSelect(QString("file.id = %1").arg(id));
+    return constructSelect(constructFilterById(id));
 }
 
 QSqlQueryModel* DbFile::getData()

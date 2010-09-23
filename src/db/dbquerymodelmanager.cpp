@@ -27,7 +27,7 @@ DbQueryModelManager::DbQueryModelManager(QObject *parent)
 
 void DbQueryModelManager::filterById(int id)
 {
-    return filterDataObjects(QString("setup.id = %1").arg(id));
+    filterDataObjects(constructFilterById(id));
 }
 
 /* filter must be in SQL where clause format (without the WHERE word) */

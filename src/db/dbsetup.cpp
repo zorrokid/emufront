@@ -69,7 +69,7 @@ bool DbSetup::updateDataObjectToModel(const EmuFrontObject *ob)
     return ret;
 }
 
-bool DbSetup::insertDataObjectToModel(const EmuFrontObject *ob)
+int DbSetup::insertDataObjectToModel(const EmuFrontObject *ob)
 {
     qDebug() << "Inserting setup to database...";
     const Setup *fpo = dynamic_cast<const Setup*>(ob);
@@ -83,9 +83,12 @@ bool DbSetup::insertDataObjectToModel(const EmuFrontObject *ob)
     query.bindValue(":platformid", plfId);
     query.bindValue(":mediatypeid", mtId);
     query.bindValue(":filetypeextensions", exts);
-    bool ret = query.exec();
-    if (!ret) qDebug() << query.lastError().text() << query.executedQuery();
-    return ret;
+    int id = -1;
+    if (query.exec())
+        id = query.lastInsertId().toInt();
+    else
+        qDebug() << query.lastError().text() << query.executedQuery();
+    return id;
 }
 
 int DbSetup::countDataObjectRefs(int ) const
@@ -110,9 +113,15 @@ QString DbSetup::constructSelect(QString whereClause) const
         ).arg(where);
 }
 
+QString DbSetup::constructFilterById(int id) const
+{
+     return QString("setup.id = %1").arg(id);
+}
+
+
 QString DbSetup::constructSelectById(int id) const
 {
-     return constructSelect(QString("setup.id = %1").arg(id));
+     return constructSelect(constructFilterById(id));
 }
 
 // WARNING: this will delete also all the databindings to selected media image path

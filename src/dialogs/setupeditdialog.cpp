@@ -154,16 +154,23 @@ Platform* SetupEditDialog::getSelectedPlatform() const
 {
     Platform *plf = 0;
     int index = platformComBox->currentIndex();
-    if (index < 0) return plf;
-    QSqlTableModel* platformModel = dynamic_cast<QSqlTableModel*>(platformComBox->model());
+    qDebug() << "Platform from index " << index << " selected";
+    if (index < 0)
+        return plf;
+    QSqlQueryModel* platformModel
+        = dynamic_cast<QSqlQueryModel*>(platformComBox->model());
     if (!platformModel)
     {
+        qDebug() << "No platform model";
         return plf;
     }
     QSqlRecord rec = platformModel->record(index);
     if (!rec.isEmpty())
     {
-        EmuFrontObject *o = dbPlatform->getDataObject(rec.value(DbPlatform::EmuFrontFileObject_Id).toInt());
+        qDebug() << "Trying to fetch platform with id "
+            << rec.value(DbPlatform::EmuFrontFileObject_Id).toInt() ;
+        EmuFrontObject *o
+            = dbPlatform->getDataObject(rec.value(DbPlatform::EmuFrontFileObject_Id).toInt());
         plf = dynamic_cast<Platform*>(o);
     }
     return plf;
@@ -174,7 +181,7 @@ MediaType* SetupEditDialog::getSelectedMediaType() const
     MediaType *mt = 0;
     int index = mediaTypeComBox->currentIndex();
     if (index < 0) return mt;
-    QSqlTableModel* mediaTypeModel = dynamic_cast<QSqlTableModel*>(mediaTypeComBox->model());
+    QSqlQueryModel* mediaTypeModel = dynamic_cast<QSqlQueryModel*>(mediaTypeComBox->model());
     if (!mediaTypeModel)
     {
         qDebug("Media type data model missing");

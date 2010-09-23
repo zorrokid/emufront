@@ -31,6 +31,7 @@ protected:
     void filterDataObjects(QString filter);
     void clearFilters();
     virtual QString constructSelectById(int id) const = 0;
+    virtual QString constructFilterById(int id) const = 0;
     virtual QString constructSelect(QString whereClause = "") const = 0;
 };
 

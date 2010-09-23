@@ -29,7 +29,7 @@ class DbMediaImageContainer : public DbQueryModelManager
 public:
     DbMediaImageContainer(QObject *parent);
     virtual bool updateDataObjectToModel(const EmuFrontObject *);
-    virtual bool insertDataObjectToModel(const EmuFrontObject *);
+    virtual int insertDataObjectToModel(const EmuFrontObject *);
     virtual bool deleteDataObjectFromModel(QModelIndex *);
     virtual int countDataObjectRefs(int id) const;
     void storeContainers(QList<MediaImageContainer*>);
@@ -37,6 +37,7 @@ public:
 protected:
     virtual QString constructSelect(QString whereClause) const;
     virtual QString constructSelectById(int id) const;
+    virtual QString constructFilterById(int id) const;
     virtual EmuFrontObject* recordToDataObject(const QSqlRecord *);
 private:
     virtual QSqlQueryModel* getData();

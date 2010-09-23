@@ -20,26 +20,35 @@
 #ifndef DBEMUFRONTFILEOBJECT_H
 #define DBEMUFRONTFILEOBJECT_H
 
-#include "dbtablemodelmanager.h"
+#include "dbquerymodelmanager.h"
 #include "dbfile.h"
 #include "../dataobjects/emufrontfileobject.h"
 
-class DbEmuFrontFileObject : public DbTableModelManager
+class DbEmuFrontFileObject : public DbQueryModelManager
 {
 public:
-    DbEmuFrontFileObject(QObject *parent);
-    virtual bool updateDataObjectToModel(const EmuFrontObject*);
-    bool insertDataObjectToModel(const EmuFrontObject*);
-    bool deleteDataObjectFromModel(QModelIndex*);
-    int countDataObjectRefs(int) const;
-    enum {
-        EmuFrontFileObject_Id= 0,
-        EmuFrontFileObject_Name,
-        EmuFrontFileObject_FileId };
+DbEmuFrontFileObject(QObject *parent);
+virtual bool updateDataObjectToModel(const EmuFrontObject*);
+int insertDataObjectToModel(const EmuFrontObject*);
+bool deleteDataObjectFromModel(QModelIndex*);
+int countDataObjectRefs(int) const;
+enum {
+   EmuFrontFileObject_Id= 0,
+   EmuFrontFileObject_Name,
+   EmuFrontFileObject_FileId,
+   EmuFrontFileObject_FileName,
+   EmuFrontFileObject_FileType,
+   EmuFrontFileObject_FileCheckSum,
+   EmuFrontFileObject_FileSize,
+   EmuFrontFileObject_FileUpdateTime
+};
 
 protected:
-    virtual EmuFrontObject* recordToDataObject(const QSqlRecord* );
-    QString tableName;
+   virtual QString constructSelect(QString whereClause = "") const;
+   virtual QString constructSelectById(int id) const;
+   virtual QString constructFilterById(int id) const;
+   virtual EmuFrontObject* recordToDataObject(const QSqlRecord* );
+   QString tableName;
     virtual EmuFrontObject* createEmuFrontFileObject(int id, QString name, EmuFrontFile *f) = 0;
 
 private:

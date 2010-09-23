@@ -28,7 +28,7 @@ class DbFile : public DbQueryModelManager
 public:
     DbFile(QObject*);
     virtual bool updateDataObjectToModel(const EmuFrontObject*);
-    bool insertDataObjectToModel(const EmuFrontObject*);
+    int insertDataObjectToModel(const EmuFrontObject*);
     bool deleteDataObjectFromModel(QModelIndex*);
     int countDataObjectRefs(int) const;
     EmuFrontObject* getFileByChecksum(QString checksum);
@@ -45,6 +45,7 @@ public:
 protected:
     virtual EmuFrontObject* recordToDataObject(const QSqlRecord*);
     virtual QString constructSelectById(int id) const;
+    virtual QString constructFilterById(int id) const;
     virtual QString constructSelect(QString whereClause = "") const;
     int type;
 

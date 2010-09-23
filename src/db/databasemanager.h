@@ -41,7 +41,7 @@ public:
     EmuFrontObject* getDataObject(int id);
     EmuFrontObject* getDataObject(QString filter);
     virtual bool updateDataObjectToModel(const EmuFrontObject*) = 0;
-    virtual bool insertDataObjectToModel(const EmuFrontObject*) = 0;
+    virtual int insertDataObjectToModel(const EmuFrontObject*) = 0;
     virtual bool deleteDataObjectFromModel(QModelIndex*) = 0;
     virtual int countDataObjectRefs(int id) const = 0;
     static int getCurrentTimeStamp();

@@ -30,7 +30,7 @@ class DbSetup : public DbQueryModelManager
 public:
     DbSetup(QObject *);
     virtual bool updateDataObjectToModel(const EmuFrontObject*);
-    bool insertDataObjectToModel(const EmuFrontObject*);
+    int insertDataObjectToModel(const EmuFrontObject*);
     bool deleteDataObjectFromModel(QModelIndex*);
     int countDataObjectRefs(int) const;
     enum { Setup_Id = 0,
@@ -43,6 +43,7 @@ public:
 protected:
     virtual EmuFrontObject* recordToDataObject(const QSqlRecord* );
     virtual QString constructSelectById(int id) const;
+    virtual QString constructFilterById(int id) const;
     virtual QString constructSelect(QString whereClause = "") const;
 
 private:

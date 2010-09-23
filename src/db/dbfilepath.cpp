@@ -61,7 +61,7 @@ bool DbFilePath::updateDataObjectToModel(const EmuFrontObject *ob)
     return ret;
 }
 
-bool DbFilePath::insertDataObjectToModel(const EmuFrontObject *ob)
+int DbFilePath::insertDataObjectToModel(const EmuFrontObject *ob)
 {
     const FilePathObject *fpo = dynamic_cast<const FilePathObject*>(ob);
     QSqlQuery query;
@@ -72,7 +72,10 @@ bool DbFilePath::insertDataObjectToModel(const EmuFrontObject *ob)
     if (fpo->getSetup())
         query.bindValue(":setupid", fpo->getSetup()->getId());
     query.bindValue(":lastscanned", 0); // TODO
-    return query.exec();
+    int id = -1;
+    if (query.exec())
+        id = query.lastInsertId().toInt();
+    return id;
 }
 
 int DbFilePath::countDataObjectRefs(int id) const
@@ -104,9 +107,14 @@ QString DbFilePath::constructSelect(QString whereClause) const
             "ORDER BY SetupName").arg(where);
 }
 
+QString DbFilePath::constructFilterById(int id) const
+{
+    return QString("filepath.id = %1").arg(id);
+}
+
 QString DbFilePath::constructSelectById(int id) const
 {
-    return constructSelect(QString("filepath.id = %1").arg(id));
+    return constructSelect(constructFilterById(id));
 }
 
 QSqlQueryModel* DbFilePath::getData()
