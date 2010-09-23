@@ -82,6 +82,10 @@ EmuFrontObject* DbMediaImage::recordToDataObject(const QSqlRecord *)
     return DbFile::insertDataObjectToModel(mi);
 }*/
 
+/* Stores a list of media images to the database.
+   Returns a list of media image id corresponding to the given list of media
+   images inserted to the database or already in the database.
+*/
 QList<int> DbMediaImage::storeMediaImages(QList<MediaImage *> images)
 {
     qDebug() << "Storing media images to database.";
@@ -97,7 +101,8 @@ QList<int> DbMediaImage::storeMediaImages(QList<MediaImage *> images)
         {
             qDebug() << "This media image already exists with id " << id;
             // this media image is already in the database
-            // TODO: what if the name differs?
+            // TODO: what if the name differs? (cannot update to database, since the same media image
+            // might be inside another container
         }
         else if (id < 0)
         {
@@ -109,7 +114,8 @@ QList<int> DbMediaImage::storeMediaImages(QList<MediaImage *> images)
                 qDebug() << "Failed inserting media image" << mi->getName();
             }
         }
-        ids.append(id);
+        if (id > 0)
+            ids.append(id);
     }
     return ids;
 }

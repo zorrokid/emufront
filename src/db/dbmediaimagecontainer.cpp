@@ -80,6 +80,11 @@ int DbMediaImageContainer::getMediaImageContainer(QString checksum) const
     return -1;
 }
 
+
+/**
+* Stores media image containers, including the media images included
+* to database.
+*/
 void DbMediaImageContainer::storeContainers(QList<MediaImageContainer *> lst)
 {
     qDebug() << "Storing media image containers to database.";
@@ -87,19 +92,22 @@ void DbMediaImageContainer::storeContainers(QList<MediaImageContainer *> lst)
     {
         qDebug() << "Media image container " << mic->getName();
         QList<MediaImage*> images = mic->getMediaImages();
+
+        /* If media image container is already in the db, continue */
         if (getMediaImageContainer(mic->getCheckSum()) >= 0)
             continue;
+
         // this is a new media image container, lets build a list
         // of media image id's for this container
         QList<int> ids = dbMediaImage->storeMediaImages(images);
 
         if (ids.count() > 0)
         {
-            // store media image to id
+            // store media image to db
 
             // get last insert id of stored media image
 
-            // link all the ids in ids-list to media image id
+            // link all the media image ids in list to media image container id
         }
     }
 }
