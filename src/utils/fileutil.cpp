@@ -53,7 +53,7 @@ QList<MediaImageContainer*> FileUtil::scanFilePath(const FilePathObject *fp, QSt
             MediaImageContainer *con = new MediaImageContainer
                 (
                     fileInfo.fileName(),
-                    "" /* TODO */,
+                    "" /* TODO: count checksum! */,
                     fileInfo.size(),
                     files,
                     // TODO: is it guaranteed, that the file path object containing the setup object remains alive
