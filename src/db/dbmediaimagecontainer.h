@@ -23,6 +23,7 @@
 #include "dbquerymodelmanager.h"
 #include "dbmediaimage.h"
 #include "../dataobjects/mediaimagecontainer.h"
+#include "../dataobjects/filepathobject.h"
 
 class DbMediaImageContainer : public DbQueryModelManager
 {
@@ -32,7 +33,7 @@ public:
     virtual int insertDataObjectToModel(const EmuFrontObject *);
     virtual bool deleteDataObjectFromModel(QModelIndex *);
     virtual int countDataObjectRefs(int id) const;
-    void storeContainers(QList<MediaImageContainer*>);
+    void storeContainers(QList<MediaImageContainer*>, FilePathObject*);
     int getMediaImageContainer(QString checksum) const;
 protected:
     virtual QString constructSelect(QString whereClause) const;

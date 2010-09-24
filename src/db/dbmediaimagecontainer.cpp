@@ -91,10 +91,10 @@ int DbMediaImageContainer::getMediaImageContainer(QString checksum) const
 * Stores media image containers, including the media images included
 * to database.
 */
-void DbMediaImageContainer::storeContainers(QList<MediaImageContainer *> lst)
+void DbMediaImageContainer::storeContainers(QList<MediaImageContainer *> lst, FilePathObject *fpo)
 {
-    qDebug() << "Storing media image containers to database.";
-    foreach(MediaImageContainer *mic, lst)
+qDebug() << "Storing media image containers to database.";
+foreach(MediaImageContainer *mic, lst)
     {
         qDebug() << "Media image container " << mic->getName();
         QList<MediaImage*> images = mic->getMediaImages();
@@ -109,6 +109,11 @@ void DbMediaImageContainer::storeContainers(QList<MediaImageContainer *> lst)
 
         if (ids.count() > 0)
         {
+            // mediaimagecontainer table: id, fileid, filepathid, updatetime
+
+            // insert the media image container file to file table
+            int micFileId = -1; // TODO: Store file object for media image container...;
+            int fpId = fpo->getId();
             // store media image to db
             int micId = insertDataObjectToModel(mic);
 

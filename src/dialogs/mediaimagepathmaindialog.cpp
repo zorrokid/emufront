@@ -70,7 +70,7 @@ void MediaImagePathMainDialog::beginScanFilePath()
 
         QList<MediaImageContainer*> files = fileUtil.scanFilePath(fpo, l);
         qDebug() << "Storing scanned " << files.size() << " files to database";
-        dbMediaImageContainer->storeContainers(files);
+        dbMediaImageContainer->storeContainers(files, fpo);
         qDebug() << "Done storing scanned " << files.size() << " files to database";
     }
     catch (EmuFrontException s)
