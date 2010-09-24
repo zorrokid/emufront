@@ -116,7 +116,7 @@ void DbMediaImageContainer::storeContainers(QList<MediaImageContainer *> lst)
                 // need to remove the media images without media image container in list 'ids'
                 dbMediaImage->removeOrphanedMediaImages(ids);
                 // because the previous insert failed, the next is most likely going to fail, throw exception
-                throw new EmuFrontException(QString(tr("Failed inserting media image container '%1' to database!")).arg(mic->getName()));
+                qDebug() << QString(tr("Failed inserting media image container '%1' to database!")).arg(mic->getName());
             }
 
             // link all the media image ids in list to media image container id

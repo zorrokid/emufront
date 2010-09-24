@@ -58,22 +58,6 @@ bool DbFile::updateDataObjectToModel(const EmuFrontObject *ob)
     query.bindValue(":updatetime", getCurrentTimeStamp());
     ret = query.exec();
     if (ret) resetModel();
-
-    /*QSqlTableModel *tmodel = dynamic_cast<QSqlTableModel*>(sqlTableModel);
-    tmodel->setFilter(QString("id = %1").arg(plf->getId()));
-    tmodel->select();
-    if (tmodel->rowCount() == 1)
-    {
-        QSqlRecord record = tmodel->record(0);
-        record.setValue("name", plf->getName());
-        record.setValue("type", plf->getType());
-        record.setValue("checksum", plf->getCheckSum());
-        record.setValue("size", plf->getSize());
-        record.setValue("updatetime", getCurrentTimeStamp());
-        tmodel->setRecord(0, record);
-        ret = tmodel->submitAll();
-    }
-    resetModel();*/
     return ret;
 }
 
@@ -93,19 +77,6 @@ int DbFile::insertDataObjectToModel(const EmuFrontObject *ob)
     if (q.exec())
         id = q.lastInsertId().toInt();
     return id;
-
-    /*int row = 0;
-    QSqlTableModel *tmodel = dynamic_cast<QSqlTableModel*>(sqlTableModel);
-    tmodel->insertRows(row, 1);
-    // the null value for index will be set implicitily
-    // when we don't assign any value to cell 0 in the sql table model
-    //sqlTableModel->setData(sqlTableModel->index(row, 0), NULL);
-    tmodel->setData(sqlTableModel->index(row, File_Name), plf->getName());
-    tmodel->setData(sqlTableModel->index(row, File_FileType), plf->getType());
-    tmodel->setData(sqlTableModel->index(row, File_CheckSum), plf->getCheckSum());
-    tmodel->setData(sqlTableModel->index(row, File_FileSize), plf->getSize());
-    tmodel->setData(sqlTableModel->index(row, File_UpdateTime), getCurrentTimeStamp());
-    return tmodel->submitAll();*/
 }
 
 /*int DbFile::insertFile(const EmuFrontFile *mi)
