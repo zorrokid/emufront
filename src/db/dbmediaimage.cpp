@@ -119,3 +119,10 @@ QList<int> DbMediaImage::storeMediaImages(QList<MediaImage *> images)
     }
     return ids;
 }
+
+void DbMediaImage::removeOrphanedMediaImages(QList<int> ids)
+{
+    // TODO
+    // go through the list of media image ids,
+    // if the media image with curr id doesn't have a container, delete it
+}

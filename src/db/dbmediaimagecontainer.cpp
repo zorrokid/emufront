@@ -110,10 +110,22 @@ void DbMediaImageContainer::storeContainers(QList<MediaImageContainer *> lst)
         if (ids.count() > 0)
         {
             // store media image to db
+            int micId = insertDataObjectToModel(mic);
 
-            // get last insert id of stored media image
+            if (micId < 0){
+                // need to remove the media images without media image container in list 'ids'
+                dbMediaImage->removeOrphanedMediaImages(ids);
+                // because the previous insert failed, the next is most likely going to fail, throw exception
+                throw new EmuFrontException(QString(tr("Failed inserting media image container '%1' to database!")).arg(mic->getName()));
+            }
 
             // link all the media image ids in list to media image container id
+            linkMediaImagesWithContainer(micId, ids);
         }
     }
+}
+
+void DbMediaImageContainer::linkMediaImagesWithContainer(int micId, QList<int> miIds)
+{
+    // TODO
 }

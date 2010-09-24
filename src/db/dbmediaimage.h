@@ -28,6 +28,7 @@ class DbMediaImage : public DbFile
 public:
     DbMediaImage(QObject *parent);
     QList<int> storeMediaImages(QList<MediaImage*>);
+    void removeOrphanedMediaImages(QList<int> ids);
     /*virtual bool updateDataObjectToModel(const EmuFrontObject *);
     virtual bool insertDataObjectToModel(const EmuFrontObject *);
     virtual bool deleteDataObjectFromModel(QModelIndex *);

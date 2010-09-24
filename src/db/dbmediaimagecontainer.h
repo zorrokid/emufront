@@ -41,6 +41,7 @@ protected:
     virtual EmuFrontObject* recordToDataObject(const QSqlRecord *);
 private:
     virtual QSqlQueryModel* getData();
+    void linkMediaImagesWithContainer(int, QList<int>);
     DbMediaImage *dbMediaImage;
  };
 
