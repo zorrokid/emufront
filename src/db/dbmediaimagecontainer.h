@@ -22,6 +22,7 @@
 
 #include "dbquerymodelmanager.h"
 #include "dbmediaimage.h"
+#include "dbfile.h"
 #include "../dataobjects/mediaimagecontainer.h"
 #include "../dataobjects/filepathobject.h"
 
@@ -44,6 +45,7 @@ private:
     virtual QSqlQueryModel* getData();
     void linkMediaImagesWithContainer(int, QList<int>);
     DbMediaImage *dbMediaImage;
+    DbFile *dbFile;
  };
 
 #endif // DBMEDIAIMAGECONTAINER_H
