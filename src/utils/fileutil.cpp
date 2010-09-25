@@ -1,6 +1,7 @@
 #include <QDir>
 #include <QDebug>
 #include "fileutil.h"
+#include "zlib.h" /* crc32 */
 #include "OSDaB-Zip/unzip.h"
 #include "../exceptions/emufrontexception.h"
 #include "../dataobjects/setup.h"
@@ -10,7 +11,14 @@
 #include "../dataobjects/platform.h"
 
 FileUtil::FileUtil(QObject *parent) : QObject(parent)
-{}
+{
+    buf = new char[READ_BUFFER];
+}
+
+FileUtil::~FileUtil()
+{
+    delete[] buf;
+}
 
 QList<MediaImageContainer*> FileUtil::scanFilePath(const FilePathObject *fp, QStringList filters)
 {
@@ -50,10 +58,11 @@ QList<MediaImageContainer*> FileUtil::scanFilePath(const FilePathObject *fp, QSt
 
         if (files.count() > 0)
         {
+            quint32 crc = readCrc32(fileInfo.absoluteFilePath());
             MediaImageContainer *con = new MediaImageContainer
                 (
                     fileInfo.fileName(),
-                    "" /* TODO: count checksum! */,
+                    QString("%1").arg(crc, 0, 16),
                     fileInfo.size(),
                     files,
                     // TODO: is it guaranteed, that the file path object containing the setup object remains alive
@@ -70,6 +79,26 @@ QList<MediaImageContainer*> FileUtil::scanFilePath(const FilePathObject *fp, QSt
     }
     qDebug() << "Done scanning files!";
     return containers;
+}
+
+/* Uses crc32 from zlib.h to count crc32 checksum value */
+quint32 FileUtil::readCrc32(QString filePath)
+{
+    QFile file(filePath);
+    qDebug() << "readCrc32: " << filePath;
+    if (!file.open(QIODevice::ReadOnly)) {
+        throw new EmuFrontException(QString(tr("Failed opening file %1 for reading the checksum!")).arg(filePath));
+    }
+    quint32 crc = crc32(0L, Z_NULL, 0);
+    int read = 0;
+    while((read = file.read(buf, READ_BUFFER))) {
+        crc = crc32(crc, (const Bytef*) buf, read);
+    }
+    file.close();
+    if (crc <= 0)
+        throw new EmuFrontException(QString(tr("Failed reading crc checksum for file %1!")).arg(filePath));
+    qDebug() << QString("readCrc32, crc: %1").arg(crc, 0, 16);
+    return crc;
 }
 
 QList<MediaImage*> FileUtil::listContents(const QString filePath, const FilePathObject *fp)
