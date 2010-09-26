@@ -79,7 +79,7 @@ int DbMediaImageContainer::insertDataObjectToModel(const EmuFrontObject *efo)
         "VALUES (:fileid, :filepathid, :updatetime)");
     q.bindValue(":fileid", fileId);
     q.bindValue(":filepathid", mic->getFilePath()->getId());
-    q.bindValue(":fileid", DatabaseManager::getCurrentTimeStamp());
+    q.bindValue(":updatetime", DatabaseManager::getCurrentTimeStamp());
     if (!q.exec())
         // TODO: failed inserting, remove orphaned media images
         // (this is actually done in the storeContainers catch block
