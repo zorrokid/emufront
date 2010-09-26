@@ -21,10 +21,10 @@
 #include "dbmediaimagecontainer.h"
 
 DbMediaImageContainer::DbMediaImageContainer(QObject *parent)
-    : DbQueryModelManager(parent)
+    : DbFile(parent) // DbQueryModelManager(parent)
 {
     dbMediaImage = new DbMediaImage(parent);
-    dbFile = new DbFile(parent);
+    //dbFile = new DbFile(parent);
 }
 
 bool DbMediaImageContainer::updateDataObjectToModel(const EmuFrontObject *efo)
@@ -114,7 +114,7 @@ void DbMediaImageContainer::storeContainers(QList<MediaImageContainer *> lst, Fi
                 // mediaimagecontainer table: id, fileid, filepathid, updatetime
 
                 // insert the media image container file to file table
-                int micFileId = dbFile->insertDataObjectToModel(mic);
+                int micFileId = DbFile::insertDataObjectToModel(mic);
                 if (micFileId < 0) {
                     throw new EmuFrontException(QString(tr("Inserting media image container %1 to file database failed")).arg(mic->getName()));
                 }
