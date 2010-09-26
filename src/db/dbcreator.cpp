@@ -122,7 +122,7 @@ bool DbCreator::createDB()
 
         ret = query.exec("CREATE TABLE IF NOT EXISTS mediaimagecontainer_mediaimage "
                         "(mediaimagecontainerid INTEGER REFERENCES file(id), "
-                        "mediaimageid INTEGER REFERENCES file(id)");
+                        "mediaimageid INTEGER REFERENCES file(id))");
 
         if (!ret) throw QString("mediaimagecontainer_mediaimage");
 
