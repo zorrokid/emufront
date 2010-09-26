@@ -111,8 +111,7 @@ bool DbCreator::createDB()
         qDebug() << "Creating TABLE mediaimagecontainer";
 
         ret = query.exec("CREATE TABLE IF NOT EXISTS mediaimagecontainer "
-                        "(id INTEGER PRIMARY KEY, "
-                        "fileid INTEGER REFERENCES file(id), "
+                        "(fileid INTEGER REFERENCES file(id), "
                         "filepathid INTEGER REFERENCES filepath(id), "
                         "updatetime NUMERIC)");
 
@@ -122,10 +121,8 @@ bool DbCreator::createDB()
         qDebug() << "Creating TABLE mediaimagecontainer_mediaimage";
 
         ret = query.exec("CREATE TABLE IF NOT EXISTS mediaimagecontainer_mediaimage "
-                        "(mediaimagecontainerid INTEGER, "
-                        "fileid INTEGER, "
-                        "FOREIGN KEY (mediaimagecontainerid) REFERENCES mediaimagecontainer(id), "
-                        "FOREIGN KEY (fileid) REFERENCES file(id))");
+                        "(mediaimagecontainerid INTEGER REFERENCES file(id), "
+                        "mediaimageid INTEGER REFERENCES file(id)");
 
         if (!ret) throw QString("mediaimagecontainer_mediaimage");
 
