@@ -72,6 +72,7 @@ void MediaImagePathMainDialog::beginScanFilePath()
         qDebug() << "Storing scanned " << files.size() << " files to database";
         dbMediaImageContainer->storeContainers(files, fpo);
         qDebug() << "Done storing scanned " << files.size() << " files to database";
+        // TODO: should the media image and media image container objects be deleted now?
     }
     catch (EmuFrontException s)
     {

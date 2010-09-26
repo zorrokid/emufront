@@ -18,6 +18,8 @@
 // along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QDebug>
+#include <QSqlQuery>
+#include <QSqlError>
 #include "dbmediaimagecontainer.h"
 
 DbMediaImageContainer::DbMediaImageContainer(QObject *parent)
@@ -44,7 +46,8 @@ int DbMediaImageContainer::insertDataObjectToModel(const EmuFrontObject *efo)
     const MediaImageContainer *mic
         = dynamic_cast<const MediaImageContainer *>(efo);
 
-    // Insert MediaImageContainer first as a EmuFrontFile object...
+    // Insert MediaImageContainer first as a EmuFrontFile object to file table.
+    // File id is used to store the media image container instance to database.
 
     int fileId = DbFile::insertDataObjectToModel(mic);
 
@@ -56,6 +59,11 @@ int DbMediaImageContainer::insertDataObjectToModel(const EmuFrontObject *efo)
     }
 
     // Insert to mediaimagecontainer table
+
+    QSqlQuery q;
+    q.prepare("INSERT INTO mediaimagecontainer "
+        "(id, fileid, filepathid, updatetime) "
+        "VALUES (NULL, :fileid, :filepathid, :updatetime");
 
     return -1;
 }
