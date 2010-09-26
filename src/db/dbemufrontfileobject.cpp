@@ -60,20 +60,6 @@ bool DbEmuFrontFileObject::updateDataObjectToModel(const EmuFrontObject *ob)
     query.bindValue(":id", plf->getId());
     ret = query.exec();
 
-    /*
-    QSqlTableModel *tmodel = dynamic_cast<QSqlTableModel*>(sqlTableModel);
-    tmodel->setFilter(QString("id = %1").arg(plf->getId()));
-    tmodel->select();
-    if (tmodel->rowCount() == 1)
-    {
-        QSqlRecord record = tmodel->record(0);
-        record.setValue("name", plf->getName());
-        if (plf->getFile())
-            record.setValue("fileid", plf->getFile()->getId());
-        else record.setNull("fileid");
-        tmodel->setRecord(0, record);
-        ret = tmodel->submitAll();
-    }*/
     if (ret) resetModel();
     else
             qDebug() << "Failed updating " << tableName
@@ -99,21 +85,6 @@ int DbEmuFrontFileObject::insertDataObjectToModel(const EmuFrontObject *ob)
         qDebug() << "Failed inserting to " << tableName << " "
             << query.lastError().text() << " " << query.executedQuery() ;
     return id;
-
-    /*int row = 0;
-    if (!sqlTableModel) sqlTableModel = getDataModel();
-    QSqlTableModel *tmodel = dynamic_cast<QSqlTableModel*>(sqlTableModel);
-    tmodel->insertRows(row, 1);
-    // the null value for index will be set implicitily
-    // when we don't assign any value to cell 0 in the sql table model
-    //sqlTableModel->setData(sqlTableModel->index(row, 0), NULL);
-    tmodel->setData(sqlTableModel->index(row, EmuFrontFileObject_Name), plf->getName());
-    if (plf->getFile())
-        tmodel->setData(sqlTableModel->index(row, EmuFrontFileObject_FileId), plf->getFile()->getId());
-    if (tmodel->submitAll())
-        return ... // TODO: update to use dbquerymodelmanager instead of tablemodelmanager
-        // TODO: and return the last insert id
-    */
 }
 
 int DbEmuFrontFileObject::countDataObjectRefs(int id) const
@@ -179,15 +150,6 @@ QString DbEmuFrontFileObject::constructFilterById(int id) const
 
 QSqlQueryModel* DbEmuFrontFileObject::getData()
 {
-    /*QSqlRelationalTableModel *model = new QSqlRelationalTableModel(this);
-    model->setTable(tableName);
-    // TODO: table realtion model seems not to be suitable for this
-    // since not always does data object have a file relation:
-    //model->setRelation(EmuFrontFileObject_FileId, QSqlRelation("file", "id", "name"));
-    model->setSort(EmuFrontFileObject_Name, Qt::AscendingOrder);
-    model->setHeaderData(EmuFrontFileObject_Name, Qt::Horizontal, tr("Name"));
-    model->setHeaderData(EmuFrontFileObject_FileId, Qt::Horizontal, tr("Icon"));
-    model->select();*/
     QSqlQueryModel *model = new QSqlQueryModel;
     model->setQuery(constructSelect());
     model->setHeaderData(EmuFrontFileObject_Id, Qt::Horizontal, tr("Id"));
