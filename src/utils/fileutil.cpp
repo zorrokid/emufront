@@ -20,7 +20,7 @@ FileUtil::~FileUtil()
     delete[] buf;
 }
 
-QList<MediaImageContainer*> FileUtil::scanFilePath(const FilePathObject *fp, QStringList filters)
+QList<MediaImageContainer*> FileUtil::scanFilePath(FilePathObject *fp, QStringList filters)
 {
     if (!fp->getSetup()){
         throw EmuFrontException(tr("Setup not available with %1.").arg(fp->getName()));
@@ -71,7 +71,8 @@ QList<MediaImageContainer*> FileUtil::scanFilePath(const FilePathObject *fp, QSt
                     // * this function is designed to be used from media image path main dialog
                     //   where we can ensure the lifecycle of file path object -> maybe move the implementation there!?
                     // TODO: Ensure this! We really need a reference instead of 1000s of copies of setup object!!!
-                    fp->getSetup()
+                    //fp->getSetup(),
+                    fp
                 );
             containers.append(con);
             qDebug() << "We have " << containers.size() << " containers.";

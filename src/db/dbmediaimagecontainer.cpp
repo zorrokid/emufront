@@ -35,7 +35,28 @@ bool DbMediaImageContainer::updateDataObjectToModel(const EmuFrontObject *efo)
 
 int DbMediaImageContainer::insertDataObjectToModel(const EmuFrontObject *efo)
 {
-    // TODO
+    /* "CREATE TABLE IF NOT EXISTS mediaimagecontainer "
+                        "(id INTEGER PRIMARY KEY, "
+                        "fileid INTEGER REFERENCES file(id), "
+                        "filepathid INTEGER REFERENCES filepath(id), "
+                        "updatetime NUMERIC)"*/
+
+    const MediaImageContainer *mic
+        = dynamic_cast<const MediaImageContainer *>(efo);
+
+    // Insert MediaImageContainer first as a EmuFrontFile object...
+
+    int fileId = DbFile::insertDataObjectToModel(mic);
+
+    if (fileId < 0) {
+        throw new EmuFrontException(
+                QString(tr("Inserting media image container %1 to file database failed"))
+                .arg(mic->getName()));
+
+    }
+
+    // Insert to mediaimagecontainer table
+
     return -1;
 }
 
@@ -116,14 +137,18 @@ void DbMediaImageContainer::storeContainers(QList<MediaImageContainer *> lst, Fi
                 // insert the media image container file to file table
                 int micFileId = DbFile::insertDataObjectToModel(mic);
                 if (micFileId < 0) {
-                    throw new EmuFrontException(QString(tr("Inserting media image container %1 to file database failed")).arg(mic->getName()));
+                    throw new EmuFrontException(
+                        QString(tr("Inserting media image container %1 to file database failed"))
+                            .arg(mic->getName()));
                 }
                 int fpId = fpo->getId();
                 // store media image to db
                 int micId = insertDataObjectToModel(mic);
                 if (micId < 0){
                     // because the previous insert failed, the next is most likely going to fail, throw exception
-                    throw new EmuFrontException(QString(tr("Failed inserting media image container '%1' to database!")).arg(mic->getName()));
+                    throw new EmuFrontException(
+                        QString(tr("Failed inserting media image container '%1' to database!"))
+                            .arg(mic->getName()));
                 }
 
                 // link all the media image ids in list to media image container id

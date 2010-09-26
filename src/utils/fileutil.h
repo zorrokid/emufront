@@ -16,7 +16,7 @@ class FileUtil : QObject
 public:
     FileUtil(QObject *parent);
     ~FileUtil();
-    QList<MediaImageContainer*> scanFilePath(const FilePathObject *fpo, const QStringList filters);
+    QList<MediaImageContainer*> scanFilePath(FilePathObject *fpo, const QStringList filters);
 private:
     char *buf;
     quint32 readCrc32(QString filePath);

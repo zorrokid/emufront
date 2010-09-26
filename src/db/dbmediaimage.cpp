@@ -114,8 +114,10 @@ QList<int> DbMediaImage::storeMediaImages(QList<MediaImage *> images)
                 qDebug() << "Failed inserting media image" << mi->getName();
             }
         }
-        if (id > 0)
+        if (id > 0) {
             ids.append(id);
+            mi->setId(id);
+        }
     }
     return ids;
 }

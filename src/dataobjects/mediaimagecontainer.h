@@ -23,24 +23,30 @@
 #include "emufrontfileobject.h"
 #include "mediaimage.h"
 #include "setup.h"
+#include "filepathobject.h"
 
 class MediaImageContainer : public EmuFrontFile
 {
 public:
     MediaImageContainer();
-    MediaImageContainer(int id, QString name, QString checksum, int size, QList<MediaImage*> images, Setup *setup);
-    MediaImageContainer(QString name, QString checksum, int size, QList<MediaImage*> images, Setup *setup);
+    MediaImageContainer(int id, QString name, QString checksum,
+        int size, QList<MediaImage*> images/*, Setup *setup*/, FilePathObject *fpo);
+    MediaImageContainer(QString name, QString checksum,
+        int size, QList<MediaImage*> images/*, Setup *setup*/, FilePathObject *fpo);
     ~MediaImageContainer();
     MediaImageContainer(MediaImageContainer&);
     MediaImageContainer& operator=(MediaImageContainer&);
     QList<MediaImage*> getMediaImages() const;
     void setMediaImages(QList<MediaImage*>);
     void addMediaImage(MediaImage*);
-    void setSetup(Setup *);
-    Setup* getSetup() const;
+    /*void setSetup(Setup *);
+    Setup* getSetup() const;*/
+    void setFilePath(FilePathObject*);
+    FilePathObject* getFilePath() const;
 private:
     QList<MediaImage*> lstMediaImage;
-    Setup *setup;
+    //Setup *setup;
+    FilePathObject *filePath;
 };
 
 #endif // MEDIAIMAGECONTAINER_H
