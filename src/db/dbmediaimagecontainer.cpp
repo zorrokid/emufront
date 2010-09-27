@@ -43,8 +43,10 @@ int DbMediaImageContainer::insertDataObjectToModel(const EmuFrontObject *efo)
         = dynamic_cast<const MediaImageContainer *>(efo);
 
     // check if this media image container is already in the database
-    int fileId = -1;
-    if ((fileId = getMediaImageContainer(mic->getCheckSum())) >= 0) {
+    EmuFrontObject *o = getFileByChecksum(mic->getCheckSum());
+    int fileId = o ? o->getId() : -1;
+    /*int fileId = getMediaImageContainer(mic->getCheckSum());*/
+    if (fileId >= 0) {
         qDebug() << "Media image container already in db with id " << fileId << ".";
         return fileId;
    }
@@ -122,39 +124,39 @@ int DbMediaImageContainer::countDataObjectRefs(int id) const
 
 QString DbMediaImageContainer::constructSelect(QString whereClause) const
 {
-    // TODO
-    return "";
+    return DbFile::constructSelect(whereClause);
 }
 
 QString DbMediaImageContainer::constructFilterById(int id) const
 {
-    // TODO
-    return "";
+    return DbFile::constructFilterById(id);
 }
 
 QString DbMediaImageContainer::constructSelectById(int id) const
 {
-    // TODO
-    return "";
+    return DbFile::constructSelectById(id);
 }
 
-EmuFrontObject* DbMediaImageContainer::recordToDataObject(const QSqlRecord *)
+EmuFrontObject* DbMediaImageContainer::recordToDataObject(const QSqlRecord *rec)
 {
-    // TODO
-    return 0;
+    return DbFile::recordToDataObject(rec);
 }
 
 QSqlQueryModel* DbMediaImageContainer::getData()
 {
-    // TODO
-    return 0;
+    return DbFile::getData();
 }
 
 /* Returns the id of a media image container with a given cheksum or -1 if not found */
 int DbMediaImageContainer::getMediaImageContainer(QString checksum) const
 {
-    // TODO
-    return -1;
+    QSqlQuery q;
+    q.prepare("SELECT id FROM file WHERE checksum=:checksum");
+    q.bindValue(":checksum", checksum);
+    int id = -1;
+    if (q.next())
+        id = q.value(0).toInt();
+    return id;
 }
 
 

@@ -72,7 +72,19 @@ void MediaImagePathMainDialog::beginScanFilePath()
         qDebug() << "Storing scanned " << files.size() << " files to database";
         dbMediaImageContainer->storeContainers(files, fpo);
         qDebug() << "Done storing scanned " << files.size() << " files to database";
-        // TODO: should the media image and media image container objects be deleted now?
+        // the media image and media image container objects can be deleted now
+        // qDeleteAll could be used also... maybe?
+        // TODO: this is not yet functional:
+        foreach(MediaImageContainer* mic, files) {
+            /*QList<MediaImage*> mis = mic->getMediaImages();
+            foreach(MediaImage* mi, mis) {
+                delete mi;
+                mi = 0;
+            }
+            delete mic;
+            mic = 0;
+            */
+        }
     }
     catch (EmuFrontException s)
     {

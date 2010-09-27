@@ -124,7 +124,9 @@ EmuFrontObject* DatabaseManager::getDataObject(QString filter)
 EmuFrontObject* DatabaseManager::getFilteredDataObject()
 {
     EmuFrontObject *plf = 0;
-    if (sqlTableModel->rowCount() == 1)
+    // TODO: if record has more than one the first instance is returned
+    // ... check if this is ok in all cases!
+    if (sqlTableModel->rowCount() >= 1)
     {
         QSqlRecord record = sqlTableModel->record(0);
         if (record.isEmpty())

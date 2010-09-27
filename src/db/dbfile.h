@@ -49,8 +49,6 @@ protected:
     virtual QString constructSelect(QString whereClause = "") const;
     virtual bool deleteDataObject(int id) const;
     int type;
-
-private:
     virtual QSqlQueryModel* getData();
 };
 
