@@ -44,8 +44,10 @@ int DbMediaImageContainer::insertDataObjectToModel(const EmuFrontObject *efo)
 
     // check if this media image container is already in the database
     int fileId = -1;
-    if ((fileId = getMediaImageContainer(mic->getCheckSum())) >= 0)
+    if ((fileId = getMediaImageContainer(mic->getCheckSum())) >= 0) {
+        qDebug() << "Media image container already in db with id " << fileId << ".";
         return fileId;
+   }
 
     if (!mic->getFilePath())
         throw new EmuFrontException("Cannot install media image "
@@ -53,6 +55,8 @@ int DbMediaImageContainer::insertDataObjectToModel(const EmuFrontObject *efo)
 
     QList<MediaImage*> images = mic->getMediaImages();
     QList<int> ids = dbMediaImage->storeMediaImages(images);
+
+    qDebug() << "Stored " << ids.count() << " media images.";
 
     if (ids.count() <= 0)
         return -1;
@@ -67,6 +71,8 @@ int DbMediaImageContainer::insertDataObjectToModel(const EmuFrontObject *efo)
         // File id is used to store the media image container instance to database,
         // file id is also the media image container id
         fileId = DbFile::insertDataObjectToModel(mic);
+
+        qDebug() << "Inserted media image container to file table with id " << fileId << ".";
 
         if (fileId < 0) {
             // TODO: note we most surely need to catch the exception
@@ -91,7 +97,9 @@ int DbMediaImageContainer::insertDataObjectToModel(const EmuFrontObject *efo)
             DbFile::deleteDataObject(fileId);
             throw new EmuFrontException("Failed inserting media image to database!");
         }
+        qDebug() << "Inserted media image container " << fileId << " to mediaimagecontainer table.";
         linkMediaImagesWithContainer(fileId, ids);
+        qDebug() << "Linked media image container with media images.";
     } catch (EmuFrontException e) {
         dbMediaImage->removeOrphanedMediaImages(ids);
         throw e;
@@ -176,6 +184,7 @@ void DbMediaImageContainer::linkMediaImagesWithContainer(int micId, QList<int> m
     q.bindValue(":micid", micId);
 
     foreach(int miid, miIds) {
+        qDebug() << "Linking media image container " << micId << " to media image " << miid  << ".";
         q.bindValue(":miid", miid);
         if (!q.exec()) {
             throw new EmuFrontException(QString("Failed linking media "
