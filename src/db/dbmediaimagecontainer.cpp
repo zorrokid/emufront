@@ -39,56 +39,64 @@ bool DbMediaImageContainer::updateDataObjectToModel(const EmuFrontObject *efo)
 
 int DbMediaImageContainer::insertDataObjectToModel(const EmuFrontObject *efo)
 {
-    /* "CREATE TABLE IF NOT EXISTS mediaimagecontainer "
-                        "(id INTEGER PRIMARY KEY, "
-                        "fileid INTEGER REFERENCES file(id), "
-                        "filepathid INTEGER REFERENCES filepath(id), "
-                        "updatetime NUMERIC)"*/
-
     const MediaImageContainer *mic
         = dynamic_cast<const MediaImageContainer *>(efo);
 
+    // check if this media image container is already in the database
+    int fileId = -1;
+    if ((fileId = getMediaImageContainer(mic->getCheckSum())) >= 0)
+        return fileId;
+
     if (!mic->getFilePath())
-        // TODO: note we most surely need to catch the exception
-        // in the calling code block and clean
-        // all the media image and ...containers from
-        // the memory!
         throw new EmuFrontException("Cannot install media image "
             "container to database without a file path object!");
 
-    // Insert MediaImageContainer first as a EmuFrontFile object to file table.
-    // File id is used to store the media image container instance to database,
-    // file id is also the media image container id
-    int fileId = DbFile::insertDataObjectToModel(mic);
+    QList<MediaImage*> images = mic->getMediaImages();
+    QList<int> ids = dbMediaImage->storeMediaImages(images);
 
-    if (fileId < 0) {
-        // TODO: note we most surely need to catch the exception
-        // in the calling code block and clean
-        // all the media image and ...containers from
-        // the memory!
-        throw new EmuFrontException(
-                QString(tr("Inserting media image container %1 to file database failed"))
-                .arg(mic->getName()));
+    if (ids.count() <= 0)
+        return -1;
+
+    /* Contained Media images successfully stored to db,
+        storing media image container also */
+
+    try {
+
+        // Insert MediaImageContainer first as a EmuFrontFile object to file table.
+
+        // File id is used to store the media image container instance to database,
+        // file id is also the media image container id
+        fileId = DbFile::insertDataObjectToModel(mic);
+
+        if (fileId < 0) {
+            // TODO: note we most surely need to catch the exception
+            // in the calling code block and clean
+            // all the media image and ...containers from
+            // the memory!
+            throw new EmuFrontException(
+                    QString(tr("Inserting media image container %1 to file database failed"))
+                    .arg(mic->getName()));
+        }
+
+        // Insert to mediaimagecontainer table
+
+        QSqlQuery q;
+        q.prepare("INSERT INTO mediaimagecontainer "
+                  "(fileid, filepathid, updatetime) "
+                  "VALUES (:fileid, :filepathid, :updatetime)");
+        q.bindValue(":fileid", fileId);
+        q.bindValue(":filepathid", mic->getFilePath()->getId());
+        q.bindValue(":updatetime", DatabaseManager::getCurrentTimeStamp());
+        if (!q.exec()){
+            DbFile::deleteDataObject(fileId);
+            throw new EmuFrontException("Failed inserting media image to database!");
+        }
+        linkMediaImagesWithContainer(fileId, ids);
+    } catch (EmuFrontException e) {
+        dbMediaImage->removeOrphanedMediaImages(ids);
+        throw e;
     }
 
-    // Insert to mediaimagecontainer table
-
-    QSqlQuery q;
-    q.prepare("INSERT INTO mediaimagecontainer "
-        "(fileid, filepathid, updatetime) "
-        "VALUES (:fileid, :filepathid, :updatetime)");
-    q.bindValue(":fileid", fileId);
-    q.bindValue(":filepathid", mic->getFilePath()->getId());
-    q.bindValue(":updatetime", DatabaseManager::getCurrentTimeStamp());
-    if (!q.exec())
-        // TODO: failed inserting, remove orphaned media images
-        // (this is actually done in the storeContainers catch block
-        // but maybe it should be done here also, if this function is called independently!
-        // TODO: note we most surely need to catch the exception
-        // in the calling code block and clean
-        // all the media image and ...containers from
-        // the memory!
-        throw new EmuFrontException("Failed inserting media image to database!");
     return fileId;
 }
 
@@ -134,6 +142,7 @@ QSqlQueryModel* DbMediaImageContainer::getData()
     return 0;
 }
 
+/* Returns the id of a media image container with a given cheksum or -1 if not found */
 int DbMediaImageContainer::getMediaImageContainer(QString checksum) const
 {
     // TODO
@@ -151,47 +160,26 @@ void DbMediaImageContainer::storeContainers(QList<MediaImageContainer *> lst, Fi
     foreach(MediaImageContainer *mic, lst)
     {
         qDebug() << "Media image container " << mic->getName();
-        QList<MediaImage*> images = mic->getMediaImages();
-
-        /* If media image container is already in the db, continue */
-        if (getMediaImageContainer(mic->getCheckSum()) >= 0)
-            continue;
-
-        // this is a new media image container, lets build a list
-        // of media image id's for this container
-        QList<int> ids = dbMediaImage->storeMediaImages(images);
-
-        if (ids.count() > 0)
-        {
-            try {
-                // mediaimagecontainer table: id, fileid, filepathid, updatetime
-
-                // insert the media image container file to file table
-                int micFileId = insertDataObjectToModel(mic);
-                if (micFileId < 0) {
-                    // TODO: note we most surely need to catch the exception
-                    // in the calling code block and clean
-                    // all the media image and ...containers from
-                    // the memory!
-                    throw new EmuFrontException(
-                        QString(tr("Inserting media image container %1 to file database failed"))
-                            .arg(mic->getName()));
-                }
-                // link all the media image ids in list to media image container id
-                linkMediaImagesWithContainer(micFileId, ids);
-            } catch (EmuFrontException e) {
-                // need to remove the media images without media image container in list 'ids'
-                    // TODO: clean
-                    // all the media image and ...containers from
-                    // the memory! (maybe throw another exception on calling code block for this)
-
-                dbMediaImage->removeOrphanedMediaImages(ids);
-            }
-        }
+        int micFileId = insertDataObjectToModel(mic);
     }
 }
 
 void DbMediaImageContainer::linkMediaImagesWithContainer(int micId, QList<int> miIds)
 {
-    // TODO
+    if (micId < 0 || miIds.count() <= 0)
+        return;
+
+    QSqlQuery q;
+    q.prepare("INSERT INTO mediaimagecontainer_mediaimage "
+        "(mediaimagecontainerid, mediaimageid) "
+        "VALUES (:micid, :miid) ");
+    q.bindValue(":micid", micId);
+
+    foreach(int miid, miIds) {
+        q.bindValue(":miid", miid);
+        if (!q.exec()) {
+            throw new EmuFrontException(QString("Failed linking media "
+                "image container %1 to a media image %2").arg(micId).arg(miid));
+        }
+    }
 }

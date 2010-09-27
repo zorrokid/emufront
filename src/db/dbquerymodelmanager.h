@@ -33,6 +33,7 @@ protected:
     virtual QString constructSelectById(int id) const = 0;
     virtual QString constructFilterById(int id) const = 0;
     virtual QString constructSelect(QString whereClause = "") const = 0;
+    virtual bool deleteDataObject(int id) const = 0;
 };
 
 #endif // DBQUERYMODELMANAGER_H

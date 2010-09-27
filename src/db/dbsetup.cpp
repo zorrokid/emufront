@@ -131,6 +131,17 @@ bool DbSetup::deleteDataObjectFromModel(QModelIndex */*index*/)
     return false;
 }
 
+bool DbSetup::deleteDataObject(int id) const
+{
+    if (countDataObjectRefs(id) > 0)
+        // TODO
+        return false;
+    QSqlQuery q;
+    q.prepare(QString("DELETE FROM setup WHERE id=:id"));
+    q.bindValue(":id", id);
+    return q.exec();
+}
+
 QSqlQueryModel* DbSetup::getData()
 {
     QSqlQueryModel *model = new QSqlQueryModel;

@@ -49,7 +49,8 @@ protected:
    virtual QString constructFilterById(int id) const;
    virtual EmuFrontObject* recordToDataObject(const QSqlRecord* );
    QString tableName;
-    virtual EmuFrontObject* createEmuFrontFileObject(int id, QString name, EmuFrontFile *f) = 0;
+   virtual EmuFrontObject* createEmuFrontFileObject(int id, QString name, EmuFrontFile *f) = 0;
+   virtual bool deleteDataObject(int id) const;
 
 private:
     virtual QSqlQueryModel* getData();

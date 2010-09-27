@@ -130,6 +130,17 @@ bool DbFile::deleteDataObjectFromModel(QModelIndex *index)
     //return QSqlDatabase::database().commit();
 }
 
+bool DbFile::deleteDataObject(int id) const
+{
+    if (countDataObjectRefs(id) > 0)
+        // TODO
+        return false;
+    QSqlQuery q;
+    q.prepare(QString("DELETE FROM file WHERE id=:id"));
+    q.bindValue(":id", id);
+    return q.exec();
+}
+
 QString DbFile::constructSelect(QString whereClause) const
 {
     QString where = whereClause.isEmpty()
