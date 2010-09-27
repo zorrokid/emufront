@@ -72,9 +72,8 @@ int DbEmuFrontFileObject::insertDataObjectToModel(const EmuFrontObject *ob)
 {
     const EmuFrontFileObject *plf = dynamic_cast<const EmuFrontFileObject *>(ob);
     QSqlQuery query;
-    query.prepare(QString("INSERT INTO :table (id, name, fileid) "
-        "VALUES (NULL, :name, :fileid) "));
-    query.bindValue(":table", tableName);
+    query.prepare(QString("INSERT INTO %1 (id, name, fileid) "
+        "VALUES (NULL, :name, :fileid) ").arg(tableName));
     query.bindValue(":name", plf->getName());
     if (plf->getFile())
         query.bindValue(":fileid", plf->getFile()->getId());
@@ -94,10 +93,10 @@ bool DbEmuFrontFileObject::deleteDataObject(int id) const
         // TODO
         return false;
     QSqlQuery q;
-    q.prepare(QString("DELETE FROM :table WHERE id=:id"));
-    q.bindValue(":table", tableName);
+    q.prepare(QString("DELETE FROM %1 WHERE id = :id").arg(tableName));
     q.bindValue(":id", id);
     return q.exec();
+
 }
 
 int DbEmuFrontFileObject::countDataObjectRefs(int id) const
