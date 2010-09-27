@@ -44,7 +44,7 @@ MediaImageContainer::~MediaImageContainer()
 {
     qDeleteAll(lstMediaImage);
     //delete setup;
-    //delete filePath; // TODO: this filePath object is shared resource and cannot be deleted here!
+    //delete filePath; // NOTE: this filePath object is shared resource and cannot be deleted here!
                     // take care of the deletion where created!!!
 }
 
