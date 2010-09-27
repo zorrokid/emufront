@@ -39,6 +39,7 @@ public:
     QList<MediaImage*> getMediaImages() const;
     void setMediaImages(QList<MediaImage*>);
     void addMediaImage(MediaImage*);
+    void clearMediaImages();
     /*void setSetup(Setup *);
     Setup* getSetup() const;*/
     void setFilePath(FilePathObject*);

@@ -17,6 +17,7 @@
 // You should have received a copy of the GNU General Public License
 // along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <QDebug>
 #include "mediaimagecontainer.h"
 
 MediaImageContainer::MediaImageContainer()
@@ -43,7 +44,8 @@ MediaImageContainer::~MediaImageContainer()
 {
     qDeleteAll(lstMediaImage);
     //delete setup;
-    delete filePath;
+    //delete filePath; // TODO: this filePath object is shared resource and cannot be deleted here!
+                    // take care of the deletion where created!!!
 }
 
 MediaImageContainer::MediaImageContainer(MediaImageContainer &mic)
@@ -83,6 +85,17 @@ QList<MediaImage *> MediaImageContainer::getMediaImages() const
 
 void MediaImageContainer::addMediaImage(MediaImage *mi)
 {   lstMediaImage.append(mi); }
+
+void MediaImageContainer::clearMediaImages()
+{
+    qDeleteAll(lstMediaImage);
+    /*foreach(MediaImage *mi, lstMediaImage) {
+        delete mi;
+        mi = 0;
+    }*/
+    lstMediaImage.clear();
+    qDebug() << lstMediaImage.count();
+}
 
 /*Setup* MediaImageContainer::getSetup() const
 { return setup; }

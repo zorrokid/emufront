@@ -76,6 +76,7 @@ void MediaImagePathMainDialog::beginScanFilePath()
         // qDeleteAll could be used also... maybe?
         // TODO: this is not yet functional:
         foreach(MediaImageContainer* mic, files) {
+            //mic->clearMediaImages();
             /*QList<MediaImage*> mis = mic->getMediaImages();
             foreach(MediaImage* mi, mis) {
                 delete mi;
@@ -85,6 +86,9 @@ void MediaImagePathMainDialog::beginScanFilePath()
             mic = 0;
             */
         }
+        qDeleteAll(files);
+        //files.clear();
+        //qDebug() << files.count();
     }
     catch (EmuFrontException s)
     {
