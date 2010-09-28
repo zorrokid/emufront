@@ -24,6 +24,7 @@
 
 class QTableView;
 class QComboBox;
+class QPushButton;
 
 class EmuLauncher : public QWidget
 {
@@ -33,12 +34,15 @@ public:
 
 signals:
 
-public slots:
+private slots:
+    void updateMediaImageContainers();
 
 private:
     QTableView *micTable;
     QComboBox *platformSelectBox;
     QComboBox *mediaTypeSelectBox;
+    QPushButton *selectButton;
+    void initWidgets();
     void layout();
     void connectSignals();
     void populatePlatformSelectBox();

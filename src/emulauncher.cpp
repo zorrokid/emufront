@@ -17,22 +17,40 @@
 // You should have received a copy of the GNU General Public License
 // along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <QtGui>
 #include "emulauncher.h"
 
 EmuLauncher::EmuLauncher(QWidget *parent) :
     QWidget(parent)
 {
+    initWidgets();
+    layout();
+    //connectSignals();
+}
+
+void EmuLauncher::initWidgets()
+{
+    //micTable = new QTableView(this);
+    mediaTypeSelectBox = new QComboBox;
+    platformSelectBox = new QComboBox;
+    selectButton = new QPushButton(tr("&Update"));
+    //populateMediaTypeSelectBox();
+    //populatePlatformSelectBox();
 }
 
 void EmuLauncher::layout()
 {
-    micTable = 0;
-    mediaTypeSelectBox = 0;
-    platformSelectBox = 0;
+    QGridLayout *grid = new QGridLayout;
+    grid->addWidget(platformSelectBox, 0, 0);
+    grid->addWidget(mediaTypeSelectBox, 1, 0);
+    grid->addWidget(selectButton, 2, 0);
+    //grid->addWidget(micTable, 3, 0);
+    setLayout(grid);
 }
 
 void EmuLauncher::connectSignals()
 {
+    connect(selectButton, SIGNAL(clicked()), this, SLOT(updateMediaImageContainers()));
 }
 
 void EmuLauncher::populateMediaTypeSelectBox()
@@ -40,5 +58,9 @@ void EmuLauncher::populateMediaTypeSelectBox()
 }
 
 void EmuLauncher::populatePlatformSelectBox()
+{
+}
+
+void EmuLauncher::updateMediaImageContainers()
 {
 }
