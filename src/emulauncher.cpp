@@ -23,3 +23,22 @@ EmuLauncher::EmuLauncher(QWidget *parent) :
     QWidget(parent)
 {
 }
+
+void EmuLauncher::layout()
+{
+    micTable = 0;
+    mediaTypeSelectBox = 0;
+    platformSelectBox = 0;
+}
+
+void EmuLauncher::connectSignals()
+{
+}
+
+void EmuLauncher::populateMediaTypeSelectBox()
+{
+}
+
+void EmuLauncher::populatePlatformSelectBox()
+{
+}

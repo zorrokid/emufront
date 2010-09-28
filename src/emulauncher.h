@@ -22,6 +22,9 @@
 
 #include <QWidget>
 
+class QTableView;
+class QComboBox;
+
 class EmuLauncher : public QWidget
 {
 Q_OBJECT
@@ -32,6 +35,14 @@ signals:
 
 public slots:
 
+private:
+    QTableView *micTable;
+    QComboBox *platformSelectBox;
+    QComboBox *mediaTypeSelectBox;
+    void layout();
+    void connectSignals();
+    void populatePlatformSelectBox();
+    void populateMediaTypeSelectBox();
 };
 
 #endif // EMULAUNCHER_H
