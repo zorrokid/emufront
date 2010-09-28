@@ -19,6 +19,7 @@
 
 #include <QtGui>
 #include "mainwindow.h"
+#include "emulauncher.h"
 #include "dialogs/platformdialog.h"
 #include "dialogs/mediatypedialog.h"
 #include "dialogs/mediaimagepathmaindialog.h"
@@ -28,6 +29,8 @@
 MainWindow::MainWindow()
 {
     setWindowTitle("EmuFront");
+    launcher = new EmuLauncher(this);
+    setCentralWidget(launcher);
     createActions();
     createMenus();
     createStatusBar();

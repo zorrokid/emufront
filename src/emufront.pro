@@ -52,7 +52,8 @@ HEADERS += mainwindow.h \
     db/dbmediaimagecontainer.h \
     db/dbmediaimage.h \
     utils/OSDaB-Zip/zipentry_p.h \
-    utils/OSDaB-Zip/unzip_p.h
+    utils/OSDaB-Zip/unzip_p.h \
+    emulauncher.h
 SOURCES += main.cpp \
     mainwindow.cpp \
     db/databasemanager.cpp \
@@ -92,5 +93,6 @@ SOURCES += main.cpp \
     db/dbfile.cpp \
     db/dbemufrontfileobject.cpp \
     db/dbmediaimagecontainer.cpp \
-    db/dbmediaimage.cpp
+    db/dbmediaimage.cpp \
+    emulauncher.cpp
 OTHER_FILES += 

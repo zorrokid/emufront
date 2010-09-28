@@ -30,6 +30,7 @@ class SetupMainDialog;
 class QLabel;
 class DatabaseManager;
 class EmuFrontDialog;
+class EmuLauncher;
 
 class MainWindow : public QMainWindow
 {
@@ -69,6 +70,7 @@ private:
     QAction *exitAction;
 	QLabel *messageLabel;
     DatabaseManager *dbManager;
+    EmuLauncher *launcher;
 };
 
 #endif
