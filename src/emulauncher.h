@@ -25,6 +25,8 @@
 class QTableView;
 class QComboBox;
 class QPushButton;
+class DbMediaType;
+class DbPlatform;
 
 class EmuLauncher : public QWidget
 {
@@ -42,6 +44,8 @@ private:
     QComboBox *platformSelectBox;
     QComboBox *mediaTypeSelectBox;
     QPushButton *selectButton;
+    DbPlatform *dbPlatform;
+    DbMediaType *dbMediaType;
     void initWidgets();
     void layout();
     void connectSignals();

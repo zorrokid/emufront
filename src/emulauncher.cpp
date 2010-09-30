@@ -18,11 +18,16 @@
 // along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QtGui>
+#include <QSqlTableModel>
 #include "emulauncher.h"
+#include "db/dbmediatype.h"
+#include "db/dbplatform.h"
 
 EmuLauncher::EmuLauncher(QWidget *parent) :
     QWidget(parent)
 {
+    dbPlatform = 0;
+    dbMediaType = 0;
     initWidgets();
     layout();
     //connectSignals();
@@ -35,7 +40,7 @@ void EmuLauncher::initWidgets()
     platformSelectBox = new QComboBox;
     selectButton = new QPushButton(tr("&Update"));
     //populateMediaTypeSelectBox();
-    //populatePlatformSelectBox();
+    populatePlatformSelectBox();
 }
 
 void EmuLauncher::layout()
@@ -55,11 +60,20 @@ void EmuLauncher::connectSignals()
 
 void EmuLauncher::populateMediaTypeSelectBox()
 {
-}
+    }
 
 void EmuLauncher::populatePlatformSelectBox()
 {
+    if (!dbPlatform)
+
+        dbPlatform = new DbPlatform(this);
+    QSqlQueryModel *model = dbPlatform->getDataModel();
+    if (!model)
+        return;
+    platformSelectBox->setModel(model);
+    platformSelectBox->setModelColumn(DbPlatform::EmuFrontFileObject_Name);
 }
+
 
 void EmuLauncher::updateMediaImageContainers()
 {
