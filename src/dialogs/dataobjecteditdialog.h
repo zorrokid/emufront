@@ -33,6 +33,7 @@ class DataObjectEditDialog : public EmuFrontDialog
 public:
     DataObjectEditDialog(QWidget *parent, EmuFrontObject *ob, Qt::Orientation orientation = Qt::Horizontal);
     virtual void setDataObject(EmuFrontObject *) = 0;
+    virtual void updateData();
 
 protected:
     virtual void connectSignals();

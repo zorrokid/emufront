@@ -53,9 +53,9 @@ DatabaseManager::~DatabaseManager()
     // be destroyed when parent is destroyed
 }
 
-QSqlQueryModel* DatabaseManager::getDataModel()
+QSqlQueryModel* DatabaseManager::getDataModel(bool update)
 {
-    if (!sqlTableModel) sqlTableModel = getData();
+    if (!sqlTableModel || (sqlTableModel && !update)) sqlTableModel = getData();
     return sqlTableModel;
 }
 

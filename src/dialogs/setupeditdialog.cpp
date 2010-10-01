@@ -22,6 +22,7 @@
 #include <QSqlRecord>
 #include "setupeditdialog.h"
 #include "../widgets/stringlistwidget.h"
+#include "../widgets/effileobjectcombobox.h"
 #include "../db/dbmediatype.h"
 #include "../db/dbplatform.h"
 #include "../db/dbsetup.h"
@@ -30,8 +31,8 @@ SetupEditDialog::SetupEditDialog(QWidget *parent, EmuFrontObject* obj)
     : DataObjectEditDialog(parent, obj)
 {
     dbSetup = 0; //new DbSetup(this);
-    dbPlatform = 0; //new DbPlatform(this);
-    dbMediaType = 0; //new DbMediaType(this);
+    dbPlatform = new DbPlatform(this);
+    dbMediaType = new DbMediaType(this);
     initWidgets();
     qDebug() << "Connecting signals";
     connectSignals();
@@ -40,14 +41,14 @@ SetupEditDialog::SetupEditDialog(QWidget *parent, EmuFrontObject* obj)
 
 void SetupEditDialog::initWidgets()
 {
-    mediaTypeComBox = new QComboBox;
-    platformComBox = new QComboBox;
+    mediaTypeComBox = new EFFileObjectComboBox(dbMediaType, this); //new QComboBox;
+    platformComBox = new EFFileObjectComboBox(dbPlatform, this); //new QComboBox;
     supportedFileTypesList = new StringListWidget;
-    populateMediaTypeComBox();
-    populatePlatformComBox();
+    //populateMediaTypeComBox();
+    //populatePlatformComBox();
 }
 
-void SetupEditDialog::populateMediaTypeComBox()
+/*void SetupEditDialog::populateMediaTypeComBox()
 {
     qDebug() << "populating media types combo box";
     if (!dbMediaType) dbMediaType = new DbMediaType(this);
@@ -68,7 +69,7 @@ void SetupEditDialog::populatePlatformComBox()
     platformComBox->setModel(model);
     platformComBox->setModelColumn(DbPlatform::EmuFrontFileObject_Name);
     qDebug() << "platform combo box populated";
-}
+}*/
 
 void SetupEditDialog::layout()
 {
@@ -142,17 +143,19 @@ void SetupEditDialog::setDataObject(EmuFrontObject *ob)
 
 void SetupEditDialog::setSelectedPlatform(const Platform *plf)
 {
-    setSelected(platformComBox, plf, DbPlatform::EmuFrontFileObject_Id);
+    //setSelected(platformComBox, plf, DbPlatform::EmuFrontFileObject_Id);
+    platformComBox->setSelected(plf);
 }
 
 void SetupEditDialog::setSelectedMediaType(const MediaType *plf)
 {
-    setSelected(mediaTypeComBox, plf, DbMediaType::EmuFrontFileObject_Id);
+    //setSelected(mediaTypeComBox, plf, DbMediaType::EmuFrontFileObject_Id);
+    mediaTypeComBox->setSelected(plf);
 }
 
 Platform* SetupEditDialog::getSelectedPlatform() const
 {
-    Platform *plf = 0;
+    /*Platform *plf = 0;
     int index = platformComBox->currentIndex();
     qDebug() << "Platform from index " << index << " selected";
     if (index < 0)
@@ -172,13 +175,17 @@ Platform* SetupEditDialog::getSelectedPlatform() const
         EmuFrontObject *o
             = dbPlatform->getDataObject(rec.value(DbPlatform::EmuFrontFileObject_Id).toInt());
         plf = dynamic_cast<Platform*>(o);
-    }
+    }*/
+
+    EmuFrontObject *o = platformComBox->getSelected();
+    if (!o) return 0;
+    Platform *plf = dynamic_cast<Platform*>(o);
     return plf;
 }
 
 MediaType* SetupEditDialog::getSelectedMediaType() const
 {
-    MediaType *mt = 0;
+    /*MediaType *mt = 0;
     int index = mediaTypeComBox->currentIndex();
     if (index < 0) return mt;
     QSqlQueryModel* mediaTypeModel = dynamic_cast<QSqlQueryModel*>(mediaTypeComBox->model());
@@ -193,5 +200,16 @@ MediaType* SetupEditDialog::getSelectedMediaType() const
         EmuFrontObject *o = dbMediaType->getDataObject(rec.value(DbMediaType::EmuFrontFileObject_Id).toInt());
         mt = dynamic_cast<MediaType*>(o);
     }
+    return mt;*/
+    EmuFrontObject *o = mediaTypeComBox->getSelected();
+    if (!o) return 0;
+    MediaType *mt = dynamic_cast<MediaType*>(o);
     return mt;
+}
+
+void SetupEditDialog::updateData()
+{
+    qDebug() << "Updating combobox data";
+    platformComBox->updateDataModel();
+    mediaTypeComBox->updateDataModel();
 }

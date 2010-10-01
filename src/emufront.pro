@@ -53,7 +53,9 @@ HEADERS += mainwindow.h \
     db/dbmediaimage.h \
     utils/OSDaB-Zip/zipentry_p.h \
     utils/OSDaB-Zip/unzip_p.h \
-    emulauncher.h
+    emulauncher.h \
+    widgets/efcombobox.h \
+    widgets/effileobjectcombobox.h
 SOURCES += main.cpp \
     mainwindow.cpp \
     db/databasemanager.cpp \
@@ -94,5 +96,7 @@ SOURCES += main.cpp \
     db/dbemufrontfileobject.cpp \
     db/dbmediaimagecontainer.cpp \
     db/dbmediaimage.cpp \
-    emulauncher.cpp
+    emulauncher.cpp \
+    widgets/efcombobox.cpp \
+    widgets/effileobjectcombobox.cpp
 OTHER_FILES += 

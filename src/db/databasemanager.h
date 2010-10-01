@@ -36,7 +36,7 @@ public:
 	DatabaseManager(QObject *parent = 0);
 	~DatabaseManager();
 
-    QSqlQueryModel* getDataModel();
+    QSqlQueryModel* getDataModel(bool update = false);
     EmuFrontObject* getDataObjectFromModel(QModelIndex*);
     EmuFrontObject* getDataObject(int id);
     EmuFrontObject* getDataObject(QString filter);

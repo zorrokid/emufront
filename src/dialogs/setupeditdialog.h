@@ -22,7 +22,8 @@
 
 #include "dataobjecteditdialog.h"
 
-class QComboBox;
+//class QComboBox;
+class EFFileObjectComboBox;
 class DbSetup;
 class DbMediaType;
 class DbPlatform;
@@ -38,13 +39,16 @@ public:
     SetupEditDialog(QWidget *parent, EmuFrontObject*);
     //~SetupEditDialog();
     virtual void setDataObject(EmuFrontObject *);
+    virtual void updateData();
 
 protected slots:
     virtual void acceptChanges();
 
 private:
-    QComboBox *mediaTypeComBox;
-    QComboBox *platformComBox;
+    //QComboBox *mediaTypeComBox;
+    EFFileObjectComboBox *mediaTypeComBox;
+    //QComboBox *platformComBox;
+    EFFileObjectComboBox *platformComBox;
     DbSetup *dbSetup;
     DbPlatform *dbPlatform;
     DbMediaType *dbMediaType;

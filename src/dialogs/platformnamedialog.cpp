@@ -49,3 +49,4 @@ void PlatformNameDialog::setDataObject(EmuFrontObject *ob)
     qDebug() << "Setting name to " << efObject->getName();
     nameEdit->setText(efObject->getName());
 }
+

@@ -212,6 +212,7 @@ void DbObjectDialog::activateNameDialog()
     if (!nameDialog) return;
     nameDialog->show();
     nameDialog->raise();
+    nameDialog->updateData();
     nameDialog->activateWindow();
 }
 

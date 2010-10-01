@@ -37,6 +37,7 @@ void DataObjectEditDialog::connectSignals()
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(rejectChanges()));
 }
 
+// TODO: remove this after implementing in EFComboBox
 void DataObjectEditDialog::setSelected(QComboBox *cbox, const EmuFrontObject *ob, int idIndex)
 {
     if (!ob) return;
@@ -59,4 +60,8 @@ void DataObjectEditDialog::rejectChanges()
     efObject = 0;
     emit updateRejected();
     close();
+}
+
+void DataObjectEditDialog::updateData()
+{
 }
