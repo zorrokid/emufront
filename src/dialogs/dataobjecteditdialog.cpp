@@ -37,7 +37,7 @@ void DataObjectEditDialog::connectSignals()
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(rejectChanges()));
 }
 
-// TODO: remove this after implementing in EFComboBox
+// TODO: remove this after implementing all the combo boxes using EFComboBox
 void DataObjectEditDialog::setSelected(QComboBox *cbox, const EmuFrontObject *ob, int idIndex)
 {
     if (!ob) return;
