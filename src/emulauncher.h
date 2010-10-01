@@ -27,6 +27,7 @@ class QComboBox;
 class QPushButton;
 class DbMediaType;
 class DbPlatform;
+class EFFileObjectComboBox;
 
 class EmuLauncher : public QWidget
 {
@@ -41,8 +42,8 @@ private slots:
 
 private:
     QTableView *micTable;
-    QComboBox *platformSelectBox;
-    QComboBox *mediaTypeSelectBox;
+    EFFileObjectComboBox *platformSelectBox;
+    EFFileObjectComboBox *mediaTypeSelectBox;
     QPushButton *selectButton;
     DbPlatform *dbPlatform;
     DbMediaType *dbMediaType;

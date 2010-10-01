@@ -22,12 +22,13 @@
 #include "emulauncher.h"
 #include "db/dbmediatype.h"
 #include "db/dbplatform.h"
+#include "widgets/effileobjectcombobox.h"
 
 EmuLauncher::EmuLauncher(QWidget *parent) :
     QWidget(parent)
 {
-    dbPlatform = 0;
-    dbMediaType = 0;
+    dbPlatform = new DbPlatform(this);
+    dbMediaType = new DbMediaType(this);
     initWidgets();
     layout();
     //connectSignals();
@@ -36,11 +37,9 @@ EmuLauncher::EmuLauncher(QWidget *parent) :
 void EmuLauncher::initWidgets()
 {
     //micTable = new QTableView(this);
-    mediaTypeSelectBox = new QComboBox;
-    platformSelectBox = new QComboBox;
+    mediaTypeSelectBox = new EFFileObjectComboBox(dbMediaType, this);
+    platformSelectBox = new EFFileObjectComboBox(dbPlatform, this);
     selectButton = new QPushButton(tr("&Update"));
-    //populateMediaTypeSelectBox();
-    populatePlatformSelectBox();
 }
 
 void EmuLauncher::layout()
@@ -57,23 +56,6 @@ void EmuLauncher::connectSignals()
 {
     connect(selectButton, SIGNAL(clicked()), this, SLOT(updateMediaImageContainers()));
 }
-
-void EmuLauncher::populateMediaTypeSelectBox()
-{
-    }
-
-void EmuLauncher::populatePlatformSelectBox()
-{
-    if (!dbPlatform)
-
-        dbPlatform = new DbPlatform(this);
-    QSqlQueryModel *model = dbPlatform->getDataModel();
-    if (!model)
-        return;
-    platformSelectBox->setModel(model);
-    platformSelectBox->setModelColumn(DbPlatform::EmuFrontFileObject_Name);
-}
-
 
 void EmuLauncher::updateMediaImageContainers()
 {

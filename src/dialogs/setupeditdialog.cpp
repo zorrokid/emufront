@@ -44,32 +44,7 @@ void SetupEditDialog::initWidgets()
     mediaTypeComBox = new EFFileObjectComboBox(dbMediaType, this); //new QComboBox;
     platformComBox = new EFFileObjectComboBox(dbPlatform, this); //new QComboBox;
     supportedFileTypesList = new StringListWidget;
-    //populateMediaTypeComBox();
-    //populatePlatformComBox();
 }
-
-/*void SetupEditDialog::populateMediaTypeComBox()
-{
-    qDebug() << "populating media types combo box";
-    if (!dbMediaType) dbMediaType = new DbMediaType(this);
-    qDebug() << "media type database manager created";
-    QSqlQueryModel *model = dbMediaType->getDataModel();
-    if (!model) return;
-    qDebug() << "We have a media type data model";
-    mediaTypeComBox->setModel(model);
-    mediaTypeComBox->setModelColumn(DbMediaType::EmuFrontFileObject_Name);
-}
-
-void SetupEditDialog::populatePlatformComBox()
-{
-    qDebug() << "populating platform combo box";
-    if (!dbPlatform) dbPlatform = new DbPlatform(this);
-    QSqlQueryModel *model = dbPlatform->getDataModel();
-    if (!model) return;
-    platformComBox->setModel(model);
-    platformComBox->setModelColumn(DbPlatform::EmuFrontFileObject_Name);
-    qDebug() << "platform combo box populated";
-}*/
 
 void SetupEditDialog::layout()
 {
