@@ -132,6 +132,11 @@ QString DbMediaImageContainer::constructFilterById(int id) const
     return DbFile::constructFilterById(id);
 }
 
+QList<MediaImageContainer*> DbMediaImageContainer::getMediaImageContainers(int platformId, int mediaTypeId) const
+{
+
+}
+
 QString DbMediaImageContainer::constructSelectById(int id) const
 {
     return DbFile::constructSelectById(id);

@@ -31,7 +31,7 @@ EmuLauncher::EmuLauncher(QWidget *parent) :
     dbMediaType = new DbMediaType(this);
     initWidgets();
     layout();
-    //connectSignals();
+    connectSignals();
 }
 
 void EmuLauncher::initWidgets()
@@ -59,4 +59,5 @@ void EmuLauncher::connectSignals()
 
 void EmuLauncher::updateMediaImageContainers()
 {
+    qDebug() << "updateMediaImageContainers slot";
 }
