@@ -23,7 +23,6 @@
 #include "dataobjecteditdialog.h"
 
 class QDialogButtonBox;
-class QComboBox;
 class QLabel;
 class QPushButton;
 class QSqlTableModel;
@@ -31,6 +30,7 @@ class DbSetup;
 class Setup;
 class DbMediaType;
 class DbPlatform;
+class SetupComboBox;
 
 class MediaImagePathDialog : public DataObjectEditDialog
 {
@@ -46,7 +46,7 @@ protected slots:
     void browseFilePath();
 
 private:
-    QComboBox *setupComBox;
+    SetupComboBox *setupComBox;
     QLabel *filePathLabel;
     QPushButton *filePathButton;
     DbSetup *dbSetup;

@@ -55,7 +55,8 @@ HEADERS += mainwindow.h \
     utils/OSDaB-Zip/unzip_p.h \
     emulauncher.h \
     widgets/efcombobox.h \
-    widgets/effileobjectcombobox.h
+    widgets/effileobjectcombobox.h \
+    widgets/setupcombobox.h
 SOURCES += main.cpp \
     mainwindow.cpp \
     db/databasemanager.cpp \
@@ -98,5 +99,6 @@ SOURCES += main.cpp \
     db/dbmediaimage.cpp \
     emulauncher.cpp \
     widgets/efcombobox.cpp \
-    widgets/effileobjectcombobox.cpp
+    widgets/effileobjectcombobox.cpp \
+    widgets/setupcombobox.cpp
 OTHER_FILES += 

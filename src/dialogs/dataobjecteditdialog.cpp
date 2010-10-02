@@ -38,7 +38,7 @@ void DataObjectEditDialog::connectSignals()
 }
 
 // TODO: remove this after implementing all the combo boxes using EFComboBox
-void DataObjectEditDialog::setSelected(QComboBox *cbox, const EmuFrontObject *ob, int idIndex)
+/*void DataObjectEditDialog::setSelected(QComboBox *cbox, const EmuFrontObject *ob, int idIndex)
 {
     if (!ob) return;
     QSqlQueryModel *model = dynamic_cast<QSqlQueryModel*>(cbox->model());
@@ -53,7 +53,7 @@ void DataObjectEditDialog::setSelected(QComboBox *cbox, const EmuFrontObject *ob
             break;
         }
     }
-}
+}*/
 
 void DataObjectEditDialog::rejectChanges()
 {
