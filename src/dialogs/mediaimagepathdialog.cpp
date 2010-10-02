@@ -170,3 +170,9 @@ void MediaImagePathDialog::acceptChanges()
     efObject = 0;
     close();
 }
+
+
+void MediaImagePathDialog::updateData()
+{
+    setupComBox->updateDataModel();
+}

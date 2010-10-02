@@ -40,6 +40,7 @@ public:
     MediaImagePathDialog(QWidget *parent, EmuFrontObject*);
     ~MediaImagePathDialog();
     virtual void setDataObject(EmuFrontObject *);
+    virtual void updateData();
 
 protected slots:
     virtual void acceptChanges();
