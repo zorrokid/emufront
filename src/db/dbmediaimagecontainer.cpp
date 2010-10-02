@@ -124,17 +124,28 @@ int DbMediaImageContainer::countDataObjectRefs(int id) const
 
 QString DbMediaImageContainer::constructSelect(QString whereClause) const
 {
-    return DbFile::constructSelect(whereClause);
+    // TODO, for a usual search we need a "light" version of this select
+    // and MediaImageContainer (only id, name)
+    /*
+        SELECT file.id, file.name, file.checksum, file.size,
+            filepath.id, filepath.name,
+            setup.id,
+            platform.id, platform.name,
+            mediatype.id, mediatype.name
+        FROM mediaimagecontainer
+        INNER JOIN file ON mediaimagecontainer.fileid = file.id
+        INNER JOIN filepath ON mediaimagecontainer.filepathid = filepath.id
+        INNER JOIN setup ON filepath.setupid = setup.id
+        INNER JOIN platform ON setup.platformid = platform.id
+        INNER JOIN mediatype ON setup.mediatypeid = mediatype.id
+        */
+    return "";
+    //return DbFile::constructSelect(whereClause);
 }
 
 QString DbMediaImageContainer::constructFilterById(int id) const
 {
     return DbFile::constructFilterById(id);
-}
-
-QList<MediaImageContainer*> DbMediaImageContainer::getMediaImageContainers(int platformId, int mediaTypeId) const
-{
-
 }
 
 QString DbMediaImageContainer::constructSelectById(int id) const
@@ -198,4 +209,12 @@ void DbMediaImageContainer::linkMediaImagesWithContainer(int micId, QList<int> m
                 "image container %1 to a media image %2").arg(micId).arg(miid));
         }
     }
+}
+
+void DbMediaImageContainer::filter(int mediaTypeId, int platformId) const
+{
+        /*
+        WHERE setup.platformid = :platformid
+        AND setup.mediatypeid = :mediatypeid
+    */
 }

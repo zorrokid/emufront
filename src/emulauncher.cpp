@@ -22,6 +22,7 @@
 #include "emulauncher.h"
 #include "db/dbmediatype.h"
 #include "db/dbplatform.h"
+#include "db/dbmediaimagecontainer.h"
 #include "widgets/effileobjectcombobox.h"
 
 EmuLauncher::EmuLauncher(QWidget *parent) :
@@ -37,6 +38,7 @@ EmuLauncher::EmuLauncher(QWidget *parent) :
 void EmuLauncher::initWidgets()
 {
     micTable = new QTableView(this);
+    micTable->setSelectionMode(QAbstractItemView::SingleSelection);
     mediaTypeSelectBox = new EFFileObjectComboBox(dbMediaType, this);
     platformSelectBox = new EFFileObjectComboBox(dbPlatform, this);
     selectButton = new QPushButton(tr("&Update"));
@@ -60,4 +62,14 @@ void EmuLauncher::connectSignals()
 void EmuLauncher::updateMediaImageContainers()
 {
     qDebug() << "updateMediaImageContainers slot";
+    int mtid = mediaTypeSelectBox->getSelected()
+        ? mediaTypeSelectBox->getSelected()->getId()
+        : -1;
+    int plfid = platformSelectBox->getSelected()
+        ? platformSelectBox->getSelected()->getId()
+        : -1;
+
+    dbMic->filter(mtid, plfid);
+    micTable->setModel(dbMic->getDataModel());
+    micTable->resizeColumnsToContents();
 }

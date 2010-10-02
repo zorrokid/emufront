@@ -27,6 +27,7 @@ class QComboBox;
 class QPushButton;
 class DbMediaType;
 class DbPlatform;
+class DbMediaImageContainer;
 class EFFileObjectComboBox;
 
 class EmuLauncher : public QWidget
@@ -47,6 +48,7 @@ private:
     QPushButton *selectButton;
     DbPlatform *dbPlatform;
     DbMediaType *dbMediaType;
+    DbMediaImageContainer *dbMic;
     void initWidgets();
     void layout();
     void connectSignals();
