@@ -36,7 +36,7 @@ EmuLauncher::EmuLauncher(QWidget *parent) :
 
 void EmuLauncher::initWidgets()
 {
-    //micTable = new QTableView(this);
+    micTable = new QTableView(this);
     mediaTypeSelectBox = new EFFileObjectComboBox(dbMediaType, this);
     platformSelectBox = new EFFileObjectComboBox(dbPlatform, this);
     selectButton = new QPushButton(tr("&Update"));
@@ -47,8 +47,8 @@ void EmuLauncher::layout()
     QGridLayout *grid = new QGridLayout;
     grid->addWidget(platformSelectBox, 0, 0);
     grid->addWidget(mediaTypeSelectBox, 1, 0);
-    grid->addWidget(selectButton, 2, 0);
-    //grid->addWidget(micTable, 3, 0);
+    grid->addWidget(selectButton, 1, 1);
+    grid->addWidget(micTable, 2, 0, 1, 2);
     setLayout(grid);
 }
 
