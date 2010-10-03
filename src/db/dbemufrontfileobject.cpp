@@ -131,10 +131,10 @@ bool DbEmuFrontFileObject::deleteDataObjectFromModel(QModelIndex *index)
     */
 }
 
-QString DbEmuFrontFileObject::constructSelect(QString whereClause) const
+QString DbEmuFrontFileObject::constructSelect(QString where) const
 {
-    QString where = whereClause.isEmpty()
-        ? "" : QString("WHERE ").append(whereClause);
+    /*QString where = whereClause.isEmpty()
+        ? "" : QString("WHERE ").append(whereClause);*/
 
     return QString("SELECT maintbl.id AS FileObjectId, "
             "maintbl.name AS Name, "
@@ -152,7 +152,7 @@ QString DbEmuFrontFileObject::constructSelect(QString whereClause) const
 
 QString DbEmuFrontFileObject::constructSelectById(int id) const
 {
-    return constructSelect(constructFilterById(id));
+    return constructSelect(QString("WHERE %1").arg(constructFilterById(id)));
 }
 
 QString DbEmuFrontFileObject::constructFilterById(int id) const

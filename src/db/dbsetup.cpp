@@ -96,10 +96,10 @@ int DbSetup::countDataObjectRefs(int ) const
     return 0;
 }
 
-QString DbSetup::constructSelect(QString whereClause) const
+QString DbSetup::constructSelect(QString where) const
 {
-    QString where = whereClause.isEmpty()
-        ? "" : QString("WHERE ").append(whereClause);
+    /*QString where = whereClause.isEmpty()
+        ? "" : QString("WHERE ").append(whereClause);*/
     return QString(
         "SELECT setup.id AS SetupId, "
         "setup.platformid AS PlatformId, "
@@ -121,7 +121,7 @@ QString DbSetup::constructFilterById(int id) const
 
 QString DbSetup::constructSelectById(int id) const
 {
-     return constructSelect(constructFilterById(id));
+    return constructSelect(QString("WHERE %1").append(constructFilterById(id)));
 }
 
 // WARNING: this will delete also all the databindings to selected media image path

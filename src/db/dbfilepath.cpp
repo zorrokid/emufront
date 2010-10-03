@@ -100,10 +100,10 @@ bool DbFilePath::deleteDataObject(int id) const
     return q.exec();
 }
 
-QString DbFilePath::constructSelect(QString whereClause) const
+QString DbFilePath::constructSelect(QString where) const
 {
-    QString where = whereClause.isEmpty()
-        ? "" : QString("WHERE ").append(whereClause);
+    /*QString where = whereClause.isEmpty()
+        ? "" : QString("WHERE ").append(whereClause);*/
 
     return QString("SELECT filepath.id AS FilePathId, "
             "filepath.name AS Name, "
@@ -125,7 +125,8 @@ QString DbFilePath::constructFilterById(int id) const
 
 QString DbFilePath::constructSelectById(int id) const
 {
-    return constructSelect(constructFilterById(id));
+    QString where = QString("WHERE %1").arg(constructFilterById(id));
+    return constructSelect(where);
 }
 
 QSqlQueryModel* DbFilePath::getData()

@@ -36,9 +36,9 @@ public:
     virtual int countDataObjectRefs(int id) const;
     void storeContainers(QList<MediaImageContainer*>, FilePathObject*);
     int getMediaImageContainer(QString checksum) const;
-    void filter(int mediaTypeId, int platformId) const;
+    void filter(int mediaTypeId, int platformId);
 protected:
-    virtual QString constructSelect(QString whereClause) const;
+    virtual QString constructSelect(QString whereClause = "") const;
     virtual QString constructSelectById(int id) const;
     virtual QString constructFilterById(int id) const;
     virtual EmuFrontObject* recordToDataObject(const QSqlRecord *);

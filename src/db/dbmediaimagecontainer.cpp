@@ -211,10 +211,13 @@ void DbMediaImageContainer::linkMediaImagesWithContainer(int micId, QList<int> m
     }
 }
 
-void DbMediaImageContainer::filter(int mediaTypeId, int platformId) const
+void DbMediaImageContainer::filter(int mediaTypeId, int platformId)
 {
-        /*
-        WHERE setup.platformid = :platformid
-        AND setup.mediatypeid = :mediatypeid
-    */
+    QList<QString> filters;
+    if (mediaTypeId >= 0)
+        filters.append(QString("mediatype.id=%1").arg(mediaTypeId));
+    if (platformId >= 0)
+        filters.append(QString("platform.id=%1").arg(platformId));
+    filterDataObjects(filters);
 }
+

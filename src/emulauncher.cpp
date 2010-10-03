@@ -30,6 +30,7 @@ EmuLauncher::EmuLauncher(QWidget *parent) :
 {
     dbPlatform = new DbPlatform(this);
     dbMediaType = new DbMediaType(this);
+    dbMic = 0;
     initWidgets();
     layout();
     connectSignals();
@@ -69,6 +70,7 @@ void EmuLauncher::updateMediaImageContainers()
         ? platformSelectBox->getSelected()->getId()
         : -1;
 
+    if (!dbMic) dbMic = new DbMediaImageContainer(this);
     dbMic->filter(mtid, plfid);
     micTable->setModel(dbMic->getDataModel());
     micTable->resizeColumnsToContents();

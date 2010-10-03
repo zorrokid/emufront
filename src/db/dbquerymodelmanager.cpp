@@ -18,6 +18,7 @@
 // along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QSqlQueryModel>
+#include <QDebug>
 #include "dbquerymodelmanager.h"
 
 DbQueryModelManager::DbQueryModelManager(QObject *parent)
@@ -27,15 +28,31 @@ DbQueryModelManager::DbQueryModelManager(QObject *parent)
 
 void DbQueryModelManager::filterById(int id)
 {
-    filterDataObjects(constructFilterById(id));
+    QList<QString> filters;
+    filters.append(constructFilterById(id));
+    filterDataObjects(filters);
 }
 
-/* filter must be in SQL where clause format (without the WHERE word) */
-void DbQueryModelManager::filterDataObjects(QString filter)
+/* filters is a list of SQL conditions e.g. setup.id=1 */
+void DbQueryModelManager::filterDataObjects(QList<QString> filters)
 {
    if (!sqlTableModel) sqlTableModel = getDataModel();
-    QString query = constructSelect(filter);
+    QString query = constructSelect(constructWhereByFilters(filters));
     sqlTableModel->setQuery(query);
+}
+
+QString DbQueryModelManager::constructWhereByFilters(QList<QString>filters)
+{
+    if (filters.count() == 0) return "";
+    QString where = " WHERE ";
+    int c = 0;
+    foreach(QString filter, filters){
+        where.append(" %1 ").arg(filter);
+        if (++c < filters.count())
+            where.append(" AND ");
+    }
+    qDebug() << "constructWhereByFilters: " << where;
+    return where;
 }
 
 void DbQueryModelManager::clearFilters()
