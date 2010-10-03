@@ -93,6 +93,7 @@ bool DbCreator::createDB()
                         "(id INTEGER PRIMARY KEY, "
                         "name TEXT, "
                         "options TEXT, "
+                        "type INTEGER, "
                         "setupid INTEGER REFERENCES setup(id))");
 
         /*qDebug() << "Creating TABLE filetype";
