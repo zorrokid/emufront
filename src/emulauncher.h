@@ -35,6 +35,7 @@ class EmuLauncher : public QWidget
 Q_OBJECT
 public:
     explicit EmuLauncher(QWidget *parent = 0);
+    void updateData();
 
 signals:
 

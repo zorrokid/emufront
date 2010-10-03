@@ -36,6 +36,12 @@ EmuLauncher::EmuLauncher(QWidget *parent) :
     connectSignals();
 }
 
+void EmuLauncher::updateData()
+{
+    platformSelectBox->updateDataModel();
+    mediaTypeSelectBox->updateDataModel();
+}
+
 void EmuLauncher::initWidgets()
 {
     micTable = new QTableView(this);
@@ -74,4 +80,7 @@ void EmuLauncher::updateMediaImageContainers()
     dbMic->filter(mtid, plfid);
     micTable->setModel(dbMic->getDataModel());
     micTable->resizeColumnsToContents();
+    platformSelectBox->updateDataModel();
+    mediaTypeSelectBox->updateDataModel();
 }
+

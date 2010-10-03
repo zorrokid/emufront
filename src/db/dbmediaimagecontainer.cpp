@@ -126,7 +126,7 @@ QString DbMediaImageContainer::constructSelect(QString whereClause) const
 {
     // TODO, for a usual search we need a "light" version of this select
     // and MediaImageContainer (only id, name)
-    return QString("SELECT file.id, file.name, file.checksum, file.size, "
+    QString select = QString("SELECT file.id, file.name, file.checksum, file.size, "
                 "        filepath.id, filepath.name, "
                 "        setup.id, "
                 "        platform.id, platform.name, "
@@ -139,6 +139,8 @@ QString DbMediaImageContainer::constructSelect(QString whereClause) const
                 "INNER JOIN mediatype ON setup.mediatypeid = mediatype.id "
                 "%1 "
                 "ORDER BY file.name").arg(whereClause);
+    qDebug() << select;
+    return select;
 }
 
 QString DbMediaImageContainer::constructFilterById(int id) const
@@ -159,7 +161,11 @@ EmuFrontObject* DbMediaImageContainer::recordToDataObject(const QSqlRecord *rec)
 QSqlQueryModel* DbMediaImageContainer::getData()
 {
     QSqlQueryModel *model = new QSqlQueryModel(this);
-    model->setQuery(constructSelect());
+    if (sqlTableModel){
+        model->setQuery(sqlTableModel->query());
+    }
+    else
+        model->setQuery(constructSelect());
     model->setHeaderData(MIC_FileId, Qt::Horizontal, tr("File id"));
     model->setHeaderData(MIC_FileName, Qt::Horizontal, tr("File Name"));
     model->setHeaderData(MIC_FileCheckSum, Qt::Horizontal, tr("File checksum"));
@@ -224,6 +230,8 @@ void DbMediaImageContainer::linkMediaImagesWithContainer(int micId, QList<int> m
 
 void DbMediaImageContainer::filter(int mediaTypeId, int platformId)
 {
+    qDebug() << "Filtering media images with media type " << mediaTypeId
+        << " and platform " << platformId;
     QList<QString> filters;
     if (mediaTypeId >= 0)
         filters.append(QString("mediatype.id=%1").arg(mediaTypeId));
