@@ -49,6 +49,7 @@ bool DbCreator::createDB()
         query.exec("DROP TABLE IF EXISTS mediatype");
         query.exec("DROP TABLE IF EXISTS platform");
         query.exec("DROP TABLE IF EXISTS file");
+        query.exec("DROP TABLE IF EXISTS executable");
 
         qDebug() << "Creating TABLE file";
 
@@ -85,6 +86,14 @@ bool DbCreator::createDB()
                         "platformid INTEGER REFERENCES platform(id) ON DELETE CASCADE, "
                         "mediatypeid INTEGER REFERENCES mediatype(id) ON DELETE CASCADE, "
                         "filetypeextensions TEXT)");
+
+        qDebug() << "Creating table executable";
+
+        ret = query.exec("CREATE TABLE IF NOT EXISTS executable "
+                        "(id INTEGER PRIMARY KEY, "
+                        "name TEXT, "
+                        "options TEXT, "
+                        "setupid INTEGER REFERENCES setup(id))");
 
         /*qDebug() << "Creating TABLE filetype";
             ret = query.exec("CREATE TABLE filetype IF NOT EXISTS"
