@@ -158,7 +158,20 @@ EmuFrontObject* DbMediaImageContainer::recordToDataObject(const QSqlRecord *rec)
 
 QSqlQueryModel* DbMediaImageContainer::getData()
 {
-    return DbFile::getData();
+    QSqlQueryModel *model = new QSqlQueryModel(this);
+    model->setQuery(constructSelect());
+    model->setHeaderData(MIC_FileId, Qt::Horizontal, tr("File id"));
+    model->setHeaderData(MIC_FileName, Qt::Horizontal, tr("File Name"));
+    model->setHeaderData(MIC_FileCheckSum, Qt::Horizontal, tr("File checksum"));
+    model->setHeaderData(MIC_FileSize, Qt::Horizontal, tr("File Size"));
+    model->setHeaderData(MIC_FilePathId, Qt::Horizontal, tr("File path id"));
+    model->setHeaderData(MIC_FilePathName, Qt::Horizontal, tr("File path name"));
+    model->setHeaderData(MIC_SetupId, Qt::Horizontal, tr("Setup id"));
+    model->setHeaderData(MIC_PlatformId, Qt::Horizontal, tr("Platform id"));
+    model->setHeaderData(MIC_PlatformName, Qt::Horizontal, tr("Platform name"));
+    model->setHeaderData(MIC_MediaTypeId, Qt::Horizontal, tr("Media type id"));
+    model->setHeaderData(MIC_MediaTypeName, Qt::Horizontal, tr("Media type name"));
+    return model;
 }
 
 /* Returns the id of a media image container with a given cheksum or -1 if not found */

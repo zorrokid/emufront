@@ -37,6 +37,21 @@ public:
     void storeContainers(QList<MediaImageContainer*>, FilePathObject*);
     int getMediaImageContainer(QString checksum) const;
     void filter(int mediaTypeId, int platformId);
+   enum {
+        MIC_FileId = 0,
+        MIC_FileName,
+        MIC_FileCheckSum,
+        MIC_FileSize,
+        MIC_FilePathId,
+        MIC_FilePathName,
+        MIC_SetupId,
+        MIC_PlatformId,
+        MIC_PlatformName,
+        MIC_MediaTypeId,
+        MIC_MediaTypeName
+   };
+
+
 protected:
     virtual QString constructSelect(QString whereClause = "") const;
     virtual QString constructSelectById(int id) const;
