@@ -47,7 +47,7 @@ QString DbQueryModelManager::constructWhereByFilters(QList<QString>filters)
     QString where = " WHERE ";
     int c = 0;
     foreach(QString filter, filters){
-        where.append(" %1 ").arg(filter);
+        where.append(QString(" %1 ").arg(filter));
         if (++c < filters.count())
             where.append(" AND ");
     }

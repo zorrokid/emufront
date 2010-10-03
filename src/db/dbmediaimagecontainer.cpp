@@ -126,21 +126,19 @@ QString DbMediaImageContainer::constructSelect(QString whereClause) const
 {
     // TODO, for a usual search we need a "light" version of this select
     // and MediaImageContainer (only id, name)
-    /*
-        SELECT file.id, file.name, file.checksum, file.size,
-            filepath.id, filepath.name,
-            setup.id,
-            platform.id, platform.name,
-            mediatype.id, mediatype.name
-        FROM mediaimagecontainer
-        INNER JOIN file ON mediaimagecontainer.fileid = file.id
-        INNER JOIN filepath ON mediaimagecontainer.filepathid = filepath.id
-        INNER JOIN setup ON filepath.setupid = setup.id
-        INNER JOIN platform ON setup.platformid = platform.id
-        INNER JOIN mediatype ON setup.mediatypeid = mediatype.id
-        */
-    return "";
-    //return DbFile::constructSelect(whereClause);
+    return QString("SELECT file.id, file.name, file.checksum, file.size, "
+                "        filepath.id, filepath.name, "
+                "        setup.id, "
+                "        platform.id, platform.name, "
+                "        mediatype.id, mediatype.name "
+                "FROM mediaimagecontainer "
+                "INNER JOIN file ON mediaimagecontainer.fileid = file.id "
+                "INNER JOIN filepath ON mediaimagecontainer.filepathid = filepath.id "
+                "INNER JOIN setup ON filepath.setupid = setup.id "
+                "INNER JOIN platform ON setup.platformid = platform.id "
+                "INNER JOIN mediatype ON setup.mediatypeid = mediatype.id "
+                "%1 "
+                "ORDER BY file.name").arg(whereClause);
 }
 
 QString DbMediaImageContainer::constructFilterById(int id) const
