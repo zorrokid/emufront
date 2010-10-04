@@ -94,7 +94,8 @@ bool DbCreator::createDB()
                         "name TEXT, "
                         "options TEXT, "
                         "type INTEGER, "
-                        "setupid INTEGER REFERENCES setup(id))");
+                        "setupid INTEGER REFERENCES setup(id),"
+                        "fileid INTEGER REFERENCES file(id))");
 
         /*qDebug() << "Creating TABLE filetype";
             ret = query.exec("CREATE TABLE filetype IF NOT EXISTS"
@@ -163,9 +164,11 @@ bool DbCreator::createDB()
             "CREATE TRIGGER IF NOT EXISTS trg_onfiledelete "
             "AFTER DELETE ON file "
             "BEGIN "
-            "   UPDATE platform SET platform.inconfileid=NULL WHERE platform.iconfileid = old.id;"
-            "   UPDATE mediatype SET mediatype.iconfileid=NULL WHERE mediatype.iconfileid = old.id;"
+            "   UPDATE platform SET platform.fileid=NULL WHERE platform.fileid = old.id;"
+            "   UPDATE mediatype SET mediatype.fileid=NULL WHERE mediatype.fileid = old.id;"
+            "   UPDATE executable SET executable.fileid=NULL WHERE executable.fileid = old.id;"
             "   DELETE FROM mediaimagecontainer_mediaimage WHERE mediaimagecontainer_mediaimage.fileid = old.id;"
+            "   DELETE FROM mediaimagecontainer WHERE mediaimagecontainer.fileid = old.id;"
             "END;"
         );
     }
