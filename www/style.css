@@ -1,0 +1,10 @@
+body { 
+	background-color: rgb(204, 255, 153); 
+	color: rgb(34, 139, 34);
+	font-family: arial, verdana, sans-serif;
+}
+
+a:link { color: rgb(47, 79, 79);  }
+a:visited { color: rgb(47, 79, 79); }
+a:hover { color: rgb(72, 61, 139); }
+a:active { color: rgb(47, 79, 79); }
