@@ -56,7 +56,8 @@ HEADERS += mainwindow.h \
     emulauncher.h \
     widgets/efcombobox.h \
     widgets/effileobjectcombobox.h \
-    widgets/setupcombobox.h
+    widgets/setupcombobox.h \
+    dataobjects/executable.h
 SOURCES += main.cpp \
     mainwindow.cpp \
     db/databasemanager.cpp \
@@ -100,5 +101,6 @@ SOURCES += main.cpp \
     emulauncher.cpp \
     widgets/efcombobox.cpp \
     widgets/effileobjectcombobox.cpp \
-    widgets/setupcombobox.cpp
+    widgets/setupcombobox.cpp \
+    dataobjects/executable.cpp
 OTHER_FILES += 
