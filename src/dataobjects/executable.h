@@ -29,7 +29,8 @@ class Executable : public EmuFrontObject
 public:
     Executable();
     Executable(int id, QString name);
-    Executable(int id, QString name, QString executable, QString options, Setup*, int type);
+    Executable(int id, QString name, QString executable,
+        QString options, Setup*, int type);
     Executable(const Executable &);
     ~Executable();
     Executable& operator =(const Executable &);

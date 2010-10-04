@@ -93,7 +93,8 @@ int DbSetup::insertDataObjectToModel(const EmuFrontObject *ob)
 
 int DbSetup::countDataObjectRefs(int ) const
 {
-    return 0;
+    // TODO
+    return -1;
 }
 
 QString DbSetup::constructSelect(QString where) const
@@ -121,7 +122,8 @@ QString DbSetup::constructFilterById(int id) const
 
 QString DbSetup::constructSelectById(int id) const
 {
-    return constructSelect(QString("WHERE %1").append(constructFilterById(id)));
+    return constructSelect(
+        QString("WHERE %1").arg(constructFilterById(id)));
 }
 
 // WARNING: this will delete also all the databindings to selected media image path
@@ -133,7 +135,8 @@ bool DbSetup::deleteDataObjectFromModel(QModelIndex */*index*/)
 
 bool DbSetup::deleteDataObject(int id) const
 {
-    if (countDataObjectRefs(id) > 0)
+    int c = countDataObjectRefs(id);
+    if (c != 0)
         // TODO
         return false;
     QSqlQuery q;

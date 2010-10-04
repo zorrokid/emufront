@@ -67,6 +67,7 @@ protected:
     static const QString DB_TABLE_NAME_SETUP;
     static const QString DB_TABLE_MEDIAIMAGECONTAINER;
     static const QString DB_TABLE_MEDIAIMAGECONTAINER_MEDIAIMAGE;
+    static const QString DB_TABLE_EXECUTABLE;
 
 
 private:

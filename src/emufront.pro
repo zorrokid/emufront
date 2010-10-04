@@ -57,7 +57,8 @@ HEADERS += mainwindow.h \
     widgets/efcombobox.h \
     widgets/effileobjectcombobox.h \
     widgets/setupcombobox.h \
-    dataobjects/executable.h
+    dataobjects/executable.h \
+    db/dbexecutable.h
 SOURCES += main.cpp \
     mainwindow.cpp \
     db/databasemanager.cpp \
@@ -102,5 +103,6 @@ SOURCES += main.cpp \
     widgets/efcombobox.cpp \
     widgets/effileobjectcombobox.cpp \
     widgets/setupcombobox.cpp \
-    dataobjects/executable.cpp
+    dataobjects/executable.cpp \
+    db/dbexecutable.cpp
 OTHER_FILES += 
