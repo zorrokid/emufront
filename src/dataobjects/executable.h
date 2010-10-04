@@ -20,12 +20,32 @@
 #ifndef EXECUTABLE_H
 #define EXECUTABLE_H
 
-#include "emufrontfileobject.h"
+#include "emufrontobject.h"
 
-class Executable : public EmuFrontFileObject
+class Setup;
+
+class Executable : public EmuFrontObject
 {
 public:
     Executable();
+    Executable(int id, QString name);
+    Executable(int id, QString name, QString executable, QString options, Setup*, int type);
+    Executable(const Executable &);
+    ~Executable();
+    Executable& operator =(const Executable &);
+    QString getExecutable() const;
+    void setExecutable(QString);
+    QString getOptions() const;
+    void setOptions(QString);
+    Setup* getSetup() const;
+    void setSetup(Setup*);
+    int getType() const;
+    void setType(int);
+private:
+    QString executable;
+    QString options;
+    Setup *setup;
+    int type;
 };
 
 #endif // EXECUTABLE_H

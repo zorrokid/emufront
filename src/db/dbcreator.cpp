@@ -92,10 +92,10 @@ bool DbCreator::createDB()
         ret = query.exec("CREATE TABLE IF NOT EXISTS executable "
                         "(id INTEGER PRIMARY KEY, "
                         "name TEXT, "
+                        "executable TEXT, "
                         "options TEXT, "
                         "type INTEGER, "
-                        "setupid INTEGER REFERENCES setup(id),"
-                        "fileid INTEGER REFERENCES file(id))");
+                        "setupid INTEGER REFERENCES setup(id))");
 
         /*qDebug() << "Creating TABLE filetype";
             ret = query.exec("CREATE TABLE filetype IF NOT EXISTS"
@@ -166,9 +166,8 @@ bool DbCreator::createDB()
             "BEGIN "
             "   UPDATE platform SET platform.fileid=NULL WHERE platform.fileid = old.id;"
             "   UPDATE mediatype SET mediatype.fileid=NULL WHERE mediatype.fileid = old.id;"
-            "   UPDATE executable SET executable.fileid=NULL WHERE executable.fileid = old.id;"
+            "   DELETE FROM mediaimagecontainer WHERE fileid = old.id;"
             "   DELETE FROM mediaimagecontainer_mediaimage WHERE mediaimagecontainer_mediaimage.fileid = old.id;"
-            "   DELETE FROM mediaimagecontainer WHERE mediaimagecontainer.fileid = old.id;"
             "END;"
         );
     }
