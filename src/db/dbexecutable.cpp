@@ -141,3 +141,12 @@ bool DbExecutable::deleteDataObject(int id) const
     return false;
 }
 
+QSqlQueryModel* DbExecutable::getData()
+{
+    QSqlQueryModel *model = new QSqlQueryModel;
+    QString select = constructSelect();
+    // TODO ...
+    model->setQuery(select);
+    return model;
+}
+

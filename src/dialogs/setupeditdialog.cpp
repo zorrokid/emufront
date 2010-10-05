@@ -74,7 +74,8 @@ void SetupEditDialog::acceptChanges()
     Platform *plf = getSelectedPlatform();
     if (!plf)
     {
-        QMessageBox::information(this, tr("Platform"), tr("Platform not selected"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("Platform"),
+            tr("Platform not selected"), QMessageBox::Ok);
         return;
     }
     qDebug() << "Platform selected " << plf->getName();

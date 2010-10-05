@@ -17,27 +17,22 @@
 // You should have received a copy of the GNU General Public License
 // along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef SETUPEDITDIALOG_H
-#define SETUPEDITDIALOG_H
+#ifndef EXECUTABLEEDITDIALOG_H
+#define EXECUTABLEEDITDIALOG_H
 
 #include "dataobjecteditdialog.h"
 
-//class QComboBox;
-class EFFileObjectComboBox;
+class DbExecutable;
 class DbSetup;
-class DbMediaType;
-class DbPlatform;
-class StringListWidget;
-class MediaType;
-class Platform;
+class Setup;
+class SetupComboBox;
+class QLineEdit;
 
-class SetupEditDialog : public DataObjectEditDialog
+class ExecutableEditDialog : public DataObjectEditDialog
 {
     Q_OBJECT
-
 public:
-    SetupEditDialog(QWidget *parent, EmuFrontObject*);
-    //~SetupEditDialog();
+    ExecutableEditDialog(QWidget *parent, EmuFrontObject*);
     virtual void setDataObject(EmuFrontObject *);
     virtual void updateData();
 
@@ -45,23 +40,17 @@ protected slots:
     virtual void acceptChanges();
 
 private:
-    //QComboBox *mediaTypeComBox;
-    EFFileObjectComboBox *mediaTypeComBox;
-    //QComboBox *platformComBox;
-    EFFileObjectComboBox *platformComBox;
+    DbExecutable *dbExecutable;
     DbSetup *dbSetup;
-    DbPlatform *dbPlatform;
-    DbMediaType *dbMediaType;
-    StringListWidget *supportedFileTypesList;
-
+    SetupComboBox *setupComBox;
     void initWidgets();
     void layout();
-    //void populateMediaTypeComBox();
-    //void populatePlatformComBox();
-    void setSelectedMediaType(const MediaType*);
-    void setSelectedPlatform(const Platform*);
-    MediaType* getSelectedMediaType() const;
-    Platform* getSelectedPlatform() const;
+    void setSelectedSetup(const Setup*);
+    Setup* getSelectedSetup() const;
+    QLineEdit *nameEdit;
+    QLineEdit *execEdit;
+    QLineEdit *optEdit;
+
 };
 
-#endif // SETUPEDITDIALOG_H
+#endif // EXECUTABLEEDITDIALOG_H

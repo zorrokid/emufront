@@ -24,6 +24,7 @@
 #include "dialogs/mediatypedialog.h"
 #include "dialogs/mediaimagepathmaindialog.h"
 #include "dialogs/setupmaindialog.h"
+#include "dialogs/executablemaindialog.h"
 #include "db/databasemanager.h"
 
 MainWindow::MainWindow()
@@ -39,6 +40,7 @@ MainWindow::MainWindow()
     mediaTypeDialog = 0;
     mediaImagePathDialog = 0;
     setupMainDialog = 0;
+    executableMainDialog = 0;
 }
 
 void MainWindow::createActions()
@@ -60,6 +62,10 @@ void MainWindow::createActions()
     configSetupAction = new QAction(tr("S&etups"), this);
     configSetupAction->setStatusTip(tr("Configure set ups"));
     connect(configSetupAction, SIGNAL(triggered()), this, SLOT(configureSetups()));
+
+    configEmulatorAction = new QAction(tr("Em&ulators"), this);
+    configEmulatorAction->setStatusTip(tr("Configure emulators"));
+    connect(configEmulatorAction, SIGNAL(triggered()), this, SLOT(configureEmulators()));
 
     exitAction = new QAction(tr("&Exit"), this);
     exitAction->setShortcut(tr("Ctrl+Q"));
@@ -105,6 +111,15 @@ void MainWindow::configureSetups()
     setupMainDialog->refreshDataModel();
 }
 
+void MainWindow::configureEmulators()
+{
+    if (!executableMainDialog) {
+        executableMainDialog = new ExecutableMainDialog(this);
+    }
+    activateDialog(executableMainDialog);
+    executableMainDialog->refreshDataModel();
+}
+
 void MainWindow::activateDialog(EmuFrontDialog* dia) const
 {
     dia->show();
@@ -122,6 +137,7 @@ void MainWindow::createMenus()
     configMenu->addAction(configMediaTypeAction);
     configMenu->addAction(configMediaImagePathAction);
     configMenu->addAction(configSetupAction);
+    configMenu->addAction(configEmulatorAction);
 }
 
 void MainWindow::createStatusBar()

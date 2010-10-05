@@ -38,7 +38,8 @@ public:
         Executable_Executable,
         Executable_Options,
         Executable_TypeId,
-        Executable_SetupId
+        Executable_SetupId,
+        Executable_SetupName
     };
 protected:
     virtual EmuFrontObject* recordToDataObject(const QSqlRecord*);
@@ -47,6 +48,7 @@ protected:
     virtual QString constructSelect(QString whereClause = "") const;
     virtual bool deleteDataObject(int id) const;
 private:
+    virtual QSqlQueryModel* getData();
     DbSetup *dbSetup;
 };
 
