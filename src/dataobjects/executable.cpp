@@ -23,7 +23,8 @@
 Executable::Executable() : EmuFrontObject() { }
 
 Executable::Executable(int id, QString name)
-    : EmuFrontObject(id, name) {}
+    : EmuFrontObject(id, name), executable(""), options(""), setup(0), type(-1)
+{}
 
 Executable::Executable(int id, QString name, QString executable,
     QString options, Setup*, int type)

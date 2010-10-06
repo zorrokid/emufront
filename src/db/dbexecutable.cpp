@@ -130,7 +130,7 @@ QString DbExecutable::constructSelect(QString whereClause) const
         "INNER JOIN setup ON executable.setupid = setup.id "
         "INNER JOIN platform ON setup.platformid=platform.id "
         "INNER JOIN mediatype ON setup.mediatypeid=mediatype.id "
-        "% "
+        "%1 "
         "ORDER BY executable.name ")
         .arg(whereClause);
 }

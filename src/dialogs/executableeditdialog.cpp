@@ -121,7 +121,8 @@ void ExecutableEditDialog::setDataObject(EmuFrontObject *ob)
     if (!ob) return;
     efObject = ob;
     Executable *ex = dynamic_cast<Executable*>(ob);
-    if (ex->getSetup()) setSelectedSetup(ex->getSetup());
+    if (ex->getSetup() && ex->getSetup()->getId() >= 0)
+        setSelectedSetup(ex->getSetup());
     nameEdit->setText(ex->getName());
     execEdit->setText(ex->getExecutable());
     optEdit->setText(ex->getOptions());
