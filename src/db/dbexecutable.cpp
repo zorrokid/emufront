@@ -127,7 +127,7 @@ QString DbExecutable::constructSelect(QString whereClause) const
         "executable.executable AS Executable, "
         "executable.options AS ExecutableOptions, "
         "executable.type AS ExecutableType, "
-        "setup.id As ExecutableSetupId "
+        "setup.id As ExecutableSetupId, "
         "platform.name || ' ' || mediatype.name AS SetupName "
         "FROM executable "
         "INNER JOIN setup ON executable.setupid = setup.id "
@@ -148,7 +148,14 @@ QSqlQueryModel* DbExecutable::getData()
 {
     QSqlQueryModel *model = new QSqlQueryModel;
     QString select = constructSelect();
-    // TODO ...
+    qDebug() << select;
+    model->setHeaderData(Executable_Id, Qt::Horizontal, tr("Id"));
+    model->setHeaderData(Executable_Name, Qt::Horizontal, tr("Name"));
+    model->setHeaderData(Executable_Executable, Qt::Horizontal, tr("Executable"));
+    model->setHeaderData(Executable_Options, Qt::Horizontal, tr("Options"));
+    model->setHeaderData(Executable_TypeId, Qt::Horizontal, tr("Type"));
+    model->setHeaderData(Executable_SetupId, Qt::Horizontal, tr("Setup id"));
+    model->setHeaderData(Executable_SetupName, Qt::Horizontal, tr("Setup"));
     model->setQuery(select);
     return model;
 }
