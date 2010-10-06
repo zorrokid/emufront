@@ -80,8 +80,11 @@ int DbExecutable::insertDataObjectToModel(const EmuFrontObject* ob)
         "(id, name, executable, options, setupid, type) "
         "VALUES (NULL, :name, :executable, :options, :setupid, :type)");
 
-    q.bindValue(":setupid", ex->getSetup()
-                ? QString(ex->getSetup()->getId()) : "NULL"); // TODO: null shouln't be allowed here
+    if (!ex->getSetup() || ex->getSetup()->getId() < 0) {
+        qDebug() << "Setup not available!";
+        return -1;
+    }
+    q.bindValue(":setupid", ex->getSetup()->getId());
     q.bindValue(":name", ex->getName());
     q.bindValue(":executable", ex->getExecutable());
     q.bindValue(":options", ex->getOptions());

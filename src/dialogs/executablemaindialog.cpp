@@ -55,5 +55,6 @@ void ExecutableMainDialog::deleteCurrentObject()
 
 EmuFrontObject* ExecutableMainDialog::createObject()
 {
-    return new Executable;
+    Executable *ex = new Executable;
+    return ex;
 }
