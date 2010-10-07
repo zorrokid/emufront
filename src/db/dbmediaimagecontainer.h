@@ -20,11 +20,16 @@
 #ifndef DBMEDIAIMAGECONTAINER_H
 #define DBMEDIAIMAGECONTAINER_H
 
-#include "dbquerymodelmanager.h"
+//#include "dbquerymodelmanager.h"
 #include "dbmediaimage.h"
-//#include "dbfile.h"
+#include "dbfile.h"
 #include "../dataobjects/mediaimagecontainer.h"
 #include "../dataobjects/filepathobject.h"
+
+class DbMediaImageContainer;
+class DbMediaImage;
+class DbFilePath;
+class DbSetup;
 
 class DbMediaImageContainer : public DbFile // DbQueryModelManager
 {
@@ -61,6 +66,8 @@ private:
     virtual QSqlQueryModel* getData();
     void linkMediaImagesWithContainer(int, QList<int>);
     DbMediaImage *dbMediaImage;
+    DbFilePath *dbFilePath;
+    // DbSetup *dbSetup;
     // DbFile *dbFile;
  };
 

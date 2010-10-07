@@ -128,3 +128,12 @@ void DbMediaImage::removeOrphanedMediaImages(QList<int> ids)
     // go through the list of media image ids,
     // if the media image with curr id doesn't have a container, delete it
 }
+
+/* Fetches a list of media images inside a media image container
+    with a given id */
+QList<MediaImage*> DbMediaImage::getMediaImages(int micId) const
+{
+    QList<MediaImage*> list;
+    // TODO
+    return list;
+}

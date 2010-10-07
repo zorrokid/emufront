@@ -26,6 +26,7 @@
 #include "db/dbmediaimagecontainer.h"
 #include "widgets/effileobjectcombobox.h"
 #include "widgets/executablecombobox.h"
+#include "dataobjects/executable.h"
 
 EmuLauncher::EmuLauncher(QWidget *parent) :
     QWidget(parent)
@@ -95,16 +96,41 @@ void EmuLauncher::updateMediaImageContainers()
 
 void EmuLauncher::launchEmu()
 {
-    if (execSelectBox->currentIndex() == -1) {
-        QMessageBox::information(this, tr("Emulator"),
-            tr("Emulator not selected!"), QMessageBox::Ok);
+    try {
+        if (!micTable || !micTable->model()) {
+            throw EmuFrontException(tr("No search results available!"));
+        }
+        if (!execSelectBox || execSelectBox->currentIndex() == -1) {
+            throw EmuFrontException(tr("Emulator not selected!"));
+        }
+        QModelIndex mindex = micTable->currentIndex();
+        if (!mindex.isValid()) {
+            throw EmuFrontException(tr("Media image container not selected!"));
+        }
+        qDebug() << "launchEmu";
+        EmuFrontObject *obImg = dbMic->getDataObjectFromModel(&mindex);
+        if (!obImg) {
+            throw EmuFrontException(tr("Failed fetching selected media image container."));
+        }
+        MediaImageContainer *mic = dynamic_cast<MediaImageContainer*>(obImg);
+        if (!mic) {
+            throw EmuFrontException(tr("Failed creating media image container object!"));
+        }
+        EmuFrontObject *obExe = execSelectBox->getSelected();
+        if (!obExe) {
+            throw EmuFrontException(tr("Failed fetching selected emulator!"));
+        }
+        Executable *exe = dynamic_cast<Executable*>(obExe);
+        if (!exe) {
+            throw EmuFrontException(tr("Failed creating Emulator object!"));
+        }
+        qDebug() << "Selected media image container "
+                << mic->getName() << " and emulator "
+                << obExe->getName() << ".";
+    } catch (EmuFrontException efe) {
+        QMessageBox::information(this, tr("Launching emulator"),
+                                 efe.what(), QMessageBox::Ok);
         return;
     }
-    QModelIndex mindex = micTable->currentIndex();
-    if (!mindex.isValid()) {
-        QMessageBox::information(this, tr("File"),
-            tr("No image selected"), QMessageBox::Ok);
-        return;
-    }
-    qDebug() << "launchEmu";
 }
+

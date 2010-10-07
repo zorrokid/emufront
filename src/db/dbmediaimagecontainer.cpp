@@ -23,11 +23,15 @@
 #include <QSqlRelationalTableModel>
 #include <QSqlError>
 #include "dbmediaimagecontainer.h"
+#include "dbmediaimage.h"
+//#include "dbsetup.h"
+#include "dbfilepath.h"
 
 DbMediaImageContainer::DbMediaImageContainer(QObject *parent)
     : DbFile(parent) // DbQueryModelManager(parent)
 {
     dbMediaImage = new DbMediaImage(parent);
+    dbFilePath = new DbFilePath(parent);
     //dbFile = new DbFile(parent);
 }
 
@@ -145,17 +149,36 @@ QString DbMediaImageContainer::constructSelect(QString whereClause) const
 
 QString DbMediaImageContainer::constructFilterById(int id) const
 {
-    return DbFile::constructFilterById(id);
+    return QString("file.id = %1").arg(id);
 }
 
 QString DbMediaImageContainer::constructSelectById(int id) const
 {
-    return DbFile::constructSelectById(id);
+    return constructSelect(
+        QString("WHERE %1").arg(constructFilterById(id))
+        );
 }
 
 EmuFrontObject* DbMediaImageContainer::recordToDataObject(const QSqlRecord *rec)
 {
-    return DbFile::recordToDataObject(rec);
+    // TODO: checks!
+    MediaImageContainer *mic = 0;
+    if (!rec) return mic;
+    int id = rec->value(MIC_FileId).toInt();
+    QString name = rec->value(MIC_FileName).toString();
+    QString checksum = rec->value(MIC_FileCheckSum).toString();
+    int size = rec->value(MIC_FileSize).toInt();
+    int fpId = rec->value(MIC_FilePathId).toInt();
+    FilePathObject *fpo
+        = dynamic_cast<FilePathObject*>(dbFilePath->getDataObject(fpId));
+    //int supId = rec->value(MIC_SetupId).toInt();
+    //Setup *sup = dbSetup->getDataObject(supId)
+    QList<MediaImage*> images = dbMediaImage->getMediaImages(id);
+
+    mic = new MediaImageContainer(
+       id, name, checksum, size, images, fpo
+    );
+    return mic;
 }
 
 QSqlQueryModel* DbMediaImageContainer::getData()
