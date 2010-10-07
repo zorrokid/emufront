@@ -60,7 +60,8 @@ HEADERS += mainwindow.h \
     dataobjects/executable.h \
     db/dbexecutable.h \
     dialogs/executablemaindialog.h \
-    dialogs/executableeditdialog.h
+    dialogs/executableeditdialog.h \
+    widgets/executablecombobox.h
 SOURCES += main.cpp \
     mainwindow.cpp \
     db/databasemanager.cpp \
@@ -108,5 +109,6 @@ SOURCES += main.cpp \
     dataobjects/executable.cpp \
     db/dbexecutable.cpp \
     dialogs/executablemaindialog.cpp \
-    dialogs/executableeditdialog.cpp
+    dialogs/executableeditdialog.cpp \
+    widgets/executablecombobox.cpp
 OTHER_FILES += 
