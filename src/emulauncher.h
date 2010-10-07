@@ -23,12 +23,13 @@
 #include <QWidget>
 
 class QTableView;
-class QComboBox;
 class QPushButton;
 class DbMediaType;
 class DbPlatform;
 class DbMediaImageContainer;
+class DbExecutable;
 class EFFileObjectComboBox;
+class ExecutableComboBox;
 
 class EmuLauncher : public QWidget
 {
@@ -41,15 +42,19 @@ signals:
 
 private slots:
     void updateMediaImageContainers();
+    void launchEmu();
 
 private:
     QTableView *micTable;
     EFFileObjectComboBox *platformSelectBox;
     EFFileObjectComboBox *mediaTypeSelectBox;
+    ExecutableComboBox *execSelectBox;
     QPushButton *selectButton;
+    QPushButton *launchButton;
     DbPlatform *dbPlatform;
     DbMediaType *dbMediaType;
     DbMediaImageContainer *dbMic;
+    DbExecutable *dbExec;
     void initWidgets();
     void layout();
     void connectSignals();

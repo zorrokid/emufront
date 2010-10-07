@@ -22,14 +22,17 @@
 #include "emulauncher.h"
 #include "db/dbmediatype.h"
 #include "db/dbplatform.h"
+#include "db/dbexecutable.h"
 #include "db/dbmediaimagecontainer.h"
 #include "widgets/effileobjectcombobox.h"
+#include "widgets/executablecombobox.h"
 
 EmuLauncher::EmuLauncher(QWidget *parent) :
     QWidget(parent)
 {
     dbPlatform = new DbPlatform(this);
     dbMediaType = new DbMediaType(this);
+    dbExec = new DbExecutable(this);
     dbMic = 0;
     initWidgets();
     layout();
@@ -40,6 +43,7 @@ void EmuLauncher::updateData()
 {
     platformSelectBox->updateDataModel();
     mediaTypeSelectBox->updateDataModel();
+    execSelectBox->updateDataModel();
 }
 
 void EmuLauncher::initWidgets()
@@ -48,7 +52,9 @@ void EmuLauncher::initWidgets()
     micTable->setSelectionMode(QAbstractItemView::SingleSelection);
     mediaTypeSelectBox = new EFFileObjectComboBox(dbMediaType, this);
     platformSelectBox = new EFFileObjectComboBox(dbPlatform, this);
+    execSelectBox = new ExecutableComboBox(dbExec, this);
     selectButton = new QPushButton(tr("&Update"));
+    launchButton = new QPushButton(tr("&Launch"));
 }
 
 void EmuLauncher::layout()
@@ -58,12 +64,15 @@ void EmuLauncher::layout()
     grid->addWidget(mediaTypeSelectBox, 1, 0);
     grid->addWidget(selectButton, 1, 1);
     grid->addWidget(micTable, 2, 0, 1, 2);
+    grid->addWidget(execSelectBox, 3, 0);
+    grid->addWidget(launchButton, 3, 1);
     setLayout(grid);
 }
 
 void EmuLauncher::connectSignals()
 {
     connect(selectButton, SIGNAL(clicked()), this, SLOT(updateMediaImageContainers()));
+    connect(launchButton, SIGNAL(clicked()),this, SLOT(launchEmu()));
 }
 
 void EmuLauncher::updateMediaImageContainers()
@@ -84,3 +93,7 @@ void EmuLauncher::updateMediaImageContainers()
     mediaTypeSelectBox->updateDataModel();
 }
 
+void EmuLauncher::launchEmu()
+{
+    qDebug() << "launchEmu";
+}
