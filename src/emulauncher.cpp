@@ -95,5 +95,16 @@ void EmuLauncher::updateMediaImageContainers()
 
 void EmuLauncher::launchEmu()
 {
+    if (execSelectBox->currentIndex() == -1) {
+        QMessageBox::information(this, tr("Emulator"),
+            tr("Emulator not selected!"), QMessageBox::Ok);
+        return;
+    }
+    QModelIndex mindex = micTable->currentIndex();
+    if (!mindex.isValid()) {
+        QMessageBox::information(this, tr("File"),
+            tr("No image selected"), QMessageBox::Ok);
+        return;
+    }
     qDebug() << "launchEmu";
 }
