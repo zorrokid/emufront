@@ -30,6 +30,8 @@ class DbMediaImageContainer;
 class DbExecutable;
 class EFFileObjectComboBox;
 class ExecutableComboBox;
+class Executable;
+class MediaImageContainer;
 
 class EmuLauncher : public QWidget
 {
@@ -60,6 +62,7 @@ private:
     void connectSignals();
     void populatePlatformSelectBox();
     void populateMediaTypeSelectBox();
+    void launch(const Executable*, const MediaImageContainer*) const;
 };
 
 #endif // EMULAUNCHER_H

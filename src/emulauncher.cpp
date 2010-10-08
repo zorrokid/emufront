@@ -19,6 +19,7 @@
 
 #include <QtGui>
 #include <QSqlTableModel>
+#include "utils/OSDaB-Zip/unzip.h"
 #include "emulauncher.h"
 #include "db/dbmediatype.h"
 #include "db/dbplatform.h"
@@ -103,11 +104,11 @@ void EmuLauncher::launchEmu()
         if (!execSelectBox || execSelectBox->currentIndex() == -1) {
             throw EmuFrontException(tr("Emulator not selected!"));
         }
+        // TODO: multiple media image container selection
         QModelIndex mindex = micTable->currentIndex();
         if (!mindex.isValid()) {
             throw EmuFrontException(tr("Media image container not selected!"));
         }
-        qDebug() << "launchEmu";
         EmuFrontObject *obImg = dbMic->getDataObjectFromModel(&mindex);
         if (!obImg) {
             throw EmuFrontException(tr("Failed fetching selected media image container."));
@@ -128,10 +129,23 @@ void EmuLauncher::launchEmu()
                 << mic->getName() << " and emulator "
                 << obExe->getName() << ".";
         if (mic->getMediaImages().count() > 0) {
+            // TODO
+            // 1. Launch media image
+            // 2. If 2 or more media images in container
+            //    show a diaglog for choosing the boot image
+            // 3. If 2 or more media image containers selected
+            //    from a list show a dialog listing all the media
+            //    images in those container for choosing the
+            //    boot image
+            // 4. If selected emulator command line containes more
+            //    than one media image placeholder ($1, $2, ...)
+            //    show a dialog for ordering the media images to
+            //    right order.
             QList<MediaImage*> ls = mic->getMediaImages();
             foreach(MediaImage *mi, ls) {
                 qDebug() << "Media image " << mi->getName();
             }
+            launch(exe, mic);
         }
     } catch (EmuFrontException efe) {
         QMessageBox::information(this, tr("Launching emulator"),
@@ -140,3 +154,21 @@ void EmuLauncher::launchEmu()
     }
 }
 
+void EmuLauncher::launch(const Executable * ex, const MediaImageContainer * mic) const
+{
+    // extract the media image container to tmp folder
+    // (TODO: tmp folder configuration)
+    UnZip unz;
+
+    QString fp;
+    fp.append(mic->getFilePath()->getName());
+    if (!fp.endsWith('/')) fp.append("/");
+    fp.append(mic->getName());
+    unz.openArchive(fp);
+    int err = unz.extractAll("/tmp/"); // TODO: this must be set dynamically
+    qDebug() << "extractAll to " << fp << " : " << err;
+    // launch the 1st media image in the media image list of ex
+    // or if emulator command options has a place for more than one
+    // media image assign the media images in the list order
+    // to emulator command line.
+}
