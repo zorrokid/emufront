@@ -185,7 +185,7 @@ void EmuLauncher::launch(const Executable * ex, const MediaImageContainer * mic)
     cmdWithParams.append(ex->getExecutable());
     // TODO: tmp will be set dynamically
     // TODO: command parameters and assigning multiple media images
-    cmdWithParams.append(" -cartcrt \"/tmp/").append(mic->getMediaImages().first()->getName()).append("\"");
+    cmdWithParams.append(" \"/tmp/").append(mic->getMediaImages().first()->getName()).append("\"");
     qDebug() << "Command with params " << cmdWithParams;
     if (!proc) proc = new QProcess(this); // This has to be done in the heap
     proc->start(cmdWithParams, QIODevice::ReadOnly);
