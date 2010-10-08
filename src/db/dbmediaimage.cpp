@@ -147,6 +147,7 @@ QList<MediaImage*> DbMediaImage::getMediaImages(int micId) const
     QString name, checksum;
     MediaImage *mi = 0;
     while(q.next()) {
+        // TODO: checks?
         rec = q.record();
         id = rec.value(DbMediaImage::File_Id).toInt();
         name = rec.value(DbMediaImage::File_Name).toString();

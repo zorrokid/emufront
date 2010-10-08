@@ -127,6 +127,12 @@ void EmuLauncher::launchEmu()
         qDebug() << "Selected media image container "
                 << mic->getName() << " and emulator "
                 << obExe->getName() << ".";
+        if (mic->getMediaImages().count() > 0) {
+            QList<MediaImage*> ls = mic->getMediaImages();
+            foreach(MediaImage *mi, ls) {
+                qDebug() << "Media image " << mi->getName();
+            }
+        }
     } catch (EmuFrontException efe) {
         QMessageBox::information(this, tr("Launching emulator"),
                                  efe.what(), QMessageBox::Ok);
