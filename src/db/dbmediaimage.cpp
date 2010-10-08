@@ -20,6 +20,7 @@
 #include <QDebug>
 #include <QSqlTableModel>
 #include <QSqlQuery>
+#include <QSqlRecord>
 #include "dbmediaimage.h"
 
 DbMediaImage::DbMediaImage(QObject *parent)
@@ -134,6 +135,24 @@ void DbMediaImage::removeOrphanedMediaImages(QList<int> ids)
 QList<MediaImage*> DbMediaImage::getMediaImages(int micId) const
 {
     QList<MediaImage*> list;
-    // TODO
+    QSqlQuery  q;
+    q.prepare("SELECT file.id, file.name, file.checksum, file.size "
+        "FROM file INNER JOIN mediaimagecontainer_mediaimage "
+        "ON mediaimagecontainer_mediaimage.mediaimageid = file.id "
+        "WHERE mediaimagecontainer_mediaimage.mediaimagecontainerid = :micid ");
+    q.bindValue(":micid", micId);
+    q.exec();
+    QSqlRecord rec;
+    int id, size;
+    QString name, checksum;
+    MediaImage *mi = 0;
+    while(q.next()) {
+        rec = q.record();
+        id = rec.value(DbMediaImage::File_Id).toInt();
+        name = rec.value(DbMediaImage::File_Name).toString();
+        checksum = rec.value(DbMediaImage::File_CheckSum).toString();
+        size = rec.value(DbMediaImage::File_FileSize).toInt();
+        list.append(new MediaImage(id, name, checksum, size));
+    }
     return list;
 }
