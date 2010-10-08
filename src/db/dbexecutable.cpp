@@ -38,7 +38,9 @@ EmuFrontObject* DbExecutable::recordToDataObject(const QSqlRecord* rec)
     if (!rec) return ex;
     int id = rec->value(Executable_Id).toInt();
     int supid = rec->value(Executable_SetupId).toInt();
-    Setup *sup = dynamic_cast<Setup*>(dbSetup->getDataObject(supid));
+    EmuFrontObject *ob = dbSetup->getDataObject(supid);
+    Setup *sup = dynamic_cast<Setup*>(ob);
+    qDebug() << "Setup id " << sup->getId() << ", platform " << sup->getPlatform()->getName();
     QString name = rec->value(Executable_Name).toString();
     QString exec = rec->value(Executable_Executable).toString();
     QString opts = rec->value(Executable_Options).toString();
@@ -59,8 +61,8 @@ bool DbExecutable::updateDataObjectToModel(const EmuFrontObject* ob)
               "setupid=:setupid, "
               "type=:type "
               "WHERE id=:id");
-    q.bindValue(":setupid", ex->getSetup()
-                ? QString(ex->getSetup()->getId()) : "NULL"); // TODO: null shouln't be allowed here
+    // TODO: null check
+    q.bindValue(":setupid", ex->getSetup()->getId());
     q.bindValue(":name", ex->getName());
     q.bindValue(":executable", ex->getExecutable());
     q.bindValue(":options", ex->getOptions());

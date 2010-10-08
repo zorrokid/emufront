@@ -121,6 +121,14 @@ void ExecutableEditDialog::setDataObject(EmuFrontObject *ob)
     if (!ob) return;
     efObject = ob;
     Executable *ex = dynamic_cast<Executable*>(ob);
+    if (!ex) {
+        qDebug("No executable");
+        return;
+    }
+    if (!ex->getSetup()) {
+        qDebug() << "No setup";
+        return;
+    }
     if (ex->getSetup() && ex->getSetup()->getId() >= 0)
         setSelectedSetup(ex->getSetup());
     nameEdit->setText(ex->getName());
