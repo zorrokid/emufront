@@ -32,12 +32,14 @@ class EFFileObjectComboBox;
 class ExecutableComboBox;
 class Executable;
 class MediaImageContainer;
+class QProcess;
 
 class EmuLauncher : public QWidget
 {
 Q_OBJECT
 public:
     explicit EmuLauncher(QWidget *parent = 0);
+    ~EmuLauncher();
     void updateData();
 
 signals:
@@ -57,12 +59,13 @@ private:
     DbMediaType *dbMediaType;
     DbMediaImageContainer *dbMic;
     DbExecutable *dbExec;
+    QProcess *proc;
     void initWidgets();
     void layout();
     void connectSignals();
     void populatePlatformSelectBox();
     void populateMediaTypeSelectBox();
-    void launch(const Executable*, const MediaImageContainer*) const;
+    void launch(const Executable*, const MediaImageContainer*);
 };
 
 #endif // EMULAUNCHER_H

@@ -18,6 +18,7 @@
 // along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QtGui>
+#include <QProcess>
 #include <QSqlTableModel>
 #include "utils/OSDaB-Zip/unzip.h"
 #include "emulauncher.h"
@@ -36,9 +37,18 @@ EmuLauncher::EmuLauncher(QWidget *parent) :
     dbMediaType = new DbMediaType(this);
     dbExec = new DbExecutable(this);
     dbMic = 0;
+    proc = 0;
     initWidgets();
     layout();
     connectSignals();
+}
+
+EmuLauncher::~EmuLauncher()
+{
+    if (proc) {
+        proc->kill(); // TODO: do this in a more sophisticated way
+        delete proc;
+    }
 }
 
 void EmuLauncher::updateData()
@@ -154,7 +164,7 @@ void EmuLauncher::launchEmu()
     }
 }
 
-void EmuLauncher::launch(const Executable * ex, const MediaImageContainer * mic) const
+void EmuLauncher::launch(const Executable * ex, const MediaImageContainer * mic)
 {
     // extract the media image container to tmp folder
     // (TODO: tmp folder configuration)
@@ -171,4 +181,12 @@ void EmuLauncher::launch(const Executable * ex, const MediaImageContainer * mic)
     // or if emulator command options has a place for more than one
     // media image assign the media images in the list order
     // to emulator command line.
+    QString cmdWithParams;
+    cmdWithParams.append(ex->getExecutable());
+    // TODO: tmp will be set dynamically
+    // TODO: command parameters and assigning multiple media images
+    cmdWithParams.append(" -cartcrt \"/tmp/").append(mic->getMediaImages().first()->getName()).append("\"");
+    qDebug() << "Command with params " << cmdWithParams;
+    if (!proc) proc = new QProcess(this); // This has to be done in the heap
+    proc->start(cmdWithParams, QIODevice::ReadOnly);
 }
