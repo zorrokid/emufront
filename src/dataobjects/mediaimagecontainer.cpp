@@ -24,20 +24,19 @@ MediaImageContainer::MediaImageContainer()
     : EmuFrontFile(EmuFrontFile::FileType_MediaImageContainer)
 {
     lstMediaImage = QList<MediaImage*>();
-    //setup = 0;
     filePath = 0;
 }
 
 MediaImageContainer::MediaImageContainer(int id, QString name, 
-    QString checksum, int size, QList<MediaImage *>images/*, Setup *setup*/, FilePathObject *fpo)
+    QString checksum, int size, QList<MediaImage *>images, FilePathObject *fpo)
     : EmuFrontFile(id, name, checksum, size, EmuFrontFile::FileType_MediaImageContainer),
-        lstMediaImage(images)/*, setup(setup)*/, filePath(fpo)
+        lstMediaImage(images), filePath(fpo)
 { }
 
 MediaImageContainer::MediaImageContainer(QString name, QString checksum,
-    int size, QList<MediaImage *>images/*, Setup *setup*/, FilePathObject *fpo)
+    int size, QList<MediaImage *>images, FilePathObject *fpo)
     : EmuFrontFile(-1, name, checksum, size, EmuFrontFile::FileType_MediaImageContainer),
-        lstMediaImage(images)/*, setup(setup)*/, filePath(fpo)
+        lstMediaImage(images), filePath(fpo)
 { }
 
 MediaImageContainer::~MediaImageContainer()
@@ -52,7 +51,6 @@ MediaImageContainer::MediaImageContainer(MediaImageContainer &mic)
     lstMediaImage = QList<MediaImage*>();
     foreach(MediaImage *mi, mic.lstMediaImage)
         lstMediaImage.append(new MediaImage(*mi));
-    //setup = new Setup(*(mic.setup));
     filePath = new FilePathObject(*(mic.filePath));
 }
 
@@ -67,7 +65,6 @@ MediaImageContainer& MediaImageContainer::operator =(MediaImageContainer &mic)
     qDeleteAll(lstMediaImage);
     foreach(MediaImage *mi, mic.lstMediaImage)
         lstMediaImage.append(new MediaImage(*mi));
-    //setup = new Setup(*(mic.setup));
     filePath = new FilePathObject(*(mic.filePath));
     return (*this);
 }
@@ -87,19 +84,8 @@ void MediaImageContainer::addMediaImage(MediaImage *mi)
 void MediaImageContainer::clearMediaImages()
 {
     qDeleteAll(lstMediaImage);
-    /*foreach(MediaImage *mi, lstMediaImage) {
-        delete mi;
-        mi = 0;
-    }*/
     lstMediaImage.clear();
-    qDebug() << lstMediaImage.count();
 }
-
-/*Setup* MediaImageContainer::getSetup() const
-{ return setup; }
-
-void MediaImageContainer::setSetup(Setup *s)
-{ setup = s; }*/
 
 FilePathObject* MediaImageContainer::getFilePath() const
 { return filePath; }
