@@ -20,6 +20,7 @@ FileUtil::~FileUtil()
     delete[] buf;
 }
 
+/* Throws EmuFrontException */
 QList<MediaImageContainer*> FileUtil::scanFilePath(FilePathObject *fp, QStringList filters)
 {
     if (!fp->getSetup()){
@@ -65,14 +66,7 @@ QList<MediaImageContainer*> FileUtil::scanFilePath(FilePathObject *fp, QStringLi
                     QString("%1").arg(crc, 0, 16),
                     fileInfo.size(),
                     files,
-                    // TODO: is it guaranteed, that the file path object containing the setup object remains alive
-                    // the whole lifecycle of (this) media image container object?
-                    // * if we assign a copy of the setup object -> waste of memory and time
-                    // * this function is designed to be used from media image path main dialog
-                    //   where we can ensure the lifecycle of file path object -> maybe move the implementation there!?
-                    // TODO: Ensure this! We really need a reference instead of 1000s of copies of setup object!!!
-                    //fp->getSetup(),
-                    fp
+                    new FilePathObject(*fp)
                 );
             containers.append(con);
             qDebug() << "We have " << containers.size() << " containers.";

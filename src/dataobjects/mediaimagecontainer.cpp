@@ -43,9 +43,7 @@ MediaImageContainer::MediaImageContainer(QString name, QString checksum,
 MediaImageContainer::~MediaImageContainer()
 {
     qDeleteAll(lstMediaImage);
-    //delete setup;
-    //delete filePath; // NOTE: this filePath object is shared resource and cannot be deleted here!
-                    // take care of the deletion where created!!!
+    delete filePath;
 }
 
 MediaImageContainer::MediaImageContainer(MediaImageContainer &mic)

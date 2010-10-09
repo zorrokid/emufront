@@ -187,6 +187,9 @@ void EmuLauncher::launch(const Executable * ex, const MediaImageContainer * mic)
     // TODO: command parameters and assigning multiple media images
     cmdWithParams.append(" \"/tmp/").append(mic->getMediaImages().first()->getName()).append("\"");
     qDebug() << "Command with params " << cmdWithParams;
+    // Executable and MediaImageContainer objects are no more needed:
+    delete ex;
+    delete mic;
     if (!proc) proc = new QProcess(this); // This has to be done in the heap
     proc->start(cmdWithParams, QIODevice::ReadOnly);
 }
