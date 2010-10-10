@@ -87,7 +87,7 @@ int DbEmuFrontFileObject::insertDataObjectToModel(const EmuFrontObject *ob)
     return id;
 }
 
-bool DbEmuFrontFileObject::deleteDataObject(int id) const
+/*bool DbEmuFrontFileObject::deleteDataObject(int id) const
 {
     if (countDataObjectRefs(id) > 0)
         // TODO
@@ -97,7 +97,7 @@ bool DbEmuFrontFileObject::deleteDataObject(int id) const
     q.bindValue(":id", id);
     return q.exec();
 
-}
+}*/
 
 // WARNING: this will delete also all the databindings to selected platform
 bool DbEmuFrontFileObject::deleteDataObjectFromModel(QModelIndex *index)

@@ -29,18 +29,20 @@
 class QStringList;
 class MediaImageContainer;
 class MediaImage;
+class DbMediaImageContainer;
 
 class FileUtil : QObject
 {
 public:
     FileUtil(QObject *parent);
     ~FileUtil();
-    QList<MediaImageContainer*> scanFilePath(FilePathObject *fpo, const QStringList filters);
+    int scanFilePath(FilePathObject *fpo, const QStringList filters, DbMediaImageContainer *mic);
 private:
     char *buf;
     quint32 readCrc32(QString filePath);
     QList<MediaImage*>  listContents(const QString filePath, const FilePathObject *fp);
     bool isSupportedFile(const QString filename, const QStringList supportedFileExtensions);
+    static const int MIC_BUFFER_SIZE = 50;
 };
 
 #endif // FILEUTIL_H

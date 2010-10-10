@@ -26,10 +26,10 @@ EmuFrontFileObject::EmuFrontFileObject(int id, QString name, EmuFrontFile *file)
     : EmuFrontObject(id, name), file(file) {}
 
 EmuFrontFileObject::EmuFrontFileObject(const EmuFrontFileObject &pl)
-    : EmuFrontObject(pl.id, pl.name)
+    : EmuFrontObject(pl)
 {
     EmuFrontFile *f = pl.file;
-    file = new EmuFrontFile(*f);
+    file = f ? new EmuFrontFile(*f) : 0;
 }
 
 EmuFrontFileObject::~EmuFrontFileObject()

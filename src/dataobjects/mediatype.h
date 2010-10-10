@@ -28,6 +28,7 @@ public:
     MediaType();
     MediaType(int id, QString name);
     MediaType(int id, QString name, EmuFrontFile*);
+    MediaType(const MediaType &);
 };
 
 #endif // MEDIATYPE_H

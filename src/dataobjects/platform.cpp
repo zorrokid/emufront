@@ -28,3 +28,9 @@ Platform::Platform(int id, QString name, EmuFrontFile *file)
         : EmuFrontFileObject(id, name, file)
 {
 }
+
+Platform::Platform(const Platform &p)
+        : EmuFrontFileObject(p)
+{
+}
+

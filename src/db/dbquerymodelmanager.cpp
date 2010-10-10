@@ -19,6 +19,7 @@
 
 #include <QSqlQuery>
 #include <QSqlQueryModel>
+#include <QSqlError>
 #include <QDebug>
 #include "dbquerymodelmanager.h"
 
@@ -65,10 +66,16 @@ void DbQueryModelManager::clearFilters()
 
 bool DbQueryModelManager::deleteDataObject(int id) const
 {
+    QString sql = getDeleteObjectSql();
+    qDebug() << sql;
     QSqlQuery q;
-    q.prepare(getDeleteObjectSql());
+    q.prepare(sql);
     q.bindValue(":id", id);
-    return q.exec();
+    bool ret =  q.exec();
+    if (!ret) {
+           qDebug() << q.lastError().text();
+    }
+    return ret;
 }
 
 QString DbQueryModelManager::getDeleteObjectSql() const

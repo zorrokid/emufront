@@ -17,6 +17,7 @@
 // You should have received a copy of the GNU General Public License
 // along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <QDebug>
 #include "setup.h"
 #include "platform.h"
 #include "mediatype.h"
@@ -41,11 +42,13 @@ Setup::~Setup()
 }
 
 Setup::Setup(const Setup &s)
-        : EmuFrontObject(s.getId(), s.getName()),
+        : EmuFrontObject(s),
             fileTypeExtensions(s.fileTypeExtensions)
 {
     Platform *p = s.platform;
     MediaType *m = s.mediaType;
+    qDebug() << "Setup copy constructor, platform is "
+        << p->getName() <<  p->getId() << ", mediatype is " << m->getName() << m->getId();
     platform = new Platform(*p);
     mediaType = new MediaType(*m);
 }

@@ -28,6 +28,7 @@ public:
     Platform();
     Platform(int id, QString name);
     Platform(int id, QString name, EmuFrontFile*);
+    Platform(const Platform &);
 };
 
 #endif // PLATFORM_H

@@ -162,6 +162,14 @@ bool DbCreator::createDB()
             "END;"
             );
 
+        query.exec(
+            "CREATE TRIGGER IF NOT EXISTS trg_onfilepathdelete "
+            "AFTER DELETE ON filepath "
+            "BEGIN "
+            "   DELETE FROM mediaimagecontainer WHERE filepathid=old.id; "
+            "END;"
+        );
+
         // NOTE:
         // media image container is not explicitily deleted,
         // mediaimagecontainer entry should be deleted implicitely with

@@ -24,8 +24,10 @@ EmuFrontObject::EmuFrontObject() : id(-1), name("")
 }
 
 EmuFrontObject::EmuFrontObject(const EmuFrontObject &ob)
-    : QObject(), id(ob.id), name(ob.name)
+    //: QObject(ob) //, id(ob.id), name(ob.name)
 {
+    id = ob.id;
+    name = ob.name;
     // no need to perform deep copy here, see:
     // http://doc.trolltech.com/4.0/shclass.html
 }

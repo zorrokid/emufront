@@ -28,6 +28,9 @@
 #include "../dataobjects/mediaimagecontainer.h"
 #include "../dataobjects/mediatype.h"
 #include "../dataobjects/platform.h"
+#include "../db/dbmediaimagecontainer.h"
+
+//int FileUtil::MIC_BUFFER_SIZE = 50;
 
 FileUtil::FileUtil(QObject *parent) : QObject(parent)
 {
@@ -40,7 +43,7 @@ FileUtil::~FileUtil()
 }
 
 /* Throws EmuFrontException */
-QList<MediaImageContainer*> FileUtil::scanFilePath(FilePathObject *fp, QStringList filters)
+int FileUtil::scanFilePath(FilePathObject *fp, QStringList filters, DbMediaImageContainer *dbMic)
 {
     if (!fp->getSetup()){
         throw EmuFrontException(tr("Setup not available with %1.").arg(fp->getName()));
@@ -53,10 +56,10 @@ QList<MediaImageContainer*> FileUtil::scanFilePath(FilePathObject *fp, QStringLi
         throw new EmuFrontException(tr("No media type available with %1.")
             .arg(fp->getSetup()->getName()));
     }
+    int count = 0;
     qDebug() << QString("We have a platform %1, media type %2")
         .arg(fp->getSetup()->getPlatform()->getName())
         .arg(fp->getSetup()->getMediaType()->getName());
-    QList<MediaImageContainer*> containers;
     QDir dir(fp->getName());
     if (!dir.exists() || !dir.isReadable())
         throw EmuFrontException(tr("Directory %1 doesn't exists or isn't readable!").arg(fp->getName()));
@@ -68,6 +71,9 @@ QList<MediaImageContainer*> FileUtil::scanFilePath(FilePathObject *fp, QStringLi
 
     // we'll go through the filtered archive files...
     QFileInfoList list = dir.entryInfoList();
+    // TODO: only a buffer of objects should be kept here,
+    // and write to database each time the buffer is filled.
+    QList<MediaImageContainer*> containers;
     for (int i = 0; i < list.size(); ++i)
     {
         QFileInfo fileInfo = list.at(i);
@@ -79,20 +85,39 @@ QList<MediaImageContainer*> FileUtil::scanFilePath(FilePathObject *fp, QStringLi
         if (files.count() > 0)
         {
             quint32 crc = readCrc32(fileInfo.absoluteFilePath());
+            FilePathObject *fpo = new FilePathObject(*fp);
             MediaImageContainer *con = new MediaImageContainer
                 (
                     fileInfo.fileName(),
                     QString("%1").arg(crc, 0, 16),
                     fileInfo.size(),
                     files,
-                    new FilePathObject(*fp)
+                    fpo // we need a copy since MediaImageContainers are deleted and the original filepath object would get deleted also.
                 );
             containers.append(con);
+            ++count;
+            qDebug() << "We have " << containers.count() << " containers.";
+
+            if (containers.count() >= MIC_BUFFER_SIZE)  {
+                qDebug() << "We have " << containers.count()
+                    << " containers .. storing to db.";
+                dbMic->storeContainers(containers, fp);
+                qDeleteAll(containers);
+                containers.clear();
+                qDebug() << "containers now: " << containers.count();
+            }
             qDebug() << "We have " << containers.size() << " containers.";
         }
     }
+    if (containers.count() > 0) {
+        qDebug() << "Storing the rest " << containers.count() << " containers.";
+        dbMic->storeContainers(containers, fp);
+        qDeleteAll(containers);
+        containers.clear();
+
+    }
     qDebug() << "Done scanning files!";
-    return containers;
+    return count;
 }
 
 /* Uses crc32 from zlib.h to count crc32 checksum value */

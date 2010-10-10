@@ -17,6 +17,7 @@
 // You should have received a copy of the GNU General Public License
 // along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <QDebug>
 #include "filepathobject.h"
 #include "setup.h"
 
@@ -35,9 +36,12 @@ FilePathObject::~FilePathObject()
 }
 
 FilePathObject::FilePathObject(const FilePathObject &fpobj)
-    : EmuFrontObject(fpobj.id, fpobj.name), type(fpobj.type)
+    : EmuFrontObject(fpobj), type(fpobj.type)
 {
+    qDebug() << "FilePathObject copy constructor.";
     Setup *s = fpobj.setup;
+    qDebug() << "Setup name " << s->getName();
+    qDebug() << "Setup id " << s->getId();
     setup = new Setup(*s);
 }
 
