@@ -163,5 +163,6 @@ int DatabaseManager::countDataObjectRefs(int id) const
         rec = q.record();
         ret = rec.value(0).toInt();
     }
+    qDebug() << "Found " << ret << " references.";
     return ret;
 }

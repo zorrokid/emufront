@@ -100,11 +100,14 @@ void DbObjectDialog::editObject()
 
 bool DbObjectDialog::deleteItem()
 {
+    qDebug() << "deleteItem called";
     QModelIndex index = objectList->currentIndex();
     if (!index.isValid()) return false;
     try
     {
         EmuFrontObject *ob = dbManager->getDataObjectFromModel(&index);
+
+        qDebug() << "Trying to delete " << ob->getName();
 
         if (!ob)
         {

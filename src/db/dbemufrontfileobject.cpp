@@ -102,6 +102,7 @@ bool DbEmuFrontFileObject::deleteDataObject(int id) const
 // WARNING: this will delete also all the databindings to selected platform
 bool DbEmuFrontFileObject::deleteDataObjectFromModel(QModelIndex *index)
 {
+    // TODO
     return false;
     //QSqlDatabase::database().transaction();
     //QSqlTableModel *tmodel = dynamic_cast<QSqlTableModel*>(sqlTableModel);
