@@ -32,7 +32,6 @@ public:
     virtual bool updateDataObjectToModel(const EmuFrontObject*);
     int insertDataObjectToModel(const EmuFrontObject*);
     bool deleteDataObjectFromModel(QModelIndex*);
-    int countDataObjectRefs(int) const;
     enum { Setup_Id = 0,
            Setup_PlatformId,
            Setup_MediaTypeId,
@@ -49,6 +48,7 @@ protected:
 
 private:
     virtual QSqlQueryModel* getData();
+    virtual QString getCountRefsSelect(int) const;
     DbPlatform *dbPlatform;
     DbMediaType *dbMediaType;
 };

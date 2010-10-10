@@ -28,3 +28,10 @@ tableName = DbMediaType::DB_TABLE_NAME_MEDIATYPE;
 
 EmuFrontObject* DbMediaType::createEmuFrontFileObject(int id, QString name, EmuFrontFile *f)
 {   return new MediaType(id, name, f); }
+
+QString DbMediaType::getCountRefsSelect(int id) const
+{
+    return QString("SELECT count(*) FROM mediatype "
+                   "INNER JOIN setup ON mediatype.id=setup.mediatypeid "
+                   "WHERE mediatype.id=%1").arg(id);
+}

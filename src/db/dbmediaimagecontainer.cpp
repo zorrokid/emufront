@@ -120,12 +120,6 @@ bool DbMediaImageContainer::deleteDataObjectFromModel(QModelIndex *i)
     return false;
 }
 
-int DbMediaImageContainer::countDataObjectRefs(int id) const
-{
-    // TODO
-    return -1;
-}
-
 QString DbMediaImageContainer::constructSelect(QString whereClause) const
 {
     // TODO, for a usual search we need a "light" version of this select
@@ -263,3 +257,19 @@ void DbMediaImageContainer::filter(int mediaTypeId, int platformId)
     filterDataObjects(filters);
 }
 
+QString DbMediaImageContainer::getCountRefsSelect(int id) const
+{
+    /* we need to count file references to give media image container */
+    /* example:
+        select count(*) from mediaimagecontainer
+        INNER JOIN mediaimagecontainer_mediaimage
+        ON mediaimagecontainer_mediaimage.mediaimagecontainerid
+        = mediaimagecontainer.fileid
+        WHERE mediaimagecontainer.fileid=589;
+    */
+    return QString("SELECT count(*) FROM mediaimagecontainer "
+              "INNER JOIN mediaimagecontainer_mediaimage "
+              "ON mediaimagecontainer_mediaimage.mediaimagecontainerid "
+              "    =mediaimagecontainer.fileid "
+              "WHERE mediaimagecontainer.fileid=%1").arg(id);
+}

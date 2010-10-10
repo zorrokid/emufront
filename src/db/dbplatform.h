@@ -33,6 +33,8 @@ public:
 
 protected:
     virtual EmuFrontObject* createEmuFrontFileObject(int id, QString name, EmuFrontFile *f);
+private:
+    virtual QString getCountRefsSelect(int) const;
 };
 
 #endif // DBPLATFORM_H

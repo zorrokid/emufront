@@ -157,17 +157,34 @@ bool DbCreator::createDB()
             "CREATE TRIGGER IF NOT EXISTS trg_onsetupdelete "
             "AFTER DELETE ON setup "
             "BEGIN "
-            "   DELETE FROM filepath WHERE filepath.setupid = old.id;"
+            "   DELETE FROM filepath WHERE filepath.setupid = old.id; "
+            "   DELETE FROM executable WHERE executable.setupid = old.id; "
             "END;"
             );
+        query.exec(
+            "CREATE TRIGGER IF NOT EXISTS trg_onmediaimagecontainerdelete "
+            "AFTER DELETE ON mediaimagecontainer "
+            "BEGIN "
+            "    DELETE FROM file WHERE id=old.fileid; "
+            "    DELETE FROM mediaimagecontainer_mediaimage WHERE mediaimagecontainerid=old.fileid; "
+            "END;"
+        );
+        query.exec(
+            "CREATE TRIGGER IF NOT EXISTS trg_onmediaimagecontainer_mediaimagedelete "
+            "AFTER DELETE ON mediaimagecontainer_mediaimage "
+            "BEGIN "
+            "    DELETE FROM file WHERE id=old.mediaimageid; "
+            "    DELETE FROM mediaimagecontainer WHERE fileid=old.mediaimagecontainerid; "
+        );
         query.exec(
             "CREATE TRIGGER IF NOT EXISTS trg_onfiledelete "
             "AFTER DELETE ON file "
             "BEGIN "
-            "   UPDATE platform SET platform.fileid=NULL WHERE platform.fileid = old.id;"
+            "   UPDATE platform SET platform.fileid=NULL WHERE platform.fileid = old.id;."
             "   UPDATE mediatype SET mediatype.fileid=NULL WHERE mediatype.fileid = old.id;"
             "   DELETE FROM mediaimagecontainer WHERE fileid = old.id;"
-            "   DELETE FROM mediaimagecontainer_mediaimage WHERE mediaimagecontainer_mediaimage.fileid = old.id;"
+            "   DELETE FROM mediaimagecontainer_mediaimage WHERE mediaimagecontainer_mediaimage.mediaimageid = old.id;"
+            "   DELETE FROM mediaimagecontainer_mediaimage WHERE mediaimagecontainer_mediaimage.mediaimagecontainerid = old.id;"
             "END;"
         );
     }

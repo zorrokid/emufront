@@ -18,6 +18,9 @@
 // along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "dbplatform.h"
+#include <QSqlQuery>
+#include <QSqlRecord>
+#include <QVariant>
 
 //QString DbPlatform::tableName = DbPlatform::DB_TABLE_NAME_PLATFORM;
 
@@ -28,3 +31,10 @@ DbPlatform::DbPlatform(QObject *parent) : DbEmuFrontFileObject(parent)
 
 EmuFrontObject* DbPlatform::createEmuFrontFileObject(int id, QString name, EmuFrontFile *f)
 {   return new Platform(id, name, f); }
+
+QString DbPlatform::getCountRefsSelect(int id) const
+{
+    return QString("SELECT count(*) FROM platform "
+              "INNER JOIN setup ON platform.id=setup.platformid "
+              "WHERE platform.id=%1").arg(id);
+}

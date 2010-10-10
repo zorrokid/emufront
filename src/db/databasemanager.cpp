@@ -151,3 +151,17 @@ EmuFrontObject* DatabaseManager::getDataObjectFromModel(QModelIndex *index)
 int DatabaseManager::getCurrentTimeStamp() {
     return QDateTime::currentDateTime().toTime_t();
 }
+
+int DatabaseManager::countDataObjectRefs(int id) const
+{
+    int ret = 0;
+    QSqlQuery q;
+    q.prepare(getCountRefsSelect(id));
+    q.exec();
+    QSqlRecord rec;
+    if (q.next()) {
+        rec = q.record();
+        ret = rec.value(0).toInt();
+    }
+    return ret;
+}

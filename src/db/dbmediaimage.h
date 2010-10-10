@@ -33,15 +33,16 @@ public:
     /*virtual bool updateDataObjectToModel(const EmuFrontObject *);
     virtual bool insertDataObjectToModel(const EmuFrontObject *);
     virtual bool deleteDataObjectFromModel(QModelIndex *);
-    virtual int countDataObjectRefs(int id) const;
     int getMediaImage(QString checksum) const;
     int insertMediaImage(const MediaImage*);
 protected:
     virtual QString constructSelect(QString whereClause) const;
     virtual QString constructSelectById(int id) const;
     virtual EmuFrontObject* recordToDataObject(const QSqlRecord *);
+    */
 private:
-    virtual QSqlQueryModel* getData();*/
+    /*virtual QSqlQueryModel* getData();*/
+    virtual QString getCountRefsSelect(int) const;
 };
 
 #endif // DBMEDIAIMAGE_H

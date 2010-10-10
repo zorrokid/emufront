@@ -139,8 +139,8 @@ void EmuLauncher::launchEmu()
                 << mic->getName() << " and emulator "
                 << obExe->getName() << ".";
         if (mic->getMediaImages().count() > 0) {
-            // TODO
             // 1. Launch media image
+            // TODO
             // 2. If 2 or more media images in container
             //    show a diaglog for choosing the boot image
             // 3. If 2 or more media image containers selected

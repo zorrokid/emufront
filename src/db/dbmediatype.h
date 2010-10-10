@@ -30,6 +30,9 @@ public:
 
 protected:
     virtual EmuFrontObject* createEmuFrontFileObject(int id, QString name, EmuFrontFile *f);
+
+private:
+    QString getCountRefsSelect(int) const;
 };
 
 #endif // DBMEDIATYPE_H

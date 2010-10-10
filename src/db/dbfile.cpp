@@ -98,12 +98,6 @@ int DbFile::insertDataObjectToModel(const EmuFrontObject *ob)
 
 }*/
 
-int DbFile::countDataObjectRefs(int id) const
-{
-    return 0; // TODO
-    // return countRows("imagecontainer", "platformid", id);
-}
-
 // WARNING: this will delete also all the databindings to selected platform
 // the delete must be confirmed in the UI
 bool DbFile::deleteDataObjectFromModel(QModelIndex *index)
@@ -182,4 +176,23 @@ QSqlQueryModel* DbFile::getData()
 EmuFrontObject* DbFile::getFileByChecksum(QString checksum)
 {
     return getDataObject(QString("checksum LIKE '%1'").arg(checksum));
+}
+
+QString DbFile::getCountRefsSelect(int id) const
+{
+    /* files are referenced from platform, mediatype, mediaimagecontainer_mediaimage and mediaimagecontainer. */
+    return QString("SELECT count(*) FROM ("
+              "SELECT file.id FROM file "
+              "INNER JOIN platform ON file.id=platform.fileid "
+              "WHERE file.id=%1 "
+              "UNION ALL "
+              "SELECT file.id FROM file "
+              "INNER JOIN mediatype ON file.id=mediatype.fileid "
+              "WHERE file.id=%1 "
+              "UNION ALL "
+              "SELECT file.id FROM file "
+              "INNER JOIN mediaimagecontainer_mediaimage "
+              "ON (mediaimagecontainerid=file.id OR mediaimageid=file.id) "
+              "WHERE file.id=%1 "
+              ")").arg(id);
 }

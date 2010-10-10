@@ -78,11 +78,6 @@ int DbFilePath::insertDataObjectToModel(const EmuFrontObject *ob)
     return id;
 }
 
-int DbFilePath::countDataObjectRefs(int id) const
-{
-    return 0;
-}
-
 // WARNING: this will delete also all the databindings to selected media image path
 bool DbFilePath::deleteDataObjectFromModel(QModelIndex *index)
 {
@@ -139,4 +134,13 @@ QSqlQueryModel* DbFilePath::getData()
     model->setHeaderData(FilePath_SetupId, Qt::Horizontal, tr("Set up id"));
     model->setHeaderData(FilePath_SetupName, Qt::Horizontal, tr("Set up"));
     return model;
+}
+
+QString DbFilePath::getCountRefsSelect(int id) const
+{
+    /* filepath is referenced from mediaimagecontainer */
+    return QString("SELECT count(*) FROM filepath"
+              "INNER JOIN mediaimagecontainer "
+              "ON filepath.id=mediaimagecontainer.filepathid"
+              "WHERE filepath.id=%1").arg(id);
 }

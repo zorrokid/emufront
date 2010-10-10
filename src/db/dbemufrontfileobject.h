@@ -31,7 +31,6 @@ DbEmuFrontFileObject(QObject *parent);
 virtual bool updateDataObjectToModel(const EmuFrontObject*);
 int insertDataObjectToModel(const EmuFrontObject*);
 bool deleteDataObjectFromModel(QModelIndex*);
-int countDataObjectRefs(int) const;
 enum {
    EmuFrontFileObject_Id= 0,
    EmuFrontFileObject_Name,

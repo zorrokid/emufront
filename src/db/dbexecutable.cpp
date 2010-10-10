@@ -104,12 +104,6 @@ bool DbExecutable::deleteDataObjectFromModel(QModelIndex*)
     return false;
 }
 
-int DbExecutable::countDataObjectRefs(int) const
-{
-    // TODO
-    return 0;
-}
-
 QString DbExecutable::constructSelectById(int id) const
 {
     return constructSelect(
@@ -162,3 +156,9 @@ QSqlQueryModel* DbExecutable::getData()
     return model;
 }
 
+QString DbExecutable::getCountRefsSelect(int id) const
+{
+    // These objects don't have references from other objects
+    // currently.
+    return QString("SELECT 0");
+}

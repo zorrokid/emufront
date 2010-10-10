@@ -99,12 +99,6 @@ bool DbEmuFrontFileObject::deleteDataObject(int id) const
 
 }
 
-int DbEmuFrontFileObject::countDataObjectRefs(int id) const
-{
-    return 0; // TODO
-    // return countRows("imagecontainer", "platformid", id);
-}
-
 // WARNING: this will delete also all the databindings to selected platform
 bool DbEmuFrontFileObject::deleteDataObjectFromModel(QModelIndex *index)
 {

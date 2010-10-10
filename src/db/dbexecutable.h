@@ -31,7 +31,6 @@ public:
      virtual bool updateDataObjectToModel(const EmuFrontObject*);
     int insertDataObjectToModel(const EmuFrontObject*);
     bool deleteDataObjectFromModel(QModelIndex*);
-    int countDataObjectRefs(int) const;
     enum {
         Executable_Id = 0,
         Executable_Name,
@@ -49,6 +48,7 @@ protected:
     virtual bool deleteDataObject(int id) const;
 private:
     virtual QSqlQueryModel* getData();
+    virtual QString getCountRefsSelect(int) const;
     DbSetup *dbSetup;
 };
 

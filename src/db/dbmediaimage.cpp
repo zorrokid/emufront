@@ -157,3 +157,17 @@ QList<MediaImage*> DbMediaImage::getMediaImages(int micId) const
     }
     return list;
 }
+
+QString DbMediaImage::getCountRefsSelect(int id) const
+{
+
+    /* nothing will be removed if a mediaimage file is removed
+       from the db. TODO: if all the mediaimages from
+           mediaimagecontainer are removed
+           the mediaimagecontainer should be removed! */
+    return QString("SELECT 0");
+    /*return QString("SELECT count(*) FROM file "
+              "INNER JOIN mediaimagecontainer_mediaimage "
+              "ON file.id=mediaimagecontainer_mediaimage.mediaimageid "
+              "WHERE file.id=%1").arg(id);*/
+}

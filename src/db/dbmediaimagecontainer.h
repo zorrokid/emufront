@@ -38,7 +38,6 @@ public:
     virtual bool updateDataObjectToModel(const EmuFrontObject *);
     virtual int insertDataObjectToModel(const EmuFrontObject *);
     virtual bool deleteDataObjectFromModel(QModelIndex *);
-    virtual int countDataObjectRefs(int id) const;
     void storeContainers(QList<MediaImageContainer*>, FilePathObject*);
     int getMediaImageContainer(QString checksum) const;
     void filter(int mediaTypeId, int platformId);
@@ -67,6 +66,7 @@ private:
     void linkMediaImagesWithContainer(int, QList<int>);
     DbMediaImage *dbMediaImage;
     DbFilePath *dbFilePath;
+    virtual QString getCountRefsSelect(int) const;
     // DbSetup *dbSetup;
     // DbFile *dbFile;
  };

@@ -31,7 +31,6 @@ public:
     virtual bool updateDataObjectToModel(const EmuFrontObject*);
     int insertDataObjectToModel(const EmuFrontObject*);
     bool deleteDataObjectFromModel(QModelIndex*);
-    int countDataObjectRefs(int) const;
     enum { FilePath_Id = 0,
            FilePath_Name,
            FilePath_LastScanned,
@@ -47,6 +46,7 @@ protected:
 
 private:
     virtual QSqlQueryModel* getData();
+    virtual QString getCountRefsSelect(int) const;
     DbSetup *dbSetup;
 };
 

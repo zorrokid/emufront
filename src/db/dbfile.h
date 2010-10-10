@@ -30,7 +30,6 @@ public:
     virtual bool updateDataObjectToModel(const EmuFrontObject*);
     int insertDataObjectToModel(const EmuFrontObject*);
     bool deleteDataObjectFromModel(QModelIndex*);
-    int countDataObjectRefs(int) const;
     EmuFrontObject* getFileByChecksum(QString checksum);
     //int insertFile(const EmuFrontFile *);
 
@@ -50,6 +49,8 @@ protected:
     virtual bool deleteDataObject(int id) const;
     int type;
     virtual QSqlQueryModel* getData();
+private:
+    virtual QString getCountRefsSelect(int) const;
 };
 
 #endif // DBFILE_H

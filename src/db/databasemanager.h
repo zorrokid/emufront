@@ -43,7 +43,7 @@ public:
     virtual bool updateDataObjectToModel(const EmuFrontObject*) = 0;
     virtual int insertDataObjectToModel(const EmuFrontObject*) = 0;
     virtual bool deleteDataObjectFromModel(QModelIndex*) = 0;
-    virtual int countDataObjectRefs(int id) const = 0;
+    int countDataObjectRefs(int id) const;
     static int getCurrentTimeStamp();
     static bool openDB();
     void resetModel();
@@ -76,6 +76,7 @@ private:
     virtual QSqlQueryModel* getData() = 0;
     static QString getDbPath();
     EmuFrontObject* getFilteredDataObject();
+    virtual QString getCountRefsSelect(int) const = 0;
 
 };
 

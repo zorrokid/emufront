@@ -91,12 +91,6 @@ int DbSetup::insertDataObjectToModel(const EmuFrontObject *ob)
     return id;
 }
 
-int DbSetup::countDataObjectRefs(int ) const
-{
-    // TODO
-    return -1;
-}
-
 QString DbSetup::constructSelect(QString where) const
 {
     /*QString where = whereClause.isEmpty()
@@ -157,4 +151,17 @@ QSqlQueryModel* DbSetup::getData()
     model->setHeaderData(Setup_FileTypeExtensions, Qt::Horizontal, tr("File types"));
     model->setHeaderData(Setup_Name, Qt::Horizontal, tr("Name"));
     return model;
+}
+
+QString DbSetup::getCountRefsSelect(int id) const
+{
+    /* setups are referenced by executable and filepath */
+    return QString("SELECT count(*) FROM "
+            "(SELECT setup.id FROM setup "
+              "INNER JOIN executable ON setup.id=executable.setupid "
+              "WHERE setup.id=%1 "
+              "UNION ALL "
+              "SELECT setup.id FROM setup "
+              "INNER JOIN filepath ON setup.id=filepath.setupid "
+              "WHERE setup.id=%1)").arg(id);
 }
