@@ -23,10 +23,12 @@
 #include <QSqlRecord>
 #include "dbmediaimage.h"
 
+
 DbMediaImage::DbMediaImage(QObject *parent)
     : DbFile(parent)
 {
     type = EmuFrontFile::FileType_MediaImage;
+    tableName = DbMediaImage::DB_TABLE_NAME_FILE;
 }
 
 /*bool DbMediaImage::updateDataObjectToModel(const EmuFrontObject *efo)

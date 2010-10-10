@@ -41,6 +41,11 @@ MainWindow::MainWindow()
     mediaImagePathDialog = 0;
     setupMainDialog = 0;
     executableMainDialog = 0;
+    connectSignals();
+}
+
+void MainWindow::connectSignals()
+{
 }
 
 void MainWindow::createActions()
@@ -78,7 +83,8 @@ void MainWindow::configurePlatforms()
    if (!platformDialog)
    {
        platformDialog = new PlatformDialog(this);
-   } 
+       connect(platformDialog, SIGNAL(finished(int)), this, SLOT(updateData()));
+   }
    activateDialog(platformDialog);
 }
 
@@ -87,6 +93,7 @@ void MainWindow::configureMediaTypes()
     if (!mediaTypeDialog)
     {
         mediaTypeDialog = new MediaTypeDialog(this);
+        connect(mediaTypeDialog, SIGNAL(finished(int)), this, SLOT(updateData()));
    }
    activateDialog(mediaTypeDialog);
 }
@@ -115,6 +122,7 @@ void MainWindow::configureEmulators()
 {
     if (!executableMainDialog) {
         executableMainDialog = new ExecutableMainDialog(this);
+        connect(executableMainDialog, SIGNAL(finished(int)), this, SLOT(updateData()));
     }
     activateDialog(executableMainDialog);
     executableMainDialog->refreshDataModel();
@@ -164,4 +172,10 @@ void MainWindow::closeEvent(QCloseEvent *event)
 bool MainWindow::okToContinue()
 {
     return true;
+}
+
+void MainWindow::updateData()
+{
+    qDebug() << "MainWindow::updateData()";
+    launcher->updateData();
 }

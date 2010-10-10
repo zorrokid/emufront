@@ -27,11 +27,13 @@
 //#include "dbsetup.h"
 #include "dbfilepath.h"
 
+
 DbMediaImageContainer::DbMediaImageContainer(QObject *parent)
     : DbFile(parent) // DbQueryModelManager(parent)
 {
     dbMediaImage = new DbMediaImage(parent);
     dbFilePath = new DbFilePath(parent);
+    tableName = DbMediaImageContainer::DB_TABLE_MEDIAIMAGECONTAINER;
     //dbFile = new DbFile(parent);
 }
 
@@ -272,4 +274,16 @@ QString DbMediaImageContainer::getCountRefsSelect(int id) const
               "ON mediaimagecontainer_mediaimage.mediaimagecontainerid "
               "    =mediaimagecontainer.fileid "
               "WHERE mediaimagecontainer.fileid=%1").arg(id);
+}
+
+QString DbMediaImageContainer::getDeleteObjectSql() const
+{
+       // The trigger will take care of deleting
+       // the reference from the mediaimagecontainer
+       // and mediaimage_mediaimagecontainer tables.
+       // there is also a trigger that will delete
+       // all the files linked to mediaimagecontainer
+       // using mediaimage_mediaimagecontainer (the actual
+       // mediaimages).
+       return QString("DELETE FROM file WHERE id=:id");
 }

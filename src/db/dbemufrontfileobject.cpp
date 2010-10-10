@@ -169,3 +169,8 @@ QSqlQueryModel* DbEmuFrontFileObject::getData()
     model->setHeaderData(EmuFrontFileObject_FileUpdateTime, Qt::Horizontal, tr("File update time"));*/
     return model;
 }
+
+QString DbEmuFrontFileObject::getDeleteObjectSql() const
+{
+    return QString("DELETE FROM %1 WHERE id=:id").arg(tableName);
+}

@@ -24,8 +24,10 @@
 #include "dbfilepath.h"
 #include "dbsetup.h"
 
+
 DbFilePath::DbFilePath(QObject *parent) : DbQueryModelManager(parent)
 {
+    tableName = DbFilePath::DB_TABLE_NAME_FILEPATH;
     dbSetup = new DbSetup(this);
 }
 

@@ -43,6 +43,7 @@ public:
     virtual bool updateDataObjectToModel(const EmuFrontObject*) = 0;
     virtual int insertDataObjectToModel(const EmuFrontObject*) = 0;
     virtual bool deleteDataObjectFromModel(QModelIndex*) = 0;
+    virtual bool deleteDataObject(int id) const = 0;
     int countDataObjectRefs(int id) const;
     static int getCurrentTimeStamp();
     static bool openDB();
@@ -69,7 +70,6 @@ protected:
     static const QString DB_TABLE_MEDIAIMAGECONTAINER_MEDIAIMAGE;
     static const QString DB_TABLE_EXECUTABLE;
 
-
 private:
 	static const QString DB_FILENAME;
     static const QString DATABASE;
@@ -77,7 +77,6 @@ private:
     static QString getDbPath();
     EmuFrontObject* getFilteredDataObject();
     virtual QString getCountRefsSelect(int) const = 0;
-
 };
 
 #endif

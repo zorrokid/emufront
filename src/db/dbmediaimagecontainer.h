@@ -67,8 +67,9 @@ private:
     DbMediaImage *dbMediaImage;
     DbFilePath *dbFilePath;
     virtual QString getCountRefsSelect(int) const;
+    virtual QString getDeleteObjectSql() const;
     // DbSetup *dbSetup;
     // DbFile *dbFile;
- };
+};
 
 #endif // DBMEDIAIMAGECONTAINER_H

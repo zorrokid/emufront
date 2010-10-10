@@ -26,10 +26,12 @@
 #include "dbsetup.h"
 #include "../dataobjects/executable.h"
 
+
 DbExecutable::DbExecutable(QObject *parent)
     : DbQueryModelManager(parent)
 {
     dbSetup = new DbSetup(this);
+    tableName = DbExecutable::DB_TABLE_EXECUTABLE;
 }
 
 EmuFrontObject* DbExecutable::recordToDataObject(const QSqlRecord* rec)

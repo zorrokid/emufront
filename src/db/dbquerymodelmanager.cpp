@@ -17,6 +17,7 @@
 // You should have received a cyopy of the GNU General Public License
 // along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <QSqlQuery>
 #include <QSqlQueryModel>
 #include <QDebug>
 #include "dbquerymodelmanager.h"
@@ -60,5 +61,18 @@ QString DbQueryModelManager::constructWhereByFilters(QList<QString>filters)
 void DbQueryModelManager::clearFilters()
 {
     sqlTableModel->setQuery(constructSelect());
+}
+
+bool DbQueryModelManager::deleteDataObject(int id) const
+{
+    QSqlQuery q;
+    q.prepare(getDeleteObjectSql());
+    q.bindValue(":id", id);
+    return q.exec();
+}
+
+QString DbQueryModelManager::getDeleteObjectSql() const
+{
+    return QString("DELETE FROM %1 WHERE id=:id").arg(tableName);
 }
 

@@ -23,8 +23,10 @@
 #include <QSqlRelationalTableModel>
 #include "dbfile.h"
 
+
 DbFile::DbFile(QObject *parent) : DbQueryModelManager(parent)
 {
+    tableName = DbFile::DB_TABLE_NAME_FILE;
     type = -1;
 }
 

@@ -50,6 +50,7 @@ private slots:
     void configureMediaImagePaths();
     void configureSetups();
     void configureEmulators();
+    void updateData();
 
 private:
 	void createActions();
@@ -58,6 +59,7 @@ private:
 	void readSettings();
 	void writeSettings();
 	bool okToContinue();
+    void connectSignals();
     void activateDialog(EmuFrontDialog*) const;
 	PlatformDialog *platformDialog;
     MediaTypeDialog *mediaTypeDialog;

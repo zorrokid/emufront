@@ -121,7 +121,7 @@ bool DbObjectDialog::deleteItem()
         { return false; }
         deleteCurrentObject();
 
-        bool delOk = dbManager->deleteDataObjectFromModel(&index);
+        bool delOk = dbManager->deleteDataObject(ob->getId());
         if (!delOk)
         {
             errorMessage->showMessage(tr("Deleting data object %1 failed!").arg(ob->getName()));
