@@ -177,15 +177,19 @@ void EmuLauncher::launch(const Executable * ex, const MediaImageContainer * mic)
     unz.openArchive(fp);
     int err = unz.extractAll("/tmp/"); // TODO: this must be set dynamically
     qDebug() << "extractAll to " << fp << " : " << err;
-    // launch the 1st media image in the media image list of ex
+    // TODO: launch the 1st media image in the media image list of ex
     // or if emulator command options has a place for more than one
     // media image assign the media images in the list order
     // to emulator command line.
+    QString opts = ex->getOptions();
+    QString tmpfp = " \"/tmp/";
+    tmpfp.append(mic->getMediaImages().first()->getName()).append("\"");
+    opts.replace("$1", tmpfp);
     QString cmdWithParams;
     cmdWithParams.append(ex->getExecutable());
+    cmdWithParams.append(" ").append(opts);
     // TODO: tmp will be set dynamically
-    // TODO: command parameters and assigning multiple media images
-    cmdWithParams.append(" \"/tmp/").append(mic->getMediaImages().first()->getName()).append("\"");
+    // TODO: assigning multiple media images
     qDebug() << "Command with params " << cmdWithParams;
     // Executable and MediaImageContainer objects are no more needed:
     delete ex;
