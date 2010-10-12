@@ -213,7 +213,8 @@ void EmuLauncher::processError(QProcess::ProcessError e)
 void EmuLauncher::processFinished(int a)
 {
     QString stdErr = proc->readAllStandardError();
-    QString msg = tr("Emulator has finished with: %1 ").arg(a);
+    QString stdMsg = proc->readAllStandardOutput();
+    QString msg = tr("Emulator has finished with: %1 ").arg(a).append(stdMsg);
     if (a) msg.append(" - ").append(proc->errorString()).append(stdErr);
     QMessageBox::information(this, tr("Emulator finished"), msg, QMessageBox::Ok);
 }
