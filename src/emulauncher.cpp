@@ -194,6 +194,15 @@ void EmuLauncher::launch(const Executable * ex, const MediaImageContainer * mic)
     // Executable and MediaImageContainer objects are no more needed:
     delete ex;
     delete mic;
-    if (!proc) proc = new QProcess(this); // This has to be done in the heap
+    if (!proc) {
+        proc = new QProcess(this); // This has to be done in the heap
+        connect(proc, SIGNAL(error(QProcess::ProcessError)), this, SLOT(processError()));
+    }
     proc->start(cmdWithParams, QIODevice::ReadOnly);
+}
+
+void EmuLauncher::processError()
+{
+    QMessageBox::warning(this, tr("Emulator"),
+        tr("Launching emulator failed with: ").append(proc->errorString()), QMessageBox::Ok );
 }

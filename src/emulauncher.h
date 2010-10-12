@@ -47,6 +47,7 @@ signals:
 private slots:
     void updateMediaImageContainers();
     void launchEmu();
+    void processError();
 
 private:
     QTableView *micTable;
