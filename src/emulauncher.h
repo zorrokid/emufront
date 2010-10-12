@@ -21,6 +21,7 @@
 #define EMULAUNCHER_H
 
 #include <QWidget>
+#include <QProcess>
 
 class QTableView;
 class QPushButton;
@@ -47,7 +48,8 @@ signals:
 private slots:
     void updateMediaImageContainers();
     void launchEmu();
-    void processError();
+    void processError(QProcess::ProcessError);
+    void processFinished(int);
 
 private:
     QTableView *micTable;

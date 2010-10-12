@@ -196,13 +196,24 @@ void EmuLauncher::launch(const Executable * ex, const MediaImageContainer * mic)
     delete mic;
     if (!proc) {
         proc = new QProcess(this); // This has to be done in the heap
-        connect(proc, SIGNAL(error(QProcess::ProcessError)), this, SLOT(processError()));
+        connect(proc, SIGNAL(error(QProcess::ProcessError)), this, SLOT(processError(QProcess::ProcessError)));
+        connect(proc, SIGNAL(finished(int)), this, SLOT(processFinished(int)));
     }
     proc->start(cmdWithParams, QIODevice::ReadOnly);
 }
 
-void EmuLauncher::processError()
+void EmuLauncher::processError(QProcess::ProcessError e)
 {
+    QString stdErr = proc->readAllStandardError();
     QMessageBox::warning(this, tr("Emulator"),
-        tr("Launching emulator failed with: ").append(proc->errorString()), QMessageBox::Ok );
+        tr("Launching emulator failed with: %1").arg(e)
+        .append(" - ").append(proc->errorString().append(stdErr)), QMessageBox::Ok );
+}
+
+void EmuLauncher::processFinished(int a)
+{
+    QString stdErr = proc->readAllStandardError();
+    QString msg = tr("Emulator has finished with: %1 ").arg(a);
+    if (a) msg.append(" - ").append(proc->errorString()).append(stdErr);
+    QMessageBox::information(this, tr("Emulator finished"), msg, QMessageBox::Ok);
 }
