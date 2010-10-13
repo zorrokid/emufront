@@ -20,6 +20,7 @@
 #include <QtGui>
 #include <QProcess>
 #include <QSqlTableModel>
+#include <QItemSelectionModel>
 #include "utils/OSDaB-Zip/unzip.h"
 #include "emulauncher.h"
 #include "db/dbmediatype.h"
@@ -61,7 +62,7 @@ void EmuLauncher::updateData()
 void EmuLauncher::initWidgets()
 {
     micTable = new QTableView(this);
-    micTable->setSelectionMode(QAbstractItemView::SingleSelection);
+    micTable->setSelectionMode(QAbstractItemView::MultiSelection);
     mediaTypeSelectBox = new EFFileObjectComboBox(dbMediaType, this);
     platformSelectBox = new EFFileObjectComboBox(dbPlatform, this);
     execSelectBox = new ExecutableComboBox(dbExec, this);
@@ -114,11 +115,18 @@ void EmuLauncher::launchEmu()
         if (!execSelectBox || execSelectBox->currentIndex() == -1) {
             throw EmuFrontException(tr("Emulator not selected!"));
         }
-        // TODO: multiple media image container selection
-        QModelIndex mindex = micTable->currentIndex();
-        if (!mindex.isValid()) {
+        //QModelIndex mindex = micTable->currentIndex();
+        QItemSelectionModel *selModel = micTable->selectionModel();
+        QModelIndexList listMIndex =  selModel->selectedIndexes();
+        /*if (!mindex.isValid()) {
+            throw EmuFrontException(tr("Media image container not selected!"));
+        }*/
+        if (listMIndex.count() < 1) {
             throw EmuFrontException(tr("Media image container not selected!"));
         }
+        qDebug() << listMIndex.count() << " items selected.";
+        // TODO: multiple media image container selection
+        QModelIndex mindex = listMIndex.first();
         EmuFrontObject *obImg = dbMic->getDataObjectFromModel(&mindex);
         if (!obImg) {
             throw EmuFrontException(tr("Failed fetching selected media image container."));
