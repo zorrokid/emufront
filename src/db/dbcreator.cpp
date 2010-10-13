@@ -166,34 +166,36 @@ bool DbCreator::createDB()
             "CREATE TRIGGER IF NOT EXISTS trg_onfilepathdelete "
             "AFTER DELETE ON filepath "
             "BEGIN "
-            "   DELETE FROM mediaimagecontainer WHERE filepathid=old.id; "
+            "   DELETE FROM mediaimagecontainer WHERE mediaimagecontainer.filepathid=old.id; "
             "END;"
         );
 
-        // NOTE:
-        // media image container is not explicitily deleted,
-        // mediaimagecontainer entry should be deleted implicitely with
-        // file tables trigger!
         /*query.exec(
             "CREATE TRIGGER IF NOT EXISTS trg_onmediaimagecontainerdelete "
             "AFTER DELETE ON mediaimagecontainer "
             "BEGIN "
-            "    DELETE FROM file WHERE id=old.fileid; "
-            "    DELETE FROM mediaimagecontainer_mediaimage WHERE mediaimagecontainerid=old.fileid; "
+            "   DELETE FROM file WHERE file.id=old.fileid;"
             "END;"
         );*/
 
-        /* NOTE: Entries from mediaimagecontainer_mediaimage are not explicitily deleted, they
-            are deleted implicitely using file tables trigger. */
-        /*query.exec(
-            "CREATE TRIGGER IF NOT EXISTS trg_onmediaimagecontainer_mediaimagedelete "
-            "AFTER DELETE ON mediaimagecontainer_mediaimage "
+        query.exec(
+            "CREATE TRIGGER IF NOT EXISTS trg_onmediaimagecontainerdelete "
+            "BEFORE DELETE ON mediaimagecontainer "
             "BEGIN "
-            "    DELETE FROM file WHERE id=old.mediaimageid; "
-            "    DELETE FROM mediaimagecontainer WHERE fileid=old.mediaimagecontainerid; "
-        );*/
+            "   DELETE FROM mediaimagecontainer_mediaimage WHERE mediaimagecontainerid.id=OLD.fileid;"
+            "END;"
+        );
 
         query.exec(
+            "CREATE TRIGGER IF NOT EXISTS trg_onmediaimagecontainer_mediaimagedelete "
+            "BEFORE DELETE ON mediaimagecontainer_mediaimage "
+            "BEGIN "
+            "    DELETE FROM file WHERE file.id=OLD.mediaimageid; "
+            "    DELETE FROM file WHERE file.id=OLD.mediaimagecontainerid; "
+            "END;"
+        );
+
+        /*query.exec(
             "CREATE TRIGGER IF NOT EXISTS trg_onfiledelete "
             "AFTER DELETE ON file "
             "BEGIN "
@@ -203,7 +205,7 @@ bool DbCreator::createDB()
             "   DELETE FROM mediaimagecontainer_mediaimage WHERE mediaimagecontainer_mediaimage.mediaimageid = old.id;"
             "   DELETE FROM mediaimagecontainer_mediaimage WHERE mediaimagecontainer_mediaimage.mediaimagecontainerid = old.id;"
             "END;"
-        );
+        );*/
     }
     catch (QString tbl)
     {
