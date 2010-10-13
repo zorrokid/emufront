@@ -45,7 +45,7 @@ protected:
     virtual QString constructSelectById(int id) const;
     virtual QString constructFilterById(int id) const;
     virtual QString constructSelect(QString whereClause = "") const;
-    virtual bool deleteDataObject(int id) const;
+    //virtual bool deleteDataObject(int id) const;
 private:
     virtual QSqlQueryModel* getData();
     virtual QString getCountRefsSelect(int) const;

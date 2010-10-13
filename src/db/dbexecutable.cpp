@@ -136,11 +136,11 @@ QString DbExecutable::constructSelect(QString whereClause) const
         .arg(whereClause);
 }
 
-bool DbExecutable::deleteDataObject(int id) const
+/*bool DbExecutable::deleteDataObject(int id) const
 {
     // TODO
     return false;
-}
+}*/
 
 QSqlQueryModel* DbExecutable::getData()
 {
