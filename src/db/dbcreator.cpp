@@ -180,18 +180,18 @@ bool DbCreator::createDB()
 
         query.exec(
             "CREATE TRIGGER IF NOT EXISTS trg_onmediaimagecontainerdelete "
-            "BEFORE DELETE ON mediaimagecontainer "
+            "AFTER DELETE ON mediaimagecontainer "
             "BEGIN "
-            "   DELETE FROM mediaimagecontainer_mediaimage WHERE mediaimagecontainerid.id=OLD.fileid;"
+            "   DELETE FROM mediaimagecontainer_mediaimage WHERE mediaimagecontainer_mediaimage.mediaimagecontainerid=old.fileid;"
             "END;"
         );
 
         query.exec(
             "CREATE TRIGGER IF NOT EXISTS trg_onmediaimagecontainer_mediaimagedelete "
-            "BEFORE DELETE ON mediaimagecontainer_mediaimage "
+            "AFTER DELETE ON mediaimagecontainer_mediaimage "
             "BEGIN "
-            "    DELETE FROM file WHERE file.id=OLD.mediaimageid; "
-            "    DELETE FROM file WHERE file.id=OLD.mediaimagecontainerid; "
+            "    DELETE FROM file WHERE file.id=old.mediaimageid; "
+            "    DELETE FROM file WHERE file.id=old.mediaimagecontainerid; "
             "END;"
         );
 
