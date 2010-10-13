@@ -29,6 +29,7 @@ const QString DbSetup::FILE_TYPE_EXTENSION_SEPARATOR = QString("|");
 
 DbSetup::DbSetup(QObject *parent) : DbQueryModelManager(parent)
 {
+    tableName = DbSetup::DB_TABLE_NAME_SETUP;
     dbPlatform = new DbPlatform(this);
     dbMediaType = new DbMediaType(this);
 }
