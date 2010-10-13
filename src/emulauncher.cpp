@@ -206,15 +206,16 @@ void EmuLauncher::processError(QProcess::ProcessError e)
 {
     QString stdErr = proc->readAllStandardError();
     QMessageBox::warning(this, tr("Emulator"),
-        tr("Launching emulator failed with: %1").arg(e)
-        .append(" - ").append(proc->errorString().append(stdErr)), QMessageBox::Ok );
+        tr("Launching emulator failed with: %1.\n").arg(e)
+        .append(";\n").append(proc->errorString().append(";\n")
+        .append(stdErr)), QMessageBox::Ok );
 }
 
 void EmuLauncher::processFinished(int a)
 {
     QString stdErr = proc->readAllStandardError();
     QString stdMsg = proc->readAllStandardOutput();
-    QString msg = tr("Emulator has finished with: %1 ").arg(a).append(stdMsg);
-    if (a) msg.append(" - ").append(proc->errorString()).append(stdErr);
+    QString msg = tr("Emulator has finished with: %1.\n").arg(a).append(stdMsg);
+    if (a) msg.append("; ").append(proc->errorString()).append(";\n").append(stdErr);
     QMessageBox::information(this, tr("Emulator finished"), msg, QMessageBox::Ok);
 }
