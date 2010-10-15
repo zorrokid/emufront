@@ -168,6 +168,7 @@ QList<MediaImage*> FileUtil::listContents(const QString filePath, const FilePath
     command.append("\"");
     qDebug() << command;
     proc.start(command);
+    // TODO: slot(s) for (start and) error signal(s)
     bool procOk = proc.waitForFinished();
     if (!procOk) {
         throw new EmuFrontException(tr("Listing information from file %1 failed with unzip.").arg(filePath));
