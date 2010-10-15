@@ -39,6 +39,8 @@ public:
     int scanFilePath(FilePathObject *fpo, const QStringList filters, DbMediaImageContainer *mic);
 private:
     char *buf;
+    static const QString UNZIP_COMMAND;
+    static const QString UNZIP_LIST_ARGS;
     quint32 readCrc32(QString filePath);
     QList<MediaImage*>  listContents(const QString filePath, const FilePathObject *fp);
     bool isSupportedFile(const QString filename, const QStringList supportedFileExtensions);

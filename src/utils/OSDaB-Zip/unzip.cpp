@@ -128,6 +128,7 @@
 	versions from 2.1 to 2.7 may use unsupported compression methods
 	versions after 2.7 may have an incompatible header format
 */
+// TODO: FIX THIS! Need support for the latest versions
 #define UNZIP_VERSION 0x1B
 //! Full compatibility granted until this version
 #define UNZIP_VERSION_STRICT 0x14

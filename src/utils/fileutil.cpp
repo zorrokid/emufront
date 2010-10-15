@@ -19,9 +19,10 @@
 
 #include <QDir>
 #include <QDebug>
+#include <QProcess>
 #include "fileutil.h"
 #include "zlib.h" /* crc32 */
-#include "OSDaB-Zip/unzip.h"
+//#include "OSDaB-Zip/unzip.h"
 #include "../exceptions/emufrontexception.h"
 #include "../dataobjects/setup.h"
 #include "../dataobjects/mediaimage.h"
@@ -31,6 +32,9 @@
 #include "../db/dbmediaimagecontainer.h"
 
 //int FileUtil::MIC_BUFFER_SIZE = 50;
+
+const QString FileUtil::UNZIP_COMMAND = "unzip ";
+const QString FileUtil::UNZIP_LIST_ARGS = "-lv ";
 
 FileUtil::FileUtil(QObject *parent) : QObject(parent)
 {
@@ -84,10 +88,10 @@ int FileUtil::scanFilePath(FilePathObject *fp, QStringList filters, DbMediaImage
 
         if (files.count() > 0)
         {
+            // read crc32 checksum for media image container
             quint32 crc = readCrc32(fileInfo.absoluteFilePath());
             FilePathObject *fpo = new FilePathObject(*fp);
-            MediaImageContainer *con = new MediaImageContainer
-                (
+            MediaImageContainer *con = new MediaImageContainer (
                     fileInfo.fileName(),
                     QString("%1").arg(crc, 0, 16),
                     fileInfo.size(),
@@ -123,6 +127,7 @@ int FileUtil::scanFilePath(FilePathObject *fp, QStringList filters, DbMediaImage
 /* Uses crc32 from zlib.h to count crc32 checksum value */
 quint32 FileUtil::readCrc32(QString filePath)
 {
+    // todo ... use some crc32 tool for this ... or maybe use md5 or something like that!!!
     QFile file(filePath);
     qDebug() << "readCrc32: " << filePath;
     if (!file.open(QIODevice::ReadOnly)) {
@@ -142,19 +147,96 @@ quint32 FileUtil::readCrc32(QString filePath)
 
 QList<MediaImage*> FileUtil::listContents(const QString filePath, const FilePathObject *fp)
 {
-
-    UnZip uz;
-    UnZip::ErrorCode ec = uz.openArchive(filePath);
-    if (ec != UnZip::Ok)
-        throw EmuFrontException(tr("Error while opening zip-file %1, error code %2").arg(filePath).arg(ec));
-
     if (!fp->getSetup()){
         throw EmuFrontException(tr("Setup not available with %1.").arg(fp->getName()));
     }
 
+    QFile fl(filePath);
+    if (!fl.open(QIODevice::ReadOnly)) {
+        throw new EmuFrontException(tr("Couldn't read file %1.").arg(filePath));
+    }
+
     Setup *sup = fp->getSetup();
-    QList<UnZip::ZipEntry> list = uz.entryList();
     QList<MediaImage*>  fileList;
+
+    QProcess proc(this);
+    QString command;
+    command.append(UNZIP_COMMAND);
+    command.append(UNZIP_LIST_ARGS);
+    command.append("\"");
+    command.append(filePath);
+    command.append("\"");
+    qDebug() << command;
+    proc.start(command);
+    bool procOk = proc.waitForFinished();
+    if (!procOk) {
+        throw new EmuFrontException(tr("Listing information from file %1 failed with unzip.").arg(filePath));
+    }
+    QString err = proc.readAllStandardError();
+    QString msg = proc.readAllStandardOutput();
+    qDebug() << "\nErrors:\n" << err << "\nMessage:\n" << msg;
+
+    /*
+
+    The unzip output should have 8 columns, we need to collect the data from
+    size, crc-32 and name columns.
+
+    $ unzip -lv zak.zip
+    Archive:  zak.zip
+     Length   Method    Size  Cmpr    Date    Time   CRC-32   Name
+    --------  ------  ------- ---- ---------- ----- --------  ----
+      174848  Defl:N    21936  88% 1996-12-24 23:32 cd68329c  Zak McKracken and the Alien Mindbenders (1988)(Lucasfilm Games)(Disk 1 of 2 Side A)(Boot).d64
+      174848  Defl:N    21949  87% 1996-12-24 23:32 dc0d89f8  Zak McKracken and the Alien Mindbenders (1988)(Lucasfilm Games)(Disk 1 of 2 Side A)(Boot)[a].d64
+      174848  Defl:N    81818  53% 1996-12-24 23:32 a11bc616  Zak McKracken and the Alien Mindbenders (1988)(Lucasfilm Games)(Disk 1 of 2 Side A)(Boot)[cr ESI].d64
+      174848  Defl:N    48833  72% 1996-12-24 23:32 0815053d  Zak McKracken and the Alien Mindbenders (1988)(Lucasfilm Games)(Disk 1 of 2 Side A)(Boot)[cr SCI].d64
+      174848  Defl:N   105964  39% 1996-12-24 23:32 0c943d80  Zak McKracken and the Alien Mindbenders (1988)(Lucasfilm Games)(Disk 1 of 2 Side A)[cr Ikari].d64
+      174848  Defl:N    17876  90% 1996-12-24 23:32 51397eb8  Zak McKracken and the Alien Mindbenders (1988)(Lucasfilm Games)(Disk 1 of 2 Side B)[cr SCI].d64
+      174848  Defl:N   106231  39% 1996-12-24 23:32 0efadb0a  Zak McKracken and the Alien Mindbenders (1988)(Lucasfilm Games)(Disk 2 of 2 Side A).d64
+      174848  Defl:N   105974  39% 1996-12-24 23:32 6935c3e7  Zak McKracken and the Alien Mindbenders (1988)(Lucasfilm Games)(Disk 2 of 2 Side A)[a].d64
+      174848  Defl:N   105963  39% 1996-12-24 23:32 1e9c31de  Zak McKracken and the Alien Mindbenders (1988)(Lucasfilm Games)(Disk 2 of 2 Side A)[cr ESI].d64
+      174848  Defl:N    26294  85% 1996-12-24 23:32 ba5fdfdd  Zak McKracken and the Alien Mindbenders (1988)(Lucasfilm Games)(Disk 2 of 2 Side A)[cr Ikari].d64
+      174848  Defl:N   117996  33% 1996-12-24 23:32 efbf3fd6  Zak McKracken and the Alien Mindbenders (1988)(Lucasfilm Games)(Disk 2 of 2 Side B).d64
+      174848  Defl:N   118015  33% 1996-12-24 23:32 c9541ecd  Zak McKracken and the Alien Mindbenders (1988)(Lucasfilm Games)(Disk 2 of 2 Side B)[a].d64
+      174848  Defl:N   118010  33% 1996-12-24 23:32 68341056  Zak McKracken and the Alien Mindbenders (1988)(Lucasfilm Games)(Disk 2 of 2 Side B)[cr ESI].d64
+    --------          -------  ---                            -------
+     2273024           996859  56%                            13 files
+
+     Here's a regex tested in VIM matching an entry line
+     /^\s\+\d\+\s\+[A-Za-z:]*\s\+\d\+\s\+\d\{1,3}%\s\+\d\{4}-\d\{2}-\d\{2}\s\+\d\{2}:\d\{2}\s\+[0-9a-f]\{8}\s\+.\+$
+
+     Here's a regex (tested in VIM) picking the three required fields, length, crc-32 and filename:
+     :%s/^\s\+\(\d\+\)\s\+[A-Za-z:]*\s\+\d\+\s\+\d\{1,3}%\s\+\d\{4}-\d\{2}-\d\{2}\s\+\d\{2}:\d\{2}\s\+\([0-9a-f]\{8}\)\s\+\(.*$\)/\1 \2 \3/gc
+     */
+    QStringList lines = msg.split('\n'
+        //QRegExp("^\\s+\\d+\\s+[A-Za-z:]*\\s+\\d+\\s+\\d{1,3}%\\s+\\d{4}-\\d{2}-\\d{2}\\s+\\d{2}:\\d{2}\\s+[0-9a-f]{8}\\s+.+$")
+        );
+    QStringList entries;
+    QRegExp test("^\\s+\\d+\\s+[A-Za-z:]*\\s+\\d+\\s+\\d{1,3}%\\s+\\d{4}-\\d{2}-\\d{2}\\s+\\d{2}:\\d{2}\\s+[0-9a-f]{8}\\s+.+$");
+    QRegExp regExEntries("^\\s+(\\d+)\\s+[A-Za-z:]*\\s+\\d+\\s+\\d{1,3}%\\s+\\d{4}-\\d{2}-\\d{2}\\s+\\d{2}:\\d{2}\\s+([0-9a-f]{8})\\s+(.+)$");
+    foreach(QString ln, lines) {
+        if (!test.exactMatch(ln)) continue;
+        int pos = regExEntries.indexIn(ln);
+        if (regExEntries.captureCount() != 3) {
+            continue;
+            //throw new EmuFrontException(tr("Failed to read needed data from file %1.").arg(filePath));
+        }
+        entries = regExEntries.capturedTexts();
+        if (entries.count() < 4) continue;
+        QString filename = entries[3];
+        QString checksum = entries[2];
+        QString lenStr = entries[1];
+        bool ok;
+        int length = lenStr.toInt(&ok);
+        if (!ok) continue;
+        MediaImage *effo = new MediaImage(filename, checksum, length);
+    }
+
+    /*UnZip uz;
+    UnZip::ErrorCode ec = uz.openArchive(filePath);
+    if (ec != UnZip::Ok)
+        throw EmuFrontException(tr("Error while opening zip-file %1, error code %2").arg(filePath).arg(ec));
+
+    QList<UnZip::ZipEntry> list = uz.entryList();
     foreach(UnZip::ZipEntry entry, list)
     {
         qDebug() << "Zip entry " << entry.filename;
@@ -166,7 +248,7 @@ QList<MediaImage*> FileUtil::listContents(const QString filePath, const FilePath
                 checksum, entry.uncompressedSize);
             fileList << effo;
         }
-    }
+    }*/
 
     qDebug() << "File list has " << fileList.size() << " entries.";
     return fileList;

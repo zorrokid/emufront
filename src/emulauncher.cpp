@@ -125,7 +125,10 @@ void EmuLauncher::launchEmu()
             throw EmuFrontException(tr("Media image container not selected!"));
         }
         qDebug() << listMIndex.count() << " items selected.";
+
         // TODO: multiple media image container selection
+        //          - build a list of selected media image objects
+        //          - check that the platform and media type (setup) matches
         QModelIndex mindex = listMIndex.first();
         EmuFrontObject *obImg = dbMic->getDataObjectFromModel(&mindex);
         if (!obImg) {
