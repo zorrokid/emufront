@@ -23,6 +23,7 @@
 #include "unziphelper.h"
 #include "../dataobjects/mediaimagecontainer.h"
 #include "../dataobjects/executable.h"
+#include "../exceptions/emufrontexception.h"
 
 EmuHelper::EmuHelper(QObject *parent) :
     ProcessHelper(parent)
@@ -45,7 +46,11 @@ void EmuHelper::launch(const Executable * ex, const MediaImageContainer * mic)
     //int err = unz.extractAll("/tmp/"); // TODO: this must be set dynamically
     //qDebug() << "extractAll to " << fp << " : " << err;
 
-    unzipHelper->extractAll(fp, "/tmp/");
+    int ret = unzipHelper->extractAll(fp, "/tmp/");
+
+    if (ret) {
+        throw EmuFrontException(tr("Unzip failed with %1.").arg(ret));
+    }
 
     // TODO: launch the 1st media image in the media image list of ex
     // or if emulator command options has a place for more than one
@@ -69,3 +74,17 @@ void EmuHelper::launch(const Executable * ex, const MediaImageContainer * mic)
     start(cmdWithParams, QIODevice::ReadOnly);
 }
 
+void EmuHelper::processError(QProcess::ProcessError)
+{
+
+}
+
+void EmuHelper::processFinished(int)
+{
+}
+
+void EmuHelper::connectSignals()
+{
+    connect(unzipHelper, SIGNAL(error(QProcess::ProcessError)), this, SLOT(processError(QProcess::ProcessError)));
+    connect(unzipHelper, SIGNAL(finished(int)), this, SLOT(processFinished(int)));
+}

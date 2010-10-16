@@ -28,11 +28,16 @@ class UnzipHelper;
 
 class EmuHelper : public ProcessHelper
 {
+    Q_OBJECT
 public:
     explicit EmuHelper(QObject *parent = 0);
     void launch(const Executable * ex, const MediaImageContainer * mic);
+private slots:
+    void processError(QProcess::ProcessError);
+    void processFinished(int);
 private:
     UnzipHelper *unzipHelper;
+    void connectSignals();
 };
 
 #endif // EMUHELPER_H

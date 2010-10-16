@@ -17,7 +17,7 @@
 // You should have received a copy of the GNU General Public License
 // along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <QFile>
+#include <QFileInfo>
 #include <QDebug>
 #include "unziphelper.h"
 #include "../dataobjects/mediaimage.h"
@@ -57,7 +57,7 @@ QList<MediaImage*> UnzipHelper::listContents(const QString filePath, const FileP
     // TODO: slot(s) for (start and) error signal(s)
     bool procOk = waitForFinished();
     if (!procOk) {
-        throw new EmuFrontException(tr("Listing information from file %1 failed with unzip.").arg(filePath));
+        throw EmuFrontException(tr("Listing information from file %1 failed with unzip.").arg(filePath));
     }
     QString err = readAllStandardError();
     QString msg = readAllStandardOutput();
@@ -139,8 +139,35 @@ QList<MediaImage*> UnzipHelper::listContents(const QString filePath, const FileP
 
 }
 
-bool UnzipHelper::extractAll(QString filePath, QString targetPath)
+/*
+    Returns the exit code of the unzip process.
+    Throws EmuFrontException if filePath is not readable
+    or targetPath is not writable.
+*/
+int UnzipHelper::extractAll(QString filePath, QString targetPath)
 {
+    QFileInfo fp(filePath);
+    if (!fp.isReadable()) {
+        throw EmuFrontException(tr("Cannot read file %1.").arg(filePath));
+    }
+    QFileInfo tp(targetPath);
+    if (!tp.isWritable()) {
+        throw EmuFrontException(tr("Cannot write to %1.").arg(targetPath));
+    }
+
     // unzip filepath -d targetpath
-    return false;
+    QString command;
+    command.append(UNZIP_COMMAND);
+    command.append("\"");
+    command.append(filePath);
+    command.append("\"");
+    command.append(" -d ");
+    command.append(targetPath);
+    qDebug() << "Starting unzip command: " << command;
+    start(command);
+    bool procOk = waitForFinished(); // TODO: set timeout, now using default 30000ms
+    if (!procOk) {
+        throw EmuFrontException(tr("Failed unzipping file '%1' to '%2'.").arg(filePath).arg(targetPath));
+    }
+    return exitCode();
 }

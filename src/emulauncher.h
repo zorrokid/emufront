@@ -71,6 +71,7 @@ private:
     void populatePlatformSelectBox();
     void populateMediaTypeSelectBox();
     void launch(const Executable*, const MediaImageContainer*);
+    void cleanTmp();
 };
 
 #endif // EMULAUNCHER_H

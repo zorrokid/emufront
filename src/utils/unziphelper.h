@@ -30,7 +30,7 @@ class UnzipHelper : public ProcessHelper
 public:
     UnzipHelper(QObject *parent = 0);
     QList<MediaImage*> listContents(const QString filePath, const FilePathObject *fp);
-    bool extractAll(QString filePath, QString targetPath);
+    int extractAll(QString filePath, QString targetPath);
 private:
     static const QString UNZIP_COMMAND;
     static const QString UNZIP_LIST_ARGS;

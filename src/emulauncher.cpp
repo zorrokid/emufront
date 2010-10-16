@@ -181,6 +181,7 @@ void EmuLauncher::launchEmu()
 
 void EmuLauncher::processError(QProcess::ProcessError e)
 {
+    cleanTmp();
     QString stdErr = emuHelper->readAllStandardError();
     QMessageBox::warning(this, tr("Emulator"),
         tr("Launching emulator failed with: %1.\n").arg(e)
@@ -188,11 +189,18 @@ void EmuLauncher::processError(QProcess::ProcessError e)
         .append(stdErr)), QMessageBox::Ok );
 }
 
+/* Slot for EmuHelper process finished, clears the temporary folder files */
 void EmuLauncher::processFinished(int a)
 {
+    cleanTmp();
     QString stdErr = emuHelper->readAllStandardError();
     QString stdMsg = emuHelper->readAllStandardOutput();
     QString msg = tr("Emulator has finished with: %1.\n").arg(a).append(stdMsg);
     if (a) msg.append("; ").append(proc->errorString()).append(";\n").append(stdErr);
     QMessageBox::information(this, tr("Emulator finished"), msg, QMessageBox::Ok);
+}
+
+void EmuLauncher::cleanTmp()
+{
+    // TODO
 }
