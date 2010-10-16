@@ -35,7 +35,6 @@ HEADERS += mainwindow.h \
     db/dbfilepath.h \
     utils/ziputil.h \
     utils/fileutil.h \
-    utils/OSDaB-Zip/unzip.h \
     dataobjects/setup.h \
     db/dbsetup.h \
     db/dbtablemodelmanager.h \
@@ -51,8 +50,6 @@ HEADERS += mainwindow.h \
     db/dbemufrontfileobject.h \
     db/dbmediaimagecontainer.h \
     db/dbmediaimage.h \
-    utils/OSDaB-Zip/zipentry_p.h \
-    utils/OSDaB-Zip/unzip_p.h \
     emulauncher.h \
     widgets/efcombobox.h \
     widgets/effileobjectcombobox.h \
@@ -89,7 +86,6 @@ SOURCES += main.cpp \
     db/dbfilepath.cpp \
     utils/ziputil.cpp \
     utils/fileutil.cpp \
-    utils/OSDaB-Zip/unzip.cpp \
     dataobjects/setup.cpp \
     db/dbsetup.cpp \
     db/dbtablemodelmanager.cpp \
