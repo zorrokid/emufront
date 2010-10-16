@@ -23,19 +23,11 @@
 #include <QObject>
 #include <QProcess>
 
-class ProcessHelper : public QObject
+class ProcessHelper : public QProcess
 {
     Q_OBJECT
 public:
     explicit ProcessHelper(QObject *parent = 0);
-    ~ProcessHelper();
-
-signals:
-
-public slots:
-
-private:
-    QProcess *proc;
 
 };
 

@@ -17,10 +17,22 @@
 // You should have received a copy of the GNU General Public License
 // along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "processhelper.h"
-#include <QProcess>
+#ifndef EMUHELPER_H
+#define EMUHELPER_H
 
-ProcessHelper::ProcessHelper(QObject *parent) :
-    QProcess(parent)
+#include "processhelper.h"
+
+class Executable;
+class MediaImageContainer;
+class UnzipHelper;
+
+class EmuHelper : public ProcessHelper
 {
-}
+public:
+    explicit EmuHelper(QObject *parent = 0);
+    void launch(const Executable * ex, const MediaImageContainer * mic);
+private:
+    UnzipHelper *unzipHelper;
+};
+
+#endif // EMUHELPER_H

@@ -46,7 +46,6 @@ QList<MediaImage*> UnzipHelper::listContents(const QString filePath, const FileP
     Setup *sup = fp->getSetup();
     QList<MediaImage*>  fileList;
 
-    QProcess proc(this);
     QString command;
     command.append(UNZIP_COMMAND);
     command.append(UNZIP_LIST_ARGS);
@@ -54,14 +53,14 @@ QList<MediaImage*> UnzipHelper::listContents(const QString filePath, const FileP
     command.append(filePath);
     command.append("\"");
     qDebug() << command;
-    proc.start(command);
+    start(command);
     // TODO: slot(s) for (start and) error signal(s)
-    bool procOk = proc.waitForFinished();
+    bool procOk = waitForFinished();
     if (!procOk) {
         throw new EmuFrontException(tr("Listing information from file %1 failed with unzip.").arg(filePath));
     }
-    QString err = proc.readAllStandardError();
-    QString msg = proc.readAllStandardOutput();
+    QString err = readAllStandardError();
+    QString msg = readAllStandardOutput();
     qDebug() << "\nErrors:\n" << err << "\nMessage:\n" << msg;
 
     /*

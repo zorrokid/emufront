@@ -30,6 +30,7 @@
 #include "widgets/effileobjectcombobox.h"
 #include "widgets/executablecombobox.h"
 #include "dataobjects/executable.h"
+#include "utils/emuhelper.h"
 
 EmuLauncher::EmuLauncher(QWidget *parent) :
     QWidget(parent)
@@ -39,6 +40,7 @@ EmuLauncher::EmuLauncher(QWidget *parent) :
     dbExec = new DbExecutable(this);
     dbMic = 0;
     proc = 0;
+    emuHelper = new EmuHelper(this);
     initWidgets();
     layout();
     connectSignals();
@@ -86,6 +88,8 @@ void EmuLauncher::connectSignals()
 {
     connect(selectButton, SIGNAL(clicked()), this, SLOT(updateMediaImageContainers()));
     connect(launchButton, SIGNAL(clicked()),this, SLOT(launchEmu()));
+    connect(emuHelper, SIGNAL(error(QProcess::ProcessError)), this, SLOT(processError(QProcess::ProcessError)));
+    connect(emuHelper, SIGNAL(finished(int)), this, SLOT(processFinished(int)));
 }
 
 void EmuLauncher::updateMediaImageContainers()
@@ -166,7 +170,7 @@ void EmuLauncher::launchEmu()
             foreach(MediaImage *mi, ls) {
                 qDebug() << "Media image " << mi->getName();
             }
-            launch(exe, mic);
+            emuHelper->launch(exe, mic);
         }
     } catch (EmuFrontException efe) {
         QMessageBox::information(this, tr("Launching emulator"),
@@ -175,51 +179,9 @@ void EmuLauncher::launchEmu()
     }
 }
 
-void EmuLauncher::launch(const Executable * ex, const MediaImageContainer * mic)
-{
-    // extract the media image container to tmp folder
-    // (TODO: tmp folder configuration)
-    //UnZip unz;
-
-    QString fp;
-    fp.append(mic->getFilePath()->getName());
-    if (!fp.endsWith('/')) fp.append("/");
-    fp.append(mic->getName());
-
-    //unz.openArchive(fp);
-    //int err = unz.extractAll("/tmp/"); // TODO: this must be set dynamically
-    //qDebug() << "extractAll to " << fp << " : " << err;
-
-    // TODO: launch the 1st media image in the media image list of ex
-    // or if emulator command options has a place for more than one
-    // media image assign the media images in the list order
-    // to emulator command line.
-
-    QString opts = ex->getOptions();
-    QString tmpfp = " \"/tmp/";
-    qDebug() << "Launching file '" << mic->getMediaImages().first()->getName() << " '";
-    tmpfp.append(mic->getMediaImages().first()->getName()).append("\"");
-    opts.replace("$1", tmpfp);
-    QString cmdWithParams;
-    cmdWithParams.append(ex->getExecutable());
-    cmdWithParams.append(" ").append(opts);
-    // TODO: tmp will be set dynamically
-    // TODO: assigning multiple media images
-    qDebug() << "Command with params " << cmdWithParams;
-    // Executable and MediaImageContainer objects are no more needed:
-    delete ex;
-    delete mic;
-    if (!proc) {
-        proc = new QProcess(this); // This has to be done in the heap
-        connect(proc, SIGNAL(error(QProcess::ProcessError)), this, SLOT(processError(QProcess::ProcessError)));
-        connect(proc, SIGNAL(finished(int)), this, SLOT(processFinished(int)));
-    }
-    proc->start(cmdWithParams, QIODevice::ReadOnly);
-}
-
 void EmuLauncher::processError(QProcess::ProcessError e)
 {
-    QString stdErr = proc->readAllStandardError();
+    QString stdErr = emuHelper->readAllStandardError();
     QMessageBox::warning(this, tr("Emulator"),
         tr("Launching emulator failed with: %1.\n").arg(e)
         .append(";\n").append(proc->errorString().append(";\n")
@@ -228,8 +190,8 @@ void EmuLauncher::processError(QProcess::ProcessError e)
 
 void EmuLauncher::processFinished(int a)
 {
-    QString stdErr = proc->readAllStandardError();
-    QString stdMsg = proc->readAllStandardOutput();
+    QString stdErr = emuHelper->readAllStandardError();
+    QString stdMsg = emuHelper->readAllStandardOutput();
     QString msg = tr("Emulator has finished with: %1.\n").arg(a).append(stdMsg);
     if (a) msg.append("; ").append(proc->errorString()).append(";\n").append(stdErr);
     QMessageBox::information(this, tr("Emulator finished"), msg, QMessageBox::Ok);
