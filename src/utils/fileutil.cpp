@@ -213,14 +213,10 @@ QList<MediaImage*> FileUtil::listContents(const QString filePath, const FilePath
         );
     QStringList entries;
     QRegExp test("^\\s+\\d+\\s+[A-Za-z:]*\\s+\\d+\\s+\\d{1,3}%\\s+\\d{4}-\\d{2}-\\d{2}\\s+\\d{2}:\\d{2}\\s+[0-9a-f]{8}\\s+.+$");
-    QRegExp regExEntries("^\\s+(\\d+)\\s+[A-Za-z:]*\\s+\\d+\\s+\\d{1,3}%\\s+\\d{4}-\\d{2}-\\d{2}\\s+\\d{2}:\\d{2}\\s+([0-9a-f]{8})\\s+(.+)$");
+    QRegExp regExEntries("^\\s+(\\d+)\\s+[A-Za-z:]*\\s+\\d+\\s+\\d{1,3}%\\s+\\d{4}-\\d{2}-\\d{2}\\s+\\d{2}:\\d{2}\\s+([0-9a-f]{8})\\s+(\\S.+)$");
     foreach(QString ln, lines) {
         if (!test.exactMatch(ln)) continue;
         int pos = regExEntries.indexIn(ln);
-        if (regExEntries.captureCount() != 3) {
-            continue;
-            //throw new EmuFrontException(tr("Failed to read needed data from file %1.").arg(filePath));
-        }
         entries = regExEntries.capturedTexts();
         if (entries.count() < 4) continue;
         QString filename = entries[3];
@@ -230,6 +226,7 @@ QList<MediaImage*> FileUtil::listContents(const QString filePath, const FilePath
         int length = lenStr.toInt(&ok);
         if (!ok) continue;
         MediaImage *effo = new MediaImage(filename, checksum, length);
+        fileList << effo;
     }
 
     /*UnZip uz;

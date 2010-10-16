@@ -194,6 +194,7 @@ void EmuLauncher::launch(const Executable * ex, const MediaImageContainer * mic)
     // to emulator command line.
     QString opts = ex->getOptions();
     QString tmpfp = " \"/tmp/";
+    qDebug() << "Launching file '" << mic->getMediaImages().first()->getName() << " '";
     tmpfp.append(mic->getMediaImages().first()->getName()).append("\"");
     opts.replace("$1", tmpfp);
     QString cmdWithParams;
