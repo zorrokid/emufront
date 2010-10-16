@@ -17,33 +17,23 @@
 // You should have received a copy of the GNU General Public License
 // along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef FILEUTIL_H
-#define FILEUTIL_H
+#ifndef UNZIPHELPER_H
+#define UNZIPHELPER_H
 
-#include <QObject>
-#include "../dataobjects/emufrontfileobject.h"
-#include "../dataobjects/filepathobject.h"
+#include "processhelper.h"
 
-#define READ_BUFFER (256*1024)
-
-class QStringList;
-class MediaImageContainer;
 class MediaImage;
-class DbMediaImageContainer;
-class UnzipHelper;
+class FilePathObject;
 
-class FileUtil : QObject
+class UnzipHelper : public ProcessHelper
 {
 public:
-    FileUtil(QObject *parent);
-    ~FileUtil();
-    int scanFilePath(FilePathObject *fpo, const QStringList filters, DbMediaImageContainer *mic);
+    UnzipHelper(QObject *parent = 0);
+    QList<MediaImage*> listContents(const QString filePath, const FilePathObject *fp);
 private:
-    char *buf;
-    quint32 readCrc32(QString filePath);
-    bool isSupportedFile(const QString filename, const QStringList supportedFileExtensions);
-    static const int MIC_BUFFER_SIZE = 50;
-    UnzipHelper *unzipHelper;
+    static const QString UNZIP_COMMAND;
+    static const QString UNZIP_LIST_ARGS;
+
 };
 
-#endif // FILEUTIL_H
+#endif // UNZIPHELPER_H

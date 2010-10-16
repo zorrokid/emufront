@@ -21,7 +21,7 @@
 #include <QProcess>
 #include <QSqlTableModel>
 #include <QItemSelectionModel>
-#include "utils/OSDaB-Zip/unzip.h"
+//#include "utils/OSDaB-Zip/unzip.h"
 #include "emulauncher.h"
 #include "db/dbmediatype.h"
 #include "db/dbplatform.h"
@@ -179,19 +179,22 @@ void EmuLauncher::launch(const Executable * ex, const MediaImageContainer * mic)
 {
     // extract the media image container to tmp folder
     // (TODO: tmp folder configuration)
-    UnZip unz;
+    //UnZip unz;
 
     QString fp;
     fp.append(mic->getFilePath()->getName());
     if (!fp.endsWith('/')) fp.append("/");
     fp.append(mic->getName());
-    unz.openArchive(fp);
-    int err = unz.extractAll("/tmp/"); // TODO: this must be set dynamically
-    qDebug() << "extractAll to " << fp << " : " << err;
+
+    //unz.openArchive(fp);
+    //int err = unz.extractAll("/tmp/"); // TODO: this must be set dynamically
+    //qDebug() << "extractAll to " << fp << " : " << err;
+
     // TODO: launch the 1st media image in the media image list of ex
     // or if emulator command options has a place for more than one
     // media image assign the media images in the list order
     // to emulator command line.
+
     QString opts = ex->getOptions();
     QString tmpfp = " \"/tmp/";
     qDebug() << "Launching file '" << mic->getMediaImages().first()->getName() << " '";

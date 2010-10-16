@@ -61,7 +61,9 @@ HEADERS += mainwindow.h \
     db/dbexecutable.h \
     dialogs/executablemaindialog.h \
     dialogs/executableeditdialog.h \
-    widgets/executablecombobox.h
+    widgets/executablecombobox.h \
+    utils/processhelper.h \
+    utils/unziphelper.h
 SOURCES += main.cpp \
     mainwindow.cpp \
     db/databasemanager.cpp \
@@ -110,5 +112,7 @@ SOURCES += main.cpp \
     db/dbexecutable.cpp \
     dialogs/executablemaindialog.cpp \
     dialogs/executableeditdialog.cpp \
-    widgets/executablecombobox.cpp
+    widgets/executablecombobox.cpp \
+    utils/processhelper.cpp \
+    utils/unziphelper.cpp
 OTHER_FILES += 
