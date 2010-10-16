@@ -115,25 +115,6 @@ QList<MediaImage*> UnzipHelper::listContents(const QString filePath, const FileP
         fileList << effo;
     }
 
-    /*UnZip uz;
-    UnZip::ErrorCode ec = uz.openArchive(filePath);
-    if (ec != UnZip::Ok)
-        throw EmuFrontException(tr("Error while opening zip-file %1, error code %2").arg(filePath).arg(ec));
-
-    QList<UnZip::ZipEntry> list = uz.entryList();
-    foreach(UnZip::ZipEntry entry, list)
-    {
-        qDebug() << "Zip entry " << entry.filename;
-        if (isSupportedFile(entry.filename, sup->getSupportedFileTypeExtensions()))
-        {
-            QString checksum = QString("%1").arg(entry.crc32, 0, 16);
-            qDebug() << "Checksum " << checksum;
-            MediaImage *effo = new MediaImage(entry.filename,
-                checksum, entry.uncompressedSize);
-            fileList << effo;
-        }
-    }*/
-
     qDebug() << "File list has " << fileList.size() << " entries.";
     return fileList;
 

@@ -35,16 +35,11 @@ void EmuHelper::launch(const Executable * ex, const MediaImageContainer * mic)
 {
     // extract the media image container to tmp folder
     // (TODO: tmp folder configuration)
-    //UnZip unz;
 
     QString fp;
     fp.append(mic->getFilePath()->getName());
     if (!fp.endsWith('/')) fp.append("/");
     fp.append(mic->getName());
-
-    //unz.openArchive(fp);
-    //int err = unz.extractAll("/tmp/"); // TODO: this must be set dynamically
-    //qDebug() << "extractAll to " << fp << " : " << err;
 
     int ret = unzipHelper->extractAll(fp, "/tmp/");
 

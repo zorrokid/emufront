@@ -21,7 +21,6 @@
 #include <QProcess>
 #include <QSqlTableModel>
 #include <QItemSelectionModel>
-//#include "utils/OSDaB-Zip/unzip.h"
 #include "emulauncher.h"
 #include "db/dbmediatype.h"
 #include "db/dbplatform.h"
