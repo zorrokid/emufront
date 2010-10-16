@@ -45,6 +45,8 @@ void EmuHelper::launch(const Executable * ex, const MediaImageContainer * mic)
     //int err = unz.extractAll("/tmp/"); // TODO: this must be set dynamically
     //qDebug() << "extractAll to " << fp << " : " << err;
 
+    unzipHelper->extractAll(fp, "/tmp/");
+
     // TODO: launch the 1st media image in the media image list of ex
     // or if emulator command options has a place for more than one
     // media image assign the media images in the list order

@@ -139,3 +139,8 @@ QList<MediaImage*> UnzipHelper::listContents(const QString filePath, const FileP
 
 }
 
+bool UnzipHelper::extractAll(QString filePath, QString targetPath)
+{
+    // unzip filepath -d targetpath
+    return false;
+}
