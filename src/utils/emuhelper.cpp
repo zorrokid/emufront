@@ -31,10 +31,13 @@ EmuHelper::EmuHelper(QObject *parent) :
     unzipHelper = new UnzipHelper(this);
 }
 
-void EmuHelper::launch(const Executable * ex, const MediaImageContainer * mic)
+void EmuHelper::launch(const Executable * ex, QList<MediaImageContainer *> micList, QList<MediaImage *> miList)
 {
     // extract the media image container to tmp folder
     // (TODO: tmp folder configuration)
+
+    // TODO: support multiple media images
+    MediaImageContainer *mic = micList.first();
 
     QString fp;
     fp.append(mic->getFilePath()->getName());

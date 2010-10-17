@@ -26,6 +26,7 @@
 
 const QString UnzipHelper::UNZIP_COMMAND = "unzip ";
 const QString UnzipHelper::UNZIP_LIST_ARGS = "-lv ";
+const QString UnzipHelper::UNZIP_EXTRACT_ARGS= "-qqo ";
 
 UnzipHelper::UnzipHelper(QObject *parent) :
     ProcessHelper(parent)
@@ -139,6 +140,7 @@ int UnzipHelper::extractAll(QString filePath, QString targetPath)
     // unzip filepath -d targetpath
     QString command;
     command.append(UNZIP_COMMAND);
+    command.append(UNZIP_EXTRACT_ARGS);
     command.append("\"");
     command.append(filePath);
     command.append("\"");

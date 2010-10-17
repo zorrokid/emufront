@@ -34,6 +34,7 @@ public:
 private:
     static const QString UNZIP_COMMAND;
     static const QString UNZIP_LIST_ARGS;
+    static const QString UNZIP_EXTRACT_ARGS;
 
 };
 

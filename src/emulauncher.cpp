@@ -129,18 +129,6 @@ void EmuLauncher::launchEmu()
         }
         qDebug() << listMIndex.count() << " items selected.";
 
-        // TODO: multiple media image container selection
-        //          - build a list of selected media image objects
-        //          - check that the platform and media type (setup) matches
-        QModelIndex mindex = listMIndex.first();
-        EmuFrontObject *obImg = dbMic->getDataObjectFromModel(&mindex);
-        if (!obImg) {
-            throw EmuFrontException(tr("Failed fetching selected media image container."));
-        }
-        MediaImageContainer *mic = dynamic_cast<MediaImageContainer*>(obImg);
-        if (!mic) {
-            throw EmuFrontException(tr("Failed creating media image container object!"));
-        }
         EmuFrontObject *obExe = execSelectBox->getSelected();
         if (!obExe) {
             throw EmuFrontException(tr("Failed fetching selected emulator!"));
@@ -149,28 +137,56 @@ void EmuLauncher::launchEmu()
         if (!exe) {
             throw EmuFrontException(tr("Failed creating Emulator object!"));
         }
-        qDebug() << "Selected media image container "
-                << mic->getName() << " and emulator "
-                << obExe->getName() << ".";
-        if (mic->getMediaImages().count() > 0) {
-            // 1. Launch media image
-            // TODO
-            // 2. If 2 or more media images in container
-            //    show a diaglog for choosing the boot image
-            // 3. If 2 or more media image containers selected
-            //    from a list show a dialog listing all the media
-            //    images in those container for choosing the
-            //    boot image
-            // 4. If selected emulator command line containes more
-            //    than one media image placeholder ($1, $2, ...)
-            //    show a dialog for ordering the media images to
-            //    right order.
-            QList<MediaImage*> ls = mic->getMediaImages();
-            foreach(MediaImage *mi, ls) {
-                qDebug() << "Media image " << mi->getName();
+
+        // TODO: multiple media image container selection
+        //          - build a list of selected media image objects
+        //          - check that the platform and media type (setup) matches
+        QList<MediaImage*> mediaImages;
+        QList<MediaImageContainer*> mediaImageContainers;
+        foreach(QModelIndex mind, listMIndex) {
+            EmuFrontObject *obImg = dbMic->getDataObjectFromModel(&mind);
+            if (!obImg) {
+                qDebug() << "Failed creating media image container at row " << mind.row();
+                continue;
             }
-            emuHelper->launch(exe, mic);
+            MediaImageContainer *mic = dynamic_cast<MediaImageContainer*>(obImg);
+            if (!mic) {
+                qDebug() << "Failed to create media image container for " << obImg->getName();
+                delete obImg;
+                continue;
+            }
+            mediaImageContainers << mic;
+            QList<MediaImage*> contained = mic->getMediaImages();
+            mediaImages << contained;
         }
+
+        if (mediaImages.count() < 1) {
+            delete exe;
+            throw new EmuFrontException("No media images available!");
+        }
+
+        // check if command options have slots for nr media images > 1 e.g. "-diska $1 -diskb $2 ..."
+        QString opts = exe->getOptions();
+        QRegExp rx("(\\s\\$\\d+\\s)");
+        QStringList list;
+        int pos = 0;
+        while ((pos = rx.indexIn(opts, pos)) != -1) {
+            list << rx.cap(1);
+            pos += rx.matchedLength();
+        }
+
+        if (list.count() > 1) {
+            // TODO: show dialog to set the media order (the images will be assigned to slots in the order in respect to the image list)
+        }
+        else {
+            // TODO: show select boot image dialog
+        }
+        // in the both cases the (ordered) list of media images will be passed to emuHelper
+
+        foreach(MediaImage *mi, mediaImages) {
+            qDebug() << "Media image " << mi->getName();
+        }
+        emuHelper->launch(exe, mediaImageContainers, mediaImages);
     } catch (EmuFrontException efe) {
         QMessageBox::information(this, tr("Launching emulator"),
                                  efe.what(), QMessageBox::Ok);

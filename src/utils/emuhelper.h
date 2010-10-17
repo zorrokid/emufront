@@ -24,6 +24,7 @@
 
 class Executable;
 class MediaImageContainer;
+class MediaImage;
 class UnzipHelper;
 
 class EmuHelper : public ProcessHelper
@@ -31,7 +32,7 @@ class EmuHelper : public ProcessHelper
     Q_OBJECT
 public:
     explicit EmuHelper(QObject *parent = 0);
-    void launch(const Executable * ex, const MediaImageContainer * mic);
+    void launch(const Executable * ex, QList<MediaImageContainer *> micList, QList<MediaImage *> miList);
 private slots:
     void processError(QProcess::ProcessError);
     void processFinished(int);
