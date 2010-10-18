@@ -22,14 +22,14 @@
 
 #include "processhelper.h"
 
-class MediaImage;
+class EmuFrontObject;
 class FilePathObject;
 
 class UnzipHelper : public ProcessHelper
 {
 public:
     UnzipHelper(QObject *parent = 0);
-    QList<MediaImage*> listContents(const QString filePath, const FilePathObject *fp);
+    QMap<QString, EmuFrontObject*> listContents(const QString filePath, const FilePathObject *fp);
     int extractAll(QString filePath, QString targetPath);
 private:
     static const QString UNZIP_COMMAND;

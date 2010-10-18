@@ -31,23 +31,28 @@ EmuHelper::EmuHelper(QObject *parent) :
     unzipHelper = new UnzipHelper(this);
 }
 
-void EmuHelper::launch(const Executable * ex, QList<MediaImageContainer *> &micList, QList<EmuFrontObject *> &miList)
+void EmuHelper::launch(const Executable * ex, QList<MediaImageContainer *> micList,
+    QList<EmuFrontObject *> miList)
 {
+    if (miList.count() < 1) {
+        throw EmuFrontException(tr("No media images available!"));
+    }
+    if (micList.count() < 1) {
+        throw EmuFrontException(tr("No media image containers available!"));
+    }
     // extract the media image container to tmp folder
     // (TODO: tmp folder configuration)
 
-    // TODO: support multiple media images
-    MediaImageContainer *mic = micList.first();
-
-    QString fp;
-    fp.append(mic->getFilePath()->getName());
-    if (!fp.endsWith('/')) fp.append("/");
-    fp.append(mic->getName());
-
-    int ret = unzipHelper->extractAll(fp, "/tmp/");
-
-    if (ret) {
-        throw EmuFrontException(tr("Unzip failed with %1.").arg(ret));
+    foreach(MediaImageContainer *mic, micList) {
+        QString fp;
+        fp.append(mic->getFilePath()->getName());
+        if (!fp.endsWith('/')) fp.append("/");
+        fp.append(mic->getName());
+        int ret = unzipHelper->extractAll(fp, "/tmp/");
+        if (ret) {
+            qDebug() << "Failed unzipping " << fp << ".";
+            //throw EmuFrontException(tr("Unzip failed with %1.").arg(ret));
+        }
     }
 
     // TODO: launch the 1st media image in the media image list of ex
@@ -57,8 +62,8 @@ void EmuHelper::launch(const Executable * ex, QList<MediaImageContainer *> &micL
 
     QString opts = ex->getOptions();
     QString tmpfp = " \"/tmp/";
-    qDebug() << "Launching file '" << mic->getMediaImages().first()->getName() << " '";
-    tmpfp.append(mic->getMediaImages().first()->getName()).append("\"");
+    // if only one media image placeholder -> TODO: if more placeholders e.g. $1 $2 ...
+    tmpfp.append(miList.first()->getName()).append("\"");
     opts.replace("$1", tmpfp);
     QString cmdWithParams;
     cmdWithParams.append(ex->getExecutable());
@@ -66,9 +71,10 @@ void EmuHelper::launch(const Executable * ex, QList<MediaImageContainer *> &micL
     // TODO: tmp will be set dynamically
     // TODO: assigning multiple media images
     qDebug() << "Command with params " << cmdWithParams;
-    // Executable and MediaImageContainer objects are no more needed:
+    // Executable and MediaImageContainer / MediaImage objects are no more needed:
     delete ex;
-    delete mic;
+    qDeleteAll(micList);
+    //qDeleteAll(miList); these objects are already deleted along with micList
     start(cmdWithParams, QIODevice::ReadOnly);
 }
 

@@ -33,7 +33,7 @@ UnzipHelper::UnzipHelper(QObject *parent) :
 {
 }
 
-QList<MediaImage*> UnzipHelper::listContents(const QString filePath, const FilePathObject *fp)
+QMap<QString, EmuFrontObject*> UnzipHelper::listContents(const QString filePath, const FilePathObject *fp)
 {
     if (!fp->getSetup()){
         throw EmuFrontException(tr("Setup not available with %1.").arg(fp->getName()));
@@ -45,7 +45,7 @@ QList<MediaImage*> UnzipHelper::listContents(const QString filePath, const FileP
     }
 
     Setup *sup = fp->getSetup();
-    QList<MediaImage*>  fileList;
+    QMap<QString, EmuFrontObject*>  fileList;
 
     QString command;
     command.append(UNZIP_COMMAND);
@@ -113,7 +113,7 @@ QList<MediaImage*> UnzipHelper::listContents(const QString filePath, const FileP
         int length = lenStr.toInt(&ok);
         if (!ok) continue;
         MediaImage *effo = new MediaImage(filename, checksum, length);
-        fileList << effo;
+        fileList[checksum] = effo;
     }
 
     qDebug() << "File list has " << fileList.size() << " entries.";

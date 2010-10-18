@@ -61,7 +61,7 @@ int DbMediaImageContainer::insertDataObjectToModel(const EmuFrontObject *efo)
         throw new EmuFrontException("Cannot install media image "
             "container to database without a file path object!");
 
-    QList<MediaImage*> images = mic->getMediaImages();
+    QMap<QString, EmuFrontObject*> images = mic->getMediaImages();
     QList<int> ids = dbMediaImage->storeMediaImages(images);
 
     qDebug() << "Stored " << ids.count() << " media images.";
@@ -169,7 +169,7 @@ EmuFrontObject* DbMediaImageContainer::recordToDataObject(const QSqlRecord *rec)
         = dynamic_cast<FilePathObject*>(dbFilePath->getDataObject(fpId));
     //int supId = rec->value(MIC_SetupId).toInt();
     //Setup *sup = dbSetup->getDataObject(supId)
-    QList<MediaImage*> images = dbMediaImage->getMediaImages(id);
+    QMap<QString, EmuFrontObject*> images = dbMediaImage->getMediaImages(id);
 
     mic = new MediaImageContainer(
        id, name, checksum, size, images, fpo

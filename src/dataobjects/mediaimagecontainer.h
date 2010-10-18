@@ -30,20 +30,20 @@ class MediaImageContainer : public EmuFrontFile
 public:
     MediaImageContainer();
     MediaImageContainer(int id, QString name, QString checksum,
-        int size, QList<MediaImage*> images, FilePathObject *fpo);
+        int size, QMap<QString, EmuFrontObject*> images, FilePathObject *fpo);
     MediaImageContainer(QString name, QString checksum,
-        int size, QList<MediaImage*> images, FilePathObject *fpo);
+        int size, QMap<QString, EmuFrontObject*> images, FilePathObject *fpo);
     ~MediaImageContainer();
     MediaImageContainer(MediaImageContainer&);
     MediaImageContainer& operator=(MediaImageContainer&);
-    QList<MediaImage*> getMediaImages() const;
-    void setMediaImages(QList<MediaImage*>);
+    QMap<QString, EmuFrontObject*> getMediaImages() const;
+    void setMediaImages(QMap<QString, EmuFrontObject*>);
     void addMediaImage(MediaImage*);
     void clearMediaImages();
     void setFilePath(FilePathObject*);
     FilePathObject* getFilePath() const;
 private:
-    QList<MediaImage*> lstMediaImage;
+    QMap<QString, EmuFrontObject*> lstMediaImage;
     FilePathObject *filePath;
 };
 

@@ -23,18 +23,18 @@
 MediaImageContainer::MediaImageContainer()
     : EmuFrontFile(EmuFrontFile::FileType_MediaImageContainer)
 {
-    lstMediaImage = QList<MediaImage*>();
+    lstMediaImage = QMap<QString, EmuFrontObject*>();
     filePath = 0;
 }
 
 MediaImageContainer::MediaImageContainer(int id, QString name, 
-    QString checksum, int size, QList<MediaImage *>images, FilePathObject *fpo)
+    QString checksum, int size, QMap<QString, EmuFrontObject*>images, FilePathObject *fpo)
     : EmuFrontFile(id, name, checksum, size, EmuFrontFile::FileType_MediaImageContainer),
         lstMediaImage(images), filePath(fpo)
 { }
 
 MediaImageContainer::MediaImageContainer(QString name, QString checksum,
-    int size, QList<MediaImage *>images, FilePathObject *fpo)
+    int size, QMap<QString, EmuFrontObject*>images, FilePathObject *fpo)
     : EmuFrontFile(-1, name, checksum, size, EmuFrontFile::FileType_MediaImageContainer),
         lstMediaImage(images), filePath(fpo)
 { }
@@ -48,9 +48,16 @@ MediaImageContainer::~MediaImageContainer()
 MediaImageContainer::MediaImageContainer(MediaImageContainer &mic)
     : EmuFrontFile(mic)
 {
-    lstMediaImage = QList<MediaImage*>();
-    foreach(MediaImage *mi, mic.lstMediaImage)
-        lstMediaImage.append(new MediaImage(*mi));
+    lstMediaImage = QMap<QString, EmuFrontObject*>();
+
+    QMapIterator<QString, EmuFrontObject*> it(mic.lstMediaImage);
+    MediaImage *mi = 0;
+    while(it.hasNext()) {
+        it.next();
+        mi = dynamic_cast<MediaImage*>(it.value());
+        lstMediaImage[mi->getCheckSum()] = new MediaImage(*mi);
+    }
+
     filePath = new FilePathObject(*(mic.filePath));
 }
 
@@ -63,23 +70,29 @@ MediaImageContainer& MediaImageContainer::operator =(MediaImageContainer &mic)
     checkSum = mic.checkSum;
     size = mic.size;
     qDeleteAll(lstMediaImage);
-    foreach(MediaImage *mi, mic.lstMediaImage)
-        lstMediaImage.append(new MediaImage(*mi));
+
+    QMapIterator<QString, EmuFrontObject*> it(mic.lstMediaImage);
+    MediaImage *mi = 0;
+    while(it.hasNext()) {
+        it.next();
+        mi = dynamic_cast<MediaImage*>(it.value());
+        lstMediaImage[mi->getCheckSum()] = new MediaImage(*mi);
+    }
     filePath = new FilePathObject(*(mic.filePath));
     return (*this);
 }
 
-void MediaImageContainer::setMediaImages(QList<MediaImage *> list)
+void MediaImageContainer::setMediaImages(QMap<QString, EmuFrontObject*> list)
 {
     qDeleteAll(lstMediaImage);
     lstMediaImage = list;
 }
 
-QList<MediaImage *> MediaImageContainer::getMediaImages() const
+QMap<QString, EmuFrontObject*> MediaImageContainer::getMediaImages() const
 {   return lstMediaImage; }
 
 void MediaImageContainer::addMediaImage(MediaImage *mi)
-{   lstMediaImage.append(mi); }
+{   lstMediaImage[mi->getCheckSum()] = mi; }
 
 void MediaImageContainer::clearMediaImages()
 {

@@ -89,12 +89,16 @@ EmuFrontObject* DbMediaImage::recordToDataObject(const QSqlRecord *)
    Returns a list of media image id corresponding to the given list of media
    images inserted to the database or already in the database.
 */
-QList<int> DbMediaImage::storeMediaImages(QList<MediaImage *> images)
+QList<int> DbMediaImage::storeMediaImages(QMap<QString, EmuFrontObject*> images)
 {
     qDebug() << "Storing media images to database.";
     QList<int> ids  = QList<int>();
-    foreach(MediaImage* mi, images)
+    QMapIterator<QString, EmuFrontObject*> it(images);
+    MediaImage *mi = 0;
+    while(it.hasNext())
     {
+        it.next();
+        mi = dynamic_cast<MediaImage*>(it.value());
         QString cksum = mi->getCheckSum();
         qDebug() << "Storing media image " << mi->getName()
             << " with checksum " << cksum;
@@ -134,9 +138,9 @@ void DbMediaImage::removeOrphanedMediaImages(QList<int> ids)
 
 /* Fetches a list of media images inside a media image container
     with a given id */
-QList<MediaImage*> DbMediaImage::getMediaImages(int micId) const
+QMap<QString, EmuFrontObject*> DbMediaImage::getMediaImages(int micId) const
 {
-    QList<MediaImage*> list;
+    QMap<QString, EmuFrontObject*> list;
     QSqlQuery  q;
     q.prepare("SELECT file.id, file.name, file.checksum, file.size "
         "FROM file INNER JOIN mediaimagecontainer_mediaimage "
@@ -155,7 +159,7 @@ QList<MediaImage*> DbMediaImage::getMediaImages(int micId) const
         name = rec.value(DbMediaImage::File_Name).toString();
         checksum = rec.value(DbMediaImage::File_CheckSum).toString();
         size = rec.value(DbMediaImage::File_FileSize).toInt();
-        list.append(new MediaImage(id, name, checksum, size));
+        list[checksum] = new MediaImage(id, name, checksum, size);
     }
     return list;
 }

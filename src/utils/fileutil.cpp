@@ -83,7 +83,7 @@ int FileUtil::scanFilePath(FilePathObject *fp, QStringList filters, DbMediaImage
         qDebug() << QString("%1 %2").arg(fileInfo.size(), 10).arg(fileInfo.absoluteFilePath());
 
         //... and collect the contents of each archive
-        QList<MediaImage*> files = unzipHelper->listContents(fileInfo.absoluteFilePath(), fp);
+        QMap<QString, EmuFrontObject*> files = unzipHelper->listContents(fileInfo.absoluteFilePath(), fp);
 
         if (files.count() > 0)
         {
