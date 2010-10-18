@@ -61,7 +61,9 @@ HEADERS += mainwindow.h \
     widgets/executablecombobox.h \
     utils/processhelper.h \
     utils/unziphelper.h \
-    utils/emuhelper.h
+    utils/emuhelper.h \
+    dialogs/listdialog.h \
+    dialogs/emufrontinputdialog.h
 SOURCES += main.cpp \
     mainwindow.cpp \
     db/databasemanager.cpp \
@@ -112,5 +114,7 @@ SOURCES += main.cpp \
     widgets/executablecombobox.cpp \
     utils/processhelper.cpp \
     utils/unziphelper.cpp \
-    utils/emuhelper.cpp
+    utils/emuhelper.cpp \
+    dialogs/listdialog.cpp \
+    dialogs/emufrontinputdialog.cpp
 OTHER_FILES += 

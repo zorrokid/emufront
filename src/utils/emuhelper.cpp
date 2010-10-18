@@ -31,7 +31,7 @@ EmuHelper::EmuHelper(QObject *parent) :
     unzipHelper = new UnzipHelper(this);
 }
 
-void EmuHelper::launch(const Executable * ex, QList<MediaImageContainer *> micList, QList<MediaImage *> miList)
+void EmuHelper::launch(const Executable * ex, QList<MediaImageContainer *> &micList, QList<EmuFrontObject *> &miList)
 {
     // extract the media image container to tmp folder
     // (TODO: tmp folder configuration)

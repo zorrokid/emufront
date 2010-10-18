@@ -17,29 +17,26 @@
 // You should have received a copy of the GNU General Public License
 // along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef EMUHELPER_H
-#define EMUHELPER_H
+#ifndef LISTDIALOG_H
+#define LISTDIALOG_H
 
-#include "processhelper.h"
+#include <QDialog>
 
-class Executable;
-class MediaImageContainer;
-class MediaImage;
+class QListWidget;
+class QDialogButtonBox;
 class EmuFrontObject;
-class UnzipHelper;
 
-class EmuHelper : public ProcessHelper
+class ListDialog : public QDialog
 {
     Q_OBJECT
+
 public:
-    explicit EmuHelper(QObject *parent = 0);
-    void launch(const Executable * ex, QList<MediaImageContainer *> &micList, QList<EmuFrontObject*> &miList);
-private slots:
-    void processError(QProcess::ProcessError);
-    void processFinished(int);
+    ListDialog(QWidget *parent = 0);
+    void setData(QList<EmuFrontObject*>);
 private:
-    UnzipHelper *unzipHelper;
-    void connectSignals();
+    QListWidget *listView;
+    QDialogButtonBox *buttonBox;
+    void layout();
 };
 
-#endif // EMUHELPER_H
+#endif // LISTDIALOG_H
