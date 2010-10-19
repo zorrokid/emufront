@@ -18,6 +18,7 @@
 // along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QDebug>
+#include <QFile>
 #include <QMessageBox>
 #include "emuhelper.h"
 #include "unziphelper.h"
@@ -41,6 +42,8 @@ void EmuHelper::launch(const Executable * ex, QList<MediaImageContainer *> micLi
         throw EmuFrontException(tr("No media image containers available!"));
     }
 
+    QString tmp = "/tmp/"; // TODO: do this configurable!
+
     // extract the media image container to tmp folder
     // (TODO: tmp folder configuration)
     foreach(MediaImageContainer *mic, micList) {
@@ -48,7 +51,7 @@ void EmuHelper::launch(const Executable * ex, QList<MediaImageContainer *> micLi
         fp.append(mic->getFilePath()->getName());
         if (!fp.endsWith('/')) fp.append("/");
         fp.append(mic->getName());
-        int ret = unzipHelper->extractAll(fp, "/tmp/");
+        int ret = unzipHelper->extractAll(fp, tmp);
         if (ret) {
             qDebug() << "Failed unzipping " << fp << ".";
         }
@@ -68,11 +71,23 @@ void EmuHelper::launch(const Executable * ex, QList<MediaImageContainer *> micLi
     cmdWithParams.append(" ").append(opts);
 
     qDebug() << "Command with params " << cmdWithParams;
-    // Executable and MediaImageContainer / MediaImage objects are no more needed:
+    start(cmdWithParams, QIODevice::ReadOnly);
+
+    // for the moment, we'll wait for the process to be finished until we continue
+    waitForFinished(-1);
+
+    // clean the temp dir
+    foreach(EmuFrontObject *ob, miList) {
+        QString fp = tmp;
+        fp.append(ob->getName());
+        QFile f(fp);
+        if (!f.remove())
+            qDebug() << "Removing " << fp << " failed.";
+    }
     delete ex;
     qDeleteAll(micList);
     //qDeleteAll(miList); these objects are already deleted along with micList
-    start(cmdWithParams, QIODevice::ReadOnly);
+
 }
 
 void EmuHelper::processError(QProcess::ProcessError)
