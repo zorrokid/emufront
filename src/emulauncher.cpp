@@ -185,10 +185,11 @@ void EmuLauncher::launchEmu()
                 }
                 selectedImages << efo;
                 MediaImage *mi = dynamic_cast<MediaImage*>(efo);
-                mediaImages.remove(mi->getCheckSum());
+                QString key = mi->getCheckSum();
+                mediaImages.remove(key);
             }
-            if (list.count() == mediaImages.count() && mediaImages.count() == 1) {
-                // there should be only one media image left in mediaImages map
+            if (mediaImages.count() == 1) {
+                // there should be at least one media image left in mediaImages map
                 selectedImages << mediaImages.values().first();
             }
         }
@@ -208,7 +209,7 @@ void EmuLauncher::launchEmu()
         if (selectedImages.count() < 1)
             throw EmuFrontException(tr("No media images selected"));
 
-        emuHelper->launch(exe, mediaImageContainers, selectedImages);
+        emuHelper->launch(exe, mediaImageContainers, selectedImages, list.count());
     } catch (EmuFrontException efe) {
         delete exe;
         qDeleteAll(mediaImageContainers);

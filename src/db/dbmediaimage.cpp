@@ -142,7 +142,7 @@ QMap<QString, EmuFrontObject*> DbMediaImage::getMediaImages(int micId) const
 {
     QMap<QString, EmuFrontObject*> list;
     QSqlQuery  q;
-    q.prepare("SELECT file.id, file.name, file.checksum, file.size "
+    q.prepare("SELECT file.id, file.name, file.size, file.checksum "
         "FROM file INNER JOIN mediaimagecontainer_mediaimage "
         "ON mediaimagecontainer_mediaimage.mediaimageid = file.id "
         "WHERE mediaimagecontainer_mediaimage.mediaimagecontainerid = :micid ");
