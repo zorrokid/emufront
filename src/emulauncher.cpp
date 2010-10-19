@@ -211,6 +211,7 @@ void EmuLauncher::launchEmu()
             throw EmuFrontException(tr("No media images selected"));
 
         emuHelper->launch(exe, mediaImageContainers, selectedImages, list.count());
+        micTable->clearSelection();
     } catch (EmuFrontException efe) {
         delete exe;
         qDeleteAll(mediaImageContainers);

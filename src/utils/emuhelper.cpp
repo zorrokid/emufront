@@ -87,7 +87,6 @@ void EmuHelper::launch(const Executable * ex, QList<MediaImageContainer *> micLi
     delete ex;
     qDeleteAll(micList);
     //qDeleteAll(miList); these objects are already deleted along with micList
-
 }
 
 void EmuHelper::processError(QProcess::ProcessError)
