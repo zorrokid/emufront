@@ -39,7 +39,6 @@ EmuLauncher::EmuLauncher(QWidget *parent) :
     dbMediaType = new DbMediaType(this);
     dbExec = new DbExecutable(this);
     dbMic = 0;
-    proc = 0;
     emuHelper = new EmuHelper(this);
     initWidgets();
     layout();
@@ -48,9 +47,9 @@ EmuLauncher::EmuLauncher(QWidget *parent) :
 
 EmuLauncher::~EmuLauncher()
 {
-    if (proc) {
-        proc->kill(); // TODO: do this in a more sophisticated way
-        delete proc;
+    if (emuHelper) {
+        qDebug() << "EmuLauncher destructor";
+        emuHelper->kill(); // TODO: do this in a more sophisticated way
     }
 }
 
@@ -226,7 +225,7 @@ void EmuLauncher::processError(QProcess::ProcessError e)
     QString stdErr = emuHelper->readAllStandardError();
     QMessageBox::warning(this, tr("Emulator"),
         tr("Launching emulator failed with: %1.\n").arg(e)
-        .append(";\n").append(proc->errorString().append(";\n")
+        .append(";\n").append(emuHelper->errorString().append(";\n")
         .append(stdErr)), QMessageBox::Ok );
 }
 
@@ -237,7 +236,7 @@ void EmuLauncher::processFinished(int a)
     QString stdErr = emuHelper->readAllStandardError();
     QString stdMsg = emuHelper->readAllStandardOutput();
     QString msg = tr("Emulator has finished with: %1.\n").arg(a).append(stdMsg);
-    if (a) msg.append("; ").append(proc->errorString()).append(";\n").append(stdErr);
+    if (a) msg.append("; ").append(emuHelper->errorString()).append(";\n").append(stdErr);
     QMessageBox::information(this, tr("Emulator finished"), msg, QMessageBox::Ok);
 }
 

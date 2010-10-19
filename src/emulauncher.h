@@ -33,7 +33,6 @@ class EFFileObjectComboBox;
 class ExecutableComboBox;
 class Executable;
 class MediaImageContainer;
-class QProcess;
 class EmuHelper;
 
 class EmuLauncher : public QWidget
@@ -63,7 +62,6 @@ private:
     DbMediaType *dbMediaType;
     DbMediaImageContainer *dbMic;
     DbExecutable *dbExec;
-    QProcess *proc;
     EmuHelper *emuHelper;
     void initWidgets();
     void layout();
