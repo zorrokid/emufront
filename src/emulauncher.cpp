@@ -167,7 +167,7 @@ void EmuLauncher::launchEmu()
         }
 
         if (mediaImages.count() < 1) {
-            throw new EmuFrontException("No media images available!");
+            throw EmuFrontException("No media images available!");
         }
 
         // check if command options have slots for nr media images > 1 e.g. "-diska $1 -diskb $2 ..."
@@ -180,22 +180,26 @@ void EmuLauncher::launchEmu()
             pos += rx.matchedLength();
         }
 
+        bool ok;
         QList<EmuFrontObject*> selectedImages;
         if (list.count() > 1) {
             for(int i = 0; i < list.count(); i++) {
-                //QInputDialog::getItem();
-                // TODO: Use input dialog here
-                // Create a new input dialog class for emufrontobjects
+                EmuFrontObject *efo = EmuFrontInputDialog::getItem(
+                        this, tr("Select image no. %1").arg(i+1), tr("Select"), mediaImages.values(), 0, false, &ok);
+                if (!ok)  {
+                    throw EmuFrontException(tr("Boot image selection was canceled, aborting."));
+                }
+                selectedImages << efo;
+                MediaImage *mi = dynamic_cast<MediaImage*>(efo);
+                mediaImages.remove(mi->getCheckSum());
             }
-            // TODO: show dialog to set the media order (the images will be assigned to slots in the order in respect to the image list)
         }
         else if (mediaImages.count() > 1) {
             // show select boot image dialog
-            bool ok;
             EmuFrontObject *efo = EmuFrontInputDialog::getItem(
                 this, tr("Select boot image"), tr("Select"), mediaImages.values(), 0, false, &ok);
             if (!ok)  {
-                throw new EmuFrontException(tr("Boot image selection was canceled, aborting."));
+                throw EmuFrontException(tr("Boot image selection was canceled, aborting."));
             }
             selectedImages << efo;
         }
@@ -204,13 +208,13 @@ void EmuLauncher::launchEmu()
         // in the both cases the (ordered) list of media images will be passed to emuHelper
 
         if (selectedImages.count() < 1)
-            throw new EmuFrontException(tr("No media images selected"));
+            throw EmuFrontException(tr("No media images selected"));
 
         emuHelper->launch(exe, mediaImageContainers, selectedImages);
     } catch (EmuFrontException efe) {
         delete exe;
         qDeleteAll(mediaImageContainers);
-        qDeleteAll(mediaImages);
+        //qDeleteAll(mediaImages); these are already deleted along with containers
         QMessageBox::information(this, tr("Launching emulator"),
                                  efe.what(), QMessageBox::Ok);
         return;
