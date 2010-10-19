@@ -122,12 +122,8 @@ void EmuLauncher::launchEmu()
         if (!execSelectBox || execSelectBox->currentIndex() == -1) {
             throw EmuFrontException(tr("Emulator not selected!"));
         }
-        //QModelIndex mindex = micTable->currentIndex();
         QItemSelectionModel *selModel = micTable->selectionModel();
         QModelIndexList listMIndex =  selModel->selectedIndexes();
-        /*if (!mindex.isValid()) {
-            throw EmuFrontException(tr("Media image container not selected!"));
-        }*/
         if (listMIndex.count() < 1) {
             throw EmuFrontException(tr("Media image container not selected!"));
         }
@@ -142,10 +138,8 @@ void EmuLauncher::launchEmu()
             throw EmuFrontException(tr("Failed creating Emulator object!"));
         }
 
-        // TODO: multiple media image container selection
-        //          - build a list of selected media image objects
-        //          - check that the platform and media type (setup) matches
         foreach(QModelIndex mind, listMIndex) {
+            if (!mind.isValid()) continue;
             EmuFrontObject *obImg = dbMic->getDataObjectFromModel(&mind);
             if (!obImg) {
                 qDebug() << "Failed creating media image container at row " << mind.row();
@@ -160,10 +154,6 @@ void EmuLauncher::launchEmu()
             mediaImageContainers << mic;
             QMap<QString, EmuFrontObject*> contained = mic->getMediaImages();
             mediaImages.unite(contained);
-            /*QMapIterator<QString, MediaImage*> it(contained);
-            while (it.hasNext()){
-                mediaImages << it.value();
-            }*/
         }
 
         if (mediaImages.count() < 1) {
@@ -172,7 +162,7 @@ void EmuLauncher::launchEmu()
 
         // check if command options have slots for nr media images > 1 e.g. "-diska $1 -diskb $2 ..."
         QString opts = exe->getOptions();
-        QRegExp rx("(\\s\\$\\d+\\s)");
+        QRegExp rx("(\\s\\$\\d+)");
         QStringList list;
         int pos = 0;
         while ((pos = rx.indexIn(opts, pos)) != -1) {
@@ -182,8 +172,12 @@ void EmuLauncher::launchEmu()
 
         bool ok;
         QList<EmuFrontObject*> selectedImages;
+        if (list.count() > mediaImages.count()) {
+            throw EmuFrontException(tr("Select %1 media images for this emulator configuration").arg(list.count()));
+        }
         if (list.count() > 1) {
-            for(int i = 0; i < list.count(); i++) {
+            int lim = list.count() == mediaImages.count() ? list.count() - 1 : list.count();
+            for(int i = 0; i < lim; i++) {
                 EmuFrontObject *efo = EmuFrontInputDialog::getItem(
                         this, tr("Select image no. %1").arg(i+1), tr("Select"), mediaImages.values(), 0, false, &ok);
                 if (!ok)  {
@@ -192,6 +186,10 @@ void EmuLauncher::launchEmu()
                 selectedImages << efo;
                 MediaImage *mi = dynamic_cast<MediaImage*>(efo);
                 mediaImages.remove(mi->getCheckSum());
+            }
+            if (list.count() == mediaImages.count() && mediaImages.count() == 1) {
+                // there should be only one media image left in mediaImages map
+                selectedImages << mediaImages.values().first();
             }
         }
         else if (mediaImages.count() > 1) {
