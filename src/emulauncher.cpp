@@ -49,8 +49,10 @@ EmuLauncher::~EmuLauncher()
 {
     if (emuHelper) {
         qDebug() << "EmuLauncher destructor";
-        emuHelper->kill(); // TODO: do this in a more sophisticated way
-    }
+        if (emuHelper->state() == EmuHelper::Running)
+            qDebug() << "EmuHelper process is running, killing...";
+            emuHelper->kill();
+        }
 }
 
 void EmuLauncher::updateData()
