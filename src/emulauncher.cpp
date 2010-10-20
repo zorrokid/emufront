@@ -69,8 +69,8 @@ void EmuLauncher::initWidgets()
     mediaTypeSelectBox = new EFFileObjectComboBox(dbMediaType, this);
     platformSelectBox = new EFFileObjectComboBox(dbPlatform, this);
     execSelectBox = new ExecutableComboBox(dbExec, this);
-    selectButton = new QPushButton(tr("&Update"));
-    launchButton = new QPushButton(tr("&Launch"));
+    selectButton = new QPushButton(tr("&Update"), this);
+    launchButton = new QPushButton(tr("&Launch"), this);
 }
 
 void EmuLauncher::layout()
@@ -82,6 +82,7 @@ void EmuLauncher::layout()
     grid->addWidget(micTable, 2, 0, 1, 2);
     grid->addWidget(execSelectBox, 3, 0);
     grid->addWidget(launchButton, 3, 1);
+    // grid will be implicitily parented to this
     setLayout(grid);
 }
 
