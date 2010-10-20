@@ -60,7 +60,7 @@ int main(int argc, char *argv[])
     }
     else cout << " Database exists!" << endl;
 
-    MainWindow *mw = new MainWindow;
-	mw->show();
+    MainWindow mw;
+    mw.show();
 	return app.exec();
 }
