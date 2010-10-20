@@ -61,6 +61,8 @@ bool DbCreator::createDB()
                         "size INTEGER, "
                         "updatetime NUMERIC)");
 
+        if (!ret) throw QString("tbl file");
+
         qDebug() << "Creating TABLE platform";
 
         ret = query.exec("CREATE TABLE IF NOT EXISTS platform "
@@ -68,7 +70,7 @@ bool DbCreator::createDB()
                          "name TEXT, "
                          "fileid INTEGER REFERENCES file(id))");
 
-        if (!ret) throw QString("platform.");
+        if (!ret) throw QString("tbl platform");
 
         qDebug() << "Creating TABLE mediatype ";
 
@@ -77,7 +79,7 @@ bool DbCreator::createDB()
                          "name TEXT, "
                          "fileid INTEGER REFERENCES file(id))");
 
-        if (!ret) throw QString("mediatype.");
+        if (!ret) throw QString("tbl mediatype");
 
         qDebug() << "Creating TABLE setup";
 
@@ -86,6 +88,8 @@ bool DbCreator::createDB()
                         "platformid INTEGER REFERENCES platform(id) ON DELETE CASCADE, "
                         "mediatypeid INTEGER REFERENCES mediatype(id) ON DELETE CASCADE, "
                         "filetypeextensions TEXT)");
+
+        if (!ret) throw QString("tbl setup");
 
         qDebug() << "Creating table executable";
 
@@ -97,15 +101,7 @@ bool DbCreator::createDB()
                         "type INTEGER, "
                         "setupid INTEGER REFERENCES setup(id))");
 
-        /*qDebug() << "Creating TABLE filetype";
-            ret = query.exec("CREATE TABLE filetype IF NOT EXISTS"
-                             "(id INTEGER PRIMARY KEY, "
-                             "name TEXT)");
-            if (!ret) throw QString("filetype.");
-            query.exec("insert into filetype (id, name) values (1, 'media image container')");
-            query.exec("insert into filetype (id, name) values (2, 'screenshot')");
-            query.exec("insert into filetype (id, name) values (3, 'platform icon')");
-            query.exec("insert into filetype (id, name) values (4, 'media type icon')");*/
+        if (!ret) throw QString("tbl executable");
 
         qDebug() << "Creating TABLE filepath";
 
@@ -117,7 +113,7 @@ bool DbCreator::createDB()
                          "lastscanned NUMERIC, "
                          "FOREIGN KEY (setupid) REFERENCES setup(id))");
 
-        if (!ret) throw QString("filepath");
+        if (!ret) throw QString("tbl filepath");
 
         qDebug() << "Creating TABLE mediaimagecontainer";
 
@@ -126,7 +122,7 @@ bool DbCreator::createDB()
                         "filepathid INTEGER REFERENCES filepath(id), "
                         "updatetime NUMERIC)");
 
-        if (!ret) throw QString("mediaimagecontainer");
+        if (!ret) throw QString("tbl mediaimagecontainer");
 
 
         qDebug() << "Creating TABLE mediaimagecontainer_mediaimage";
@@ -135,7 +131,7 @@ bool DbCreator::createDB()
                         "(mediaimagecontainerid INTEGER REFERENCES file(id), "
                         "mediaimageid INTEGER REFERENCES file(id))");
 
-        if (!ret) throw QString("mediaimagecontainer_mediaimage");
+        if (!ret) throw QString("tbl mediaimagecontainer_mediaimage");
 
         query.exec(
             "CREATE TRIGGER IF NOT EXISTS trg_onplatformdelete "
@@ -145,6 +141,8 @@ bool DbCreator::createDB()
             "END;"
             );
 
+        if (!ret) throw QString("trg_onplatformdelete");
+
         query.exec(
             "CREATE TRIGGER IF NOT EXISTS trg_onmediatypedelete "
             "AFTER DELETE ON mediatype "
@@ -152,6 +150,8 @@ bool DbCreator::createDB()
             "   DELETE FROM setup WHERE setup.mediatypeid = old.id;"
             "END;"
             );
+
+        if (!ret) throw QString("trg_onmediatypedelete");
 
         query.exec(
             "CREATE TRIGGER IF NOT EXISTS trg_onsetupdelete "
@@ -162,6 +162,8 @@ bool DbCreator::createDB()
             "END;"
             );
 
+        if (!ret) throw QString("trg_onsetupdelete");
+
         query.exec(
             "CREATE TRIGGER IF NOT EXISTS trg_onfilepathdelete "
             "AFTER DELETE ON filepath "
@@ -170,13 +172,7 @@ bool DbCreator::createDB()
             "END;"
         );
 
-        /*query.exec(
-            "CREATE TRIGGER IF NOT EXISTS trg_onmediaimagecontainerdelete "
-            "AFTER DELETE ON mediaimagecontainer "
-            "BEGIN "
-            "   DELETE FROM file WHERE file.id=old.fileid;"
-            "END;"
-        );*/
+        if (!ret) throw QString("trg_onfilepathdelete");
 
         query.exec(
             "CREATE TRIGGER IF NOT EXISTS trg_onmediaimagecontainerdelete "
@@ -186,6 +182,8 @@ bool DbCreator::createDB()
             "END;"
         );
 
+        if (!ret) throw QString("trg_onmediaimagecontainerdelete");
+
         query.exec(
             "CREATE TRIGGER IF NOT EXISTS trg_onmediaimagecontainer_mediaimagedelete "
             "AFTER DELETE ON mediaimagecontainer_mediaimage "
@@ -194,23 +192,13 @@ bool DbCreator::createDB()
             "    DELETE FROM file WHERE file.id=old.mediaimagecontainerid; "
             "END;"
         );
+        if (!ret) throw QString("trg_onmediaimagecontainer_mediaimagedelete");
 
-        /*query.exec(
-            "CREATE TRIGGER IF NOT EXISTS trg_onfiledelete "
-            "AFTER DELETE ON file "
-            "BEGIN "
-            "   UPDATE platform SET platform.fileid=NULL WHERE platform.fileid = old.id;."
-            "   UPDATE mediatype SET mediatype.fileid=NULL WHERE mediatype.fileid = old.id;"
-            "   DELETE FROM mediaimagecontainer WHERE fileid = old.id;"
-            "   DELETE FROM mediaimagecontainer_mediaimage WHERE mediaimagecontainer_mediaimage.mediaimageid = old.id;"
-            "   DELETE FROM mediaimagecontainer_mediaimage WHERE mediaimagecontainer_mediaimage.mediaimagecontainerid = old.id;"
-            "END;"
-        );*/
     }
     catch (QString tbl)
     {
         QString err = query.lastError().text();
-        throw QString("Couldn't CREATE table '%1'!").arg(tbl).append(err);
+        throw QString("Couldn't CREATE '%1'!").arg(tbl).append(err);
     }
     return ret;
 }
