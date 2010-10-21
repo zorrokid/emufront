@@ -48,18 +48,27 @@ int DbMediaImageContainer::insertDataObjectToModel(const EmuFrontObject *efo)
     const MediaImageContainer *mic
         = dynamic_cast<const MediaImageContainer *>(efo);
 
-    // check if this media image container is already in the database
-    EmuFrontObject *o = getFileByChecksum(mic->getCheckSum());
-    int fileId = o ? o->getId() : -1;
-    /*int fileId = getMediaImageContainer(mic->getCheckSum());*/
-    if (fileId >= 0) {
-        qDebug() << "Media image container already in db with id " << fileId << ".";
-        return fileId;
-   }
-
     if (!mic->getFilePath())
         throw new EmuFrontException("Cannot install media image "
             "container to database without a file path object!");
+
+    // check if this media image container is already in the database
+
+    // Two possible solutions:
+    // * multiple media image containers with matching checksum will not be stored at all
+    //   (only the first instance will be stored)
+    // * multiple media image containers with matching checksum will be stored
+    //   if each instance is in a different file path
+
+    EmuFrontObject *o = getFileByChecksum(mic->getCheckSum());
+    int fileId = o ? o->getId() : -1;
+    if (fileId >= 0) {
+        // ok, we have a matching file, we could still create a new media image instance to the database
+        qDebug() << "Media image container already in db with id " << fileId << ".";
+        delete o;
+        return fileId;
+   }
+
 
     QMap<QString, EmuFrontObject*> images = mic->getMediaImages();
     QList<int> ids = dbMediaImage->storeMediaImages(images);
