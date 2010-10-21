@@ -55,7 +55,8 @@ bool DbCreator::createDB()
 
         ret = query.exec("CREATE TABLE IF NOT EXISTS file"
                         "(id INTEGER PRIMARY KEY, "
-                        "name TEXT, "
+                        "name TEXT, "   // TODO: optional here! -> mediaimagecontainer has filepath spesific name and media image has mediaimagecontainer specific name
+                                        // so no name here for those file types
                         "type INTEGER, "
                         "checksum TEXT, "
                         "size INTEGER, "
@@ -117,9 +118,10 @@ bool DbCreator::createDB()
 
         qDebug() << "Creating TABLE mediaimagecontainer";
 
-        ret = query.exec("CREATE TABLE IF NOT EXISTS mediaimagecontainer "
+        ret = query.exec("CREATE TABLE IF NOT EXISTS mediaimagecontainer " // mediaimagecontainer_filepath
                         "(fileid INTEGER REFERENCES file(id), "
                         "filepathid INTEGER REFERENCES filepath(id), "
+                        // TODO: mediaimagecontainername -> filepath specific name for media image container!
                         "updatetime NUMERIC)");
 
         if (!ret) throw QString("tbl mediaimagecontainer");
@@ -129,6 +131,7 @@ bool DbCreator::createDB()
 
         ret = query.exec("CREATE TABLE IF NOT EXISTS mediaimagecontainer_mediaimage "
                         "(mediaimagecontainerid INTEGER REFERENCES file(id), "
+                        // TODO: mediaimagename -> mediaimagecontainer specific name for media image!
                         "mediaimageid INTEGER REFERENCES file(id))");
 
         if (!ret) throw QString("tbl mediaimagecontainer_mediaimage");

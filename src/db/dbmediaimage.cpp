@@ -110,7 +110,10 @@ QList<int> DbMediaImage::storeMediaImages(QMap<QString, EmuFrontObject*> images)
             delete o;
             // this media image is already in the database
             // TODO: what if the name differs? (cannot update to database, since the same media image
-            // might be inside another container
+            // might be inside another container...
+            // possible solution:
+            // * store media image names in different
+            //   table linked to the media image container
         }
         else if (id < 0)
         {
