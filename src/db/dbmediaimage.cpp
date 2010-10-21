@@ -107,6 +107,7 @@ QList<int> DbMediaImage::storeMediaImages(QMap<QString, EmuFrontObject*> images)
         if (id >= 0)
         {
             qDebug() << "This media image already exists with id " << id;
+            delete o;
             // this media image is already in the database
             // TODO: what if the name differs? (cannot update to database, since the same media image
             // might be inside another container

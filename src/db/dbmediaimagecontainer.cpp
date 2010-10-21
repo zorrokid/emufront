@@ -69,7 +69,6 @@ int DbMediaImageContainer::insertDataObjectToModel(const EmuFrontObject *efo)
         return fileId;
    }
 
-
     QMap<QString, EmuFrontObject*> images = mic->getMediaImages();
     QList<int> ids = dbMediaImage->storeMediaImages(images);
 
