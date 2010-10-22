@@ -35,15 +35,9 @@ DbMediaImage::DbMediaImage(QObject *parent)
 {
     // TODO
     return false;
-}
+}*/
 
-bool DbMediaImage::insertDataObjectToModel(const EmuFrontObject *efo)
-{
-    // TODO
-    return false;
-}
-
-bool DbMediaImage::deleteDataObjectFromModel(QModelIndex *i)
+/*bool DbMediaImage::deleteDataObjectFromModel(QModelIndex *i)
 {
     // TODO
     return false;
@@ -107,13 +101,11 @@ QList<int> DbMediaImage::storeMediaImages(QMap<QString, EmuFrontObject*> images)
         if (id >= 0)
         {
             qDebug() << "This media image already exists with id " << id;
+
+            // this media image is already stored to db
+            // we will append the id of this media image to the list of media images
+            // and we will link this media image to the container later
             delete o;
-            // this media image is already in the database
-            // TODO: what if the name differs? (cannot update to database, since the same media image
-            // might be inside another container...
-            // possible solution:
-            // * store media image names in different
-            //   table linked to the media image container
         }
         else if (id < 0)
         {

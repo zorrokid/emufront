@@ -32,7 +32,6 @@ public:
     void removeOrphanedMediaImages(QList<int> ids);
     QMap<QString, EmuFrontObject*> getMediaImages(int id) const;
     /*virtual bool updateDataObjectToModel(const EmuFrontObject *);
-    virtual bool insertDataObjectToModel(const EmuFrontObject *);
     virtual bool deleteDataObjectFromModel(QModelIndex *);
     int getMediaImage(QString checksum) const;
     int insertMediaImage(const MediaImage*);

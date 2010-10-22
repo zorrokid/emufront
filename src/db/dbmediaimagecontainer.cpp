@@ -43,10 +43,11 @@ bool DbMediaImageContainer::updateDataObjectToModel(const EmuFrontObject *efo)
     return false;
 }
 
-int DbMediaImageContainer::insertDataObjectToModel(const EmuFrontObject *efo)
+
+int DbMediaImageContainer::storeMediaImageContainer(EmuFrontObject *efo)
 {
-    const MediaImageContainer *mic
-        = dynamic_cast<const MediaImageContainer *>(efo);
+    MediaImageContainer *mic
+        = dynamic_cast<MediaImageContainer *>(efo);
 
     if (!mic->getFilePath())
         throw new EmuFrontException("Cannot install media image "
@@ -54,18 +55,26 @@ int DbMediaImageContainer::insertDataObjectToModel(const EmuFrontObject *efo)
 
     // check if this media image container is already in the database
 
-    // Two possible solutions:
-    // * multiple media image containers with matching checksum will not be stored at all
-    //   (only the first instance will be stored)
-    // * multiple media image containers with matching checksum will be stored
-    //   if each instance is in a different file path
+    // multiple media image containers with matching checksum will be stored
+    //       if each instance is in a different file path
 
-    EmuFrontObject *o = getFileByChecksum(mic->getCheckSum());
+    EmuFrontObject *o = getMediaImageContainerByChecksum(mic->getCheckSum());
     int fileId = o ? o->getId() : -1;
     if (fileId >= 0) {
-        // ok, we have a matching file, we could still create a new media image instance to the database
         qDebug() << "Media image container already in db with id " << fileId << ".";
-        delete o;
+        // ok, we have a matching file
+        MediaImageContainer *tmpMic = dynamic_cast<MediaImageContainer*>(o);
+        // this will test if media image container is already in given path (media image container has a path spesific name!)
+        QString name = getMediaImageContainerName(mic->getFilePath()->getId(), mic->getId());
+        if (name.isEmpty()) {
+            // if file path differs, link the existing media image container to this file path with mic->getName() name
+            linkMediaImageContainerToPath(mic);
+        }
+        else if (name != mic->getName()) {
+            // if the file path is same but the file name differs update the mediaimagecontainer_filepath table entry
+            updateMediaImageContainerToPath(mic);
+        }
+        delete tmpMic;
         return fileId;
    }
 
@@ -86,7 +95,8 @@ int DbMediaImageContainer::insertDataObjectToModel(const EmuFrontObject *efo)
 
         // File id is used to store the media image container instance to database,
         // file id is also the media image container id
-        fileId = DbFile::insertDataObjectToModel(mic);
+
+        fileId = insertDataObjectToModel(mic);
 
         qDebug() << "Inserted media image container to file table with id " << fileId << ".";
 
@@ -100,21 +110,14 @@ int DbMediaImageContainer::insertDataObjectToModel(const EmuFrontObject *efo)
                     .arg(mic->getName()));
         }
 
-        // Insert to mediaimagecontainer table
+        mic->setId(fileId);
 
-        QSqlQuery q;
-        q.prepare("INSERT INTO mediaimagecontainer "
-                  "(fileid, filepathid, updatetime) "
-                  "VALUES (:fileid, :filepathid, :updatetime)");
-        q.bindValue(":fileid", fileId);
-        q.bindValue(":filepathid", mic->getFilePath()->getId());
-        q.bindValue(":updatetime", DatabaseManager::getCurrentTimeStamp());
-        if (!q.exec()){
+        if (!linkMediaImageContainerToPath(mic)){
             DbFile::deleteDataObject(fileId);
             throw new EmuFrontException("Failed inserting media image to database!");
         }
         qDebug() << "Inserted media image container " << fileId << " to mediaimagecontainer table.";
-        linkMediaImagesWithContainer(fileId, ids);
+        linkMediaImagesWithContainer(fileId, images.values());
         qDebug() << "Linked media image container with media images.";
     } catch (EmuFrontException e) {
         dbMediaImage->removeOrphanedMediaImages(ids);
@@ -134,14 +137,14 @@ QString DbMediaImageContainer::constructSelect(QString whereClause) const
 {
     // TODO, for a usual search we need a "light" version of this select
     // and MediaImageContainer (only id, name)
-    QString select = QString("SELECT file.id, file.name, file.checksum, file.size, "
+    QString select = QString("SELECT file.id, mediaimagecontainer_filepath.mediaimagecontainername, file.checksum, file.size, "
                 "        filepath.id, filepath.name, "
                 "        setup.id, "
                 "        platform.id, platform.name, "
                 "        mediatype.id, mediatype.name "
-                "FROM mediaimagecontainer "
-                "INNER JOIN file ON mediaimagecontainer.fileid = file.id "
-                "INNER JOIN filepath ON mediaimagecontainer.filepathid = filepath.id "
+                "FROM file "
+                "INNER JOIN mediaimagecontainer_filepath ON mediaimagecontainer_filepath.fileid = file.id "
+                "INNER JOIN filepath ON mediaimagecontainer_filepath.filepathid = filepath.id "
                 "INNER JOIN setup ON filepath.setupid = setup.id "
                 "INNER JOIN platform ON setup.platformid = platform.id "
                 "INNER JOIN mediatype ON setup.mediatypeid = mediatype.id "
@@ -230,28 +233,30 @@ void DbMediaImageContainer::storeContainers(QList<MediaImageContainer *> lst, Fi
     foreach(MediaImageContainer *mic, lst)
     {
         qDebug() << "Media image container " << mic->getName();
-        int micFileId = insertDataObjectToModel(mic);
+        int micFileId = storeMediaImageContainer(mic);
     }
 }
 
-void DbMediaImageContainer::linkMediaImagesWithContainer(int micId, QList<int> miIds)
+void DbMediaImageContainer::linkMediaImagesWithContainer(int micId, QList<EmuFrontObject*> mediaImages)
 {
-    if (micId < 0 || miIds.count() <= 0)
+    if (micId < 0 || mediaImages.count() <= 0)
         return;
 
-    QSqlQuery q;
-    q.prepare("INSERT INTO mediaimagecontainer_mediaimage "
-        "(mediaimagecontainerid, mediaimageid) "
-        "VALUES (:micid, :miid) ");
-    q.bindValue(":micid", micId);
-
-    foreach(int miid, miIds) {
-        qDebug() << "Linking media image container " << micId << " to media image " << miid  << ".";
-        q.bindValue(":miid", miid);
-        if (!q.exec()) {
-            throw new EmuFrontException(QString("Failed linking media "
-                "image container %1 to a media image %2").arg(micId).arg(miid));
+    MediaImage *mi = 0;
+    foreach(EmuFrontObject *efo, mediaImages) {
+        mi = dynamic_cast<MediaImage*>(efo);
+        qDebug() << "Linking media image container " << micId
+            << " to media image " << mi->getId()  << ", " << mi->getName() << ".";
+        QString name = getMediaImageContainerName(micId, mi->getId());
+        if (name.isEmpty() && !linkMediaImageToMediaImageContainer(mi, micId)) {
+                throw new EmuFrontException(QString("Failed linking media "
+                                                    "image container %1 to a media image %2").arg(micId).arg(mi->getId()));
         }
+        else if (name != mi->getName() && !updateMediaImageToMediaImageContainer(mi, micId)) {
+                throw new EmuFrontException(QString("Failed updating media "
+                                                    "image container %1 to a media image %2").arg(micId).arg(mi->getId()));
+        }
+        // else already linked and name is up to date.
     }
 }
 
@@ -294,4 +299,74 @@ QString DbMediaImageContainer::getDeleteObjectSql() const
        // using mediaimage_mediaimagecontainer (the actual
        // mediaimages).
        return QString("DELETE FROM file WHERE id=:id");
+}
+
+EmuFrontObject* DbMediaImageContainer::getMediaImageContainerByChecksum(QString checksum)
+{
+    return getDataObject(QString("file.checksum LIKE '%1'").arg(checksum));
+}
+
+bool DbMediaImageContainer::linkMediaImageContainerToPath(const MediaImageContainer *mic) const
+{
+    QSqlQuery q;
+    q.prepare("INSERT INTO mediaimagecontainer_filepath "
+              "(fileid, filepathid, mediaimagecontainername, updatetime) "
+              "VALUES (:fileid, :filepathid, :mediaimagecontainername, :updatetime)");
+    q.bindValue(":fileid", mic->getId());
+    q.bindValue(":filepathid", mic->getFilePath()->getId());
+    q.bindValue(":mediaimagecontainername", mic->getName());
+    q.bindValue(":updatetime", DatabaseManager::getCurrentTimeStamp());
+    return q.exec();
+}
+
+bool DbMediaImageContainer::updateMediaImageContainerToPath(const MediaImageContainer *mic) const
+{
+    QSqlQuery q;
+    q.prepare("UPDATE mediaimagecontainer_filepath "
+                "SET mediaimagecontainername=:mediaimagecontainername, "
+                "updatetime=:updatetime "
+                "WHERE fileid=:fileid AND filepathid=:filepathid");
+    q.bindValue(":fileid", mic->getId());
+    q.bindValue(":filepathid", mic->getFilePath()->getId());
+    q.bindValue(":mediaimagecontainername", mic->getName());
+    q.bindValue(":updatetime", DatabaseManager::getCurrentTimeStamp());
+    return q.exec();
+}
+
+QString DbMediaImageContainer::getMediaImageContainerName(int filePathId, int micId) const
+{
+    QString name = "";
+    QSqlQuery q;
+    q.prepare("SELECT mediaimagecontainername FROM mediaimagecontainer_filepath "
+        "WHERE fileid=:fileid AND filepathid=:filepathid");
+    q.bindValue(":fileid", micId);
+    q.bindValue(":filepathid", filePathId);
+    q.exec();
+    if (q.next())
+        name = q.value(0).toString();
+    return name;
+}
+
+bool DbMediaImageContainer::linkMediaImageToMediaImageContainer(const MediaImage *mi, int micId) const
+{
+    QSqlQuery q;
+    q.prepare("INSERT INTO mediaimagecontainer_mediaimage "
+        "(mediaimagecontainerid, mediaimageid, mediaimagename) "
+        "VALUES (:micid, :miid, :miname) ");
+    q.bindValue(":micid", micId);
+    q.bindValue(":miid", mi->getId());
+    q.bindValue(":miname", mi->getName());
+    return q.exec();
+}
+
+bool DbMediaImageContainer::updateMediaImageToMediaImageContainer(const MediaImage *mi, int micId) const
+{
+    QSqlQuery q;
+    q.prepare("UPDATE mediaimagecontainer_mediaimage "
+        " SET mediaimagename=:miname "
+        " WHERE mediaimagecontainerid=:micid AND mediaimageid=:miid");
+    q.bindValue(":micid", micId);
+    q.bindValue(":miid", mi->getId());
+    q.bindValue(":miname", mi->getName());
+    return q.exec();
 }

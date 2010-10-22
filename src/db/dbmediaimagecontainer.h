@@ -36,7 +36,6 @@ class DbMediaImageContainer : public DbFile // DbQueryModelManager
 public:
     DbMediaImageContainer(QObject *parent);
     virtual bool updateDataObjectToModel(const EmuFrontObject *);
-    virtual int insertDataObjectToModel(const EmuFrontObject *);
     virtual bool deleteDataObjectFromModel(QModelIndex *);
     void storeContainers(QList<MediaImageContainer*>, FilePathObject*);
     int getMediaImageContainer(QString checksum) const;
@@ -55,21 +54,25 @@ public:
         MIC_MediaTypeName
    };
 
-
 protected:
     virtual QString constructSelect(QString whereClause = "") const;
     virtual QString constructSelectById(int id) const;
     virtual QString constructFilterById(int id) const;
     virtual EmuFrontObject* recordToDataObject(const QSqlRecord *);
+    EmuFrontObject* getMediaImageContainerByChecksum(QString checksum);
 private:
     virtual QSqlQueryModel* getData();
-    void linkMediaImagesWithContainer(int, QList<int>);
+    int storeMediaImageContainer(EmuFrontObject *efo);
+    void linkMediaImagesWithContainer(int, QList<EmuFrontObject*>);
+    bool linkMediaImageContainerToPath(const MediaImageContainer*) const;
+    bool updateMediaImageContainerToPath(const MediaImageContainer *) const;
+    bool linkMediaImageToMediaImageContainer(const MediaImage*, int micId) const;
+    bool updateMediaImageToMediaImageContainer(const MediaImage*, int micId) const;
+    QString getMediaImageContainerName(int filePathId, int micId) const;
     DbMediaImage *dbMediaImage;
     DbFilePath *dbFilePath;
     virtual QString getCountRefsSelect(int) const;
     virtual QString getDeleteObjectSql() const;
-    // DbSetup *dbSetup;
-    // DbFile *dbFile;
 };
 
 #endif // DBMEDIAIMAGECONTAINER_H
