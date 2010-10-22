@@ -178,26 +178,16 @@ bool DbCreator::createDB()
 
         if (!ret) throw QString("trg_onfilepathdelete");
 
-       // The following two triggers were removed after adding support for multiple instances of same media image container
-       // on different file paths or multiple instances of media images inside different media image containers.
-       // The trigger functionality must be done by removing the orphaned media images and media image containers
-       // after removing file paths or media image containers programmatically.
-
-        /* Cannot trigger this, media image container may reside also on another filepath, cannot remove the references with
-            media images
         query.exec(
             "CREATE TRIGGER IF NOT EXISTS trg_onmediaimagecontainerdelete "
             "AFTER DELETE ON mediaimagecontainer_filepath "
-            "FOR EACH ROW WHEN
             "BEGIN "
             "   DELETE FROM mediaimagecontainer_mediaimage WHERE mediaimagecontainer_mediaimage.mediaimagecontainerid=old.fileid;"
             "END;"
         );
 
-        if (!ret) throw QString("trg_onmediaimagecontainerdelete");*/
+        if (!ret) throw QString("trg_onmediaimagecontainerdelete");
 
-        /* Cannot trigger this, media image container may reside also on another filepath
-            or media image may be assigned with another media image container
         query.exec(
             "CREATE TRIGGER IF NOT EXISTS trg_onmediaimagecontainer_mediaimagedelete "
             "AFTER DELETE ON mediaimagecontainer_mediaimage "
@@ -206,7 +196,7 @@ bool DbCreator::createDB()
             "    DELETE FROM file WHERE file.id=old.mediaimagecontainerid; "
             "END;"
         );
-        if (!ret) throw QString("trg_onmediaimagecontainer_mediaimagedelete");*/
+        if (!ret) throw QString("trg_onmediaimagecontainer_mediaimagedelete");
 
     }
     catch (QString tbl)
