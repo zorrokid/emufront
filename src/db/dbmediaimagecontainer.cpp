@@ -27,7 +27,6 @@
 //#include "dbsetup.h"
 #include "dbfilepath.h"
 
-
 DbMediaImageContainer::DbMediaImageContainer(QObject *parent)
     : DbFile(parent) // DbQueryModelManager(parent)
 {
