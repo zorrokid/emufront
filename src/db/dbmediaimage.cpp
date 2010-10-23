@@ -85,7 +85,6 @@ EmuFrontObject* DbMediaImage::recordToDataObject(const QSqlRecord *)
 */
 QList<int> DbMediaImage::storeMediaImages(QMap<QString, EmuFrontObject*> images)
 {
-    qDebug() << "Storing media images to database.";
     QList<int> ids  = QList<int>();
     QMapIterator<QString, EmuFrontObject*> it(images);
     MediaImage *mi = 0;
@@ -93,31 +92,12 @@ QList<int> DbMediaImage::storeMediaImages(QMap<QString, EmuFrontObject*> images)
     {
         it.next();
         mi = dynamic_cast<MediaImage*>(it.value());
-        QString cksum = mi->getCheckSum();
-        qDebug() << "Storing media image " << mi->getName()
-            << " with checksum " << cksum;
-        EmuFrontObject *o = getFileByChecksum(cksum);
-        int id = o ? o->getId() : -1;
-        if (id >= 0)
-        {
-            qDebug() << "This media image already exists with id " << id;
-
-            // this media image is already stored to db
-            // we will append the id of this media image to the list of media images
-            // and we will link this media image to the container later
-            delete o;
+        int id = insertDataObjectToModel(mi);
+        if (id < 0) {
+            // TODO: Build an error message of failed inserts
+            qDebug() << "Failed inserting media image" << mi->getName();
         }
-        else if (id < 0)
-        {
-            qDebug() << "This media image is not yet in the db.";
-            id = insertDataObjectToModel(mi);
-            if (id < 0)
-            {
-                // TODO: Build an error message of failed inserts
-                qDebug() << "Failed inserting media image" << mi->getName();
-            }
-        }
-        if (id > 0) {
+        else if (id >= 0) {
             ids.append(id);
             mi->setId(id);
         }

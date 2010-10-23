@@ -63,8 +63,7 @@ HEADERS += mainwindow.h \
     utils/unziphelper.h \
     utils/emuhelper.h \
     dialogs/listdialog.h \
-    dialogs/emufrontinputdialog.h \
-    db/dbmultiinstancefile.h
+    dialogs/emufrontinputdialog.h
 SOURCES += main.cpp \
     mainwindow.cpp \
     db/databasemanager.cpp \
@@ -117,6 +116,5 @@ SOURCES += main.cpp \
     utils/unziphelper.cpp \
     utils/emuhelper.cpp \
     dialogs/listdialog.cpp \
-    dialogs/emufrontinputdialog.cpp \
-    db/dbmultiinstancefile.cpp
+    dialogs/emufrontinputdialog.cpp
 OTHER_FILES += 
