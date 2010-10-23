@@ -22,8 +22,6 @@
 #include <QSqlRecord>
 #include <QVariant>
 
-//QString DbPlatform::tableName = DbPlatform::DB_TABLE_NAME_PLATFORM;
-
 DbPlatform::DbPlatform(QObject *parent) : DbEmuFrontFileObject(parent)
 {
     tableName = DbPlatform::DB_TABLE_NAME_PLATFORM;

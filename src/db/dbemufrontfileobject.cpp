@@ -87,50 +87,15 @@ int DbEmuFrontFileObject::insertDataObjectToModel(const EmuFrontObject *ob)
     return id;
 }
 
-/*bool DbEmuFrontFileObject::deleteDataObject(int id) const
-{
-    if (countDataObjectRefs(id) > 0)
-        // TODO
-        return false;
-    QSqlQuery q;
-    q.prepare(QString("DELETE FROM %1 WHERE id = :id").arg(tableName));
-    q.bindValue(":id", id);
-    return q.exec();
-
-}*/
-
 // WARNING: this will delete also all the databindings to selected platform
 bool DbEmuFrontFileObject::deleteDataObjectFromModel(QModelIndex *index)
 {
     // TODO
     return false;
-    //QSqlDatabase::database().transaction();
-    //QSqlTableModel *tmodel = dynamic_cast<QSqlTableModel*>(sqlTableModel);
-    /*QSqlRecord record = tmodel->record(index->row());
-    int id = record.value(EmuFrontFileObject_Id).toInt();
-    qDebug() << "Deleting platform " << id;
-    int count = countDataObjectRefs(id);
-    if (count > 0)
-    {
-        QSqlQuery query;
-        if (!query.exec(QString("DELETE FROM imagecontainer WHERE platformid = %1").arg(id)))
-        {
-            qDebug() << "Deleting data bindings failed!";
-            QSqlDatabase::database().rollback();
-            return false;
-        }
-    }*/
-    /*tmodel->removeRow(index->row());
-    tmodel->submitAll();
-    return QSqlDatabase::database().commit();
-    */
 }
 
 QString DbEmuFrontFileObject::constructSelect(QString where) const
 {
-    /*QString where = whereClause.isEmpty()
-        ? "" : QString("WHERE ").append(whereClause);*/
-
     return QString("SELECT maintbl.id AS FileObjectId, "
             "maintbl.name AS Name, "
             "file.id AS FileId, "
@@ -161,12 +126,6 @@ QSqlQueryModel* DbEmuFrontFileObject::getData()
     model->setQuery(constructSelect());
     model->setHeaderData(EmuFrontFileObject_Id, Qt::Horizontal, tr("Id"));
     model->setHeaderData(EmuFrontFileObject_Name, Qt::Horizontal, tr("Name"));
-    /*model->setHeaderData(EmuFrontFileObject_FileId, Qt::Horizontal, tr("File id"));
-    model->setHeaderData(EmuFrontFileObject_FileName, Qt::Horizontal, tr("File name"));
-    model->setHeaderData(EmuFrontFileObject_FileType, Qt::Horizontal, tr("File type"));
-    model->setHeaderData(EmuFrontFileObject_FileCheckSum, Qt::Horizontal, tr("File checksum"));
-    model->setHeaderData(EmuFrontFileObject_FileSize, Qt::Horizontal, tr("File size"));
-    model->setHeaderData(EmuFrontFileObject_FileUpdateTime, Qt::Horizontal, tr("File update time"));*/
     return model;
 }
 

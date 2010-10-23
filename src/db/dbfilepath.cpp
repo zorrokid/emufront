@@ -99,9 +99,6 @@ bool DbFilePath::deleteDataObject(int id) const
 
 QString DbFilePath::constructSelect(QString where) const
 {
-    /*QString where = whereClause.isEmpty()
-        ? "" : QString("WHERE ").append(whereClause);*/
-
     return QString("SELECT filepath.id AS FilePathId, "
             "filepath.name AS Name, "
             "filepath.lastscanned AS LastScanned, "

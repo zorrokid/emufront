@@ -27,7 +27,6 @@
 DataObjectEditDialog::DataObjectEditDialog(QWidget *parent, EmuFrontObject *ob, Qt::Orientation orientation)
     : EmuFrontDialog(parent), efObject(ob), orientation(orientation)
 {
-    qDebug("DataObjectEditDialog creating buttonBox");
     buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Abort, orientation);
 }
 
@@ -36,24 +35,6 @@ void DataObjectEditDialog::connectSignals()
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(acceptChanges()));
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(rejectChanges()));
 }
-
-// TODO: remove this after implementing all the combo boxes using EFComboBox
-/*void DataObjectEditDialog::setSelected(QComboBox *cbox, const EmuFrontObject *ob, int idIndex)
-{
-    if (!ob) return;
-    QSqlQueryModel *model = dynamic_cast<QSqlQueryModel*>(cbox->model());
-    for (int i = 0; i < model->rowCount(); i++)
-    {
-        qDebug() << "i: " << i << ", rowcount: " << model->rowCount();
-        qDebug() << ", object id:" << ob->getId();
-        QSqlRecord rec = model->record(i);
-        if (rec.value(idIndex) == ob->getId())
-        {
-            cbox->setCurrentIndex(i);
-            break;
-        }
-    }
-}*/
 
 void DataObjectEditDialog::rejectChanges()
 {

@@ -28,12 +28,11 @@
 #include "dbfilepath.h"
 
 DbMediaImageContainer::DbMediaImageContainer(QObject *parent)
-    : DbFile(parent) // DbQueryModelManager(parent)
+    : DbFile(parent)
 {
     dbMediaImage = new DbMediaImage(parent);
     dbFilePath = new DbFilePath(parent);
     tableName = DbMediaImageContainer::DB_TABLE_MEDIAIMAGECONTAINER;
-    //dbFile = new DbFile(parent);
 }
 
 bool DbMediaImageContainer::updateDataObjectToModel(const EmuFrontObject *efo)

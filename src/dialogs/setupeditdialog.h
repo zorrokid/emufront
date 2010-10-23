@@ -22,7 +22,6 @@
 
 #include "dataobjecteditdialog.h"
 
-//class QComboBox;
 class EFFileObjectComboBox;
 class DbSetup;
 class DbMediaType;
@@ -45,9 +44,7 @@ protected slots:
     virtual void acceptChanges();
 
 private:
-    //QComboBox *mediaTypeComBox;
     EFFileObjectComboBox *mediaTypeComBox;
-    //QComboBox *platformComBox;
     EFFileObjectComboBox *platformComBox;
     DbSetup *dbSetup;
     DbPlatform *dbPlatform;
@@ -56,8 +53,6 @@ private:
 
     void initWidgets();
     void layout();
-    //void populateMediaTypeComBox();
-    //void populatePlatformComBox();
     void setSelectedMediaType(const MediaType*);
     void setSelectedPlatform(const Platform*);
     MediaType* getSelectedMediaType() const;

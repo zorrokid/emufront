@@ -94,8 +94,6 @@ int DbSetup::insertDataObjectToModel(const EmuFrontObject *ob)
 
 QString DbSetup::constructSelect(QString where) const
 {
-    /*QString where = whereClause.isEmpty()
-        ? "" : QString("WHERE ").append(whereClause);*/
     return QString(
         "SELECT setup.id AS SetupId, "
         "setup.platformid AS PlatformId, "
@@ -127,18 +125,6 @@ bool DbSetup::deleteDataObjectFromModel(QModelIndex */*index*/)
     qDebug() << "This is not currently supported";
     return false;
 }
-
-/*bool DbSetup::deleteDataObject(int id) const
-{
-    int c = countDataObjectRefs(id);
-    if (c != 0)
-        // TODO
-        return false;
-    QSqlQuery q;
-    q.prepare(QString("DELETE FROM setup WHERE id=:id"));
-    q.bindValue(":id", id);
-    return q.exec();
-}*/
 
 QSqlQueryModel* DbSetup::getData()
 {

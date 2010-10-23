@@ -31,53 +31,6 @@ DbMediaImage::DbMediaImage(QObject *parent)
     tableName = DbMediaImage::DB_TABLE_NAME_FILE;
 }
 
-/*bool DbMediaImage::updateDataObjectToModel(const EmuFrontObject *efo)
-{
-    // TODO
-    return false;
-}*/
-
-/*bool DbMediaImage::deleteDataObjectFromModel(QModelIndex *i)
-{
-    // TODO
-    return false;
-}
-
-int DbMediaImage::countDataObjectRefs(int id) const
-{
-    // TODO
-    return -1;
-}
-
-QString DbMediaImage::constructSelect(QString whereClause) const
-{
-    // TODO
-    return "";
-}
-
-QString DbMediaImage::constructSelectById(int id) const
-{
-    // TODO
-    return "";
-}
-
-EmuFrontObject* DbMediaImage::recordToDataObject(const QSqlRecord *)
-{
-    // TODO
-    return 0;
-}*/
-
-/*QSqlQueryModel* DbMediaImage::getData()
-{
-    QSqlTableModel *model = new QSqlTableModel;
-    model->setTable(DB_TABLE_NAME_FILE);
-    return model;
-}*/
-
-/*int DbMediaImage::insertMediaImage(const MediaImage *mi)
-{
-    return DbFile::insertDataObjectToModel(mi);
-}*/
 
 /* Stores a list of media images to the database.
    Returns a list of media image id corresponding to the given list of media

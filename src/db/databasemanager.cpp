@@ -101,17 +101,6 @@ EmuFrontObject* DatabaseManager::getDataObject(int id)
 {
     filterById(id);
     return getFilteredDataObject();
-    /*EmuFrontObject *plf = 0;
-    if (sqlTableModel->rowCount() == 1)
-    {
-        QSqlRecord record = sqlTableModel->record(0);
-        if (record.isEmpty())
-        {
-            throw new EmuFrontException(tr("No data available for id %1").arg(id));
-        }
-        else plf = recordToDataObject(&record);
-    }
-    return plf;*/
 }
 
 EmuFrontObject* DatabaseManager::getDataObject(QString filter)

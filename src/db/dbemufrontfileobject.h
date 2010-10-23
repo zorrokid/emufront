@@ -27,20 +27,20 @@
 class DbEmuFrontFileObject : public DbQueryModelManager
 {
 public:
-DbEmuFrontFileObject(QObject *parent);
-virtual bool updateDataObjectToModel(const EmuFrontObject*);
-int insertDataObjectToModel(const EmuFrontObject*);
-bool deleteDataObjectFromModel(QModelIndex*);
-enum {
-   EmuFrontFileObject_Id= 0,
-   EmuFrontFileObject_Name,
-   EmuFrontFileObject_FileId,
-   EmuFrontFileObject_FileName,
-   EmuFrontFileObject_FileType,
-   EmuFrontFileObject_FileCheckSum,
-   EmuFrontFileObject_FileSize,
-   EmuFrontFileObject_FileUpdateTime
-};
+    DbEmuFrontFileObject(QObject *parent);
+    virtual bool updateDataObjectToModel(const EmuFrontObject*);
+    int insertDataObjectToModel(const EmuFrontObject*);
+    bool deleteDataObjectFromModel(QModelIndex*);
+    enum {
+        EmuFrontFileObject_Id= 0,
+        EmuFrontFileObject_Name,
+        EmuFrontFileObject_FileId,
+        EmuFrontFileObject_FileName,
+        EmuFrontFileObject_FileType,
+        EmuFrontFileObject_FileCheckSum,
+        EmuFrontFileObject_FileSize,
+        EmuFrontFileObject_FileUpdateTime
+    };
 
 protected:
    virtual QString constructSelect(QString whereClause = "") const;
@@ -48,7 +48,6 @@ protected:
    virtual QString constructFilterById(int id) const;
    virtual EmuFrontObject* recordToDataObject(const QSqlRecord* );
    virtual EmuFrontObject* createEmuFrontFileObject(int id, QString name, EmuFrontFile *f) = 0;
-   //virtual bool deleteDataObject(int id) const;
 
 private:
     virtual QSqlQueryModel* getData();

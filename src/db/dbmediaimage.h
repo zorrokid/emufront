@@ -31,17 +31,7 @@ public:
     QList<int> storeMediaImages(QMap<QString, EmuFrontObject*>);
     void removeOrphanedMediaImages(QList<int> ids);
     QMap<QString, EmuFrontObject*> getMediaImages(int id) const;
-    /*virtual bool updateDataObjectToModel(const EmuFrontObject *);
-    virtual bool deleteDataObjectFromModel(QModelIndex *);
-    int getMediaImage(QString checksum) const;
-    int insertMediaImage(const MediaImage*);
-protected:
-    virtual QString constructSelect(QString whereClause) const;
-    virtual QString constructSelectById(int id) const;
-    virtual EmuFrontObject* recordToDataObject(const QSqlRecord *);
-    */
 private:
-    /*virtual QSqlQueryModel* getData();*/
     virtual QString getCountRefsSelect(int) const;
 };
 

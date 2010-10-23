@@ -19,12 +19,10 @@
 
 #include "dbmediatype.h"
 
-//QString DbMediaType::tableName = DbMediaType::DB_TABLE_NAME_MEDIATYPE;
-
 DbMediaType::DbMediaType(QObject *parent) : DbEmuFrontFileObject(parent)
 {
-tableName = DbMediaType::DB_TABLE_NAME_MEDIATYPE;
-  }
+    tableName = DbMediaType::DB_TABLE_NAME_MEDIATYPE;
+}
 
 EmuFrontObject* DbMediaType::createEmuFrontFileObject(int id, QString name, EmuFrontFile *f)
 {   return new MediaType(id, name, f); }

@@ -20,7 +20,6 @@
 #ifndef DBMEDIAIMAGECONTAINER_H
 #define DBMEDIAIMAGECONTAINER_H
 
-//#include "dbquerymodelmanager.h"
 #include "dbmediaimage.h"
 #include "dbfile.h"
 #include "../dataobjects/mediaimagecontainer.h"

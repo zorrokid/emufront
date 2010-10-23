@@ -63,16 +63,8 @@ void MediaImagePathDialog::initWidgets()
     filePathLabel = new QLabel;
     filePathButton = new QPushButton(tr("&Browse filepath"));
     dbSetup = new DbSetup(this);
-    setupComBox = new SetupComboBox(dbSetup, this); //QComboBox;
-    //populateSetupComBox();
+    setupComBox = new SetupComboBox(dbSetup, this);
 }
-
-/*void MediaImagePathDialog::populateSetupComBox()
-{
-    dbSetup = new DbSetup(this);
-    setupComBox->setModel(dbSetup->getDataModel());
-    setupComBox->setModelColumn(DbSetup::Setup_Name);
-}*/
 
 void MediaImagePathDialog::layout()
 {
@@ -104,9 +96,7 @@ void MediaImagePathDialog::setDataObject(EmuFrontObject *ob)
 
 void MediaImagePathDialog::setSelectedSetup(const Setup *sup)
 {
-
     setupComBox->setSelected(sup);
-    // setSelected(setupComBox, sup, DbSetup::Setup_Id);
 }
 
 Setup* MediaImagePathDialog::getSelectedSetup()
@@ -114,33 +104,6 @@ Setup* MediaImagePathDialog::getSelectedSetup()
     EmuFrontObject *ob = setupComBox->getSelected();
     if (!ob) return 0;
     return dynamic_cast<Setup*>(ob);
-    /*if (!dbPlatform) dbPlatform => new DbPlatform(this);
-    if (!dbMediaType) dbMediaType = new DbMediaType(this);
-    Setup *sup = 0;
-    int index = setupComBox->currentIndex();
-    if (index < 0) return sup;
-    QSqlQueryModel *model
-        = dynamic_cast<QSqlQueryModel*>(setupComBox->model());
-    if (!model)
-    {
-        errorMessage->showMessage(tr("Data model missing."));
-        return sup;
-    }
-    QSqlRecord rec = model->record(index);
-    if (!rec.isEmpty())
-    {
-        EmuFrontObject *efPlf = dbPlatform->getDataObject(rec.value(DbSetup::Setup_PlatformId).toInt());
-        EmuFrontObject *efMt = dbMediaType->getDataObject(rec.value(DbSetup::Setup_MediaTypeId).toInt());
-
-        Platform *plf = dynamic_cast<Platform*>(efPlf);
-        MediaType *mt = dynamic_cast<MediaType*>(efMt);
-        QString exts = rec.value(DbSetup::Setup_FileTypeExtensions).toString();
-
-        sup = new Setup(rec.value(DbSetup::Setup_Id).toInt(), plf, mt,
-            exts.split(DbSetup::FILE_TYPE_EXTENSION_SEPARATOR));
-    }
-    else errorMessage->showMessage("Record missing");
-    return sup;*/
 }
 
 void MediaImagePathDialog::acceptChanges()

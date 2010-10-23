@@ -22,7 +22,6 @@
 #include <QProcess>
 #include "fileutil.h"
 #include "zlib.h" /* crc32 */
-//#include "OSDaB-Zip/unzip.h"
 #include "../exceptions/emufrontexception.h"
 #include "../dataobjects/setup.h"
 #include "../dataobjects/mediaimage.h"
@@ -31,8 +30,6 @@
 #include "../dataobjects/platform.h"
 #include "../db/dbmediaimagecontainer.h"
 #include "unziphelper.h"
-
-//int FileUtil::MIC_BUFFER_SIZE = 50;
 
 FileUtil::FileUtil(QObject *parent) : QObject(parent)
 {

@@ -81,49 +81,11 @@ int DbFile::insertDataObjectToModel(const EmuFrontObject *ob)
     return id;
 }
 
-/*int DbFile::insertFile(const EmuFrontFile *mi)
-{
-    qDebug() << "Inserting file " << mi->getName() << " to db.";
-    QSqlQuery q;
-    q.prepare("INSERT INTO file "
-        "(id, name, type, checksum, size, updatetime) "
-        "VALUES (NULL, :name, :type, :checksum, :size, :updatetime)");
-    q.bindValue(":name", mi->getName());
-    q.bindValue(":type", mi->getType());
-    q.bindValue(":checksum", mi->getCheckSum());
-    q.bindValue(":size", mi->getSize());
-    q.bindValue(":updatetime", DatabaseManager::getCurrentTimeStamp());
-    int id = -1;
-    if (q.exec())
-        id = q.lastInsertId().toInt();
-   return id;
-
-}*/
-
 // WARNING: this will delete also all the databindings to selected platform
 // the delete must be confirmed in the UI
 bool DbFile::deleteDataObjectFromModel(QModelIndex *index)
 {
     return false;
-
-    /*QSqlDatabase::database().transaction();*/
-    //QSqlTableModel *tmodel = dynamic_cast<QSqlTableModel*>(sqlTableModel);
-    /*QSqlRecord record = tmodel->record(index->row());
-    int id = record.value(File_Id).toInt();
-    int count = countDataObjectRefs(id);
-    if (count > 0)
-    {
-        QSqlQuery query;
-        if (!query.exec(QString("DELETE FROM imagecontainer WHERE platformid = %1").arg(id)))
-        {
-            qDebug() << "Deleting data bindings failed!";
-            QSqlDatabase::database().rollback();
-            return false;
-        }
-    }*/
-    //tmodel->removeRow(index->row());
-    //tmodel->submitAll();
-    //return QSqlDatabase::database().commit();
 }
 
 bool DbFile::deleteDataObject(int id) const
@@ -139,9 +101,6 @@ bool DbFile::deleteDataObject(int id) const
 
 QString DbFile::constructSelect(QString where) const
 {
-    /*QString where = whereClause.isEmpty()
-                    ? "" : QString("WHERE ").append(whereClause);*/
-
     return QString("SELECT file.id AS FileId, "
                    "file.name AS Name, "
                    "file.type AS FileType, "
