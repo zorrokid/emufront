@@ -60,8 +60,6 @@ int FileUtil::scanFilePath(FilePathObject *fp, QStringList filters, DbMediaImage
             .arg(fp->getSetup()->getName()));
     }
 
-    // TODO: if this is a rescan of this filepath remove all the old entries first!
-
     int count = 0;
     qDebug() << QString("We have a platform %1, media type %2")
         .arg(fp->getSetup()->getPlatform()->getName())

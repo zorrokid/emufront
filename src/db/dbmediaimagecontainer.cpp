@@ -300,3 +300,12 @@ bool DbMediaImageContainer::linkMediaImageToMediaImageContainer(const MediaImage
     q.bindValue(":miid", mi->getId());
     return q.exec();
 }
+
+bool DbMediaImageContainer::removeFromFilePath(int filePathId) const
+{
+    QSqlQuery q;
+    q.prepare("DELETE FROM mediaimagecontainer_filepath "
+        "WHERE filepathid=:filepathid");
+    q.bindValue(":filepathid", filePathId);
+    return q.exec();
+}

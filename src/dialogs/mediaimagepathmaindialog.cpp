@@ -68,6 +68,8 @@ void MediaImagePathMainDialog::beginScanFilePath()
         QStringList l;
         l << "*.zip"; // TODO set filters in a global constant class
 
+
+        dbMediaImageContainer->removeFromFilePath(fpo->getId());
         int count = fileUtil.scanFilePath(fpo, l, dbMediaImageContainer);
         qDebug() << "Storing scanned " << count << " files to database";
         delete fpo;

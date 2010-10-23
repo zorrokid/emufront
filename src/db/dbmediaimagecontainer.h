@@ -40,6 +40,7 @@ public:
     void storeContainers(QList<MediaImageContainer*>, FilePathObject*);
     int getMediaImageContainer(QString checksum) const;
     void filter(int mediaTypeId, int platformId);
+    bool removeFromFilePath(int filePathId) const;
    enum {
         MIC_FileId = 0,
         MIC_FileName,
@@ -65,9 +66,7 @@ private:
     int storeMediaImageContainer(EmuFrontObject *efo);
     void linkMediaImagesWithContainer(int, QList<EmuFrontObject*>);
     bool linkMediaImageContainerToPath(const MediaImageContainer*) const;
-    bool updateMediaImageContainerToPath(const MediaImageContainer *) const;
     bool linkMediaImageToMediaImageContainer(const MediaImage*, int micId) const;
-    bool updateMediaImageToMediaImageContainer(const MediaImage*, int micId) const;
     QString getMediaImageContainerName(int filePathId, int micId) const;
     DbMediaImage *dbMediaImage;
     DbFilePath *dbFilePath;
