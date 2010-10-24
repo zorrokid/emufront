@@ -72,12 +72,19 @@ void EFComboBox::setSelected(const EmuFrontObject *efo)
 {
     if (!efo)
         return;
+    qDebug() << "EFCombobox selecting " << efo->getName()
+        << " [" << efo->getId() << "].";
     QSqlQueryModel *qmodel
         = dynamic_cast<QSqlQueryModel*>(model());
     for (int i = 0; i < qmodel->rowCount(); i++){
         QSqlRecord rec = qmodel->record(i);
-        if (rec.value(dataModelIndex_id) == efo->getId()){
+        int id = rec.value(dataModelIndex_id).toInt();
+        qDebug() << "Checking record with id " << rec.value(dataModelIndex_id)
+            << " and name " << rec.value(dataModelIndex_name);
+        if (id == efo->getId()){
+            qDebug() << "Found!";
             setCurrentIndex(i);
+            show();
             break;
         }
     }

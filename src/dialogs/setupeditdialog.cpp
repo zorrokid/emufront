@@ -106,6 +106,7 @@ void SetupEditDialog::acceptChanges()
 void SetupEditDialog::setDataObject(EmuFrontObject *ob)
 {
     if (!ob) return;
+    qDebug() << "Updating data object with " << ob->getName() << ".";
     efObject = ob;
     Setup *sup= dynamic_cast<Setup*>(ob);
     if (sup->getPlatform()) setSelectedPlatform(sup->getPlatform());

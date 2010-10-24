@@ -89,8 +89,9 @@ void NameDialog::enableSaveButton(const QString &/*text*/)
 void NameDialog::setDataObject(EmuFrontObject *ob)
 {
     if (!ob) return;
-    // delete efObject; -> we should not delete the previously referenced data object here, it may be still used in the parent widget
-    // the parent widget will take of destruction
+    // delete efObject; -> we should not delete the previously referenced data object here, it
+    // may be still used in the parent widget
+    // the parent widget will take care of destruction
     // we'll just refresh the name dialog pointer to a new object
     efObject = ob;
 }

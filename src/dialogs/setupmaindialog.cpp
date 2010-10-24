@@ -28,7 +28,7 @@ SetupMainDialog::SetupMainDialog(QWidget *parent)
     setWindowTitle(tr("Setups"));
     dbManager = new DbSetup(this);
     initDataTable();
-    initEditDialog();
+    //initEditDialog(); this is called when editObject is called!
     objectList->hideColumn(DbSetup::Setup_Id);
     objectList->hideColumn(DbSetup::Setup_PlatformId);
     objectList->hideColumn(DbSetup::Setup_MediaTypeId);
