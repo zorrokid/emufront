@@ -93,8 +93,8 @@ void DbObjectDialog::editObject()
     if (!nameDialog) initEditDialog();
     deleteCurrentObject();
     dbObject = dbManager->getDataObjectFromModel(&index);
-    nameDialog->setDataObject(dbObject);
     activateNameDialog();
+    nameDialog->setDataObject(dbObject);
 }
 
 bool DbObjectDialog::deleteItem()
@@ -209,12 +209,13 @@ void DbObjectDialog::disableSelection()
     setButtonsEnabled(false);
 }
 
-void DbObjectDialog::activateNameDialog()
+void DbObjectDialog::activateNameDialog(bool updateData)
 {
     if (!nameDialog) return;
     nameDialog->show();
     nameDialog->raise();
-    nameDialog->updateData();
+    if (updateData)
+        nameDialog->updateData();
     nameDialog->activateWindow();
 }
 

@@ -68,7 +68,7 @@ private:
     void insertDb(const EmuFrontObject*) const;
     void updateDb(const EmuFrontObject*) const;
     void editObject();
-    void activateNameDialog();
+    void activateNameDialog(bool updateData = true);
     bool confirmDelete(QString name, int numRefs);
 	void setButtonsEnabled(bool);
     void layout();

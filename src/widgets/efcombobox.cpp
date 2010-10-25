@@ -23,12 +23,14 @@
 #include <QSqlQueryModel>
 #include <QSqlRecord>
 #include <QDebug>
+#include <QAbstractItemView>
 
 EFComboBox::EFComboBox(DatabaseManager *dbMan, QWidget *parent)
     : QComboBox(parent), dbManager(dbMan)
 {
     if (!dbManager)
         throw new EmuFrontException("Database manager is not available!");
+    setSizeAdjustPolicy(QComboBox::AdjustToContents);
     updateDataModel();
 }
 
@@ -79,14 +81,12 @@ void EFComboBox::setSelected(const EmuFrontObject *efo)
     for (int i = 0; i < qmodel->rowCount(); i++){
         QSqlRecord rec = qmodel->record(i);
         int id = rec.value(dataModelIndex_id).toInt();
-        qDebug() << "Checking record with id " << rec.value(dataModelIndex_id)
-            << " and name " << rec.value(dataModelIndex_name);
         if (id == efo->getId()){
-            qDebug() << "Found!";
+            QModelIndex ind = qmodel->index(i, 0);
+            //view()->selectionModel()->select(ind, QItemSelectionModel::Select);
+            view()->setCurrentIndex(ind);
             setCurrentIndex(i);
-            show();
             break;
         }
     }
-
 }
