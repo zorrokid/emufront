@@ -23,6 +23,7 @@
 #include <QSqlQueryModel>
 #include <QSqlRecord>
 #include <QDebug>
+#include <QTime>
 #include <QAbstractItemView>
 
 EFComboBox::EFComboBox(DatabaseManager *dbMan, QWidget *parent)
@@ -78,15 +79,13 @@ void EFComboBox::setSelected(const EmuFrontObject *efo)
         << " [" << efo->getId() << "].";
     QSqlQueryModel *qmodel
         = dynamic_cast<QSqlQueryModel*>(model());
-    for (int i = 0; i < qmodel->rowCount(); i++){
-        QSqlRecord rec = qmodel->record(i);
-        int id = rec.value(dataModelIndex_id).toInt();
-        if (id == efo->getId()){
-            QModelIndex ind = qmodel->index(i, 0);
-            //view()->selectionModel()->select(ind, QItemSelectionModel::Select);
-            view()->setCurrentIndex(ind);
-            setCurrentIndex(i);
-            break;
-        }
+    QModelIndex idStart = qmodel->index(0, dataModelIndex_id);
+    int targetId = efo->getId();
+
+    QModelIndexList indLst = qmodel->match(idStart,Qt::DisplayRole, targetId, 1);
+    if (indLst.count() >= 1) {
+        QModelIndex ind = indLst.first();
+        view()->setCurrentIndex(ind);
+        setCurrentIndex(ind.row());
     }
 }
