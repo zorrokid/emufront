@@ -40,6 +40,7 @@ MediaImagePathMainDialog::MediaImagePathMainDialog(QWidget *parent)
     initEditDialog();
     objectList->hideColumn(DbFilePath::FilePath_Id);
     objectList->hideColumn(DbFilePath::FilePath_SetupId);
+
     // do not move to parent class:
     connectSignals();
 }
@@ -68,10 +69,19 @@ void MediaImagePathMainDialog::beginScanFilePath()
         QStringList l;
         l << "*.zip"; // TODO set filters in a global constant class
 
-
         dbMediaImageContainer->removeFromFilePath(fpo->getId());
-        int count = fileUtil.scanFilePath(fpo, l, dbMediaImageContainer);
-        qDebug() << "Storing scanned " << count << " files to database";
+
+        QProgressDialog progressDialog(this);
+        progressDialog.setWindowTitle("Scanning files...");
+        progressDialog.setCancelButtonText("Abort");
+        progressDialog.setWindowModality(Qt::WindowModal);
+        progressDialog.show();
+
+        int count = fileUtil.scanFilePath(fpo, l, dbMediaImageContainer, progressDialog);
+        progressDialog.hide();
+        QMessageBox msgBox;
+        msgBox.setText(tr("Scanned %1 files to database.").arg(count));
+        msgBox.exec();
         delete fpo;
     }
     catch (EmuFrontException s)

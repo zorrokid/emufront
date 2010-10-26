@@ -20,6 +20,7 @@
 #include <QDir>
 #include <QDebug>
 #include <QProcess>
+#include <QProgressDialog>
 #include "fileutil.h"
 #include "zlib.h" /* crc32 */
 #include "../exceptions/emufrontexception.h"
@@ -43,7 +44,9 @@ FileUtil::~FileUtil()
 }
 
 /* Throws EmuFrontException */
-int FileUtil::scanFilePath(FilePathObject *fp, QStringList filters, DbMediaImageContainer *dbMic)
+int FileUtil::scanFilePath(FilePathObject *fp,
+    QStringList filters, DbMediaImageContainer *dbMic,
+    QProgressDialog &progressDialog)
 {
     if (!fp->getSetup()){
         throw EmuFrontException(tr("Setup not available with %1.").arg(fp->getName()));
@@ -75,8 +78,13 @@ int FileUtil::scanFilePath(FilePathObject *fp, QStringList filters, DbMediaImage
     // TODO: only a buffer of objects should be kept here,
     // and write to database each time the buffer is filled.
     QList<MediaImageContainer*> containers;
+    progressDialog.setMinimum(0);
+    progressDialog.setMaximum(list.size());
     for (int i = 0; i < list.size(); ++i)
     {
+        progressDialog.setValue(i);
+        if (progressDialog.wasCanceled())
+            break;
         QFileInfo fileInfo = list.at(i);
         qDebug() << QString("%1 %2").arg(fileInfo.size(), 10).arg(fileInfo.absoluteFilePath());
 
@@ -110,6 +118,7 @@ int FileUtil::scanFilePath(FilePathObject *fp, QStringList filters, DbMediaImage
             qDebug() << "We have " << containers.size() << " containers.";
         }
     }
+    progressDialog.setValue(list.size());
     if (containers.count() > 0) {
         qDebug() << "Storing the rest " << containers.count() << " containers.";
         dbMic->storeContainers(containers, fp);
