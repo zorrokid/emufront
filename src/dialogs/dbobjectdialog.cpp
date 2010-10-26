@@ -234,8 +234,10 @@ void DbObjectDialog::updateReject()
 
 void DbObjectDialog::updateData()
 {
+    qDebug() << "DbObjectDialog::updateData()";
     // update data model
     if (!dbObject) return;
+
 
     // if data object id > -1 we are updating the data otherwise we are inserting new data
     if (dbObject->getId() > -1) updateDb(dbObject);

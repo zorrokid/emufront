@@ -28,10 +28,16 @@ SetupMainDialog::SetupMainDialog(QWidget *parent)
     setWindowTitle(tr("Setups"));
     dbManager = new DbSetup(this);
     initDataTable();
-    //initEditDialog(); this is called when editObject is called!
+    initEditDialog(); // this is called when editObject is called!
     objectList->hideColumn(DbSetup::Setup_Id);
     objectList->hideColumn(DbSetup::Setup_PlatformId);
     objectList->hideColumn(DbSetup::Setup_MediaTypeId);
+    // TODO: this is not working:
+    /*QObject::connect: Cannot connect (null)::dataObjectUpdated() to SetupMainDialog::updateData()
+QObject::connect: Cannot connect (null)::updateRejected() to SetupMainDialog::updateReject()
+QObject::connect: Cannot connect (null)::test() to SetupMainDialog::testSlot()
+*/
+
     connectSignals();
 }
 

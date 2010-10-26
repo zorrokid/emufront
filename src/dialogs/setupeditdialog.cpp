@@ -35,6 +35,7 @@ SetupEditDialog::SetupEditDialog(QWidget *parent, EmuFrontObject* obj)
     dbMediaType = new DbMediaType(this);
     initWidgets();
     connectSignals();
+    emit test();
     layout();
 }
 
@@ -97,6 +98,8 @@ void SetupEditDialog::acceptChanges()
         sup->setMediaType(mt);
     }
     sup->setSupportedFileTypeExtensions(supportedFileTypesList->getItems());
+    qDebug() << "Emitting dataObjectUpdated";
+    // TODO: this is not received
     emit dataObjectUpdated();
     efObject = 0;
     qDebug() << "Closing setup edit dialog";

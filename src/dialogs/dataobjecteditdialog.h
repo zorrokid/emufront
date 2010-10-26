@@ -44,6 +44,7 @@ protected:
 signals:
     void updateRejected();
     void dataObjectUpdated();
+    void test();
 
 protected slots:
     virtual void acceptChanges() =0;
