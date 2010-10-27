@@ -98,11 +98,8 @@ void SetupEditDialog::acceptChanges()
         sup->setMediaType(mt);
     }
     sup->setSupportedFileTypeExtensions(supportedFileTypesList->getItems());
-    qDebug() << "Emitting dataObjectUpdated";
-    // TODO: this is not received
     emit dataObjectUpdated();
     efObject = 0;
-    qDebug() << "Closing setup edit dialog";
     close();
 }
 
