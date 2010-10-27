@@ -164,7 +164,7 @@ void EmuLauncher::launchEmu()
 
         // check if command options have slots for nr media images > 1 e.g. "-diska $1 -diskb $2 ..."
         QString opts = exe->getOptions();
-        QRegExp rx("(\\s\\$\\d+)");
+        QRegExp rx("(\\$\\d+)");
         QStringList list;
         int pos = 0;
         while ((pos = rx.indexIn(opts, pos)) != -1) {
