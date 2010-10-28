@@ -24,14 +24,15 @@
 #include "platformnamedialog.h"
 
 PlatformDialog::PlatformDialog(QWidget *parent)
-    : DbObjectDialog(parent)
+    : EmuFrontFileObjectDialog(parent)
 {
     setWindowTitle(tr("Set emulated platforms"));
     dbManager = new DbPlatform(this);
     initDataTable();
     initEditDialog();
-    objectList->hideColumn(DbPlatform::EmuFrontFileObject_Id);
-    
+    setColumnsHidden();
+    hideColumns();
+
     // do not move to parent class:
     connectSignals();
 }

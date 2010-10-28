@@ -20,9 +20,9 @@
 #ifndef MEDIATYPEDIALOG_H
 #define MEDIATYPEDIALOG_H
 
-#include "dbobjectdialog.h"
+#include "emufrontfileobjectdialog.h"
 
-class MediaTypeDialog : public DbObjectDialog
+class MediaTypeDialog : public EmuFrontFileObjectDialog
 {
     Q_OBJECT
 

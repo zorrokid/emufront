@@ -27,17 +27,16 @@
 #include "mediatypenamedialog.h"
 
 MediaTypeDialog::MediaTypeDialog(QWidget* parent)
-    :DbObjectDialog(parent)
+    :EmuFrontFileObjectDialog(parent)
 {
     setWindowTitle(tr("Set media types"));
     dbManager = new DbMediaType(this);
     initDataTable();
     initEditDialog();
-    objectList->hideColumn(DbMediaType::EmuFrontFileObject_FileId);
-
     // do not move to parent class:
     connectSignals();
-
+    setColumnsHidden();
+    hideColumns();
 }
 
 MediaTypeDialog::~MediaTypeDialog()

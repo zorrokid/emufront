@@ -45,11 +45,13 @@ DbObjectDialog::DbObjectDialog(QWidget *parent)
 
 DbObjectDialog::~DbObjectDialog()
 {
-    // no need to explicitically delete widgets within a parented layout
+    // no need to explicitly delete widgets within a parented layout
     // they are automatically parented and will be deleted
-    // dbManager is also parented and will be implicitically deleted
+    // dbManager is also parented and will be implicitly deleted
     // this must be deleted in an implementing class
     //delete dbObject;
+    // hiddenColumn QList will be deleted implicitly, since it
+    // implements implicit data sharing
 }
 
 void DbObjectDialog::connectSignals()
@@ -268,4 +270,10 @@ bool DbObjectDialog::confirmDelete(QString name, int numRefs)
 void DbObjectDialog::refreshDataModel()
 {
     dbManager->resetModel();
+}
+
+void DbObjectDialog::hideColumns()
+{
+    foreach(int c, hiddenColumns)
+        objectList->hideColumn(c);
 }

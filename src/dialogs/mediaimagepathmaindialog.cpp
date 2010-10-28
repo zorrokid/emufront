@@ -38,8 +38,9 @@ MediaImagePathMainDialog::MediaImagePathMainDialog(QWidget *parent)
     buttonBox->addButton(scanButton, QDialogButtonBox::ActionRole);
 
     initEditDialog();
-    objectList->hideColumn(DbFilePath::FilePath_Id);
-    objectList->hideColumn(DbFilePath::FilePath_SetupId);
+    hiddenColumns << DbFilePath::FilePath_Id;
+    hiddenColumns << DbFilePath::FilePath_SetupId;
+    hideColumns();
 
     // do not move to parent class:
     connectSignals();

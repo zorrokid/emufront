@@ -30,9 +30,10 @@ ExecutableMainDialog::ExecutableMainDialog(QWidget *parent)
     dbManager = new DbExecutable(this);
     initDataTable();
     initEditDialog();
-    objectList->hideColumn(DbExecutable::Executable_Id);
-    objectList->hideColumn(DbExecutable::Executable_TypeId);
-    objectList->hideColumn(DbExecutable::Executable_SetupId);
+    hiddenColumns << DbExecutable::Executable_Id;
+    hiddenColumns << DbExecutable::Executable_TypeId;
+    hiddenColumns << DbExecutable::Executable_SetupId;
+    hideColumns();
     connectSignals();
 }
 

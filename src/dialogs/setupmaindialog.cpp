@@ -29,9 +29,10 @@ SetupMainDialog::SetupMainDialog(QWidget *parent)
     dbManager = new DbSetup(this);
     initDataTable();
     initEditDialog();
-    objectList->hideColumn(DbSetup::Setup_Id);
-    objectList->hideColumn(DbSetup::Setup_PlatformId);
-    objectList->hideColumn(DbSetup::Setup_MediaTypeId);
+    hiddenColumns << DbSetup::Setup_Id;
+    hiddenColumns << DbSetup::Setup_PlatformId;
+    hiddenColumns << DbSetup::Setup_MediaTypeId;
+    hideColumns();
     connectSignals();
 }
 

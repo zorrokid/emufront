@@ -61,6 +61,8 @@ protected:
     DatabaseManager *dbManager;
     QDialogButtonBox *buttonBox;
     QTableView *objectList;
+    QList<int> hiddenColumns;
+    void hideColumns();
 
 private:
     bool deleteItem();

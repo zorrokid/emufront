@@ -107,6 +107,16 @@ void EmuLauncher::updateMediaImageContainers()
     if (!dbMic) dbMic = new DbMediaImageContainer(this);
     dbMic->filter(mtid, plfid);
     micTable->setModel(dbMic->getDataModel());
+    micTable->hideColumn(DbMediaImageContainer::MIC_FileId);
+    micTable->hideColumn(DbMediaImageContainer::MIC_FileSize);
+    micTable->hideColumn(DbMediaImageContainer::MIC_FileCheckSum);
+    micTable->hideColumn(DbMediaImageContainer::MIC_FilePathId);
+    micTable->hideColumn(DbMediaImageContainer::MIC_FilePathName);
+    micTable->hideColumn(DbMediaImageContainer::MIC_SetupId);
+    micTable->hideColumn(DbMediaImageContainer::MIC_PlatformName);
+    micTable->hideColumn(DbMediaImageContainer::MIC_PlatformId);
+    micTable->hideColumn(DbMediaImageContainer::MIC_MediaTypeName);
+    micTable->hideColumn(DbMediaImageContainer::MIC_MediaTypeId);
     micTable->resizeColumnsToContents();
     platformSelectBox->updateDataModel();
     mediaTypeSelectBox->updateDataModel();

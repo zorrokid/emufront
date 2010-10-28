@@ -20,9 +20,9 @@
 #ifndef PLATFORMDIALOG_H
 #define PLATFORMDIALOG_H
 
-#include "dbobjectdialog.h"
+#include "emufrontfileobjectdialog.h"
 
-class PlatformDialog : public DbObjectDialog
+class PlatformDialog : public EmuFrontFileObjectDialog
 {
     Q_OBJECT
 
