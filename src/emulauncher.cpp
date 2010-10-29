@@ -126,7 +126,7 @@ void EmuLauncher::launchEmu()
 {
     QMap<QString, EmuFrontObject*> mediaImages;
     QList<MediaImageContainer*> mediaImageContainers;
-    Executable *exe;
+    Executable *exe = 0;
     try {
         if (!micTable || !micTable->model()) {
             throw EmuFrontException(tr("No search results available!"));
@@ -224,7 +224,7 @@ void EmuLauncher::launchEmu()
         emuHelper->launch(exe, mediaImageContainers, selectedImages, list.count());
         micTable->clearSelection();
     } catch (EmuFrontException efe) {
-        delete exe;
+        if (exe) delete exe;
         qDeleteAll(mediaImageContainers);
         //qDeleteAll(mediaImages); these are already deleted along with containers
         QMessageBox::information(this, tr("Launching emulator"),
