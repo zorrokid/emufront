@@ -31,6 +31,7 @@ public:
     EmuFrontObject* getSelected() const;
     // This will replace DataObjectEditDialog::setSelected!
     void setSelected(const EmuFrontObject*);
+    // reset sets the data model to orinal, non filtered setting
     void updateDataModel(bool reset = true);
 protected:
     DatabaseManager *dbManager;
