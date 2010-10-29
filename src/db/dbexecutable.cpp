@@ -144,7 +144,7 @@ QString DbExecutable::constructSelect(QString whereClause) const
 
 QSqlQueryModel* DbExecutable::getData()
 {
-    QSqlQueryModel *model = new QSqlQueryModel;
+    QSqlQueryModel *model = new QSqlQueryModel(this);
     QString select = constructSelect();
     qDebug() << select;
     model->setHeaderData(Executable_Id, Qt::Horizontal, tr("Id"));

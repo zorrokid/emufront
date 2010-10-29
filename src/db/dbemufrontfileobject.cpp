@@ -122,7 +122,7 @@ QString DbEmuFrontFileObject::constructFilterById(int id) const
 
 QSqlQueryModel* DbEmuFrontFileObject::getData()
 {
-    QSqlQueryModel *model = new QSqlQueryModel;
+    QSqlQueryModel *model = new QSqlQueryModel(this);
     model->setQuery(constructSelect());
     model->setHeaderData(EmuFrontFileObject_Id, Qt::Horizontal, tr("Id"));
     model->setHeaderData(EmuFrontFileObject_Name, Qt::Horizontal, tr("Name"));
