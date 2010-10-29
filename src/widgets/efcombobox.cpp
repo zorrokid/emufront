@@ -39,9 +39,9 @@ EFComboBox::~EFComboBox()
 {
 }
 
-void EFComboBox::updateDataModel()
+void EFComboBox::updateDataModel(bool reset)
 {
-    QSqlQueryModel *model = dbManager->getDataModel();
+    QSqlQueryModel *model = dbManager->getDataModel(reset);
     if (model)
         setModel(model);
 }

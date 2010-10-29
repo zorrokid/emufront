@@ -59,7 +59,7 @@ void EmuLauncher::updateData()
 {
     platformSelectBox->updateDataModel();
     mediaTypeSelectBox->updateDataModel();
-    execSelectBox->updateDataModel();
+    //execSelectBox->updateDataModel();
 }
 
 void EmuLauncher::initWidgets()
@@ -120,6 +120,7 @@ void EmuLauncher::updateMediaImageContainers()
     micTable->resizeColumnsToContents();
     platformSelectBox->updateDataModel();
     mediaTypeSelectBox->updateDataModel();
+    execSelectBox->updateToSetup(plfid, mtid);
 }
 
 void EmuLauncher::launchEmu()

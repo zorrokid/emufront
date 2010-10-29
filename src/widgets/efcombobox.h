@@ -31,7 +31,7 @@ public:
     EmuFrontObject* getSelected() const;
     // This will replace DataObjectEditDialog::setSelected!
     void setSelected(const EmuFrontObject*);
-    void updateDataModel();
+    void updateDataModel(bool reset = true);
 protected:
     DatabaseManager *dbManager;
     int dataModelIndex_id;

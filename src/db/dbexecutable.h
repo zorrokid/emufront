@@ -31,6 +31,7 @@ public:
      virtual bool updateDataObjectToModel(const EmuFrontObject*);
     int insertDataObjectToModel(const EmuFrontObject*);
     bool deleteDataObjectFromModel(QModelIndex*);
+    void filterByPlatformMediaType(int platformId, int mediaTypeId);
     enum {
         Executable_Id = 0,
         Executable_Name,

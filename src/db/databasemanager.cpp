@@ -54,9 +54,17 @@ DatabaseManager::~DatabaseManager()
     // be destroyed when parent is destroyed
 }
 
+/*
+ You may wanna set the possible filters (filterDataObjects) before calling getDataModel.
+ After filtering do not set update to true. Data model is already updated.
+*/
 QSqlQueryModel* DatabaseManager::getDataModel(bool update)
 {
-    if (!sqlTableModel || (sqlTableModel && !update)) sqlTableModel = getData();
+    if (!sqlTableModel) {
+        sqlTableModel = getData();
+    }
+    else if (update)
+        clearFilters();
     return sqlTableModel;
 }
 

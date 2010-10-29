@@ -119,7 +119,7 @@ QString DbExecutable::constructFilterById(int id) const
 
 QString DbExecutable::constructSelect(QString whereClause) const
 {
-    return QString("SELECT "
+    QString sql = QString("SELECT "
         "executable.id AS ExecutableId, "
         "executable.name AS ExecutableName, "
         "executable.executable AS Executable, "
@@ -132,8 +132,9 @@ QString DbExecutable::constructSelect(QString whereClause) const
         "INNER JOIN platform ON setup.platformid=platform.id "
         "INNER JOIN mediatype ON setup.mediatypeid=mediatype.id "
         "%1 "
-        "ORDER BY executable.name ")
-        .arg(whereClause);
+        "ORDER BY executable.name ").arg(whereClause);
+    qDebug() << sql;
+    return sql;
 }
 
 /*bool DbExecutable::deleteDataObject(int id) const
@@ -163,4 +164,12 @@ QString DbExecutable::getCountRefsSelect(int id) const
     // These objects don't have references from other objects
     // currently.
     return QString("SELECT 0");
+}
+
+void DbExecutable::filterByPlatformMediaType(int platformId, int mediaTypeId)
+{
+    QList<QString> filters;
+    filters.append(QString("setup.platformid=%1").arg(platformId));
+    filters.append(QString("setup.mediatypeid=%1").arg(mediaTypeId));
+    filterDataObjects(filters);
 }

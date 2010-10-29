@@ -38,7 +38,9 @@ void DbQueryModelManager::filterById(int id)
 /* filters is a list of SQL conditions e.g. setup.id=1 */
 void DbQueryModelManager::filterDataObjects(QList<QString> filters)
 {
-   if (!sqlTableModel) sqlTableModel = getDataModel();
+    //if (!sqlTableModel) sqlTableModel = getDataModel();
+    if (!sqlTableModel)
+        getDataModel();
     QString where = constructWhereByFilters(filters);
     qDebug() << "Constructing SQL with " << where;
     QString query = constructSelect(where);

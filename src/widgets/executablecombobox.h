@@ -26,6 +26,7 @@ class ExecutableComboBox : public EFComboBox
 {
 public:
     ExecutableComboBox(DatabaseManager *dbMan, QWidget *parent);
+    void updateToSetup(int platformId, int mediaTypeId);
 };
 
 #endif // EXECUTABLECOMBOBOX_H
