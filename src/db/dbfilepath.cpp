@@ -125,7 +125,7 @@ QString DbFilePath::constructSelectById(int id) const
 
 QSqlQueryModel* DbFilePath::getData()
 {
-    QSqlQueryModel *model = new QSqlQueryModel;
+    QSqlQueryModel *model = new QSqlQueryModel(this);
     model->setQuery(constructSelect());
     model->setHeaderData(FilePath_Id, Qt::Horizontal, tr("Id"));
     model->setHeaderData(FilePath_Name, Qt::Horizontal, tr("Name"));
