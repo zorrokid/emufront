@@ -79,7 +79,9 @@ void EmuLauncher::layout()
     grid->addWidget(platformSelectBox, 0, 0);
     grid->addWidget(mediaTypeSelectBox, 1, 0);
     grid->addWidget(selectButton, 1, 1);
-    grid->addWidget(micTable, 2, 0, 1, 2);
+    grid->setColumnStretch(2, 1);
+
+    grid->addWidget(micTable, 2, 0, 1, 3);
     grid->addWidget(execSelectBox, 3, 0);
     grid->addWidget(launchButton, 3, 1);
     // grid will be implicitily parented to this
