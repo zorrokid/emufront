@@ -11,6 +11,7 @@ INCLUDEPATH += . \
     dialogs
 QT += sql
 
+
 # Input
 HEADERS += mainwindow.h \
     db/databasemanager.h \
@@ -120,3 +121,9 @@ SOURCES += main.cpp \
     dialogs/emufrontinputdialog.cpp \
     dialogs/emufrontfileobjectdialog.cpp
 OTHER_FILES += 
+
+CONFIG += mobility
+
+MOBILITY = 
+
+
