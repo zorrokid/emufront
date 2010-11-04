@@ -51,6 +51,7 @@ private slots:
     void configureSetups();
     void configureEmulators();
     void updateData();
+    void about();
 
 private:
 	void createActions();
@@ -67,13 +68,15 @@ private:
     SetupMainDialog *setupMainDialog;
     ExecutableMainDialog *executableMainDialog;
 	QMenu *configMenu;
-	QMenu *fileMenu;
+    QMenu *fileMenu;
+    QMenu *helpMenu;
     QAction *configPlatformAction;
     QAction *configMediaTypeAction;
     QAction *configMediaImagePathAction;
     QAction *configSetupAction;
     QAction *configEmulatorAction;
     QAction *exitAction;
+    QAction *aboutAction;
 	QLabel *messageLabel;
     DatabaseManager *dbManager;
     EmuLauncher *launcher;

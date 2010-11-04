@@ -76,6 +76,10 @@ void MainWindow::createActions()
     exitAction->setShortcut(tr("Ctrl+Q"));
     exitAction->setStatusTip(tr("Exit EmuFront"));
     connect(exitAction, SIGNAL(triggered()), this, SLOT(close()));
+
+    aboutAction = new QAction(tr("&About"), this);
+    aboutAction->setStatusTip(tr("About EmuFront"));
+    connect(aboutAction, SIGNAL(triggered()), this, SLOT(about()));
 }
 
 void MainWindow::configurePlatforms()
@@ -146,6 +150,9 @@ void MainWindow::createMenus()
     configMenu->addAction(configMediaImagePathAction);
     configMenu->addAction(configSetupAction);
     configMenu->addAction(configEmulatorAction);
+
+    helpMenu = menuBar()->addMenu(tr("&Help"));
+    helpMenu->addAction(aboutAction);
 }
 
 void MainWindow::createStatusBar()
@@ -178,4 +185,15 @@ void MainWindow::updateData()
 {
     qDebug() << "MainWindow::updateData()";
     launcher->updateData();
+}
+
+void MainWindow::about()
+{
+    QMessageBox::about(this, tr("About EmuFront"),
+        "<h2>EmuFront</h2>"
+        "<p>&copy; 2010 Mikko Keinänen</p>"
+        "<p>EmuFront is free software: you can redistribute it and/or modify "
+        "it under the terms of the GNU General Public License version 2 as published by "
+        "the Free Software Foundation.</p>"
+        );
 }
