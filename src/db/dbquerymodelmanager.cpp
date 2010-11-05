@@ -42,7 +42,7 @@ void DbQueryModelManager::filterDataObjects(QList<QString> filters)
     if (!sqlTableModel)
         getDataModel();
     QString where = constructWhereByFilters(filters);
-    qDebug() << "Constructing SQL with " << where;
+    //qDebug() << "Constructing SQL with " << where;
     QString query = constructSelect(where);
     sqlTableModel->setQuery(query);
 }
@@ -57,7 +57,7 @@ QString DbQueryModelManager::constructWhereByFilters(QList<QString>filters)
         if (++c < filters.count())
             where.append(" AND ");
     }
-    qDebug() << "constructWhereByFilters: " << where;
+    //qDebug() << "constructWhereByFilters: " << where;
     return where;
 }
 
@@ -69,7 +69,7 @@ void DbQueryModelManager::clearFilters()
 bool DbQueryModelManager::deleteDataObject(int id) const
 {
     QString sql = getDeleteObjectSql();
-    qDebug() << sql;
+    //qDebug() << sql;
     QSqlQuery q;
     q.prepare(sql);
     q.bindValue(":id", id);
