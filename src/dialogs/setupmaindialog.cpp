@@ -43,7 +43,7 @@ SetupMainDialog::~SetupMainDialog()
 
 void SetupMainDialog::initEditDialog()
 {
-    if (nameDialog) delete nameDialog;
+    if (nameDialog) delete dynamic_cast<SetupEditDialog*>(nameDialog);
     nameDialog = new SetupEditDialog(this, dynamic_cast<Setup*>(dbObject));
 }
 

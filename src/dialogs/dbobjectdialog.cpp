@@ -80,6 +80,7 @@ void DbObjectDialog::insertDb(const EmuFrontObject *ob) const
 
 void DbObjectDialog::addObject()
 {
+    setUIEnabled(false);
     if (!nameDialog) initEditDialog();
     deleteCurrentObject();
     dbObject = createObject();
@@ -130,6 +131,7 @@ bool DbObjectDialog::deleteItem()
         }
         updateList();
         objectList->setFocus();
+        setUIEnabled(true);
     }
     catch(EmuFrontException e)
     {
@@ -207,9 +209,16 @@ void DbObjectDialog::setButtonsEnabled(bool enabled)
     deleteButton->setEnabled(enabled);
 }
 
+void DbObjectDialog::setUIEnabled(bool enabled)
+{
+    buttonBox->setEnabled(enabled);
+    objectList->setEnabled(enabled);
+}
+
 void DbObjectDialog::disableSelection()
 {
-    setButtonsEnabled(false);
+    setUIEnabled(false);
+    //setButtonsEnabled(false);
 }
 
 void DbObjectDialog::activateNameDialog(bool updateData)
@@ -231,6 +240,8 @@ void DbObjectDialog::initDataTable()
 
 void DbObjectDialog::updateReject()
 {
+    addButton->setEnabled(true);
+    setUIEnabled(true);
     // we don't want to keep this in memory
     deleteCurrentObject();
 }
@@ -250,12 +261,14 @@ void DbObjectDialog::updateData()
     deleteCurrentObject();
     dbObject = 0;
     updateList();
+    setUIEnabled(true);
 }
 
+/* Implementation specific delete must be used!
 void DbObjectDialog::deleteCurrentObject()
 {
     delete dbObject;
-}
+}*/
 
 bool DbObjectDialog::confirmDelete(QString name, int numRefs)
 {

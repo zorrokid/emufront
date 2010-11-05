@@ -108,7 +108,8 @@ void SetupEditDialog::setDataObject(EmuFrontObject *ob)
     if (!ob) return;
     qDebug() << "Updating Setup edit dialog data object to "
         << ob->getName() << ".";
-    if (efObject) delete efObject;
+    if (efObject)
+        delete dynamic_cast<Setup*>(efObject); // TODO: caused crash if another instance of setupeditdialog was created and new instance destroyed object being referenced in another existing dialog.
     efObject = ob;
     Setup *sup= dynamic_cast<Setup*>(ob);
     if (sup->getPlatform()) setSelectedPlatform(sup->getPlatform());
