@@ -1,0 +1,7 @@
+
+	- 
+
+0.01a 	2010-11-05	
+
+	- 1st public release
+	- basic functionality roughly implemented
