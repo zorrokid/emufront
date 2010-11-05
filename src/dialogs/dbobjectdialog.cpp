@@ -202,6 +202,7 @@ void DbObjectDialog::listObjectClicked(const QModelIndex &index)
 
 void DbObjectDialog::setButtonsEnabled(bool enabled)
 {
+    addButton->setEnabled(enabled);
     editButton->setEnabled(enabled);
     deleteButton->setEnabled(enabled);
 }
