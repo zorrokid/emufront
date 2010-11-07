@@ -66,6 +66,10 @@ void EmuLauncher::initWidgets()
 {
     micTable = new QTableView(this);
     micTable->setSelectionMode(QAbstractItemView::ExtendedSelection);
+    micTable->setCornerButtonEnabled(false);
+    micTable->verticalHeader()->setVisible(false);
+    //micTable->horizontalHeader()->setDisabled(true);
+    micTable->horizontalHeader()->setClickable(false);
     mediaTypeSelectBox = new EFFileObjectComboBox(dbMediaType, this);
     platformSelectBox = new EFFileObjectComboBox(dbPlatform, this);
     execSelectBox = new ExecutableComboBox(dbExec, this);
@@ -77,13 +81,13 @@ void EmuLauncher::layout()
 {
     QGridLayout *grid = new QGridLayout;
     grid->addWidget(platformSelectBox, 0, 0);
-    grid->addWidget(mediaTypeSelectBox, 1, 0);
-    grid->addWidget(selectButton, 1, 1);
-    grid->setColumnStretch(2, 1);
+    grid->addWidget(mediaTypeSelectBox, 0, 1);
+    grid->addWidget(selectButton, 0, 2);
+    grid->setColumnStretch(3, 1);
 
-    grid->addWidget(micTable, 2, 0, 1, 3);
-    grid->addWidget(execSelectBox, 3, 0);
-    grid->addWidget(launchButton, 3, 1);
+    grid->addWidget(micTable, 1, 0, 1, 4);
+    grid->addWidget(execSelectBox, 2, 0);
+    grid->addWidget(launchButton, 2, 1);
     // grid will be implicitily parented to this
     setLayout(grid);
 }
