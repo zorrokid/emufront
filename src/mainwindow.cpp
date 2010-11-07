@@ -25,12 +25,17 @@
 #include "dialogs/mediaimagepathmaindialog.h"
 #include "dialogs/setupmaindialog.h"
 #include "dialogs/executablemaindialog.h"
+#include "dialogs/tmpfoldereditdialog.h"
 #include "db/databasemanager.h"
+#include "db/dbconfig.h"
 
 MainWindow::MainWindow()
 {
     setWindowTitle("EmuFront");
-    launcher = new EmuLauncher(this);
+    tmpDirFilePath = DbConfig::getTmpDir();
+    if (tmpDirFilePath.isEmpty())
+        tmpDirFilePath = QDir::tempPath();
+    launcher = new EmuLauncher(this, tmpDirFilePath);
     setCentralWidget(launcher);
     createActions();
     createMenus();
@@ -41,7 +46,6 @@ MainWindow::MainWindow()
     mediaImagePathDialog = 0;
     setupMainDialog = 0;
     executableMainDialog = 0;
-    connectSignals();
 }
 
 void MainWindow::connectSignals()
@@ -71,6 +75,10 @@ void MainWindow::createActions()
     configEmulatorAction = new QAction(tr("Em&ulators"), this);
     configEmulatorAction->setStatusTip(tr("Configure emulators"));
     connect(configEmulatorAction, SIGNAL(triggered()), this, SLOT(configureEmulators()));
+
+    configTmpDirAction = new QAction(tr("&Temp dir"), this);
+    configTmpDirAction->setStatusTip(tr("Configure directory for temporary files."));
+    connect(configTmpDirAction, SIGNAL(triggered()), this, SLOT(configureTmpDir()));
 
     exitAction = new QAction(tr("&Exit"), this);
     exitAction->setShortcut(tr("Ctrl+Q"));
@@ -132,6 +140,24 @@ void MainWindow::configureEmulators()
     executableMainDialog->refreshDataModel();
 }
 
+void MainWindow::configureTmpDir()
+{
+    /*if (!tmpFolderDialog) {
+        tmpFolderDialog = new TmpFolderEditDialog(this, tmpDirFilePath);
+    }
+    activateDialog(tmpFolderDialog);*/
+
+    QString fpath = QFileDialog::getExistingDirectory(this,
+        tr("Select a directory"), tmpDirFilePath,
+        QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+    QDir d(fpath);
+    if (d.exists() && d.isReadable()) {
+        tmpDirFilePath = fpath;
+        DbConfig::setTmpDir(tmpDirFilePath);
+        launcher->setTmpDirPath(tmpDirFilePath);
+    }
+}
+
 void MainWindow::activateDialog(EmuFrontDialog* dia) const
 {
     dia->show();
@@ -150,6 +176,7 @@ void MainWindow::createMenus()
     configMenu->addAction(configMediaImagePathAction);
     configMenu->addAction(configSetupAction);
     configMenu->addAction(configEmulatorAction);
+    configMenu->addAction(configTmpDirAction);
 
     helpMenu = menuBar()->addMenu(tr("&Help"));
     helpMenu->addAction(aboutAction);

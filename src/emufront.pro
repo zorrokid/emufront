@@ -65,7 +65,9 @@ HEADERS += mainwindow.h \
     utils/emuhelper.h \
     dialogs/listdialog.h \
     dialogs/emufrontinputdialog.h \
-    dialogs/emufrontfileobjectdialog.h
+    dialogs/emufrontfileobjectdialog.h \
+    dialogs/browsefilepathdialog.h \
+    db/dbconfig.h
 SOURCES += main.cpp \
     mainwindow.cpp \
     db/databasemanager.cpp \
@@ -119,11 +121,11 @@ SOURCES += main.cpp \
     utils/emuhelper.cpp \
     dialogs/listdialog.cpp \
     dialogs/emufrontinputdialog.cpp \
-    dialogs/emufrontfileobjectdialog.cpp
+    dialogs/emufrontfileobjectdialog.cpp \
+    dialogs/browsefilepathdialog.cpp \
+    db/dbconfig.cpp
 OTHER_FILES += 
 
 CONFIG += mobility
 
 MOBILITY = 
-
-

@@ -93,7 +93,7 @@ void MediaImagePathMainDialog::beginScanFilePath()
 
 EmuFrontObject* MediaImagePathMainDialog::createObject()
 {
-    return new FilePathObject;
+    return new FilePathObject(FilePathObject::FilePathType_MediaImageDir);
 }
 
 MediaImagePathMainDialog::~MediaImagePathMainDialog()

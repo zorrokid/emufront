@@ -33,7 +33,7 @@ EmuHelper::EmuHelper(QObject *parent) :
 }
 
 void EmuHelper::launch(const Executable * ex, QList<MediaImageContainer *> micList,
-    QList<EmuFrontObject *> miList, int mediaCount)
+    QList<EmuFrontObject *> miList, int mediaCount, QString tmp)
 {
     if (miList.count() < 1) {
         throw EmuFrontException(tr("No media images available!"));
@@ -42,10 +42,9 @@ void EmuHelper::launch(const Executable * ex, QList<MediaImageContainer *> micLi
         throw EmuFrontException(tr("No media image containers available!"));
     }
 
-    QString tmp = "/tmp/"; // TODO: do this configurable!
+    if (!tmp.endsWith('/')) tmp.append("/");
 
     // extract the media image container to tmp folder
-    // (TODO: tmp folder configuration)
     foreach(MediaImageContainer *mic, micList) {
         QString fp;
         fp.append(mic->getFilePath()->getName());
@@ -60,7 +59,8 @@ void EmuHelper::launch(const Executable * ex, QList<MediaImageContainer *> micLi
     // fill in the media image slots in the command line options ($1, $2, ...)
     QString opts = ex->getOptions();
     for(int i = 0; i < mediaCount && i < miList.size(); i++) {
-        QString tmpfp = " \"/tmp/";
+        QString tmpfp = " \"";
+        tmpfp.append(tmp);
         tmpfp.append (miList.at(i)->getName());
         tmpfp.append("\"");
         opts.replace(QString("$%1").arg(i+1), tmpfp);
@@ -78,10 +78,11 @@ void EmuHelper::launch(const Executable * ex, QList<MediaImageContainer *> micLi
 
     // clean the temp dir
     foreach(EmuFrontObject *ob, miList) {
-        QString fp = tmp;
+        QString fp = " \"";
+         fp.append(tmp);
         fp.append(ob->getName());
-        QFile f(fp);
-        if (!f.remove())
+        fp.append("\"");
+        if (!QFile::remove(fp))
             qDebug() << "Removing " << fp << " failed.";
     }
     delete ex;

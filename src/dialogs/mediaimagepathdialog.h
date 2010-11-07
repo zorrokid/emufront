@@ -20,19 +20,19 @@
 #ifndef MEDIAIMAGEPATHDIALOG_H
 #define MEDIAIMAGEPATHDIALOG_H
 
-#include "dataobjecteditdialog.h"
+#include "browsefilepathdialog.h"
 
-class QDialogButtonBox;
-class QLabel;
-class QPushButton;
-class QSqlTableModel;
+//class QDialogButtonBox;
+//class QLabel;
+//class QPushButton;
+//class QSqlTableModel;
 class DbSetup;
 class Setup;
 class DbMediaType;
 class DbPlatform;
 class SetupComboBox;
 
-class MediaImagePathDialog : public DataObjectEditDialog
+class MediaImagePathDialog : public BrowseFilePathDialog
 {
     Q_OBJECT
 
@@ -44,19 +44,17 @@ public:
 
 protected slots:
     virtual void acceptChanges();
-    void browseFilePath();
+    //void browseFilePath();
 
 private:
     SetupComboBox *setupComBox;
-    QLabel *filePathLabel;
-    QPushButton *filePathButton;
     DbSetup *dbSetup;
     DbMediaType *dbMediaType;
     DbPlatform *dbPlatform;
 
     void initWidgets();
     void layout();
-    void connectSignals();
+    //void connectSignals();
     void populateSetupComBox();
     void setSelectedSetup(const Setup *);
     Setup* getSelectedSetup();

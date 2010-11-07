@@ -53,6 +53,10 @@ bool DbCreator::createDB()
 
         qDebug() << "Creating TABLE file";
 
+        ret = query.exec("CREATE TABLE IF NOT EXISTS config"
+                "(tmpdirpath TEXT)"
+            );
+
         ret = query.exec("CREATE TABLE IF NOT EXISTS file"
                         "(id INTEGER PRIMARY KEY, "
                         "name TEXT, "

@@ -21,7 +21,8 @@
 #include "filepathobject.h"
 #include "setup.h"
 
-FilePathObject::FilePathObject() : EmuFrontObject(), setup(0)
+FilePathObject::FilePathObject(int type)
+    : EmuFrontObject(), type(type), setup(0)
 { }
 
 FilePathObject::FilePathObject(int id, QString name, int filetype)
@@ -38,10 +39,7 @@ FilePathObject::~FilePathObject()
 FilePathObject::FilePathObject(const FilePathObject &fpobj)
     : EmuFrontObject(fpobj), type(fpobj.type)
 {
-    qDebug() << "FilePathObject copy constructor.";
     Setup *s = fpobj.setup;
-    qDebug() << "Setup name " << s->getName();
-    qDebug() << "Setup id " << s->getId();
     setup = new Setup(*s);
 }
 

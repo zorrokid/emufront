@@ -26,7 +26,7 @@
 #include "../widgets/setupcombobox.h"
 
 MediaImagePathDialog::MediaImagePathDialog(QWidget *parent, EmuFrontObject *efObject)
-    : DataObjectEditDialog(parent, efObject, Qt::Horizontal)
+    : BrowseFilePathDialog(parent, efObject, Qt::Horizontal)
 {
     initWidgets();
     dbPlatform = 0;
@@ -40,13 +40,13 @@ MediaImagePathDialog::~MediaImagePathDialog()
 {
 }
 
-void MediaImagePathDialog::connectSignals()
+/*void MediaImagePathDialog::connectSignals()
 {
     DataObjectEditDialog::connectSignals();
     connect(filePathButton, SIGNAL(clicked()), this, SLOT(browseFilePath()));
-}
+}*/
 
-void MediaImagePathDialog::browseFilePath()
+/*void MediaImagePathDialog::browseFilePath()
 {
     QString fpath = QFileDialog::getExistingDirectory(this, tr("Select a directory"), ".",
         QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
@@ -55,13 +55,14 @@ void MediaImagePathDialog::browseFilePath()
     {
         filePathLabel->setText(d.path());
     }
-}
+}*/
 
 void MediaImagePathDialog::initWidgets()
 {
+    BrowseFilePathDialog::initWidgets();
     // these widgets will be automatically parented using layout components
-    filePathLabel = new QLabel;
-    filePathButton = new QPushButton(tr("&Browse filepath"));
+    //filePathLabel = new QLabel;
+    //filePathButton = new QPushButton(tr("&Browse filepath"));
     dbSetup = new DbSetup(this);
     setupComBox = new SetupComboBox(dbSetup, this);
 }

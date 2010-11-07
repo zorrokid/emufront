@@ -17,38 +17,32 @@
 // You should have received a copy of the GNU General Public License
 // along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef FILEPATHOBJECT_H
-#define FILEPATHOBJECT_H
+#ifndef BROWSEFILEPATHDIALOG_H
+#define BROWSEFILEPATHDIALOG_H
 
-#include "emufrontfileobject.h"
+#include "dataobjecteditdialog.h"
 
-class Setup;
+class QLabel;
+class QPushButton;
 
-class FilePathObject : public EmuFrontObject
+class BrowseFilePathDialog : public DataObjectEditDialog
 {
+    Q_OBJECT
 public:
-    FilePathObject(int type);
-    ~FilePathObject();
-    FilePathObject(int id, QString name, int filetype);
-    FilePathObject(int id, QString name, int filetype, Setup*);
-    FilePathObject(const FilePathObject &);
-    FilePathObject& operator=(const FilePathObject &);
+    BrowseFilePathDialog(QWidget *parent, EmuFrontObject*,
+        Qt::Orientation orientation = Qt::Horizontal);
 
-    Setup* getSetup() const;
-    void setSetup(Setup *);
-    int getType() const;
-    void setType(int);
+signals:
+    void filePathUpdated();
 
-    enum {
-        FilePathType_MediaImageDir = 1,
-        FilePathType_TmpDir,
-        FilePathType_PlatformIconsDir,
-        FilePathType_MediaIconsDir
-    };
+protected slots:
+    void browseFilePath();
 
-private:
-    int type;
-    Setup *setup;
+protected:
+    void connectSignals();
+    void initWidgets();
+    QLabel *filePathLabel;
+    QPushButton *filePathButton;
 };
 
-#endif // FILEPATHOBJECT_H
+#endif // BROWSEFILEPATHDIALOG_H

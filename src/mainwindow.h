@@ -28,6 +28,7 @@ class MediaTypeDialog;
 class MediaImagePathMainDialog;
 class SetupMainDialog;
 class ExecutableMainDialog;
+//class TmpFolderEditDialog;
 class QLabel;
 class DatabaseManager;
 class EmuFrontDialog;
@@ -50,6 +51,7 @@ private slots:
     void configureMediaImagePaths();
     void configureSetups();
     void configureEmulators();
+    void configureTmpDir();
     void updateData();
     void about();
 
@@ -67,6 +69,7 @@ private:
     MediaImagePathMainDialog *mediaImagePathDialog;
     SetupMainDialog *setupMainDialog;
     ExecutableMainDialog *executableMainDialog;
+    //TmpFolderEditDialog *tmpFolderDialog;
 	QMenu *configMenu;
     QMenu *fileMenu;
     QMenu *helpMenu;
@@ -77,9 +80,11 @@ private:
     QAction *configEmulatorAction;
     QAction *exitAction;
     QAction *aboutAction;
+    QAction *configTmpDirAction;
 	QLabel *messageLabel;
     DatabaseManager *dbManager;
     EmuLauncher *launcher;
+    QString tmpDirFilePath;
 };
 
 #endif

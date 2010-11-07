@@ -32,8 +32,8 @@
 #include "utils/emuhelper.h"
 #include "dialogs/emufrontinputdialog.h"
 
-EmuLauncher::EmuLauncher(QWidget *parent) :
-    QWidget(parent)
+EmuLauncher::EmuLauncher(QWidget *parent, QString tmp) :
+    QWidget(parent), tmpDirPath(tmp)
 {
     dbPlatform = new DbPlatform(this);
     dbMediaType = new DbMediaType(this);
@@ -224,7 +224,7 @@ void EmuLauncher::launchEmu()
         if (selectedImages.count() < 1)
             throw EmuFrontException(tr("No media images selected"));
 
-        emuHelper->launch(exe, mediaImageContainers, selectedImages, list.count());
+        emuHelper->launch(exe, mediaImageContainers, selectedImages, list.count(), tmpDirPath);
         micTable->clearSelection();
     } catch (EmuFrontException efe) {
         if (exe) delete exe;
@@ -260,4 +260,9 @@ void EmuLauncher::processFinished(int a)
 void EmuLauncher::cleanTmp()
 {
     // TODO
+}
+
+void EmuLauncher::setTmpDirPath(QString tmp)
+{
+    tmpDirPath = tmp;
 }

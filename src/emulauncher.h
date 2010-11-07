@@ -39,9 +39,10 @@ class EmuLauncher : public QWidget
 {
 Q_OBJECT
 public:
-    explicit EmuLauncher(QWidget *parent = 0);
+    EmuLauncher(QWidget *parent = 0, QString tmp = ".");
     ~EmuLauncher();
     void updateData();
+    void setTmpDirPath(QString);
 
 signals:
 
@@ -70,6 +71,7 @@ private:
     void populateMediaTypeSelectBox();
     void launch(const Executable*, const MediaImageContainer*);
     void cleanTmp();
+    QString tmpDirPath;
 };
 
 #endif // EMULAUNCHER_H

@@ -35,7 +35,9 @@ public:
            FilePath_Name,
            FilePath_LastScanned,
            FilePath_SetupId,
-           FilePath_SetupName };
+           FilePath_SetupName,
+           FilePath_FileTypeId
+           };
 
 protected:
     virtual EmuFrontObject* recordToDataObject(const QSqlRecord* );
