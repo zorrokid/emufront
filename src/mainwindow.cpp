@@ -33,7 +33,8 @@ MainWindow::MainWindow()
     setWindowTitle("EmuFront");
     tmpDirFilePath = DbConfig::getTmpDir();
     if (tmpDirFilePath.isEmpty())
-        tmpDirFilePath = QDir::tempPath();
+        tmpDirFilePath = QDir::homePath();
+    qDebug() << "Temporary dir is " << tmpDirFilePath;
     launcher = new EmuLauncher(this, tmpDirFilePath);
     setCentralWidget(launcher);
     createActions();
