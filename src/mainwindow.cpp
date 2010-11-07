@@ -25,7 +25,6 @@
 #include "dialogs/mediaimagepathmaindialog.h"
 #include "dialogs/setupmaindialog.h"
 #include "dialogs/executablemaindialog.h"
-#include "dialogs/tmpfoldereditdialog.h"
 #include "db/databasemanager.h"
 #include "db/dbconfig.h"
 
