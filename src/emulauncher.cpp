@@ -65,7 +65,7 @@ void EmuLauncher::updateData()
 void EmuLauncher::initWidgets()
 {
     micTable = new QTableView(this);
-    micTable->setSelectionMode(QAbstractItemView::MultiSelection);
+    micTable->setSelectionMode(QAbstractItemView::ExtendedSelection);
     mediaTypeSelectBox = new EFFileObjectComboBox(dbMediaType, this);
     platformSelectBox = new EFFileObjectComboBox(dbPlatform, this);
     execSelectBox = new ExecutableComboBox(dbExec, this);
