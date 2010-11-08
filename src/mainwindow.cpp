@@ -28,6 +28,17 @@
 #include "db/databasemanager.h"
 #include "db/dbconfig.h"
 
+QString MainWindow::aboutStr = tr(
+        "<h2>EmuFront</h2>"
+        "<p>&copy; 2010 Mikko Keinänen</p>"
+        "<p>mikko.keinanen@gmail.com</p>"
+        "<p>EmuFront is free software: you can redistribute it and/or modify "
+        "it under the terms of the GNU General Public License version 2 as published by "
+        "the Free Software Foundation.</p>"
+);
+
+QString MainWindow::aboutTitle = tr("About EmuFront");
+
 MainWindow::MainWindow()
 {
     setWindowTitle("EmuFront");
@@ -216,11 +227,5 @@ void MainWindow::updateData()
 
 void MainWindow::about()
 {
-    QMessageBox::about(this, tr("About EmuFront"),
-        "<h2>EmuFront</h2>"
-        "<p>&copy; 2010 Mikko Keinänen</p>"
-        "<p>EmuFront is free software: you can redistribute it and/or modify "
-        "it under the terms of the GNU General Public License version 2 as published by "
-        "the Free Software Foundation.</p>"
-        );
+    QMessageBox::about(this, aboutTitle, aboutStr );
 }

@@ -56,7 +56,9 @@ private slots:
     void about();
 
 private:
-	void createActions();
+    static QString aboutStr;
+    static QString aboutTitle;
+    void createActions();
 	void createMenus();
 	void createStatusBar();
 	void readSettings();
