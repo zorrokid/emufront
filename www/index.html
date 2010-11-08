@@ -7,7 +7,7 @@
 		<meta name="description" content="EmuFront is an universal (multi-system) computer and video game console emulator front-end implemented in QT, C++ and SQLite targeted on Linux operating systems. " />
 		<meta name="author" content="Mikko Keinänen" />
 		<meta name="lang" content="en" />
-			
+
 		<title>EmuFront :: an universal emulator front-end</title>
 		<link rel="stylesheet" href="style.css" type="text/css" />
 	</head>
@@ -62,8 +62,18 @@
 			<li>Add platform(s) (e.g. Colecovision)</li>
 			<li>Add media type(s) (e.g. Cartridge) </li>
 			<li>Add setup(s): Assign a media type to platform and
-			set supported file extensions (e.g. col, only zipped files are
-			supported ... zip file can contain 1...n files)</li>
+			set supported file extensions (e.g. 'dsk')</li>
+			<li> <ul>
+				<li>Currently only zipped files are
+				supported.</li>
+				<li>All the files inside a zip archive with extensions configured by user
+				will be scanned to database</li>
+				<li>A Zip archive can contain 1...<i>n</i> files</li>
+			</ul></li>
+			<li>TODO: If no extensions are configured for
+			setup, the zip archive will be used AS IS with
+			emulator configuration (this is useful with M.A.M.E.
+			and similar emulators)</li>
 			<li>Assign path to files with setup, select path scan
 			the files</li>
 			<li>Configure emulator: in the command parameters $1
@@ -79,7 +89,7 @@
 		</ul>
 
 		<h2>Screenshots</h3>
-		
+
 		<h3>v0.01a</h3>
 		<h4>Maemo on N900</h4>
 		<img src="img/emufront001-maemo-01.png" alt="v0.01a Maemo N900" />
