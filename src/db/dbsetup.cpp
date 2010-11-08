@@ -39,8 +39,10 @@ EmuFrontObject* DbSetup::recordToDataObject(const QSqlRecord *rec)
     Setup *s = 0;
     if (!rec) return s;
     int id = rec->value(Setup_Id).toInt();
-    QString extensions = rec->value(Setup_FileTypeExtensions).toString();
-    QStringList list = extensions.split(FILE_TYPE_EXTENSION_SEPARATOR);
+    QString extensions = rec->value(Setup_FileTypeExtensions).toString().trimmed();
+    QStringList list;
+    if (!extensions.isEmpty())
+        list = extensions.split(FILE_TYPE_EXTENSION_SEPARATOR);
     int plfId = rec->value(Setup_PlatformId).toInt();
     int mtId = rec->value(Setup_MediaTypeId).toInt();
     Platform *plf = dynamic_cast<Platform*>(dbPlatform->getDataObject(plfId));
@@ -63,11 +65,16 @@ bool DbSetup::updateDataObjectToModel(const EmuFrontObject *ob)
         query.bindValue(":platformid", fpo->getPlatform()->getId());
     if (fpo->getMediaType())
         query.bindValue(":mediatypeid", fpo->getMediaType()->getId());
-    query.bindValue(":filetypeextensions", fpo->getSupportedFileTypeExtensions().join(FILE_TYPE_EXTENSION_SEPARATOR));
+    query.bindValue(":filetypeextensions", supportedExtensionsToDb(fpo->getSupportedFileTypeExtensions()));
     query.bindValue(":id", fpo->getId());
     ret = query.exec();
     if (!ret) qDebug() << query.lastError().text() << query.executedQuery();
     return ret;
+}
+
+QString DbSetup::supportedExtensionsToDb(QStringList list)
+{
+    return list.isEmpty() ? "" : list.join(FILE_TYPE_EXTENSION_SEPARATOR);
 }
 
 int DbSetup::insertDataObjectToModel(const EmuFrontObject *ob)
@@ -79,11 +86,9 @@ int DbSetup::insertDataObjectToModel(const EmuFrontObject *ob)
         "VALUES (NULL, :platformid, :mediatypeid, :fileextensions)");
     int plfId = fpo->getPlatform() ? fpo->getPlatform()->getId() : -1;
     int mtId = fpo->getMediaType() ? fpo->getMediaType()->getId() : -1;
-    QString exts = fpo->getSupportedFileTypeExtensions().join(FILE_TYPE_EXTENSION_SEPARATOR);
-    qDebug() << "Going to insert setup with platform " << plfId << ", media type " << mtId << " and extensions " << exts;
     query.bindValue(":platformid", plfId);
     query.bindValue(":mediatypeid", mtId);
-    query.bindValue(":filetypeextensions", exts);
+    query.bindValue(":filetypeextensions", supportedExtensionsToDb(fpo->getSupportedFileTypeExtensions()));
     int id = -1;
     if (query.exec())
         id = query.lastInsertId().toInt();

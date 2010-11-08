@@ -131,6 +131,8 @@ void EmuLauncher::updateMediaImageContainers()
 
 void EmuLauncher::launchEmu()
 {
+    // if selected emulator has no extensions configured, it's assumed to be a M.A.M.E. or similar and
+    // map of media images will be no be used
     QMap<QString, EmuFrontObject*> mediaImages;
     QList<MediaImageContainer*> mediaImageContainers;
     Executable *exe = 0;
@@ -157,6 +159,24 @@ void EmuLauncher::launchEmu()
             throw EmuFrontException(tr("Failed creating Emulator object!"));
         }
 
+
+        qDebug() << "File types; " << exe->getSetup()->getSupportedFileTypeExtensions().count();
+
+        bool mame = exe->getSetup()->getSupportedFileTypeExtensions().isEmpty();
+
+
+
+        if (mame && listMIndex.count() > 1) {
+            throw new EmuFrontException(tr("No supported file types configured for this emulator configuration. "
+                "Assuming emulator support container files as is. "
+                "Only one container can be selected without configuring supported file types."
+            ));
+        }
+
+
+        // Now we have one or more media image containers and an emulator selected,
+        // let's fetch the media image container data.
+
         foreach(QModelIndex mind, listMIndex) {
             if (!mind.isValid()) continue;
             EmuFrontObject *obImg = dbMic->getDataObjectFromModel(&mind);
@@ -175,6 +195,16 @@ void EmuLauncher::launchEmu()
             mediaImages.unite(contained);
         }
 
+        if (mame) {
+            emuHelper->launch(exe, mediaImageContainers);
+            return;
+        }
+
+        // mediaImageContainers list contains all the selected media image containers and
+        // mediaImages list contains all the media images inside all the selected containers
+
+
+        QList<EmuFrontObject*> selectedImages;
         if (mediaImages.count() < 1) {
             throw EmuFrontException("No media images available!");
         }
@@ -188,9 +218,8 @@ void EmuLauncher::launchEmu()
             list << rx.cap(1);
             pos += rx.matchedLength();
         }
-
         bool ok;
-        QList<EmuFrontObject*> selectedImages;
+
         if (list.count() > mediaImages.count()) {
             throw EmuFrontException(tr("Select %1 media images for this emulator configuration").arg(list.count()));
         }
@@ -215,7 +244,7 @@ void EmuLauncher::launchEmu()
         else if (mediaImages.count() > 1) {
             // show select boot image dialog
             EmuFrontObject *efo = EmuFrontInputDialog::getItem(
-                this, tr("Select boot image"), tr("Select"), mediaImages.values(), 0, false, &ok);
+                    this, tr("Select boot image"), tr("Select"), mediaImages.values(), 0, false, &ok);
             if (!ok)  {
                 throw EmuFrontException(tr("Boot image selection was canceled, aborting."));
             }
@@ -227,6 +256,7 @@ void EmuLauncher::launchEmu()
 
         if (selectedImages.count() < 1)
             throw EmuFrontException(tr("No media images selected"));
+
 
         emuHelper->launch(exe, mediaImageContainers, selectedImages, list.count(), tmpDirPath);
         micTable->clearSelection();

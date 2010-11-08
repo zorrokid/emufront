@@ -34,6 +34,7 @@ class EmuHelper : public ProcessHelper
 public:
     explicit EmuHelper(QObject *parent = 0);
     void launch(const Executable * ex, QList<MediaImageContainer *> micList, QList<EmuFrontObject*> miList, int mediaCount = 1, QString tmp = ".");
+    void launch(const Executable * ex, QList<MediaImageContainer *> micList);
 private slots:
     void processError(QProcess::ProcessError);
     void processFinished(int);

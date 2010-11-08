@@ -32,6 +32,39 @@ EmuHelper::EmuHelper(QObject *parent) :
     unzipHelper = new UnzipHelper(this);
 }
 
+
+// TODO: These two launch functions may be merged to one and/or split into some common helper functions.
+void EmuHelper::launch(const Executable * ex, QList<MediaImageContainer *> micList)
+{
+    if (micList.count() < 1) {
+        throw EmuFrontException(tr("No media image containers available!"));
+    }
+
+    MediaImageContainer *mic = micList.first();
+    QString fp = " \"";
+    fp.append(mic->getFilePath()->getName());
+    if (!fp.endsWith('/'))
+        fp.append("/");
+    fp.append(mic->getName());
+    fp.append("\"");
+
+    QString opts = ex->getOptions();
+    opts.replace(QString("$1"), fp);
+
+    QString cmdWithParams;
+    cmdWithParams.append(ex->getExecutable());
+    cmdWithParams.append(" ").append(opts);
+
+    qDebug() << "Command with params " << cmdWithParams;
+    start(cmdWithParams, QIODevice::ReadOnly);
+
+    // for the moment, we'll wait for the process to be finished until we continue
+    waitForFinished(-1);
+
+    delete ex;
+    qDeleteAll(micList);
+}
+
 void EmuHelper::launch(const Executable * ex, QList<MediaImageContainer *> micList,
     QList<EmuFrontObject *> miList, int mediaCount, QString tmp)
 {
@@ -79,7 +112,7 @@ void EmuHelper::launch(const Executable * ex, QList<MediaImageContainer *> micLi
     // clean the temp dir
     foreach(EmuFrontObject *ob, miList) {
         QString fp = " \"";
-         fp.append(tmp);
+        fp.append(tmp);
         fp.append(ob->getName());
         fp.append("\"");
         if (!QFile::remove(fp))

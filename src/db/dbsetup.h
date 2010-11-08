@@ -51,5 +51,6 @@ private:
     virtual QString getCountRefsSelect(int) const;
     DbPlatform *dbPlatform;
     DbMediaType *dbMediaType;
+    QString supportedExtensionsToDb(QStringList list);
 };
 #endif // DBSETUP_H

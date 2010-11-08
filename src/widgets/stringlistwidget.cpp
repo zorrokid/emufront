@@ -75,7 +75,8 @@ QStringList StringListWidget::getItems()
 {
     QStringList l;
     for(int i = 0; i < stringList->count(); ++i)
-        l << stringList->item(i)->text();
+        if (!stringList->item(i)->text().trimmed().isEmpty())
+            l << stringList->item(i)->text();
     return l;
 }
 
@@ -83,5 +84,5 @@ void StringListWidget::setItems(QStringList list)
 {
     stringList->clear();
     foreach(QString s, list)
-        stringList->addItem(s);
+        if (!s.trimmed().isEmpty()) stringList->addItem(s);
 }
