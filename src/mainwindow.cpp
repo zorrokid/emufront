@@ -25,6 +25,7 @@
 #include "dialogs/mediaimagepathmaindialog.h"
 #include "dialogs/setupmaindialog.h"
 #include "dialogs/executablemaindialog.h"
+#include "utils/datfileutil.h"
 #include "db/databasemanager.h"
 #include "db/dbconfig.h"
 
@@ -90,6 +91,10 @@ void MainWindow::createActions()
     configTmpDirAction = new QAction(tr("&Temp dir"), this);
     configTmpDirAction->setStatusTip(tr("Configure directory for temporary files."));
     connect(configTmpDirAction, SIGNAL(triggered()), this, SLOT(configureTmpDir()));
+
+    manageDatFilesAction = new QAction(tr("&Manage dats"), this);
+    manageDatFilesAction->setStatusTip(tr("Read dat files to database."));
+    connect(manageDatFilesAction, SIGNAL(triggered()), this, SLOT(manageDatFiles()));
 
     exitAction = new QAction(tr("&Exit"), this);
     exitAction->setShortcut(tr("Ctrl+Q"));
@@ -169,6 +174,12 @@ void MainWindow::configureTmpDir()
     }
 }
 
+void MainWindow::manageDatFiles()
+{
+    DatFileUtil dfu;
+    dfu.open();
+}
+
 void MainWindow::activateDialog(EmuFrontDialog* dia) const
 {
     dia->show();
@@ -188,6 +199,7 @@ void MainWindow::createMenus()
     configMenu->addAction(configSetupAction);
     configMenu->addAction(configEmulatorAction);
     configMenu->addAction(configTmpDirAction);
+    configMenu->addAction(manageDatFilesAction);
 
     helpMenu = menuBar()->addMenu(tr("&Help"));
     helpMenu->addAction(aboutAction);

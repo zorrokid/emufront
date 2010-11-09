@@ -33,6 +33,7 @@ class QLabel;
 class DatabaseManager;
 class EmuFrontDialog;
 class EmuLauncher;
+class DatFileUtil;
 
 class MainWindow : public QMainWindow
 {
@@ -53,6 +54,7 @@ private slots:
     void configureEmulators();
     void configureTmpDir();
     void updateData();
+    void manageDatFiles();
     void about();
 
 private:
@@ -83,6 +85,7 @@ private:
     QAction *exitAction;
     QAction *aboutAction;
     QAction *configTmpDirAction;
+    QAction *manageDatFilesAction;
 	QLabel *messageLabel;
     DatabaseManager *dbManager;
     EmuLauncher *launcher;

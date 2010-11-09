@@ -10,6 +10,7 @@ INCLUDEPATH += . \
     db \
     dialogs
 QT += sql
+QT += xml
 
 
 # Input
@@ -67,7 +68,8 @@ HEADERS += mainwindow.h \
     dialogs/emufrontinputdialog.h \
     dialogs/emufrontfileobjectdialog.h \
     dialogs/browsefilepathdialog.h \
-    db/dbconfig.h
+    db/dbconfig.h \
+    utils/datfileutil.h
 SOURCES += main.cpp \
     mainwindow.cpp \
     db/databasemanager.cpp \
@@ -123,7 +125,8 @@ SOURCES += main.cpp \
     dialogs/emufrontinputdialog.cpp \
     dialogs/emufrontfileobjectdialog.cpp \
     dialogs/browsefilepathdialog.cpp \
-    db/dbconfig.cpp
+    db/dbconfig.cpp \
+    utils/datfileutil.cpp
 OTHER_FILES += 
 
 CONFIG += mobility
