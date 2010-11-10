@@ -53,7 +53,7 @@ QMap<QString, EmuFrontObject*> UnzipHelper::listContents(const QString filePath,
     command.append("\"");
     command.append(filePath);
     command.append("\"");
-    qDebug() << command;
+    //qDebug() << command;
     start(command);
     // TODO: slot(s) for (start and) error signal(s)
     bool procOk = waitForFinished();
@@ -62,7 +62,7 @@ QMap<QString, EmuFrontObject*> UnzipHelper::listContents(const QString filePath,
     }
     QString err = readAllStandardError();
     QString msg = readAllStandardOutput();
-    qDebug() << "\nErrors:\n" << err << "\nMessage:\n" << msg;
+    //qDebug() << "\nErrors:\n" << err << "\nMessage:\n" << msg;
 
     /*
 
@@ -99,11 +99,31 @@ QMap<QString, EmuFrontObject*> UnzipHelper::listContents(const QString filePath,
         //QRegExp("^\\s+\\d+\\s+[A-Za-z:]*\\s+\\d+\\s+\\d{1,3}%\\s+\\d{4}-\\d{2}-\\d{2}\\s+\\d{2}:\\d{2}\\s+[0-9a-f]{8}\\s+.+$")
         );
     QStringList entries;
-    QRegExp test("^\\s+\\d+\\s+[A-Za-z:]*\\s+\\d+\\s+\\d{1,3}%\\s+\\d{4}-\\d{2}-\\d{2}\\s+\\d{2}:\\d{2}\\s+[0-9a-f]{8}\\s+.+$");
-    QRegExp regExEntries("^\\s+(\\d+)\\s+[A-Za-z:]*\\s+\\d+\\s+\\d{1,3}%\\s+\\d{4}-\\d{2}-\\d{2}\\s+\\d{2}:\\d{2}\\s+([0-9a-f]{8})\\s+(\\S.+)$");
+    //QRegExp test("^\\s+\\d+\\s+[A-Za-z:]*\\s+\\d+\\s+\\d{1,3}%\\s+\\d{4}-\\d{2}-\\d{2}\\s+\\d{2}:\\d{2}\\s+[0-9a-f]{8}\\s+.+$");
+    QRegExp regExEntries(
+        "^"             // line starts
+        "\\s*"          // 1st empty space is optional!
+        "(\\d+)"        // uncompressed "Length" in digits
+        "\\s+"
+        "[A-Za-z:]*"    // "Method"
+        "\\s+"
+        "\\d+"          // compressed "Size"
+        "\\s+"
+        "\\d{1,3}%"     // compression ratio
+        "\\s+"
+        "\\d{4}-\\d{2}-\\d{2}" // date
+        "\\s+"
+        "\\d{2}:\\d{2}" // time
+        "\\s+"
+        "([0-9a-f]{8})" // CRC-32
+        "\\s+"
+        "(\\S.*)"       // at least one non whitespace character + optional other chars (including whitespace)
+        "$"             // line ends
+        );
     foreach(QString ln, lines) {
-        if (!test.exactMatch(ln)) continue;
+        //if (!test.exactMatch(ln)) continue;
         int pos = regExEntries.indexIn(ln);
+        if (pos == -1) continue; // > no entries
         entries = regExEntries.capturedTexts();
         if (entries.count() < 4) continue;
         QString filename = entries[3];
@@ -116,9 +136,8 @@ QMap<QString, EmuFrontObject*> UnzipHelper::listContents(const QString filePath,
         fileList[checksum] = effo;
     }
 
-    qDebug() << "File list has " << fileList.size() << " entries.";
+    //qDebug() << "File list has " << fileList.size() << " entries.";
     return fileList;
-
 }
 
 /*

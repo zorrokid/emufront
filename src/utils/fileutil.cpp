@@ -61,22 +61,21 @@ int FileUtil::scanFilePath(FilePathObject *fp,
     }
 
     int count = 0;
-    qDebug() << QString("We have a platform %1, media type %2")
+    /*qDebug() << QString("We have a platform %1, media type %2")
         .arg(fp->getSetup()->getPlatform()->getName())
-        .arg(fp->getSetup()->getMediaType()->getName());
+        .arg(fp->getSetup()->getMediaType()->getName());*/
     QDir dir(fp->getName());
     if (!dir.exists() || !dir.isReadable())
         throw EmuFrontException(tr("Directory %1 doesn't exists or isn't readable!").arg(fp->getName()));
 
-    qDebug() << QString("Scanning directory %1.").arg(fp->getName());
+    //qDebug() << QString("Scanning directory %1.").arg(fp->getName());
     dir.setFilter(QDir::Files | QDir::NoSymLinks | QDir::NoDotAndDotDot | QDir::Readable);
 
     if (filters.count() > 0) dir.setNameFilters(filters);
 
     // we'll go through the filtered archive files...
     QFileInfoList list = dir.entryInfoList();
-    // TODO: only a buffer of objects should be kept here,
-    // and write to database each time the buffer is filled.
+    //qDebug() << "We have " << list.count() << " files to go through.";
     QList<MediaImageContainer*> containers;
     progressDialog.setMinimum(0);
     progressDialog.setMaximum(list.size());
@@ -86,7 +85,7 @@ int FileUtil::scanFilePath(FilePathObject *fp,
         if (progressDialog.wasCanceled())
             break;
         QFileInfo fileInfo = list.at(i);
-        qDebug() << QString("%1 %2").arg(fileInfo.size(), 10).arg(fileInfo.absoluteFilePath());
+        //qDebug() << QString("%1 %2").arg(fileInfo.size(), 10).arg(fileInfo.absoluteFilePath());
 
         //... and collect the contents of each archive
         QMap<QString, EmuFrontObject*> files = unzipHelper->listContents(fileInfo.absoluteFilePath(), fp);
@@ -105,28 +104,30 @@ int FileUtil::scanFilePath(FilePathObject *fp,
                 );
             containers.append(con);
             ++count;
-            qDebug() << "We have " << containers.count() << " containers.";
+            //qDebug() << "We have " << containers.count() << " containers.";
 
             if (containers.count() >= MIC_BUFFER_SIZE)  {
-                qDebug() << "We have " << containers.count()
-                    << " containers .. storing to db.";
+                //qDebug() << "We have " << containers.count() << " containers .. storing to db.";
                 dbMic->storeContainers(containers, fp);
                 qDeleteAll(containers);
                 containers.clear();
-                qDebug() << "containers now: " << containers.count();
+                //qDebug() << "containers now: " << containers.count();
             }
-            qDebug() << "We have " << containers.size() << " containers.";
+            //qDebug() << "We have " << containers.size() << " containers.";
+        } // files.count() > 0
+        else {
+            qDebug() << "No files from container " << fileInfo.absoluteFilePath();
         }
     }
     progressDialog.setValue(list.size());
     if (containers.count() > 0) {
-        qDebug() << "Storing the rest " << containers.count() << " containers.";
+        //qDebug() << "Storing the rest " << containers.count() << " containers.";
         dbMic->storeContainers(containers, fp);
         qDeleteAll(containers);
         containers.clear();
 
     }
-    qDebug() << "Done scanning files!";
+    //qDebug() << "Done scanning files!";
     return count;
 }
 
@@ -135,7 +136,7 @@ quint32 FileUtil::readCrc32(QString filePath)
 {
     // todo ... use some crc32 tool for this ... or maybe use md5 or something like that!!!
     QFile file(filePath);
-    qDebug() << "readCrc32: " << filePath;
+    //qDebug() << "readCrc32: " << filePath;
     if (!file.open(QIODevice::ReadOnly)) {
         throw new EmuFrontException(QString(tr("Failed opening file %1 for reading the checksum!")).arg(filePath));
     }
@@ -147,7 +148,7 @@ quint32 FileUtil::readCrc32(QString filePath)
     file.close();
     if (crc <= 0)
         throw new EmuFrontException(QString(tr("Failed reading crc checksum for file %1!")).arg(filePath));
-    qDebug() << QString("readCrc32, crc: %1").arg(crc, 0, 16);
+    //qDebug() << QString("readCrc32, crc: %1").arg(crc, 0, 16);
     return crc;
 }
 
