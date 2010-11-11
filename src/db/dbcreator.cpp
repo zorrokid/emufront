@@ -63,7 +63,8 @@ bool DbCreator::createDB()
                         "type INTEGER, "
                         "checksum TEXT, "
                         "size INTEGER, "
-                        "updatetime NUMERIC)");
+                        "updatetime NUMERIC, "
+                        "extname TEXT)");
 
         if (!ret) throw QString("tbl file");
 
