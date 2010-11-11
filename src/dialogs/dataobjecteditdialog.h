@@ -34,6 +34,7 @@ public:
     DataObjectEditDialog(QWidget *parent, EmuFrontObject *ob, Qt::Orientation orientation = Qt::Horizontal);
     virtual void setDataObject(EmuFrontObject *) = 0;
     virtual void updateData();
+    virtual void closeEvent(QCloseEvent *);
 
 protected:
     virtual void connectSignals();
@@ -45,6 +46,7 @@ signals:
     void updateRejected();
     void dataObjectUpdated();
     void test();
+    void dialogClosed();
 
 protected slots:
     virtual void acceptChanges() =0;

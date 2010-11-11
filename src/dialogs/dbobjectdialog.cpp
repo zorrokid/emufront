@@ -65,6 +65,7 @@ void DbObjectDialog::connectSignals()
     connect(nameDialog, SIGNAL(dataObjectUpdated()), this, SLOT(updateData()));
     connect(nameDialog, SIGNAL(updateRejected()), this, SLOT(updateReject()));
     connect(nameDialog, SIGNAL(test()), this, SLOT(testSlot()));
+    connect(nameDialog, SIGNAL(dialogClosed()), this, SLOT(enableUi()));
 }
     
 void DbObjectDialog::testSlot()
@@ -200,6 +201,11 @@ void DbObjectDialog::listObjectClicked(const QModelIndex &index)
     setButtonsEnabled(index.isValid());
     if(!index.isValid()) 
 	return;
+}
+
+void DbObjectDialog::enableUi()
+{
+    setUIEnabled(true);
 }
 
 void DbObjectDialog::setButtonsEnabled(bool enabled)

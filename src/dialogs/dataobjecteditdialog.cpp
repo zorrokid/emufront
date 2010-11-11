@@ -17,6 +17,7 @@
 // You should have received a copy of the GNU General Public License
 // along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <QtGui>
 #include <QDialogButtonBox>
 #include <QSqlQueryModel>
 #include <QSqlRecord>
@@ -35,6 +36,13 @@ void DataObjectEditDialog::connectSignals()
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(acceptChanges()));
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(rejectChanges()));
 }
+
+void DataObjectEditDialog::closeEvent(QCloseEvent *ev)
+{
+    emit dialogClosed();
+    ev->accept();
+}
+
 
 void DataObjectEditDialog::rejectChanges()
 {
