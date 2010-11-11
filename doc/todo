@@ -1,0 +1,2 @@
+- Check all the exceptions, are they catched? Is the allocated data cleaned?
+- check all the needed closeEvents for dialogs!
