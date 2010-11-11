@@ -1,4 +1,8 @@
-	- Database changes, delete old database or update your database:
+	- Database changes, delete old database:
+	
+$ emufront reset
+	  
+	- or update your database:
 
 $ sqlite3 ~/my.db.sqlite
 > alter table file add column extname;
@@ -8,7 +12,11 @@ $ sqlite3 ~/my.db.sqlite
 	- Added temp directory configuration
 	- Changed selection model in file list
 	- Layout fixes
-	- Database changes, delete old database or update your database:
+	- Database changes, delete old database:
+	
+$ emufront reset
+	  
+	- or update your database:
 
 $ sqlite3 ~/my.db.sqlite
 > CREATE TABLE config (tmpdirpath text); 

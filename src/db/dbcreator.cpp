@@ -48,8 +48,9 @@ bool DbCreator::createDB()
         query.exec("DROP TABLE IF EXISTS setup");
         query.exec("DROP TABLE IF EXISTS mediatype");
         query.exec("DROP TABLE IF EXISTS platform");
-        query.exec("DROP TABLE IF EXISTS file");
+        query.exec("DROP TABLE IF EXISTS file") ;
         query.exec("DROP TABLE IF EXISTS executable");
+        query.exec("DROP TABLE IF EXISTS config");
 
         qDebug() << "Creating TABLE file";
 
