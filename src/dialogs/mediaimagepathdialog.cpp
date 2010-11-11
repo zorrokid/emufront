@@ -116,6 +116,7 @@ void MediaImagePathDialog::acceptChanges()
         QMessageBox::information(this, tr("Set up"), tr("Set up not selected"), QMessageBox::Ok);
         return;
     }
+    bool change = false;
     qDebug() << "Setup selected " << sup->getName();
     QString filePath = filePathLabel->text();
     if (filePath.isEmpty())
@@ -123,14 +124,23 @@ void MediaImagePathDialog::acceptChanges()
         QMessageBox::information(this, tr("File path"), tr("File path was not selected"), QMessageBox::Ok);
         return;
     }
+    if (filePath != fpo->getName()) {
+        fpo->setName(filePath);
+        change = true;
+    }
+
     Setup *tmp = fpo->getSetup();
-    if (sup != tmp)
+
+    int idSup = sup->getId();
+    int idTmp = tmp->getId();
+
+    if (*sup != *tmp)
     {
         delete tmp;
         fpo->setSetup(sup);
+        change = true;
     }
-    fpo->setName(filePath);
-    emit dataObjectUpdated();
+    if (change) emit dataObjectUpdated();
     efObject = 0;
     close();
 }

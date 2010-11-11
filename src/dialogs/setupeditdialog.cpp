@@ -85,20 +85,28 @@ void SetupEditDialog::acceptChanges()
     qDebug() << "Media type selected " << mt->getName();
 
 
+    bool change = false;
     Platform *ptmp = sup->getPlatform();
-    if (plf != ptmp)
+    if (*plf != *ptmp)
     {
         delete ptmp;
         sup->setPlatform(plf);
+        change = true;
     }
     MediaType *mtmp = sup->getMediaType();
-    if (mt != mtmp)
+    if (*mt != *mtmp)
     {
         delete mtmp;
         sup->setMediaType(mt);
+        change = true;
     }
-    sup->setSupportedFileTypeExtensions(supportedFileTypesList->getItems());
-    emit dataObjectUpdated();
+
+    // "Two lists are considered equal if they contain the same values in the same order."
+    if (supportedFileTypesList->getItems() != sup->getSupportedFileTypeExtensions()) {
+        sup->setSupportedFileTypeExtensions(supportedFileTypesList->getItems());
+        change = true;
+    }
+    if (change) emit dataObjectUpdated();
     efObject = 0;
     close();
 }

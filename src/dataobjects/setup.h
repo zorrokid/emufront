@@ -33,6 +33,9 @@ public:
     Setup(int id, Platform *, MediaType *, QStringList fileTypeExtensions);
     Setup(const Setup &);
     Setup& operator=(const Setup &);
+    // TODO:
+    //bool operator==(const Setup &);
+    //bool operator!=(const Setup &);
     Platform* getPlatform() const;
     MediaType* getMediaType() const;
     QStringList getSupportedFileTypeExtensions() const;

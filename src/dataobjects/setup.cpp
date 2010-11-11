@@ -67,6 +67,21 @@ Setup& Setup::operator =(const Setup &sup)
     return (*this);
 }
 
+// TODO:
+/*bool Setup::operator ==(const Setup &sup)
+{
+
+    // TODO: more precise ... this is exact copy from EmuFrontObject
+    return (id >= 0 && id == sup.id);
+
+}
+
+bool Setup::operator !=(const Setup &sup)
+{
+    // TODO: more precise ... this is exact copy from EmuFrontObject
+    return !(*this == sup);
+}*/
+
 Platform* Setup::getPlatform() const
 { return platform; }
 void Setup::setPlatform(Platform *plf)

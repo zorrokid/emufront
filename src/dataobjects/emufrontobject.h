@@ -31,6 +31,8 @@ public:
     EmuFrontObject(const EmuFrontObject &);
     ~EmuFrontObject();
     EmuFrontObject &operator=(const EmuFrontObject &);
+    bool operator==(const EmuFrontObject &);
+    bool operator!=(const EmuFrontObject &);
 
     virtual const QString getName() const
     { return name; }

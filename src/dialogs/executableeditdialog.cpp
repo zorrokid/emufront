@@ -97,15 +97,28 @@ void ExecutableEditDialog::acceptChanges()
         if (opts.isEmpty()) {
             throw new EmuFrontException(tr("Options not set"));
         }
+        bool change = false;
         Setup *supTmp = ex->getSetup();
-        if (supTmp != su) {
+        if (*supTmp != *su) {
             delete supTmp;
             ex->setSetup(su);
+            change = true;
         }
-        ex->setName(name);
-        ex->setExecutable(exec);
-        ex->setOptions(opts);
-        emit dataObjectUpdated();
+
+        if (name != ex->getName()) {
+            ex->setName(name);
+            change = true;
+        }
+
+        if (exec != ex->getExecutable()) {
+            ex->setExecutable(exec);
+            change = true;
+        }
+        if (opts != ex->getOptions()) {
+            ex->setOptions(opts);
+            change = true;
+        }
+        if (change) emit dataObjectUpdated();
         efObject = 0;
         close();
     } catch(EmuFrontException x) {
