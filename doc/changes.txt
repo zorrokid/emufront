@@ -1,3 +1,6 @@
+	- Fixed a bug: main window of configuration editor remained disabled,
+	  if the editor window was closed from window manager and not by
+		  'Done' button.
 	- Database changes, delete old database:
 	
 $ emufront reset
