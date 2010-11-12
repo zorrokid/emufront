@@ -44,7 +44,7 @@ QMap<QString, EmuFrontObject*> UnzipHelper::listContents(const QString filePath,
         throw new EmuFrontException(tr("Couldn't read file %1.").arg(filePath));
     }
 
-    Setup *sup = fp->getSetup();
+    //Setup *sup = fp->getSetup();
     QMap<QString, EmuFrontObject*>  fileList;
 
     QString command;
@@ -53,7 +53,7 @@ QMap<QString, EmuFrontObject*> UnzipHelper::listContents(const QString filePath,
     command.append("\"");
     command.append(filePath);
     command.append("\"");
-    qDebug() << command;
+    //qDebug() << command;
     start(command);
     // TODO: slot(s) for (start and) error signal(s)
     bool procOk = waitForFinished();
@@ -62,7 +62,7 @@ QMap<QString, EmuFrontObject*> UnzipHelper::listContents(const QString filePath,
     }
     QString err = readAllStandardError();
     QString msg = readAllStandardOutput();
-    qDebug() << "\nErrors:\n" << err << "\nMessage:\n" << msg;
+    //qDebug() << "\nErrors:\n" << err << "\nMessage:\n" << msg;
 
     /*
 
@@ -122,28 +122,28 @@ QMap<QString, EmuFrontObject*> UnzipHelper::listContents(const QString filePath,
         );
     foreach(QString ln, lines) {
         //if (!test.exactMatch(ln)) continue;
-        qDebug() << "Current line is " << ln;
+        //qDebug() << "Current line is " << ln;
         int pos = regExEntries.indexIn(ln);
         if (pos == -1) {
-            qDebug() << "Regex didn't match any entries.";
+            //qDebug() << "Regex didn't match any entries.";
             continue; // > no entries
         }
         entries = regExEntries.capturedTexts();
-        qDebug() << "Got " << entries.count() << " entries.";
+        //qDebug() << "Got " << entries.count() << " entries.";
         if (entries.count() < 4) continue;
         QString filename = entries[3];
         QString checksum = entries[2];
         QString lenStr = entries[1];
         bool ok;
         int length = lenStr.toInt(&ok);
-        qDebug() << "Filename is " << filename << " checksum "
-            << checksum << " length " << length;
+        /*qDebug() << "Filename is " << filename << " checksum "
+            << checksum << " length " << length;*/
         if (!ok) continue;
         MediaImage *effo = new MediaImage(filename, checksum, length);
         fileList[checksum] = effo;
     }
 
-    qDebug() << "File list has " << fileList.size() << " entries.";
+    //qDebug() << "File list has " << fileList.size() << " entries.";
     return fileList;
 }
 
@@ -172,7 +172,7 @@ int UnzipHelper::extractAll(QString filePath, QString targetPath)
     command.append("\"");
     command.append(" -d ");
     command.append(targetPath);
-    qDebug() << "Starting unzip command: " << command;
+    //qDebug() << "Starting unzip command: " << command;
     start(command);
     bool procOk = waitForFinished(); // TODO: set timeout, now using default 30000ms
     if (!procOk) {
