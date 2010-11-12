@@ -131,9 +131,6 @@ void MediaImagePathDialog::acceptChanges()
 
     Setup *tmp = fpo->getSetup();
 
-    int idSup = sup->getId();
-    int idTmp = tmp->getId();
-
     if (!tmp || *sup != *tmp)
     {
         delete tmp;
