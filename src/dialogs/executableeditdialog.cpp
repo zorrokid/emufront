@@ -99,7 +99,7 @@ void ExecutableEditDialog::acceptChanges()
         }
         bool change = false;
         Setup *supTmp = ex->getSetup();
-        if (*supTmp != *su) {
+        if (!supTmp || *supTmp != *su) {
             delete supTmp;
             ex->setSetup(su);
             change = true;

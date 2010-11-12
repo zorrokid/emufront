@@ -87,14 +87,14 @@ void SetupEditDialog::acceptChanges()
 
     bool change = false;
     Platform *ptmp = sup->getPlatform();
-    if (*plf != *ptmp)
+    if (!ptmp || *plf != *ptmp)
     {
         delete ptmp;
         sup->setPlatform(plf);
         change = true;
     }
     MediaType *mtmp = sup->getMediaType();
-    if (*mt != *mtmp)
+    if (!mtmp || *mt != *mtmp)
     {
         delete mtmp;
         sup->setMediaType(mt);
