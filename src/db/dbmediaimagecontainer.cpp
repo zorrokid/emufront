@@ -58,7 +58,7 @@ int DbMediaImageContainer::storeMediaImageContainer(EmuFrontObject *efo)
     QMap<QString, EmuFrontObject*> images = mic->getMediaImages();
     QList<int> ids = dbMediaImage->storeMediaImages(images);
 
-    qDebug() << "Stored " << ids.count() << " media images.";
+    //qDebug() << "Stored " << ids.count() << " media images.";
 
     if (ids.count() <= 0)
         return -1;
@@ -75,7 +75,7 @@ int DbMediaImageContainer::storeMediaImageContainer(EmuFrontObject *efo)
 
         fileId = insertDataObjectToModel(mic);
 
-        qDebug() << "Inserted media image container to file table with id " << fileId << ".";
+        //qDebug() << "Inserted media image container to file table with id " << fileId << ".";
 
         if (fileId < 0) {
             // TODO: note we most surely need to catch the exception
@@ -93,9 +93,9 @@ int DbMediaImageContainer::storeMediaImageContainer(EmuFrontObject *efo)
             DbFile::deleteDataObject(fileId);
             throw new EmuFrontException("Failed inserting media image to database!");
         }
-        qDebug() << "Inserted media image container " << fileId << " to mediaimagecontainer table.";
+        //qDebug() << "Inserted media image container " << fileId << " to mediaimagecontainer table.";
         linkMediaImagesWithContainer(fileId, images.values());
-        qDebug() << "Linked media image container with media images.";
+        //qDebug() << "Linked media image container with media images.";
     } catch (EmuFrontException e) {
         dbMediaImage->removeOrphanedMediaImages(ids);
         throw e;
@@ -127,7 +127,7 @@ QString DbMediaImageContainer::constructSelect(QString whereClause) const
                 "INNER JOIN mediatype ON setup.mediatypeid = mediatype.id "
                 "%1 "
                 "ORDER BY file.name").arg(whereClause);
-    qDebug() << select;
+    //qDebug() << select;
     return select;
 }
 
@@ -206,10 +206,9 @@ int DbMediaImageContainer::getMediaImageContainer(QString checksum) const
 */
 void DbMediaImageContainer::storeContainers(QList<MediaImageContainer *> lst, FilePathObject *fpo)
 {
-    qDebug() << "Storing media image containers to database.";
     foreach(MediaImageContainer *mic, lst)
     {
-        qDebug() << "Media image container " << mic->getName();
+        //qDebug() << "Media image container " << mic->getName();
         int micFileId = storeMediaImageContainer(mic);
     }
 }
@@ -222,8 +221,8 @@ void DbMediaImageContainer::linkMediaImagesWithContainer(int micId, QList<EmuFro
     MediaImage *mi = 0;
     foreach(EmuFrontObject *efo, mediaImages) {
         mi = dynamic_cast<MediaImage*>(efo);
-        qDebug() << "Linking media image container " << micId
-            << " to media image " << mi->getId()  << ", " << mi->getName() << ".";
+        /*qDebug() << "Linking media image container " << micId
+            << " to media image " << mi->getId()  << ", " << mi->getName() << ".";*/
         if (!linkMediaImageToMediaImageContainer(mi, micId)) {
                 throw new EmuFrontException(QString("Failed linking media "
                                                     "image container %1 to a media image %2").arg(micId).arg(mi->getId()));
@@ -233,8 +232,8 @@ void DbMediaImageContainer::linkMediaImagesWithContainer(int micId, QList<EmuFro
 
 void DbMediaImageContainer::filter(int mediaTypeId, int platformId)
 {
-    qDebug() << "Filtering media images with media type " << mediaTypeId
-        << " and platform " << platformId;
+    /*qDebug() << "Filtering media images with media type " << mediaTypeId
+        << " and platform " << platformId;*/
     QList<QString> filters;
     if (mediaTypeId >= 0)
         filters.append(QString("mediatype.id=%1").arg(mediaTypeId));
