@@ -1,0 +1,6 @@
+Type=Application;
+Name=EmuFront;
+Icon=/usr/share/icons/hicolor/48x48/apps/emufront_icon.png;
+Comment=Universal emulator front-end;
+Exec=/usr/bin/emufront/emufront
+Categories=Game;
