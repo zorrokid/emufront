@@ -1,4 +1,12 @@
-	- Fixed a bug: main window of configuration editor remained disabled,
+0.1.3a	2010-11-13
+	- Created initial support for M.A.M.E and similar (the container zip
+	  is used as is).
+	- Fixed: Fixed a bug with regular expression (If filename was one
+	  character, it wasn't included. Also if the file length column started without empty 
+	  space it wasn't scanned).
+	- Fixed: Regular expression. If dates in unzip output was in wrong format, the files were not
+	  added.
+	- Fixed: main window of configuration editor remained disabled,
 	  if the editor window was closed from window manager and not by
 		  'Done' button.
 	- Database changes, delete old database:

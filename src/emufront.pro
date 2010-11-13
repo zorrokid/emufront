@@ -127,7 +127,7 @@ SOURCES += main.cpp \
     dialogs/browsefilepathdialog.cpp \
     db/dbconfig.cpp \
     utils/datfileutil.cpp
-OTHER_FILES += 
+OTHER_FILES +=  
 
 CONFIG += mobility
 
