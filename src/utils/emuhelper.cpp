@@ -112,26 +112,27 @@ void EmuHelper::launch(const Executable * ex, QList<MediaImageContainer *> micLi
     waitForFinished(-1);
 
     try {
-    QDir ftmp(tmp);
-    if (!ftmp.exists()) {
-        throw EmuFrontException(tr("Trying to remove temporary files. "
-            "Directory %s doesn't exist!").arg(tmp));
-    }
-    // clean the temp dir
-    foreach(EmuFrontObject *ob, miList) {
-        if (!ftmp.exists(ob->getName())) {
-            qDebug() << "File " << ob->getName() << " doesn't exist in " << tmp;
-            continue;
+        QDir ftmp(tmp);
+        if (!ftmp.exists()) {
+            throw EmuFrontException(tr("Trying to remove temporary files. "
+                                       "Directory %s doesn't exist!").arg(tmp));
         }
-        QString fp = ftmp.filePath(ob->getName());
-        QFile f(fp);
-        if (!f.exists()) {
-            qDebug() << "File " << fp << " doesn't exist!";
+        // clean the temp dir
+        // TODO: if selected archive with multiple items, the files are not removed!
+        foreach(EmuFrontObject *ob, miList) {
+            if (!ftmp.exists(ob->getName())) {
+                qDebug() << "File " << ob->getName() << " doesn't exist in " << tmp;
+                continue;
+            }
+            QString fp = ftmp.filePath(ob->getName());
+            QFile f(fp);
+            if (!f.exists()) {
+                qDebug() << "File " << fp << " doesn't exist!";
+            }
+            if (!f.remove()) {
+                qDebug() << "Removing " << fp << " failed.";
+            }
         }
-        if (!f.remove()) {
-            qDebug() << "Removing " << fp << " failed.";
-        }
-    }
     } catch (EmuFrontException e) {
         qDebug() << e.what();
     }

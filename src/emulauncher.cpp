@@ -224,7 +224,9 @@ void EmuLauncher::launchEmu()
             throw EmuFrontException(tr("Select %1 media images for this emulator configuration").arg(list.count()));
         }
         if (list.count() > 1) {
+            // more than one placeholder for media image in the command line ($1, $2, ...)
             int lim = list.count() == mediaImages.count() ? list.count() - 1 : list.count();
+            // user sets the order of media images
             for(int i = 0; i < lim; i++) {
                 EmuFrontObject *efo = EmuFrontInputDialog::getItem(
                         this, tr("Select image no. %1").arg(i+1), tr("Select"), mediaImages.values(), 0, false, &ok);
@@ -236,10 +238,10 @@ void EmuLauncher::launchEmu()
                 QString key = mi->getCheckSum();
                 mediaImages.remove(key);
             }
-            if (mediaImages.count() == 1) {
-                // there should be at least one media image left in mediaImages map
+            // there should be at least one media image left in mediaImages map...
+            /*if (mediaImages.count() == 1) {
                 selectedImages << mediaImages.values().first();
-            }
+            } ... this is added later-> */
         }
         else if (mediaImages.count() > 1) {
             // show select boot image dialog
@@ -249,14 +251,26 @@ void EmuLauncher::launchEmu()
                 throw EmuFrontException(tr("Boot image selection was canceled, aborting."));
             }
             selectedImages << efo;
+            MediaImage *mi = dynamic_cast<MediaImage*>(efo);
+            QString key = mi->getCheckSum();
+            mediaImages.remove(key);
         }
-        else if (mediaImages.count() == 1)
-            selectedImages << mediaImages.values().first();
-        // in the both cases the (ordered) list of media images will be passed to emuHelper
+        else if (mediaImages.count() == 1) {
+            EmuFrontObject *efo = mediaImages.values().first();
+            selectedImages << efo;
+            MediaImage *mi = dynamic_cast<MediaImage*>(efo);
+            QString key = mi->getCheckSum();
+            mediaImages.remove(key);
+        }
+        // in all the both cases the (ordered) list of media images will be passed to emuHelper
+
+        // wee also keep the rest of the mediaimages in the selected containers for reference!
+        foreach(EmuFrontObject *efo, mediaImages) {
+            selectedImages << efo;
+        }
 
         if (selectedImages.count() < 1)
             throw EmuFrontException(tr("No media images selected"));
-
 
         emuHelper->launch(exe, mediaImageContainers, selectedImages, list.count(), tmpDirPath);
         micTable->clearSelection();
