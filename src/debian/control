@@ -1,16 +1,17 @@
 Source: emufront
-Section: user/games 
+Section: user/games
 Priority: extra
 Maintainer: Mikko Keinänen <mikko.keinanen@gmail.com>
 Build-Depends: debhelper (>= 5), libqt4-dev
 Standards-Version: 3.7.3
-Homepage: http://emufront.garage.maemo.org/ 
+Homepage: http://emufront.garage.maemo.org/
 
 Package: emufront
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: EmuFront 
  Universal (multi-system) emulator front-end. 
+XB-Maemo-Display-Name: EmuFront
 XB-Maemo-Icon-26:
  iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAAAXNSR0IArs4c
  6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0
@@ -121,3 +122,4 @@ XB-Maemo-Icon-26:
  p/9U/V0AFMCLfuq912Xd3jsjJQ/vbK1SFhPa1uJaR3AtELCtQUaa/vw+4jRB
  EDDW0liLdx5raxACqSQ67ZB3ByAErW3QKiYIGPYHjPfGYWt3D6FT4ZS+onX+
  c1/47Me3nyvA/wbcLNXQDDkURAAAAABJRU5ErkJggg==
+XSBC-Bugtracker: https://garage.maemo.org/tracker/?atid=5733&group_id=1608&func=add

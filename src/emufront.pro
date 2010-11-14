@@ -132,3 +132,14 @@ OTHER_FILES +=
 CONFIG += mobility
 
 MOBILITY = 
+
+unix {
+   INSTALLS += target desktop icon48 icon64
+   target.path = /usr/bin
+   desktop.path = /usr/share/applications/hildon
+   desktop.files += maemofiles/emufront.desktop
+   icon48.path = /usr/share/icons/hicolor/48x48/apps
+   icon48.files += maemofiles/48x48/emufront.png
+   icon64.path = /usr/share/icons/hicolor/64x64/apps
+   icon64.files += maemofiles/64x64/emufront.png
+}
