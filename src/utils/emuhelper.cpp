@@ -19,6 +19,7 @@
 
 #include <QDebug>
 #include <QFile>
+#include <QDir>
 #include <QMessageBox>
 #include "emuhelper.h"
 #include "unziphelper.h"
@@ -83,6 +84,7 @@ void EmuHelper::launch(const Executable * ex, QList<MediaImageContainer *> micLi
         fp.append(mic->getFilePath()->getName());
         if (!fp.endsWith('/')) fp.append("/");
         fp.append(mic->getName());
+        qDebug() << "Extracting " << fp;
         int ret = unzipHelper->extractAll(fp, tmp);
         if (ret) {
             qDebug() << "Failed unzipping " << fp << ".";
@@ -109,14 +111,29 @@ void EmuHelper::launch(const Executable * ex, QList<MediaImageContainer *> micLi
     // for the moment, we'll wait for the process to be finished until we continue
     waitForFinished(-1);
 
+    try {
+    QDir ftmp(tmp);
+    if (!ftmp.exists()) {
+        throw EmuFrontException(tr("Trying to remove temporary files. "
+            "Directory %s doesn't exist!").arg(tmp));
+    }
     // clean the temp dir
     foreach(EmuFrontObject *ob, miList) {
-        QString fp = " \"";
-        fp.append(tmp);
-        fp.append(ob->getName());
-        fp.append("\"");
-        if (!QFile::remove(fp))
+        if (!ftmp.exists(ob->getName())) {
+            qDebug() << "File " << ob->getName() << " doesn't exist in " << tmp;
+            continue;
+        }
+        QString fp = ftmp.filePath(ob->getName());
+        QFile f(fp);
+        if (!f.exists()) {
+            qDebug() << "File " << fp << " doesn't exist!";
+        }
+        if (!f.remove()) {
             qDebug() << "Removing " << fp << " failed.";
+        }
+    }
+    } catch (EmuFrontException e) {
+        qDebug() << e.what();
     }
     delete ex;
     qDeleteAll(micList);

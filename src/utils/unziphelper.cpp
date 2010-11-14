@@ -174,7 +174,7 @@ int UnzipHelper::extractAll(QString filePath, QString targetPath)
     command.append(targetPath);
     //qDebug() << "Starting unzip command: " << command;
     start(command);
-    bool procOk = waitForFinished(); // TODO: set timeout, now using default 30000ms
+    bool procOk = waitForFinished( ); // TODO: set timeout, now using default 30000ms
     if (!procOk) {
         throw EmuFrontException(tr("Failed unzipping file '%1' to '%2'.").arg(filePath).arg(targetPath));
     }
