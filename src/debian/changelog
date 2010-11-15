@@ -1,8 +1,17 @@
+emufront (0.1.6) unstable; urgency=low
+
+  * UI fix: Config menu order more logical.
+  * UI fix: Encoding problem fixed with about dialog.
+  * UI update: Label and tooltip to set up configuration editor.
+  * UI update: Added a confirmation dialog to file paths scanning.
+
+ -- Mikko Keinänen <mikko.keinanen@gmail.com>  Tue, 16 Oct 2010 00:18:00 +0200
+
 emufront (0.1.5) unstable; urgency=low
 
   * Bug fixed: files were not removed from temporary file directory.
 
- -- Mikko Keinänen <mikko.keinanen@gmail.com>  Thu, 14 Oct 2010 23:22:21 +0200
+ -- Mikko Keinänen <mikko.keinanen@gmail.com>  Sun, 14 Oct 2010 23:22:21 +0200
  
 emufront (0.1.4) unstable; urgency=low
 
