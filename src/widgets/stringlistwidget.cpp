@@ -54,10 +54,20 @@ void StringListWidget::connectSignals()
 void StringListWidget::addClicked()
 {
     QString input = QInputDialog::getText(this, tr("Add"), tr("Add new item"));
+    input = input.trimmed();
     if (input.isEmpty()) return;
+    if (!confirmInput(input)) {
+       QMessageBox::information(this, tr("Input failed!"), ("Input was not accepted."));
+       return;
+    }
     stringList->addItem(input);
     stringList->sortItems();
     emit stringListUpdated();
+}
+
+bool StringListWidget::confirmInput(const QString &) const
+{
+    return true;
 }
 
 void StringListWidget::removeClicked()

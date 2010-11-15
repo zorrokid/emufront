@@ -17,41 +17,15 @@
 // You should have received a copy of the GNU General Public License
 // along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef STRINGLISTWIDGET_H
-#define STRINGLISTWIDGET_H
+#include "fileextensionwidget.h"
 
-#include <QWidget>
-
-class QListWidget;
-class QPushButton;
-
-class StringListWidget : public QWidget
+FileExtensionWidget::FileExtensionWidget(QWidget *parent) :
+    StringListWidget(parent)
 {
-    Q_OBJECT
-public:
-    explicit StringListWidget(QWidget *parent = 0, bool sort = true, int sortIndex = 0);
-    QStringList getItems();
-    void setItems(QStringList);
+}
 
-signals:
-    void stringListUpdated();
-
-protected:
-    virtual bool confirmInput(const QString &) const;
-
-private slots:
-    void addClicked();
-    void removeClicked();
-
-private:
-    void initUi();
-    void connectSignals();
-    //QStringListModel *model;
-    QListWidget *stringList;
-    QPushButton *btnAdd;
-    QPushButton *btnRemove;
-    bool sort;
-    int sortIndex;
-};
-
-#endif // STRINGLISTWIDGET_H
+bool FileExtensionWidget::confirmInput(const QString &input) const
+{
+    QRegExp rx("^[A-Za-z0-9]*$");
+    return rx.exactMatch(input);
+}

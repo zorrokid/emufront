@@ -17,41 +17,24 @@
 // You should have received a copy of the GNU General Public License
 // along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef STRINGLISTWIDGET_H
-#define STRINGLISTWIDGET_H
+#ifndef FILEEXTENSIONWIDGET_H
+#define FILEEXTENSIONWIDGET_H
 
-#include <QWidget>
+#include "stringlistwidget.h"
 
-class QListWidget;
-class QPushButton;
-
-class StringListWidget : public QWidget
+class FileExtensionWidget : public StringListWidget
 {
     Q_OBJECT
 public:
-    explicit StringListWidget(QWidget *parent = 0, bool sort = true, int sortIndex = 0);
-    QStringList getItems();
-    void setItems(QStringList);
-
-signals:
-    void stringListUpdated();
+    FileExtensionWidget(QWidget *parent = 0);
 
 protected:
     virtual bool confirmInput(const QString &) const;
 
-private slots:
-    void addClicked();
-    void removeClicked();
+signals:
 
-private:
-    void initUi();
-    void connectSignals();
-    //QStringListModel *model;
-    QListWidget *stringList;
-    QPushButton *btnAdd;
-    QPushButton *btnRemove;
-    bool sort;
-    int sortIndex;
+public slots:
+
 };
 
-#endif // STRINGLISTWIDGET_H
+#endif // FILEEXTENSIONWIDGET_H

@@ -69,7 +69,8 @@ HEADERS += mainwindow.h \
     dialogs/emufrontfileobjectdialog.h \
     dialogs/browsefilepathdialog.h \
     db/dbconfig.h \
-    utils/datfileutil.h
+    utils/datfileutil.h \
+    widgets/fileextensionwidget.h
 SOURCES += main.cpp \
     mainwindow.cpp \
     db/databasemanager.cpp \
@@ -126,7 +127,8 @@ SOURCES += main.cpp \
     dialogs/emufrontfileobjectdialog.cpp \
     dialogs/browsefilepathdialog.cpp \
     db/dbconfig.cpp \
-    utils/datfileutil.cpp
+    utils/datfileutil.cpp \
+    widgets/fileextensionwidget.cpp
 OTHER_FILES +=  
 
 CONFIG += mobility

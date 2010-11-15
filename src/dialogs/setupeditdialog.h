@@ -26,7 +26,7 @@ class EFFileObjectComboBox;
 class DbSetup;
 class DbMediaType;
 class DbPlatform;
-class StringListWidget;
+class FileExtensionWidget;
 class MediaType;
 class Platform;
 
@@ -49,7 +49,7 @@ private:
     DbSetup *dbSetup;
     DbPlatform *dbPlatform;
     DbMediaType *dbMediaType;
-    StringListWidget *supportedFileTypesList;
+    FileExtensionWidget *supportedFileTypesList;
 
     void initWidgets();
     void layout();

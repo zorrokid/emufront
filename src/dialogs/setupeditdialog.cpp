@@ -21,7 +21,7 @@
 #include <QSqlTableModel>
 #include <QSqlRecord>
 #include "setupeditdialog.h"
-#include "../widgets/stringlistwidget.h"
+#include "../widgets/fileextensionwidget.h"
 #include "../widgets/effileobjectcombobox.h"
 #include "../db/dbmediatype.h"
 #include "../db/dbplatform.h"
@@ -43,21 +43,24 @@ void SetupEditDialog::initWidgets()
 {
     mediaTypeComBox = new EFFileObjectComboBox(dbMediaType, this);
     platformComBox = new EFFileObjectComboBox(dbPlatform, this);
-    supportedFileTypesList = new StringListWidget;
+    supportedFileTypesList = new FileExtensionWidget;
+    supportedFileTypesList->setToolTip(tr("Set the supported file types by entering the file extension(s) (no wildcards or dots!)."));
 }
 
 void SetupEditDialog::layout()
 {
-   QLabel *platformLabel = new QLabel(tr("&Platform"));
+   QLabel *platformLabel = new QLabel(tr("&Platform:"));
    platformLabel->setBuddy(platformComBox);
-   QLabel *mediaTypeLabel = new QLabel(tr("Media&Type"));
+   QLabel *mediaTypeLabel = new QLabel(tr("Media&Type:"));
    mediaTypeLabel->setBuddy(mediaTypeComBox);
+   QLabel *fileTypesLabel = new QLabel(tr("Supported file types:"));
    QGridLayout *gridLayout = new QGridLayout;
    gridLayout->addWidget(platformLabel, 0, 0);
    gridLayout->addWidget(platformComBox, 0, 1);
    gridLayout->addWidget(mediaTypeLabel, 1, 0);
    gridLayout->addWidget(mediaTypeComBox, 1, 1);
-   gridLayout->addWidget(supportedFileTypesList, 2, 0, 2, 2);
+   gridLayout->addWidget(fileTypesLabel, 2, 0, 1, 2);
+   gridLayout->addWidget(supportedFileTypesList, 3, 0, 2, 2);
    QVBoxLayout *mainLayout = new QVBoxLayout;
    mainLayout->addLayout(gridLayout);
    mainLayout->addWidget(buttonBox);
