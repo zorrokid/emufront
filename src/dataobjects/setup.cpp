@@ -47,8 +47,6 @@ Setup::Setup(const Setup &s)
 {
     Platform *p = s.platform;
     MediaType *m = s.mediaType;
-    qDebug() << "Setup copy constructor, platform is "
-        << p->getName() <<  p->getId() << ", mediatype is " << m->getName() << m->getId();
     platform = new Platform(*p);
     mediaType = new MediaType(*m);
 }
