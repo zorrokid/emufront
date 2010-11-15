@@ -61,6 +61,14 @@ void MediaImagePathMainDialog::beginScanFilePath()
 {
     QModelIndex index = objectList->currentIndex();
     if (!index.isValid()) return;
+    if (QMessageBox::question(this,
+        tr("Confirm"),
+        tr("Do you want to continue? "
+        "If you have tons of huge files this may take even hours! "
+        "If you are low on battery power, consider carefully!"),
+        QMessageBox::Yes, QMessageBox::No, QMessageBox::NoButton ) == QMessageBox::No) {
+            return;
+        }
     FileUtil fileUtil(this);
     EmuFrontObject *ob = dbManager->getDataObjectFromModel(&index);
     if (!ob) return;
