@@ -193,12 +193,14 @@ void MainWindow::createMenus()
     fileMenu->addAction(exitAction);
 
     configMenu = menuBar()->addMenu(tr("&Config"));
+    configMenu->addAction(configTmpDirAction);
+    configMenu->addSeparator();
     configMenu->addAction(configPlatformAction);
     configMenu->addAction(configMediaTypeAction);
-    configMenu->addAction(configMediaImagePathAction);
     configMenu->addAction(configSetupAction);
+    configMenu->addAction(configMediaImagePathAction);
     configMenu->addAction(configEmulatorAction);
-    configMenu->addAction(configTmpDirAction);
+    configMenu->addSeparator();
     configMenu->addAction(manageDatFilesAction);
 
     helpMenu = menuBar()->addMenu(tr("&Help"));

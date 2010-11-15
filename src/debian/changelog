@@ -1,3 +1,9 @@
+emufront (0.1.5) unstable; urgency=low
+
+  * Bug fixed: files were not removed from temporary file directory.
+
+ -- Mikko Keinänen <mikko.keinanen@gmail.com>  Thu, 14 Oct 2010 23:22:21 +0200
+ 
 emufront (0.1.4) unstable; urgency=low
 
   * Initial Official Release.
