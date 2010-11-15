@@ -29,7 +29,7 @@
 #include "db/databasemanager.h"
 #include "db/dbconfig.h"
 
-QString MainWindow::aboutStr = tr(
+QString MainWindow::aboutStr = trUtf8(
         "<h2>EmuFront</h2>"
         "<p>&copy; 2010 Mikko Keinänen</p>"
         "<p>mikko.keinanen@gmail.com</p>"
