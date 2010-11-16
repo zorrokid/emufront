@@ -25,17 +25,18 @@
 class DbCreator : public QObject
 {
 public:
+    static const int DB_VERSION;
 
     DbCreator(QObject *parent = 0);
     bool deleteDB();
     static bool tableExists(QString);
-    static bool dbExists();
+    static int dbExists();
     bool createDB();
 
 private:
 
-    static const int TABLES_COUNT;
-    static const QString TABLES[];
+    //static const int TABLES_COUNT;
+    //static const QString TABLES[];
 
 };
 

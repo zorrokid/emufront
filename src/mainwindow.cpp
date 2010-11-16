@@ -27,6 +27,7 @@
 #include "dialogs/executablemaindialog.h"
 #include "utils/datfileutil.h"
 #include "db/databasemanager.h"
+#include "db/dbcreator.h"
 #include "db/dbconfig.h"
 
 QString MainWindow::aboutStr = trUtf8(
@@ -40,8 +41,9 @@ QString MainWindow::aboutStr = trUtf8(
 
 QString MainWindow::aboutTitle = tr("About EmuFront");
 
-MainWindow::MainWindow()
+MainWindow::MainWindow(bool reset)
 {
+    if (!testDB(reset)) close();
     setWindowTitle("EmuFront");
     tmpDirFilePath = DbConfig::getTmpDir();
     if (tmpDirFilePath.isEmpty())
@@ -242,4 +244,51 @@ void MainWindow::updateData()
 void MainWindow::about()
 {
     QMessageBox::about(this, aboutTitle, aboutStr );
+}
+
+bool MainWindow::testDB(bool reset)
+{
+    try {
+        if (DatabaseManager::openDB()) {
+            qDebug() << " Database opened succesfully!";
+        }
+        else {
+            throw EmuFrontException("Database connection failed!");
+        }
+
+        int dbVer = DbCreator::dbExists();
+        if (dbVer == 0) reset = true;
+        if (!reset && dbVer != DbCreator::DB_VERSION) {
+            QString msg("Database is not compatible "
+                        "with current version of EmuFront!"
+                        "Do you want to continue to recreate the database?"
+                        "ALL THE CURRENT DATA WILL BE LOST!!!");
+            if (QMessageBox::question(this, "Database not compatible!", msg,
+                                      QMessageBox::Yes, QMessageBox::No) == QMessageBox::Yes) {
+                reset = true;
+            }
+            else throw EmuFrontException("The current database is not compatible!"
+                                         " Cannot continue.");
+        }
+
+        if (reset)
+        {
+            try
+            {
+                DbCreator dbCreator;
+                dbCreator.createDB();
+            }
+            catch (QString str) {
+                QString msg(tr("Exception while trying to create"
+                               " EmuFront database: %s").arg(str));
+                throw EmuFrontException(msg);
+            }
+        }
+        return true;
+    }
+    catch (EmuFrontException e) {
+        qDebug() << e.what();
+        QMessageBox::critical(this, "Exception", e.what());
+        return false;
+    }
 }

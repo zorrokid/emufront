@@ -71,7 +71,7 @@ protected:
     static const QString DB_TABLE_EXECUTABLE;
 
 private:
-	static const QString DB_FILENAME;
+    static const QString DB_FILENAME;
     static const QString DATABASE;
     virtual QSqlQueryModel* getData() = 0;
     static QString getDbPath();

@@ -40,7 +40,7 @@ class MainWindow : public QMainWindow
 	Q_OBJECT
 
 public:
-	MainWindow();
+    MainWindow(bool reset = false);
     //~MainWindow()
 
 protected:
@@ -68,6 +68,7 @@ private:
 	bool okToContinue();
     void connectSignals();
     void activateDialog(EmuFrontDialog*) const;
+    bool testDB(bool reset);
 	PlatformDialog *platformDialog;
     MediaTypeDialog *mediaTypeDialog;
     MediaImagePathMainDialog *mediaImagePathDialog;

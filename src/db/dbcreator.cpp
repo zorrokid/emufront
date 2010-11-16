@@ -18,17 +18,22 @@
 // along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QObject>
+#include <QDir>
 #include <QSqlDatabase>
 #include <QSqlQuery>
+#include <QSqlRecord>
+#include <QSqlTableModel>
 #include <QSqlError>
 #include <QDebug>
 #include <exception>
 #include "dbcreator.h"
 
+
 using namespace std;
 
-const int DbCreator::TABLES_COUNT = 3;
-const QString DbCreator::TABLES[] = {"platform", "mediatype", "filepath", "mediaimagecontainer_filepath", "mediaimage", "mediaimagecontainer_mediaimage"};
+const int DbCreator::DB_VERSION = 1;
+//const int DbCreator::TABLES_COUNT = 3;
+//const QString DbCreator::TABLES[] = {"platform", "mediatype", "filepath", "mediaimagecontainer_filepath", "mediaimage", "mediaimagecontainer_mediaimage"};
 
 DbCreator::DbCreator(QObject *parent) : QObject(parent)
 {
@@ -55,8 +60,20 @@ bool DbCreator::createDB()
         qDebug() << "Creating TABLE file";
 
         ret = query.exec("CREATE TABLE IF NOT EXISTS config"
-                "(tmpdirpath TEXT)"
+                "(tmpdirpath TEXT, "
+                "dbversion INTEGER)"
             );
+
+        if (ret) {
+            query.prepare("INSERT INTO config "
+                "(tmpdirpath, dbversion) "
+                "VALUES (:tmpdir, :dbversion)");
+            query.bindValue(":tmpdir", QDir::homePath());
+            query.bindValue(":dbversion", DbCreator::DB_VERSION);
+            ret = query.exec();
+        }
+
+        if (!ret) throw QString("tbl config");
 
         ret = query.exec("CREATE TABLE IF NOT EXISTS file"
                         "(id INTEGER PRIMARY KEY, "
@@ -211,11 +228,24 @@ bool DbCreator::createDB()
 
 /**
  * Check if database already exists.
- * Returns false if doesn't or we don't have a connection.
+ *
+ * Returns  0 if database doesn't exist
+ *          or database version number 1 if database exists
+ *
 */
-bool DbCreator::dbExists()
+int DbCreator::dbExists()
 {
-    for (int i = 0; i < TABLES_COUNT; ++i)
+    int ret = 0;
+    QString sql("SELECT dbversion FROM config");
+    QSqlQuery q;
+    q.exec(sql);
+    if (q.next()) {
+        ret = q.value(0).toInt();
+        qDebug() << "Database version is " << ret
+            << " the application requires " << DB_VERSION;
+    }
+    return ret;
+    /*for (int i = 0; i < TABLES_COUNT; ++i)
     {
         if (!tableExists(TABLES[i]))
         {
@@ -224,7 +254,7 @@ bool DbCreator::dbExists()
         }
        qDebug() << "Table " << TABLES[i] << " exists.";
     }
-    return true;
+    return true;*/
 }
 
 bool DbCreator::tableExists(QString TABLE)
