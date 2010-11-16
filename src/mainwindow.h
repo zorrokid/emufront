@@ -53,6 +53,7 @@ private slots:
     void configureSetups();
     void configureEmulators();
     void configureTmpDir();
+    void resetDb();
     void updateData();
     void manageDatFiles();
     void about();
@@ -69,6 +70,7 @@ private:
     void connectSignals();
     void activateDialog(EmuFrontDialog*) const;
     bool testDB(bool reset);
+    void createDB() const;
 	PlatformDialog *platformDialog;
     MediaTypeDialog *mediaTypeDialog;
     MediaImagePathMainDialog *mediaImagePathDialog;
@@ -84,6 +86,7 @@ private:
     QAction *configSetupAction;
     QAction *configEmulatorAction;
     QAction *exitAction;
+    QAction *resetDbAction;
     QAction *aboutAction;
     QAction *configTmpDirAction;
     QAction *manageDatFilesAction;

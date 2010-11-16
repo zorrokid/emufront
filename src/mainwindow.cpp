@@ -103,6 +103,10 @@ void MainWindow::createActions()
     exitAction->setStatusTip(tr("Exit EmuFront"));
     connect(exitAction, SIGNAL(triggered()), this, SLOT(close()));
 
+    resetDbAction = new QAction( tr("Reset database"), this);
+    resetDbAction->setStatusTip(tr("Deletes all the current data and create a new database."));
+    connect(resetDbAction, SIGNAL(triggered()), this, SLOT(resetDb()));
+
     aboutAction = new QAction(tr("&About"), this);
     aboutAction->setStatusTip(tr("About EmuFront"));
     connect(aboutAction, SIGNAL(triggered()), this, SLOT(about()));
@@ -176,6 +180,24 @@ void MainWindow::configureTmpDir()
     }
 }
 
+void MainWindow::resetDb()
+{
+    if (QMessageBox::question(this, "Reset database?",
+        "Are you REALLY SURE you want to do this? "
+        "All the current data WILL BE LOST!",
+        QMessageBox::No,
+        QMessageBox::Yes) == QMessageBox::No) {
+        return;
+    }
+    try {
+        createDB();
+    }
+    catch (EmuFrontException e) {
+        qDebug() << e.what();
+        QMessageBox::critical(this, "Exception", e.what());
+    }
+}
+
 void MainWindow::manageDatFiles()
 {
     DatFileUtil dfu;
@@ -192,6 +214,8 @@ void MainWindow::activateDialog(EmuFrontDialog* dia) const
 void MainWindow::createMenus()
 {
     fileMenu = menuBar()->addMenu(tr("&File"));
+    fileMenu->addAction(resetDbAction);
+    fileMenu->addSeparator();
     fileMenu->addAction(exitAction);
 
     configMenu = menuBar()->addMenu(tr("&Config"));
@@ -271,18 +295,8 @@ bool MainWindow::testDB(bool reset)
                                          " Cannot continue.");
         }
 
-        if (reset)
-        {
-            try
-            {
-                DbCreator dbCreator;
-                dbCreator.createDB();
-            }
-            catch (QString str) {
-                QString msg(tr("Exception while trying to create"
-                               " EmuFront database: %s").arg(str));
-                throw EmuFrontException(msg);
-            }
+        if (reset) {
+            createDB();
         }
         return true;
     }
@@ -292,3 +306,18 @@ bool MainWindow::testDB(bool reset)
         return false;
     }
 }
+
+void MainWindow::createDB() const
+{
+    try
+    {
+        DbCreator dbCreator;
+        dbCreator.createDB();
+    }
+    catch (QString str) {
+        QString msg(tr("Exception while trying to create"
+                       " EmuFront database: %s").arg(str));
+        throw EmuFrontException(msg);
+    }
+}
+
