@@ -47,6 +47,24 @@ bool DbCreator::createDB()
 
     try
     {
+
+        /*
+
+            N O T I C E
+            -----------
+
+            When adding a new table, remember to add a drop table
+            clause also!
+
+            When changing the database structure, increase
+            also the version number and create a sql command
+            for updating from last version to new version.
+
+            Update those version upgrade "patches" here as a version history:
+            -----------------------------------------------------------------
+
+        */
+
         query.exec("DROP TABLE IF EXISTS mediaimagecontainer_mediaimage");
         query.exec("DROP TABLE IF EXISTS mediaimagecontainer_filepath");
         query.exec("DROP TABLE IF EXISTS filepath");
