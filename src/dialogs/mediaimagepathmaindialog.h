@@ -36,6 +36,7 @@ protected:
     virtual void deleteCurrentObject();
     virtual EmuFrontObject* createObject();
     virtual void connectSignals();
+    virtual void cleanUp();
 
 private slots:
     void beginScanFilePath();

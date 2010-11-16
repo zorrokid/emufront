@@ -55,6 +55,7 @@ void MediaImagePathMainDialog::connectSignals()
 void MediaImagePathMainDialog::initEditDialog()
 {
     nameDialog = new MediaImagePathDialog(this, dynamic_cast<FilePathObject*>(dbObject));
+    connectNameDialogSignals();
 }
 
 void MediaImagePathMainDialog::beginScanFilePath()
@@ -111,6 +112,22 @@ MediaImagePathMainDialog::~MediaImagePathMainDialog()
 
 void MediaImagePathMainDialog::deleteCurrentObject()
 {
-    delete dynamic_cast<FilePathObject*>(dbObject);
-    dbObject = 0;
+    if (dbObject) {
+        FilePathObject* fpo =  dynamic_cast<FilePathObject*>(dbObject);
+        if (fpo) delete fpo;
+        else qDebug() << "Failed deleteing FilePathObject";
+        dbObject = 0;
+    }
+}
+
+void MediaImagePathMainDialog::cleanUp()
+{
+    deleteCurrentObject();
+    if (nameDialog) {
+        MediaImagePathDialog *pnd =
+            dynamic_cast<MediaImagePathDialog*>(nameDialog);
+        if (pnd) delete pnd;
+        else qDebug() << "Failed to delete MediaImagePathDialog";
+        nameDialog = 0;
+    }
 }

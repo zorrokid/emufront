@@ -46,6 +46,7 @@ PlatformDialog::~PlatformDialog()
 void PlatformDialog::initEditDialog()
 {
     nameDialog = new PlatformNameDialog(this, dynamic_cast<Platform*>(dbObject));
+    connectNameDialogSignals();
 }
 
 EmuFrontObject* PlatformDialog::createObject()
@@ -56,7 +57,23 @@ EmuFrontObject* PlatformDialog::createObject()
 
 void PlatformDialog::deleteCurrentObject()
 {
-    qDebug() << "PlatformDialog deleting a Platform object.";
-    delete dynamic_cast<Platform*>(dbObject);
-    dbObject = 0;
+    if (dbObject) {
+        qDebug() << "PlatformDialog deleting a Platform object.";
+        Platform *plf = dynamic_cast<Platform*>(dbObject);
+        if (plf) delete plf;
+        else qDebug() << "Failed deleting Platform";
+        dbObject = 0;
+    }
+}
+
+void PlatformDialog::cleanUp()
+{
+    deleteCurrentObject();
+    if (nameDialog) {
+        PlatformNameDialog *pnd =
+            dynamic_cast<PlatformNameDialog*>(nameDialog);
+        if (pnd) delete pnd;
+        else qDebug() << "Failed to delete PlatformNameDialog";
+        nameDialog = 0;
+    }
 }

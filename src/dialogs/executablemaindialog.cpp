@@ -46,12 +46,29 @@ void ExecutableMainDialog::initEditDialog()
 {
     nameDialog = new ExecutableEditDialog(
         this, dynamic_cast<Executable*>(dbObject));
+    connectNameDialogSignals();
 }
 
 void ExecutableMainDialog::deleteCurrentObject()
 {
-   delete dynamic_cast<Executable*>(dbObject);
-   dbObject = 0;
+    if (dbObject) {
+        Executable *exe =  dynamic_cast<Executable*>(dbObject);
+        if (exe) delete exe;
+        else qDebug() << "Failed deleting Executable";
+        dbObject = 0;
+    }
+}
+
+void ExecutableMainDialog::cleanUp()
+{
+    deleteCurrentObject();
+    if (nameDialog) {
+        ExecutableEditDialog *pnd =
+            dynamic_cast<ExecutableEditDialog *>(nameDialog);
+        if (pnd) delete pnd;
+        else qDebug() << "Failed to delete PlatformNameDialog";
+        nameDialog = 0;
+    }
 }
 
 EmuFrontObject* ExecutableMainDialog::createObject()

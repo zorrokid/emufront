@@ -53,10 +53,13 @@ private slots:
 protected:
     // implementation specific, deletes current data object from memory
     virtual void deleteCurrentObject() = 0;
+    virtual void cleanUp() = 0;
     virtual void initEditDialog() = 0;
     virtual EmuFrontObject* createObject() = 0;
+    virtual void closeEvent(QCloseEvent *);
     void initDataTable();
     virtual void connectSignals();
+    virtual void connectNameDialogSignals();
     DataObjectEditDialog *nameDialog;
     EmuFrontObject *dbObject;
     DatabaseManager *dbManager;
@@ -77,6 +80,7 @@ private:
     void setUIEnabled(bool);
     void layout();
     void disableSelection();
+    void createEditDialog();
     QPushButton *editButton;
     QPushButton *addButton;
     QPushButton *deleteButton;

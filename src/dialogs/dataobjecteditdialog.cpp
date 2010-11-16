@@ -39,6 +39,7 @@ void DataObjectEditDialog::connectSignals()
 
 void DataObjectEditDialog::closeEvent(QCloseEvent *ev)
 {
+    qDebug() << "Emitting dialog closed";
     emit dialogClosed();
     ev->accept();
 }

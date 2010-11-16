@@ -43,17 +43,41 @@ SetupMainDialog::~SetupMainDialog()
 
 void SetupMainDialog::initEditDialog()
 {
-    if (nameDialog) delete dynamic_cast<SetupEditDialog*>(nameDialog);
+    if (nameDialog)  {
+        SetupEditDialog *sed =
+            dynamic_cast<SetupEditDialog*>(nameDialog);
+        if (sed) delete sed;
+        else qDebug() << "Failed to delete SetupEditDialog!";
+    }
     nameDialog = new SetupEditDialog(this, dynamic_cast<Setup*>(dbObject));
+    connectNameDialogSignals();
 }
 
 void SetupMainDialog::deleteCurrentObject()
 {
-   delete dynamic_cast<Setup*>(dbObject);
-   dbObject = 0;
+    if (dbObject) {
+        Setup *sup = dynamic_cast<Setup*>(dbObject);
+        if (sup)
+            delete sup;
+        else
+            qDebug() << "Failed to delete Setup data objec data object.";
+        dbObject = 0;
+    }
 }
 
 EmuFrontObject* SetupMainDialog::createObject()
 {
     return new Setup;
+}
+
+void SetupMainDialog::cleanUp()
+{
+    deleteCurrentObject();
+    if (nameDialog) {
+        SetupEditDialog *sed =
+                dynamic_cast<SetupEditDialog*>(nameDialog);
+        if (sed) delete sed;
+        else qDebug() << "Failed to delete SetupEditDialog!";
+        nameDialog = 0;
+    }
 }

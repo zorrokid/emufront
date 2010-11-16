@@ -32,6 +32,7 @@ public:
 
 protected:
     virtual void deleteCurrentObject();
+    virtual void cleanUp();
     virtual EmuFrontObject* createObject();
     virtual void initEditDialog();
 

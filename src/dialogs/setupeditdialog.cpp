@@ -109,6 +109,7 @@ void SetupEditDialog::acceptChanges()
         sup->setSupportedFileTypeExtensions(supportedFileTypesList->getItems());
         change = true;
     }
+    // TODO: the second time around this signal is not received!
     if (change) emit dataObjectUpdated();
     efObject = 0;
     close();
@@ -123,6 +124,10 @@ void SetupEditDialog::setDataObject(EmuFrontObject *ob)
         delete dynamic_cast<Setup*>(efObject); // TODO: caused crash if another instance of setupeditdialog was created and new instance destroyed object being referenced in another existing dialog.
     efObject = ob;
     Setup *sup= dynamic_cast<Setup*>(ob);
+    if (!sup) {
+        qDebug() << "Failed casting to Setup";
+        return;
+    }
     if (sup->getPlatform()) setSelectedPlatform(sup->getPlatform());
     if (sup->getMediaType()) setSelectedMediaType(sup->getMediaType());
     supportedFileTypesList->setItems(sup->getSupportedFileTypeExtensions());

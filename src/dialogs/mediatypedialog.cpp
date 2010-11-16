@@ -47,6 +47,7 @@ MediaTypeDialog::~MediaTypeDialog()
 void MediaTypeDialog::initEditDialog()
 {
     nameDialog = new MediaTypeNameDialog(this, dynamic_cast<MediaType*>(dbObject));
+    connectNameDialogSignals();
 }
 
 EmuFrontObject* MediaTypeDialog::createObject()
@@ -58,4 +59,16 @@ void MediaTypeDialog::deleteCurrentObject()
 {
     delete dynamic_cast<MediaType*>(dbObject);
     dbObject = 0;
+}
+
+void MediaTypeDialog::cleanUp()
+{
+    deleteCurrentObject();
+    if (nameDialog) {
+        MediaTypeNameDialog *pnd =
+            dynamic_cast<MediaTypeNameDialog*>(nameDialog);
+        if (pnd) delete pnd;
+        else qDebug() << "Failed to delete MediaTypeNameDialog";
+        nameDialog = 0;
+    }
 }

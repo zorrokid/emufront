@@ -62,6 +62,10 @@ void DbObjectDialog::connectSignals()
     connect(editButton, SIGNAL(clicked()), this, SLOT(editButtonClicked()));
     connect(addButton, SIGNAL(clicked()), this, SLOT(addButtonClicked()));
     connect(deleteButton, SIGNAL(clicked()), this, SLOT(deleteButtonClicked()));
+}
+
+void DbObjectDialog::connectNameDialogSignals()
+{
     connect(nameDialog, SIGNAL(dataObjectUpdated()), this, SLOT(updateData()));
     connect(nameDialog, SIGNAL(updateRejected()), this, SLOT(updateReject()));
     connect(nameDialog, SIGNAL(test()), this, SLOT(testSlot()));
@@ -79,10 +83,19 @@ void DbObjectDialog::insertDb(const EmuFrontObject *ob) const
         errorMessage->showMessage(tr("Inserting data object %1 failed.").arg(ob->getName()));
 }
 
+void DbObjectDialog::createEditDialog()
+{
+    initEditDialog();
+    // call this from implementing classes:
+    //connectNameDialogSignals();
+}
+
 void DbObjectDialog::addObject()
 {
     setUIEnabled(false);
-    if (!nameDialog) initEditDialog();
+    if (!nameDialog) {
+       createEditDialog();
+    }
     deleteCurrentObject();
     dbObject = createObject();
     nameDialog->setDataObject(dbObject);
@@ -94,7 +107,9 @@ void DbObjectDialog::editObject()
     QModelIndex index = objectList->currentIndex();
     if (!index.isValid())
         return;
-    if (!nameDialog) initEditDialog();
+    if (!nameDialog) {
+        createEditDialog();
+    }
     deleteCurrentObject();
     dbObject = dbManager->getDataObjectFromModel(&index);
     activateNameDialog();
@@ -296,3 +311,11 @@ void DbObjectDialog::hideColumns()
     foreach(int c, hiddenColumns)
         objectList->hideColumn(c);
 }
+
+void DbObjectDialog::closeEvent(QCloseEvent *ev)
+{
+    qDebug() << "DbObjectDialog closing!";
+    setUIEnabled(true);
+    cleanUp();
+}
+
