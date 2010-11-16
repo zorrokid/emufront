@@ -30,7 +30,7 @@
 #include <QDebug>
 #include <QDateTime>
 
-const QString DatabaseManager::DB_FILENAME = QString("my.db.sqlite");
+const QString DatabaseManager::DB_FILENAME = QString("emufront.db.sqlite");
 const QString DatabaseManager::DATABASE = QString("QSQLITE");
 const QString DatabaseManager::DB_TABLE_NAME_MEDIATYPE = QString("mediatype");
 const QString DatabaseManager::DB_TABLE_NAME_PLATFORM = QString("platform");
