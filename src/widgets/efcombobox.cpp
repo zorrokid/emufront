@@ -30,7 +30,7 @@ EFComboBox::EFComboBox(DatabaseManager *dbMan, QWidget *parent)
     : QComboBox(parent), dbManager(dbMan)
 {
     if (!dbManager)
-        throw new EmuFrontException("Database manager is not available!");
+        throw EmuFrontException("Database manager is not available!");
     setSizeAdjustPolicy(QComboBox::AdjustToContents);
     updateDataModel();
 }

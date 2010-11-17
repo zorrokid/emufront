@@ -129,9 +129,8 @@ EmuFrontObject* DatabaseManager::getFilteredDataObject()
     if (sqlTableModel->rowCount() >= 1)
     {
         QSqlRecord record = sqlTableModel->record(0);
-        if (record.isEmpty())
-        {
-            throw new EmuFrontException(tr("No filtered data available"));
+        if (record.isEmpty()) {
+            throw EmuFrontException(tr("No filtered data available"));
         }
         else plf = recordToDataObject(&record);
     }

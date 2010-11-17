@@ -48,7 +48,7 @@ int DbMediaImageContainer::storeMediaImageContainer(EmuFrontObject *efo)
         = dynamic_cast<MediaImageContainer *>(efo);
 
     if (!mic->getFilePath())
-        throw new EmuFrontException("Cannot install media image "
+        throw EmuFrontException("Cannot install media image "
             "container to database without a file path object!");
 
     // multiple media image containers with matching checksum will be stored
@@ -82,7 +82,7 @@ int DbMediaImageContainer::storeMediaImageContainer(EmuFrontObject *efo)
             // in the calling code block and clean
             // all the media image and ...containers from
             // the memory!
-            throw new EmuFrontException(
+            throw EmuFrontException(
                     QString(tr("Inserting media image container %1 to file database failed"))
                     .arg(mic->getName()));
         }
@@ -91,7 +91,7 @@ int DbMediaImageContainer::storeMediaImageContainer(EmuFrontObject *efo)
 
         if (!linkMediaImageContainerToPath(mic)){
             DbFile::deleteDataObject(fileId);
-            throw new EmuFrontException("Failed inserting media image to database!");
+            throw EmuFrontException("Failed inserting media image to database!");
         }
         //qDebug() << "Inserted media image container " << fileId << " to mediaimagecontainer table.";
         linkMediaImagesWithContainer(fileId, images.values());
@@ -224,7 +224,7 @@ void DbMediaImageContainer::linkMediaImagesWithContainer(int micId, QList<EmuFro
         /*qDebug() << "Linking media image container " << micId
             << " to media image " << mi->getId()  << ", " << mi->getName() << ".";*/
         if (!linkMediaImageToMediaImageContainer(mi, micId)) {
-                throw new EmuFrontException(QString("Failed linking media "
+                throw EmuFrontException(QString("Failed linking media "
                                                     "image container %1 to a media image %2").arg(micId).arg(mi->getId()));
         }
     }

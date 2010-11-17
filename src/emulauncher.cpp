@@ -167,7 +167,7 @@ void EmuLauncher::launchEmu()
 
 
         if (mame && listMIndex.count() > 1) {
-            throw new EmuFrontException(tr("No supported file types configured for this emulator configuration. "
+            throw EmuFrontException(tr("No supported file types configured for this emulator configuration. "
                 "Assuming emulator support container files as is. "
                 "Only one container can be selected without configuring supported file types."
             ));

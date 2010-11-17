@@ -56,7 +56,7 @@ int FileUtil::scanFilePath(FilePathObject *fp,
             .arg(fp->getSetup()->getName()));
     }
     else if (!fp->getSetup()->getMediaType()){
-        throw new EmuFrontException(tr("No media type available with %1.")
+        throw EmuFrontException(tr("No media type available with %1.")
             .arg(fp->getSetup()->getName()));
     }
 
@@ -138,7 +138,7 @@ quint32 FileUtil::readCrc32(QString filePath)
     QFile file(filePath);
     //qDebug() << "readCrc32: " << filePath;
     if (!file.open(QIODevice::ReadOnly)) {
-        throw new EmuFrontException(QString(tr("Failed opening file %1 for reading the checksum!")).arg(filePath));
+        throw EmuFrontException(QString(tr("Failed opening file %1 for reading the checksum!")).arg(filePath));
     }
     quint32 crc = crc32(0L, Z_NULL, 0);
     int read = 0;
@@ -147,7 +147,7 @@ quint32 FileUtil::readCrc32(QString filePath)
     }
     file.close();
     if (crc <= 0)
-        throw new EmuFrontException(QString(tr("Failed reading crc checksum for file %1!")).arg(filePath));
+        throw EmuFrontException(QString(tr("Failed reading crc checksum for file %1!")).arg(filePath));
     //qDebug() << QString("readCrc32, crc: %1").arg(crc, 0, 16);
     return crc;
 }

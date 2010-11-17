@@ -83,19 +83,19 @@ void ExecutableEditDialog::acceptChanges()
     try {
         Setup *su = getSelectedSetup();
         if (!su) {
-            throw new EmuFrontException(tr("Setup not selected"));
+            throw EmuFrontException(tr("Setup not selected"));
         }
         QString name = nameEdit->text().trimmed();
         if (name.isEmpty()){
-            throw new EmuFrontException(tr("Name is not set"));
+            throw EmuFrontException(tr("Name is not set"));
         }
         QString exec = execEdit->text().trimmed();
         if (exec.isEmpty()){
-            throw new EmuFrontException(tr("Executable is not set"));
+            throw EmuFrontException(tr("Executable is not set"));
         }
         QString opts = optEdit->text().trimmed();
         if (opts.isEmpty()) {
-            throw new EmuFrontException(tr("Options not set"));
+            throw EmuFrontException(tr("Options not set"));
         }
         bool change = false;
         Setup *supTmp = ex->getSetup();

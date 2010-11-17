@@ -41,7 +41,7 @@ QMap<QString, EmuFrontObject*> UnzipHelper::listContents(const QString filePath,
 
     QFile fl(filePath);
     if (!fl.open(QIODevice::ReadOnly)) {
-        throw new EmuFrontException(tr("Couldn't read file %1.").arg(filePath));
+        throw EmuFrontException(tr("Couldn't read file %1.").arg(filePath));
     }
 
     //Setup *sup = fp->getSetup();
