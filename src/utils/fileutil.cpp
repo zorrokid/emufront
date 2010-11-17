@@ -132,6 +132,7 @@ int FileUtil::scanFilePath(FilePathObject *fp,
 }
 
 /* Uses crc32 from zlib.h to count crc32 checksum value */
+/* Throws EmuFrontException */
 quint32 FileUtil::readCrc32(QString filePath)
 {
     // todo ... use some crc32 tool for this ... or maybe use md5 or something like that!!!

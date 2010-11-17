@@ -102,7 +102,15 @@ void MediaImagePathDialog::setSelectedSetup(const Setup *sup)
 
 Setup* MediaImagePathDialog::getSelectedSetup()
 {
-    EmuFrontObject *ob = setupComBox->getSelected();
+    EmuFrontObject *ob = 0;
+
+    try {
+        ob = setupComBox->getSelected();
+    }
+    catch(EmuFrontException &e){
+        QMessageBox::warning(this, "Exception", e.what());
+    }
+
     if (!ob) return 0;
     return dynamic_cast<Setup*>(ob);
 }

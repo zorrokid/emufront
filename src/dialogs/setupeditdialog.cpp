@@ -143,17 +143,24 @@ void SetupEditDialog::setSelectedMediaType(const MediaType *plf)
     mediaTypeComBox->setSelected(plf);
 }
 
-Platform* SetupEditDialog::getSelectedPlatform() const
+Platform* SetupEditDialog::getSelectedPlatform()
 {
-    EmuFrontObject *o = platformComBox->getSelected();
+    EmuFrontObject *o = 0;
+    try { o = platformComBox->getSelected();  }
+    catch(EmuFrontException &e){
+        QMessageBox::warning(this, "Exception", e.what());
+    }
+
     if (!o) return 0;
     Platform *plf = dynamic_cast<Platform*>(o);
     return plf;
 }
 
-MediaType* SetupEditDialog::getSelectedMediaType() const
+MediaType* SetupEditDialog::getSelectedMediaType()
 {
-    EmuFrontObject *o = mediaTypeComBox->getSelected();
+    EmuFrontObject *o = 0;
+    try { o = mediaTypeComBox->getSelected(); }
+    catch(EmuFrontException &e){ QMessageBox::warning(this, "Exception", e.what()); }
     if (!o) return 0;
     MediaType *mt = dynamic_cast<MediaType*>(o);
     return mt;

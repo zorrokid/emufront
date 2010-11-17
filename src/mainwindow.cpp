@@ -307,6 +307,7 @@ bool MainWindow::testDB(bool reset)
     }
 }
 
+/* Throws EmuFrontException */
 void MainWindow::createDB() const
 {
     try

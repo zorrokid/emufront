@@ -35,6 +35,7 @@ EmuHelper::EmuHelper(QObject *parent) :
 
 
 // TODO: These two launch functions may be merged to one and/or split into some common helper functions.
+/* Throws EmuFrontException */
 void EmuHelper::launch(const Executable * ex, QList<MediaImageContainer *> micList)
 {
     if (micList.count() < 1) {
@@ -66,6 +67,7 @@ void EmuHelper::launch(const Executable * ex, QList<MediaImageContainer *> micLi
     qDeleteAll(micList);
 }
 
+/* Throws EmuFrontException */
 void EmuHelper::launch(const Executable * ex, QList<MediaImageContainer *> micList,
     QList<EmuFrontObject *> miList, int mediaCount, QString tmp)
 {

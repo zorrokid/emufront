@@ -23,7 +23,7 @@
 
 int main(int argc, char *argv[])
 {
-	QApplication app(argc, argv);
+    QApplication app(argc, argv);
     QStringList arglst = app.arguments();
     bool reset = arglst.contains("reset", Qt::CaseInsensitive);
     MainWindow mw;

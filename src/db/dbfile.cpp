@@ -134,6 +134,7 @@ QSqlQueryModel* DbFile::getData()
     return model;
 }
 
+/* Throws EmuFrontException */
 EmuFrontObject* DbFile::getFileByChecksum(QString checksum)
 {
     return getDataObject(QString("checksum LIKE '%1'").arg(checksum));

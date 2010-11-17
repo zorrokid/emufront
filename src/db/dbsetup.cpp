@@ -34,6 +34,7 @@ DbSetup::DbSetup(QObject *parent) : DbQueryModelManager(parent)
     dbMediaType = new DbMediaType(this);
 }
 
+/* Throws EmuFrontException */
 EmuFrontObject* DbSetup::recordToDataObject(const QSqlRecord *rec)
 {
     Setup *s = 0;
@@ -45,8 +46,8 @@ EmuFrontObject* DbSetup::recordToDataObject(const QSqlRecord *rec)
         list = extensions.split(FILE_TYPE_EXTENSION_SEPARATOR);
     int plfId = rec->value(Setup_PlatformId).toInt();
     int mtId = rec->value(Setup_MediaTypeId).toInt();
-    Platform *plf = dynamic_cast<Platform*>(dbPlatform->getDataObject(plfId));
-    MediaType *mt = dynamic_cast<MediaType*>(dbMediaType->getDataObject(mtId));
+    Platform *plf = dynamic_cast<Platform*>(dbPlatform->getDataObject(plfId)); /* Throws EmuFrontException */
+    MediaType *mt = dynamic_cast<MediaType*>(dbMediaType->getDataObject(mtId)); /* Throws EmuFrontException */
     s = new Setup(id, plf, mt, list);
     return s;
 }

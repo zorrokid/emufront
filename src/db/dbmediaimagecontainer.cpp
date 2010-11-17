@@ -41,7 +41,7 @@ bool DbMediaImageContainer::updateDataObjectToModel(const EmuFrontObject *efo)
     return false;
 }
 
-
+/* Throws EmuFrontException */
 int DbMediaImageContainer::storeMediaImageContainer(EmuFrontObject *efo)
 {
     MediaImageContainer *mic
@@ -143,6 +143,7 @@ QString DbMediaImageContainer::constructSelectById(int id) const
         );
 }
 
+/* Throws EmuFrontException */
 EmuFrontObject* DbMediaImageContainer::recordToDataObject(const QSqlRecord *rec)
 {
     // TODO: checks!
@@ -154,7 +155,7 @@ EmuFrontObject* DbMediaImageContainer::recordToDataObject(const QSqlRecord *rec)
     int size = rec->value(MIC_FileSize).toInt();
     int fpId = rec->value(MIC_FilePathId).toInt();
     FilePathObject *fpo
-        = dynamic_cast<FilePathObject*>(dbFilePath->getDataObject(fpId));
+        = dynamic_cast<FilePathObject*>(dbFilePath->getDataObject(fpId)); /* Throws EmuFrontException */
     //int supId = rec->value(MIC_SetupId).toInt();
     //Setup *sup = dbSetup->getDataObject(supId)
     QMap<QString, EmuFrontObject*> images = dbMediaImage->getMediaImages(id);
@@ -213,6 +214,7 @@ void DbMediaImageContainer::storeContainers(QList<MediaImageContainer *> lst, Fi
     }
 }
 
+/* Throws EmuFrontException */
 void DbMediaImageContainer::linkMediaImagesWithContainer(int micId, QList<EmuFrontObject*> mediaImages)
 {
     if (micId < 0 || mediaImages.count() <= 0)
@@ -271,6 +273,7 @@ QString DbMediaImageContainer::getDeleteObjectSql() const
        return QString("DELETE FROM file WHERE id=:id");
 }
 
+/* Throws EmuFrontException */
 EmuFrontObject* DbMediaImageContainer::getMediaImageContainerByChecksum(QString checksum)
 {
     return getDataObject(QString("file.checksum LIKE '%1'").arg(checksum));

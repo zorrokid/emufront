@@ -103,12 +103,19 @@ void EmuLauncher::connectSignals()
 void EmuLauncher::updateMediaImageContainers()
 {
     qDebug() << "updateMediaImageContainers slot";
-    int mtid = mediaTypeSelectBox->getSelected()
-        ? mediaTypeSelectBox->getSelected()->getId()
-        : -1;
-    int plfid = platformSelectBox->getSelected()
-        ? platformSelectBox->getSelected()->getId()
-        : -1;
+    int mtid, plfid = -1;
+    try {
+        mtid = mediaTypeSelectBox->getSelected()
+                   ? mediaTypeSelectBox->getSelected()->getId()
+                   : -1;
+        plfid = platformSelectBox->getSelected()
+                    ? platformSelectBox->getSelected()->getId()
+                    : -1;
+    }
+    catch(EmuFrontException &e){
+        QMessageBox::warning(this, "Exception", e.what());
+        return;
+    }
 
     if (!dbMic) dbMic = new DbMediaImageContainer(this);
     dbMic->filter(mtid, plfid);

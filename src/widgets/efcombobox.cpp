@@ -29,8 +29,6 @@
 EFComboBox::EFComboBox(DatabaseManager *dbMan, QWidget *parent)
     : QComboBox(parent), dbManager(dbMan)
 {
-    if (!dbManager)
-        throw EmuFrontException("Database manager is not available!");
     setSizeAdjustPolicy(QComboBox::AdjustToContents);
     updateDataModel();
 }
@@ -46,6 +44,7 @@ void EFComboBox::updateDataModel(bool reset)
         setModel(model);
 }
 
+/* Throws EmuFrontException */
 EmuFrontObject* EFComboBox::getSelected() const
 {
     EmuFrontObject *efo = 0;
@@ -67,7 +66,7 @@ EmuFrontObject* EFComboBox::getSelected() const
     qDebug() << "Fetching a data object with id "
         << rec.value(dataModelIndex_id).toInt();
     EmuFrontObject *o
-        = dbManager->getDataObject(rec.value(dataModelIndex_id).toInt());
+        = dbManager->getDataObject(rec.value(dataModelIndex_id).toInt()); /* Throws EmuFrontException */
     return o;
 }
 

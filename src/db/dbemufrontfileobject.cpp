@@ -30,6 +30,7 @@ DbEmuFrontFileObject::DbEmuFrontFileObject(QObject *parent)
     dbFile = new DbFile(this);
 }
 
+/* Throws EmuFrontException */
 EmuFrontObject* DbEmuFrontFileObject::recordToDataObject(const QSqlRecord *record)
 {
     int id = record->value(EmuFrontFileObject_Id).toInt();
@@ -38,7 +39,7 @@ EmuFrontObject* DbEmuFrontFileObject::recordToDataObject(const QSqlRecord *recor
     EmuFrontFile *f = 0;
     if (fileId > 0)
     {
-        EmuFrontObject *o = dbFile->getDataObject(fileId);
+        EmuFrontObject *o = dbFile->getDataObject(fileId); /* Throws EmuFrontException */
         f = dynamic_cast<EmuFrontFile*>(o);
     }
     EmuFrontObject *efo = createEmuFrontFileObject(id, name, f);

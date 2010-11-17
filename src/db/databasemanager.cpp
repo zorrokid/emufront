@@ -105,22 +105,24 @@ int DatabaseManager::countRows(QString tableName, QString columnName, int id) co
     return numEntries;
 }
 
+
+/* Throws EmuFrontException if filtered data was not found. */
 EmuFrontObject* DatabaseManager::getDataObject(int id)
 {
     filterById(id);
     return getFilteredDataObject();
 }
 
+/* Throws EmuFrontException if filtered data was not found. */
 EmuFrontObject* DatabaseManager::getDataObject(QString filter)
 {
-    qDebug() << "Filtering data object" << filter;
     QList<QString> filters;
     filters.append(filter);
     filterDataObjects(filters);
-    qDebug() << "...done filtering.";
     return getFilteredDataObject();
 }
 
+/* Throws EmuFrontException if filtered data was not found. */
 EmuFrontObject* DatabaseManager::getFilteredDataObject()
 {
     EmuFrontObject *plf = 0;

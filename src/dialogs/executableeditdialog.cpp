@@ -154,9 +154,12 @@ void ExecutableEditDialog::setSelectedSetup(const Setup *su)
     setupComBox->setSelected(su);
 }
 
-Setup* ExecutableEditDialog::getSelectedSetup() const
+Setup* ExecutableEditDialog::getSelectedSetup()
 {
-    EmuFrontObject *o = setupComBox->getSelected();
+    EmuFrontObject *o = 0;
+    try { o = setupComBox->getSelected(); }
+    catch(EmuFrontException &e){ QMessageBox::warning(this, "Exception", e.what()); }
+
     if (!o) return 0;
     Setup *ex = dynamic_cast<Setup*>(o);
     return ex;

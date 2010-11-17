@@ -31,13 +31,14 @@ DbFilePath::DbFilePath(QObject *parent) : DbQueryModelManager(parent)
     dbSetup = new DbSetup(this);
 }
 
+/* Throws EmuFrontException */
 EmuFrontObject* DbFilePath::recordToDataObject(const QSqlRecord *rec)
 {
     int id = rec->value(FilePath_Id).toInt();
     QString fpath = rec->value(FilePath_Name).toString();
     int setupId = rec->value(FilePath_SetupId).toInt();
     int fileType = rec->value(FilePath_FileTypeId).toInt();
-    Setup *sup = dynamic_cast<Setup*>(dbSetup->getDataObject(setupId));
+    Setup *sup = dynamic_cast<Setup*>(dbSetup->getDataObject(setupId)); /* Throws EmuFrontException */
        // TODO
     //int lastScanned = 0;
     return new FilePathObject(id, fpath, fileType, sup);

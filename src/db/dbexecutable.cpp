@@ -34,13 +34,15 @@ DbExecutable::DbExecutable(QObject *parent)
     tableName = DbExecutable::DB_TABLE_EXECUTABLE;
 }
 
+
+/* Throws EmuFrontException */
 EmuFrontObject* DbExecutable::recordToDataObject(const QSqlRecord* rec)
 {
     Executable *ex = 0;
     if (!rec) return ex;
     int id = rec->value(Executable_Id).toInt();
     int supid = rec->value(Executable_SetupId).toInt();
-    EmuFrontObject *ob = dbSetup->getDataObject(supid);
+    EmuFrontObject *ob = dbSetup->getDataObject(supid); /* Throws EmuFrontException */
     Setup *sup = dynamic_cast<Setup*>(ob);
     qDebug() << "Setup id " << sup->getId() << ", platform " << sup->getPlatform()->getName();
     QString name = rec->value(Executable_Name).toString();

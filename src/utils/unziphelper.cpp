@@ -33,6 +33,7 @@ UnzipHelper::UnzipHelper(QObject *parent) :
 {
 }
 
+/* Throws EmuFrontException */
 QMap<QString, EmuFrontObject*> UnzipHelper::listContents(const QString filePath, const FilePathObject *fp)
 {
     if (!fp->getSetup()){

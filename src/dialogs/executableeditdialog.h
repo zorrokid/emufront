@@ -46,7 +46,7 @@ private:
     void initWidgets();
     void layout();
     void setSelectedSetup(const Setup*);
-    Setup* getSelectedSetup() const;
+    Setup* getSelectedSetup();
     QLineEdit *nameEdit;
     QLineEdit *execEdit;
     QLineEdit *optEdit;

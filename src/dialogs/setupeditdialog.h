@@ -55,8 +55,8 @@ private:
     void layout();
     void setSelectedMediaType(const MediaType*);
     void setSelectedPlatform(const Platform*);
-    MediaType* getSelectedMediaType() const;
-    Platform* getSelectedPlatform() const;
+    MediaType* getSelectedMediaType();
+    Platform* getSelectedPlatform();
 };
 
 #endif // SETUPEDITDIALOG_H
