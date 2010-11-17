@@ -111,7 +111,9 @@ void DbObjectDialog::editObject()
         createEditDialog();
     }
     deleteCurrentObject();
-    dbObject = dbManager->getDataObjectFromModel(&index);
+    try {
+        dbObject = dbManager->getDataObjectFromModel(&index);
+    } catch (EmuFrontException &e) { errorMessage->showMessage(e.what()); }
     activateNameDialog();
     nameDialog->setDataObject(dbObject);
 }

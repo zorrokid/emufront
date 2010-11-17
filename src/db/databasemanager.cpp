@@ -138,7 +138,7 @@ EmuFrontObject* DatabaseManager::getFilteredDataObject()
     }
      return plf;
 }
-
+/* Throws EmuFrontException */
 EmuFrontObject* DatabaseManager::getDataObjectFromModel(QModelIndex *index)
 {
     if (!sqlTableModel) sqlTableModel = getDataModel();

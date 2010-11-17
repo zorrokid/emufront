@@ -71,11 +71,11 @@ void MediaImagePathMainDialog::beginScanFilePath()
             return;
         }
     FileUtil fileUtil(this);
-    EmuFrontObject *ob = dbManager->getDataObjectFromModel(&index);
-    if (!ob) return;
-    FilePathObject *fpo = dynamic_cast<FilePathObject*>(ob);
     try
     {
+        EmuFrontObject *ob = dbManager->getDataObjectFromModel(&index);
+        if (!ob) return;
+        FilePathObject *fpo = dynamic_cast<FilePathObject*>(ob);
         QStringList l;
         l << "*.zip"; // TODO set filters in a global constant class
 
