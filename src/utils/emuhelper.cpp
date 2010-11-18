@@ -63,8 +63,9 @@ void EmuHelper::launch(const Executable * ex, QList<MediaImageContainer *> micLi
     // for the moment, we'll wait for the process to be finished until we continue
     waitForFinished(-1);
 
-    delete ex;
-    qDeleteAll(micList);
+    // these will be deleted in calling function:
+    //delete ex;
+    //qDeleteAll(micList);
 }
 
 /* Throws EmuFrontException */
@@ -137,9 +138,11 @@ void EmuHelper::launch(const Executable * ex, QList<MediaImageContainer *> micLi
         }
     } catch (EmuFrontException e) {
         qDebug() << e.what();
+        throw e;
     }
-    delete ex;
-    qDeleteAll(micList);
+    // these will be deleted in calling function:
+    //delete ex;
+    //qDeleteAll(micList);delete ex;
     //qDeleteAll(miList); these objects are already deleted along with micList
 }
 

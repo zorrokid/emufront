@@ -32,8 +32,8 @@
 #include "utils/emuhelper.h"
 #include "dialogs/emufrontinputdialog.h"
 
-EmuLauncher::EmuLauncher(QWidget *parent, QString tmp) :
-    QWidget(parent), tmpDirPath(tmp)
+EmuLauncher::EmuLauncher(QErrorMessage *errorMessage, QWidget *parent, QString tmp) :
+    QWidget(parent), tmpDirPath(tmp), errorMessage(errorMessage)
 {
     dbPlatform = new DbPlatform(this);
     dbMediaType = new DbMediaType(this);
@@ -166,12 +166,9 @@ void EmuLauncher::launchEmu()
             throw EmuFrontException(tr("Failed creating Emulator object!"));
         }
 
-
         qDebug() << "File types; " << exe->getSetup()->getSupportedFileTypeExtensions().count();
 
         bool mame = exe->getSetup()->getSupportedFileTypeExtensions().isEmpty();
-
-
 
         if (mame && listMIndex.count() > 1) {
             throw EmuFrontException(tr("No supported file types configured for this emulator configuration. "
@@ -179,7 +176,6 @@ void EmuLauncher::launchEmu()
                 "Only one container can be selected without configuring supported file types."
             ));
         }
-
 
         // Now we have one or more media image containers and an emulator selected,
         // let's fetch the media image container data.
@@ -206,37 +202,53 @@ void EmuLauncher::launchEmu()
             emuHelper->launch(exe, mediaImageContainers);
             return;
         }
+        else {
+            // mediaImageContainers list contains all the selected media image containers and
+            // mediaImages list contains all the media images inside all the selected containers
 
-        // mediaImageContainers list contains all the selected media image containers and
-        // mediaImages list contains all the media images inside all the selected containers
+            QList<EmuFrontObject*> selectedImages;
+            if (mediaImages.count() < 1) {
+                throw EmuFrontException("No media images available!");
+            }
 
+            // check if command options have slots for nr media images > 1 e.g. "-diska $1 -diskb $2 ..."
+            QString opts = exe->getOptions();
+            QRegExp rx("(\\$\\d+)");
+            QStringList list;
+            int pos = 0;
+            while ((pos = rx.indexIn(opts, pos)) != -1) {
+                list << rx.cap(1);
+                pos += rx.matchedLength();
+            }
+            bool ok;
 
-        QList<EmuFrontObject*> selectedImages;
-        if (mediaImages.count() < 1) {
-            throw EmuFrontException("No media images available!");
-        }
-
-        // check if command options have slots for nr media images > 1 e.g. "-diska $1 -diskb $2 ..."
-        QString opts = exe->getOptions();
-        QRegExp rx("(\\$\\d+)");
-        QStringList list;
-        int pos = 0;
-        while ((pos = rx.indexIn(opts, pos)) != -1) {
-            list << rx.cap(1);
-            pos += rx.matchedLength();
-        }
-        bool ok;
-
-        if (list.count() > mediaImages.count()) {
-            throw EmuFrontException(tr("Select %1 media images for this emulator configuration").arg(list.count()));
-        }
-        if (list.count() > 1) {
-            // more than one placeholder for media image in the command line ($1, $2, ...)
-            int lim = list.count() == mediaImages.count() ? list.count() - 1 : list.count();
-            // user sets the order of media images
-            for(int i = 0; i < lim; i++) {
+            if (list.count() > mediaImages.count()) {
+                throw EmuFrontException(tr("Select %1 media images for this emulator configuration").arg(list.count()));
+            }
+            if (list.count() > 1) {
+                // more than one placeholder for media image in the command line ($1, $2, ...)
+                int lim = list.count() == mediaImages.count() ? list.count() - 1 : list.count();
+                // user sets the order of media images
+                for(int i = 0; i < lim; i++) {
+                    EmuFrontObject *efo = EmuFrontInputDialog::getItem(
+                            this, tr("Select image no. %1").arg(i+1), tr("Select"), mediaImages.values(), 0, false, &ok);
+                    if (!ok)  {
+                        throw EmuFrontException(tr("Boot image selection was canceled, aborting."));
+                    }
+                    selectedImages << efo;
+                    MediaImage *mi = dynamic_cast<MediaImage*>(efo);
+                    QString key = mi->getCheckSum();
+                    mediaImages.remove(key);
+                }
+                // there should be at least one media image left in mediaImages map...
+                /*if (mediaImages.count() == 1) {
+                selectedImages << mediaImages.values().first();
+            } ... this is added later-> */
+            }
+            else if (mediaImages.count() > 1) {
+                // show select boot image dialog
                 EmuFrontObject *efo = EmuFrontInputDialog::getItem(
-                        this, tr("Select image no. %1").arg(i+1), tr("Select"), mediaImages.values(), 0, false, &ok);
+                        this, tr("Select boot image"), tr("Select"), mediaImages.values(), 0, false, &ok);
                 if (!ok)  {
                     throw EmuFrontException(tr("Boot image selection was canceled, aborting."));
                 }
@@ -245,50 +257,33 @@ void EmuLauncher::launchEmu()
                 QString key = mi->getCheckSum();
                 mediaImages.remove(key);
             }
-            // there should be at least one media image left in mediaImages map...
-            /*if (mediaImages.count() == 1) {
-                selectedImages << mediaImages.values().first();
-            } ... this is added later-> */
-        }
-        else if (mediaImages.count() > 1) {
-            // show select boot image dialog
-            EmuFrontObject *efo = EmuFrontInputDialog::getItem(
-                    this, tr("Select boot image"), tr("Select"), mediaImages.values(), 0, false, &ok);
-            if (!ok)  {
-                throw EmuFrontException(tr("Boot image selection was canceled, aborting."));
+            else if (mediaImages.count() == 1) {
+                EmuFrontObject *efo = mediaImages.values().first();
+                selectedImages << efo;
+                MediaImage *mi = dynamic_cast<MediaImage*>(efo);
+                QString key = mi->getCheckSum();
+                mediaImages.remove(key);
             }
-            selectedImages << efo;
-            MediaImage *mi = dynamic_cast<MediaImage*>(efo);
-            QString key = mi->getCheckSum();
-            mediaImages.remove(key);
-        }
-        else if (mediaImages.count() == 1) {
-            EmuFrontObject *efo = mediaImages.values().first();
-            selectedImages << efo;
-            MediaImage *mi = dynamic_cast<MediaImage*>(efo);
-            QString key = mi->getCheckSum();
-            mediaImages.remove(key);
-        }
-        // in all the both cases the (ordered) list of media images will be passed to emuHelper
+            // in all the both cases the (ordered) list of media images will be passed to emuHelper
 
-        // wee also keep the rest of the mediaimages in the selected containers for reference!
-        foreach(EmuFrontObject *efo, mediaImages) {
-            selectedImages << efo;
+            // wee also keep the rest of the mediaimages in the selected containers for reference!
+            foreach(EmuFrontObject *efo, mediaImages) {
+                selectedImages << efo;
+            }
+
+            if (selectedImages.count() < 1)
+                throw EmuFrontException(tr("No media images selected"));
+
+            emuHelper->launch(exe, mediaImageContainers, selectedImages, list.count(), tmpDirPath);
         }
-
-        if (selectedImages.count() < 1)
-            throw EmuFrontException(tr("No media images selected"));
-
-        emuHelper->launch(exe, mediaImageContainers, selectedImages, list.count(), tmpDirPath);
-        micTable->clearSelection();
     } catch (EmuFrontException efe) {
-        if (exe) delete exe;
-        qDeleteAll(mediaImageContainers);
-        //qDeleteAll(mediaImages); these are already deleted along with containers
-        QMessageBox::information(this, tr("Launching emulator"),
-                                 efe.what(), QMessageBox::Ok);
-        return;
+        errorMessage->showMessage(efe.what());
     }
+
+    micTable->clearSelection();
+    if (exe) delete exe;
+    qDeleteAll(mediaImageContainers);
+    //qDeleteAll(mediaImages); these are already deleted along with containers
 }
 
 void EmuLauncher::processError(QProcess::ProcessError e)

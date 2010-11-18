@@ -50,7 +50,7 @@ MainWindow::MainWindow(bool reset)
     if (tmpDirFilePath.isEmpty())
         tmpDirFilePath = QDir::homePath();
     qDebug() << "Temporary dir is " << tmpDirFilePath;
-    launcher = new EmuLauncher(this, tmpDirFilePath);
+    launcher = new EmuLauncher(errorMessage, this, tmpDirFilePath);
     setCentralWidget(launcher);
     createActions();
     createMenus();

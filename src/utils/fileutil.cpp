@@ -77,6 +77,7 @@ int FileUtil::scanFilePath(FilePathObject *fp,
     QFileInfoList list = dir.entryInfoList();
     //qDebug() << "We have " << list.count() << " files to go through.";
     QList<MediaImageContainer*> containers;
+    try {
     progressDialog.setMinimum(0);
     progressDialog.setMaximum(list.size());
     for (int i = 0; i < list.size(); ++i)
@@ -126,6 +127,11 @@ int FileUtil::scanFilePath(FilePathObject *fp,
         qDeleteAll(containers);
         containers.clear();
 
+    }
+    } catch (EmuFrontException &e) {
+        qDebug() << "Got exception " << e.what() << ", aborting & deleting created data objects.";
+        qDeleteAll(containers);
+        throw e;
     }
     //qDebug() << "Done scanning files!";
     return count;

@@ -25,6 +25,7 @@
 
 class QTableView;
 class QPushButton;
+class QErrorMessage;
 class DbMediaType;
 class DbPlatform;
 class DbMediaImageContainer;
@@ -39,7 +40,7 @@ class EmuLauncher : public QWidget
 {
 Q_OBJECT
 public:
-    EmuLauncher(QWidget *parent = 0, QString tmp = ".");
+    EmuLauncher(QErrorMessage *, QWidget *parent = 0, QString tmp = ".");
     ~EmuLauncher();
     void updateData();
     void setTmpDirPath(QString);
@@ -72,6 +73,7 @@ private:
     void launch(const Executable*, const MediaImageContainer*);
     void cleanTmp();
     QString tmpDirPath;
+    QErrorMessage *errorMessage;
 };
 
 #endif // EMULAUNCHER_H

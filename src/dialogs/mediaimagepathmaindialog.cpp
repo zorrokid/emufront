@@ -71,11 +71,13 @@ void MediaImagePathMainDialog::beginScanFilePath()
             return;
         }
     FileUtil fileUtil(this);
+    FilePathObject *fpo = 0;
     try
     {
         EmuFrontObject *ob = dbManager->getDataObjectFromModel(&index);
         if (!ob) return;
-        FilePathObject *fpo = dynamic_cast<FilePathObject*>(ob);
+        fpo = dynamic_cast<FilePathObject*>(ob);
+        if (!fpo) return;
         QStringList l;
         l << "*.zip"; // TODO set filters in a global constant class
 
@@ -92,12 +94,13 @@ void MediaImagePathMainDialog::beginScanFilePath()
         QMessageBox msgBox;
         msgBox.setText(tr("Scanned %1 files to database.").arg(count));
         msgBox.exec();
-        delete fpo;
     }
     catch (EmuFrontException s)
     {
         errorMessage->showMessage( s.what() );
-   }
+    }
+    delete fpo;
+    fpo = 0;
 }
 
 EmuFrontObject* MediaImagePathMainDialog::createObject()
