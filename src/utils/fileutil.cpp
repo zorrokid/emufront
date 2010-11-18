@@ -78,56 +78,56 @@ int FileUtil::scanFilePath(FilePathObject *fp,
     //qDebug() << "We have " << list.count() << " files to go through.";
     QList<MediaImageContainer*> containers;
     try {
-    progressDialog.setMinimum(0);
-    progressDialog.setMaximum(list.size());
-    for (int i = 0; i < list.size(); ++i)
-    {
-        progressDialog.setValue(i);
-        if (progressDialog.wasCanceled())
-            break;
-        QFileInfo fileInfo = list.at(i);
-        //qDebug() << QString("%1 %2").arg(fileInfo.size(), 10).arg(fileInfo.absoluteFilePath());
-
-        //... and collect the contents of each archive
-        QMap<QString, EmuFrontObject*> files = unzipHelper->listContents(fileInfo.absoluteFilePath(), fp);
-
-        if (files.count() > 0)
+        progressDialog.setMinimum(0);
+        progressDialog.setMaximum(list.size());
+        for (int i = 0; i < list.size(); ++i)
         {
-            // read crc32 checksum for media image container
-            quint32 crc = readCrc32(fileInfo.absoluteFilePath());
-            FilePathObject *fpo = new FilePathObject(*fp);
-            MediaImageContainer *con = new MediaImageContainer (
-                    fileInfo.fileName(),
-                    QString("%1").arg(crc, 0, 16),
-                    fileInfo.size(),
-                    files,
-                    fpo // we need a copy since MediaImageContainers are deleted and the original filepath object would get deleted also.
-                );
-            containers.append(con);
-            ++count;
-            //qDebug() << "We have " << containers.count() << " containers.";
+            progressDialog.setValue(i);
+            if (progressDialog.wasCanceled())
+                break;
+            QFileInfo fileInfo = list.at(i);
+            //qDebug() << QString("%1 %2").arg(fileInfo.size(), 10).arg(fileInfo.absoluteFilePath());
 
-            if (containers.count() >= MIC_BUFFER_SIZE)  {
-                //qDebug() << "We have " << containers.count() << " containers .. storing to db.";
-                dbMic->storeContainers(containers, fp);
-                qDeleteAll(containers);
-                containers.clear();
-                //qDebug() << "containers now: " << containers.count();
+            //... and collect the contents of each archive
+            QMap<QString, EmuFrontObject*> files = unzipHelper->listContents(fileInfo.absoluteFilePath(), fp);
+
+            if (files.count() > 0)
+            {
+                // read crc32 checksum for media image container
+                quint32 crc = readCrc32(fileInfo.absoluteFilePath());
+                FilePathObject *fpo = new FilePathObject(*fp);
+                MediaImageContainer *con = new MediaImageContainer (
+                        fileInfo.fileName(),
+                        QString("%1").arg(crc, 0, 16),
+                        fileInfo.size(),
+                        files,
+                        fpo // we need a copy since MediaImageContainers are deleted and the original filepath object would get deleted also.
+                        );
+                containers.append(con);
+                ++count;
+                //qDebug() << "We have " << containers.count() << " containers.";
+
+                if (containers.count() >= MIC_BUFFER_SIZE)  {
+                    //qDebug() << "We have " << containers.count() << " containers .. storing to db.";
+                    dbMic->storeContainers(containers, fp);
+                    qDeleteAll(containers);
+                    containers.clear();
+                    //qDebug() << "containers now: " << containers.count();
+                }
+                //qDebug() << "We have " << containers.size() << " containers.";
+            } // files.count() > 0
+            else {
+                qDebug() << "No files from container " << fileInfo.absoluteFilePath();
             }
-            //qDebug() << "We have " << containers.size() << " containers.";
-        } // files.count() > 0
-        else {
-            qDebug() << "No files from container " << fileInfo.absoluteFilePath();
         }
-    }
-    progressDialog.setValue(list.size());
-    if (containers.count() > 0) {
-        //qDebug() << "Storing the rest " << containers.count() << " containers.";
-        dbMic->storeContainers(containers, fp);
-        qDeleteAll(containers);
-        containers.clear();
+        progressDialog.setValue(list.size());
+        if (containers.count() > 0) {
+            //qDebug() << "Storing the rest " << containers.count() << " containers.";
+            dbMic->storeContainers(containers, fp);
+            qDeleteAll(containers);
+            containers.clear();
 
-    }
+        }
     } catch (EmuFrontException &e) {
         qDebug() << "Got exception " << e.what() << ", aborting & deleting created data objects.";
         qDeleteAll(containers);

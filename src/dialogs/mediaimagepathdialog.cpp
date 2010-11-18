@@ -108,7 +108,7 @@ Setup* MediaImagePathDialog::getSelectedSetup()
         ob = setupComBox->getSelected();
     }
     catch(EmuFrontException &e){
-        QMessageBox::warning(this, "Exception", e.what());
+        errorMessage->showMessage(e.what());
     }
 
     if (!ob) return 0;

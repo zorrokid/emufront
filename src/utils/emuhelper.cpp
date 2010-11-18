@@ -88,7 +88,7 @@ void EmuHelper::launch(const Executable * ex, QList<MediaImageContainer *> micLi
         if (!fp.endsWith('/')) fp.append("/");
         fp.append(mic->getName());
         qDebug() << "Extracting " << fp;
-        int ret = unzipHelper->extractAll(fp, tmp);
+        int ret = unzipHelper->extractAll(fp, tmp); // throws EmuFrontException
         if (ret) {
             qDebug() << "Failed unzipping " << fp << ".";
         }

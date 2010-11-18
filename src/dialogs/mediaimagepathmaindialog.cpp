@@ -74,7 +74,7 @@ void MediaImagePathMainDialog::beginScanFilePath()
     FilePathObject *fpo = 0;
     try
     {
-        EmuFrontObject *ob = dbManager->getDataObjectFromModel(&index);
+        EmuFrontObject *ob = dbManager->getDataObjectFromModel(&index); // throws EmuFrontException
         if (!ob) return;
         fpo = dynamic_cast<FilePathObject*>(ob);
         if (!fpo) return;

@@ -148,7 +148,7 @@ Platform* SetupEditDialog::getSelectedPlatform()
     EmuFrontObject *o = 0;
     try { o = platformComBox->getSelected();  }
     catch(EmuFrontException &e){
-        QMessageBox::warning(this, "Exception", e.what());
+        errorMessage->showMessage(e.what());
     }
 
     if (!o) return 0;
@@ -160,7 +160,7 @@ MediaType* SetupEditDialog::getSelectedMediaType()
 {
     EmuFrontObject *o = 0;
     try { o = mediaTypeComBox->getSelected(); }
-    catch(EmuFrontException &e){ QMessageBox::warning(this, "Exception", e.what()); }
+    catch(EmuFrontException &e){ errorMessage->showMessage(e.what()); }
     if (!o) return 0;
     MediaType *mt = dynamic_cast<MediaType*>(o);
     return mt;

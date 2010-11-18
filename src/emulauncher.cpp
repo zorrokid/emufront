@@ -113,7 +113,7 @@ void EmuLauncher::updateMediaImageContainers()
                     : -1;
     }
     catch(EmuFrontException &e){
-        QMessageBox::warning(this, "Exception", e.what());
+        errorMessage->showMessage(e.what());
         return;
     }
 
@@ -182,7 +182,7 @@ void EmuLauncher::launchEmu()
 
         foreach(QModelIndex mind, listMIndex) {
             if (!mind.isValid()) continue;
-            EmuFrontObject *obImg = dbMic->getDataObjectFromModel(&mind);
+            EmuFrontObject *obImg = dbMic->getDataObjectFromModel(&mind); // throws EmuFrontException
             if (!obImg) {
                 qDebug() << "Failed creating media image container at row " << mind.row();
                 continue;

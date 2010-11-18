@@ -25,15 +25,15 @@ DbTableModelManager::DbTableModelManager(QObject *parent)
 {
 }
 
+/* Throws EmuFrontException */
 void DbTableModelManager::filterById(int id)
 {
     return filterDataObjects(QString("id = %1").arg(id));
 }
 
-/* Throws EmuFrontException */
 void DbTableModelManager::filterDataObjects(QString filter)
 {
-    if (!sqlTableModel) sqlTableModel = getDataModel(); // throw EmuFrontException("Data model not available!");
+    if (!sqlTableModel) sqlTableModel = getDataModel();
     QSqlTableModel *tmodel = dynamic_cast<QSqlTableModel*>(sqlTableModel);
     tmodel->setFilter(filter);
     tmodel->select();

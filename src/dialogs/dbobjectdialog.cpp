@@ -112,7 +112,7 @@ void DbObjectDialog::editObject()
     }
     deleteCurrentObject();
     try {
-        dbObject = dbManager->getDataObjectFromModel(&index);
+        dbObject = dbManager->getDataObjectFromModel(&index); // throws EmuFrontException
     } catch (EmuFrontException &e) { errorMessage->showMessage(e.what()); }
     activateNameDialog();
     nameDialog->setDataObject(dbObject);
@@ -125,7 +125,7 @@ bool DbObjectDialog::deleteItem()
     if (!index.isValid()) return false;
     try
     {
-        EmuFrontObject *ob = dbManager->getDataObjectFromModel(&index);
+        EmuFrontObject *ob = dbManager->getDataObjectFromModel(&index); // throws EmuFrontException
 
         qDebug() << "Trying to delete " << ob->getName();
 

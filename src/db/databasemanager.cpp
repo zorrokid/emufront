@@ -119,7 +119,7 @@ EmuFrontObject* DatabaseManager::getDataObject(QString filter)
     QList<QString> filters;
     filters.append(filter);
     filterDataObjects(filters);
-    return getFilteredDataObject();
+    return getFilteredDataObject(); // throws EmuFrontException
 }
 
 /* Throws EmuFrontException if filtered data was not found. */
