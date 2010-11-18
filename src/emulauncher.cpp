@@ -104,18 +104,20 @@ void EmuLauncher::updateMediaImageContainers()
 {
     qDebug() << "updateMediaImageContainers slot";
     int mtid, plfid = -1;
+    MediaType *mt = 0;
+    Platform *plf = 0;
     try {
-        mtid = mediaTypeSelectBox->getSelected()
-                   ? mediaTypeSelectBox->getSelected()->getId()
-                   : -1;
-        plfid = platformSelectBox->getSelected()
-                    ? platformSelectBox->getSelected()->getId()
-                    : -1;
+        mt = dynamic_cast<MediaType*>(mediaTypeSelectBox->getSelected());
+        plf = dynamic_cast<Platform*>(platformSelectBox->getSelected());
     }
     catch(EmuFrontException &e){
         errorMessage->showMessage(e.what());
         return;
     }
+    mtid = mt ? mt->getId() : -1;
+    plfid = plf ? plf->getId() : -1;
+    if (mt) delete mt;
+    if (plf) delete plf;
 
     if (!dbMic) dbMic = new DbMediaImageContainer(this);
     dbMic->filter(mtid, plfid);

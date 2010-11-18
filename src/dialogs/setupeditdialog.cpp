@@ -143,6 +143,7 @@ void SetupEditDialog::setSelectedMediaType(const MediaType *plf)
     mediaTypeComBox->setSelected(plf);
 }
 
+/* Returns a pointer to an object which must be deleted by calling code */
 Platform* SetupEditDialog::getSelectedPlatform()
 {
     EmuFrontObject *o = 0;
@@ -156,6 +157,7 @@ Platform* SetupEditDialog::getSelectedPlatform()
     return plf;
 }
 
+/* Returns a pointer to an object which must be deleted by calling code */
 MediaType* SetupEditDialog::getSelectedMediaType()
 {
     EmuFrontObject *o = 0;

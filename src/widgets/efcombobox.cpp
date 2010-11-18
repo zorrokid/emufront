@@ -44,7 +44,12 @@ void EFComboBox::updateDataModel(bool reset)
         setModel(model);
 }
 
-/* Throws EmuFrontException */
+/*
+    Returns a pointer to EmuFrontObject which should be deleted
+    later by calling code!
+
+    Throws EmuFrontException
+*/
 EmuFrontObject* EFComboBox::getSelected() const
 {
     EmuFrontObject *efo = 0;

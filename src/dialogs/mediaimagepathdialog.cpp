@@ -100,6 +100,7 @@ void MediaImagePathDialog::setSelectedSetup(const Setup *sup)
     setupComBox->setSelected(sup);
 }
 
+/* Returns a pointer to Setup object which must be deleted by calling code */
 Setup* MediaImagePathDialog::getSelectedSetup()
 {
     EmuFrontObject *ob = 0;

@@ -154,6 +154,7 @@ void ExecutableEditDialog::setSelectedSetup(const Setup *su)
     setupComBox->setSelected(su);
 }
 
+/* Returns a pointer to a Setup object which must be deleted by calling code! */
 Setup* ExecutableEditDialog::getSelectedSetup()
 {
     EmuFrontObject *o = 0;
