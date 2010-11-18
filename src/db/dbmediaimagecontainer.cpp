@@ -204,6 +204,8 @@ int DbMediaImageContainer::getMediaImageContainer(QString checksum) const
 /**
 * Stores media image containers, including the media images included
 * to database.
+*
+* Throws EmuFrontException
 */
 void DbMediaImageContainer::storeContainers(QList<MediaImageContainer *> lst, FilePathObject *fpo)
 {

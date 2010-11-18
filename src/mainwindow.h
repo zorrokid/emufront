@@ -34,6 +34,7 @@ class DatabaseManager;
 class EmuFrontDialog;
 class EmuLauncher;
 class DatFileUtil;
+class QErrorMessage;
 
 class MainWindow : public QMainWindow
 {
@@ -94,6 +95,7 @@ private:
     DatabaseManager *dbManager;
     EmuLauncher *launcher;
     QString tmpDirFilePath;
+    QErrorMessage *errorMessage;
 };
 
 #endif

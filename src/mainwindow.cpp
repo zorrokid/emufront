@@ -44,6 +44,7 @@ QString MainWindow::aboutTitle = tr("About EmuFront");
 MainWindow::MainWindow(bool reset)
 {
     if (!testDB(reset)) close();
+    errorMessage = new QErrorMessage(this);
     setWindowTitle("EmuFront");
     tmpDirFilePath = DbConfig::getTmpDir();
     if (tmpDirFilePath.isEmpty())
@@ -193,8 +194,7 @@ void MainWindow::resetDb()
         createDB();
     }
     catch (EmuFrontException e) {
-        qDebug() << e.what();
-        QMessageBox::critical(this, "Exception", e.what());
+        errorMessage->showMessage(e.what());
     }
 }
 
@@ -302,12 +302,11 @@ bool MainWindow::testDB(bool reset)
     }
     catch (EmuFrontException e) {
         qDebug() << e.what();
-        QMessageBox::critical(this, "Exception", e.what());
+        errorMessage->showMessage(e.what());
         return false;
     }
 }
 
-/* Throws EmuFrontException */
 void MainWindow::createDB() const
 {
     try
@@ -318,7 +317,7 @@ void MainWindow::createDB() const
     catch (QString str) {
         QString msg(tr("Exception while trying to create"
                        " EmuFront database: %s").arg(str));
-        throw EmuFrontException(msg);
+        errorMessage->showMessage(msg);
     }
 }
 
