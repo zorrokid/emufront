@@ -79,6 +79,7 @@ bool DbExecutable::updateDataObjectToModel(const EmuFrontObject* ob)
     return ret;
 }
 
+/* Returns id of inserted data item after succesful insert, -1 if insert failed */
 int DbExecutable::insertDataObjectToModel(const EmuFrontObject* ob)
 {
     const Executable *ex = dynamic_cast<const Executable*>(ob);

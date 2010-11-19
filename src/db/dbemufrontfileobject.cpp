@@ -69,6 +69,7 @@ bool DbEmuFrontFileObject::updateDataObjectToModel(const EmuFrontObject *ob)
     return ret;
 }
 
+/* Returns id of inserted data item after succesful insert, -1 if insert failed */
 int DbEmuFrontFileObject::insertDataObjectToModel(const EmuFrontObject *ob)
 {
     const EmuFrontFileObject *plf = dynamic_cast<const EmuFrontFileObject *>(ob);

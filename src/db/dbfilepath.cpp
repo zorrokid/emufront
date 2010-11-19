@@ -64,6 +64,7 @@ bool DbFilePath::updateDataObjectToModel(const EmuFrontObject *ob)
     return ret;
 }
 
+/* Returns id of inserted data item after succesful insert, -1 if insert failed */
 int DbFilePath::insertDataObjectToModel(const EmuFrontObject *ob)
 {
     const FilePathObject *fpo = dynamic_cast<const FilePathObject*>(ob);
