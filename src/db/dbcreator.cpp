@@ -27,7 +27,7 @@
 #include <QDebug>
 #include <exception>
 #include "dbcreator.h"
-
+#include "../exceptions/emufrontexception.h"
 
 using namespace std;
 
@@ -239,7 +239,7 @@ bool DbCreator::createDB()
     catch (QString tbl)
     {
         QString err = query.lastError().text();
-        throw QString("Couldn't CREATE '%1'!").arg(tbl).append(err);
+        throw EmuFrontException(QString("Couldn't CREATE '%1'!").arg(tbl).append(err));
     }
     return ret;
 }
