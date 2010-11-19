@@ -114,7 +114,7 @@ QString DbFilePath::constructSelect(QString where) const
 {
     return QString("SELECT filepath.id AS FilePathId, "
             "filepath.name AS Name, "
-            "filepath.lastscanned AS LastScanned, "
+            "datetime(filepath.lastscanned, 'unixepoch') AS LastScanned, "
             "setup.id AS SetupId, "
             "platform.name || ' ' || mediatype.name AS SetupName, "
             "filepath.filetypeid "
