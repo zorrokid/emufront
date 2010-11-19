@@ -92,9 +92,14 @@ void MediaImagePathMainDialog::beginScanFilePath()
         setUIEnabled(false);
         int count = fileUtil.scanFilePath(fpo, l, dbMediaImageContainer, progressDialog);
         progressDialog.hide();
+
         QMessageBox msgBox;
         msgBox.setText(tr("Scanned %1 files to database.").arg(count));
         msgBox.exec();
+        DbFilePath *dbfp = dynamic_cast<DbFilePath*>(dbManager);
+        if (!(dbfp && dbfp->setScanned(fpo)))
+            throw EmuFrontException(tr("Failed updating the last scanned time stamp for selected file path!"));
+        else updateList();
     }
     catch (EmuFrontException s)
     {

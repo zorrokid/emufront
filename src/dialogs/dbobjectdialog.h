@@ -46,12 +46,12 @@ private slots:
 	void listObjectClicked(const QModelIndex &);
     void updateData();
     void updateReject();
-    void updateList() const;
     void testSlot();
     void enableUi();
 
 protected:
     // implementation specific, deletes current data object from memory
+    void updateList() const;
     virtual void deleteCurrentObject() = 0;
     virtual void cleanUp() = 0;
     virtual void initEditDialog() = 0;

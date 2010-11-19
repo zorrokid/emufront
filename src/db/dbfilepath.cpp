@@ -64,6 +64,17 @@ bool DbFilePath::updateDataObjectToModel(const EmuFrontObject *ob)
     return ret;
 }
 
+bool DbFilePath::setScanned(const EmuFrontObject *ob)
+{
+    QSqlQuery q;
+    q.prepare("UPDATE filepath SET lastscanned=:lastscanned WHERE id=:id");
+    q.bindValue(":lastscanned", getCurrentTimeStamp());
+    q.bindValue(":id", ob->getId());
+    bool ret = q.exec();
+    if (ret) resetModel();
+    return ret;
+}
+
 /* Returns id of inserted data item after succesful insert, -1 if insert failed */
 int DbFilePath::insertDataObjectToModel(const EmuFrontObject *ob)
 {

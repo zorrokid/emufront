@@ -31,6 +31,7 @@ public:
     virtual bool updateDataObjectToModel(const EmuFrontObject*);
     int insertDataObjectToModel(const EmuFrontObject*);
     bool deleteDataObjectFromModel(QModelIndex*);
+    bool setScanned(const EmuFrontObject *ob);
     enum { FilePath_Id = 0,
            FilePath_Name,
            FilePath_LastScanned,
