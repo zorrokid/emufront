@@ -1,3 +1,17 @@
+emufront (0.1.7) unstable; urgency=low
+
+  * Database file renamed to 'emufront.db.sqlite'
+  * Checks the database model version for compatibility
+  * Added menu option for resetting the database
+  * Bug fix: dialogs remained disabled
+  * Bug fix: some dialogs crashed when used the second time
+  * Enchanced exception handling
+  * Media image path configuration dialog is now disabled while scanning files
+  * The 'last scanned' time stamp is updated for media image paths after
+    scanning
+    
+ -- Mikko Keinänen <mikko.keinanen@gmail.com>  Fri, 19 Oct 2010 22:52:00 +0200
+
 emufront (0.1.6) unstable; urgency=low
 
   * UI fix: Config menu order more logical.
