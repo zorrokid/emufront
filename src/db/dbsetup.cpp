@@ -79,6 +79,7 @@ QString DbSetup::supportedExtensionsToDb(QStringList list)
     return list.isEmpty() ? "" : list.join(FILE_TYPE_EXTENSION_SEPARATOR);
 }
 
+/* Returns id of inserted data item after succesful insert, -1 if insert failed */
 int DbSetup::insertDataObjectToModel(const EmuFrontObject *ob)
 {
     qDebug() << "Inserting setup to database...";
