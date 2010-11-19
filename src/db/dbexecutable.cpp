@@ -73,6 +73,7 @@ bool DbExecutable::updateDataObjectToModel(const EmuFrontObject* ob)
     q.bindValue(":type", ex->getType());
     q.bindValue(":id", ex->getId());
     ret = q.exec();
+    if (ret) resetModel();
     if (!ret)
         qDebug() << q.lastError().text();
     return ret;

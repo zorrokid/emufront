@@ -69,6 +69,7 @@ bool DbSetup::updateDataObjectToModel(const EmuFrontObject *ob)
     query.bindValue(":filetypeextensions", supportedExtensionsToDb(fpo->getSupportedFileTypeExtensions()));
     query.bindValue(":id", fpo->getId());
     ret = query.exec();
+    if (ret) resetModel();
     if (!ret) qDebug() << query.lastError().text() << query.executedQuery();
     return ret;
 }
