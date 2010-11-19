@@ -67,6 +67,7 @@ protected:
     QTableView *objectList;
     QList<int> hiddenColumns;
     void hideColumns();
+    void setUIEnabled(bool);
 
 private:
     bool deleteItem();
@@ -77,7 +78,6 @@ private:
     void activateNameDialog(bool updateData = true);
     bool confirmDelete(QString name, int numRefs);
     void setButtonsEnabled(bool);
-    void setUIEnabled(bool);
     void layout();
     void disableSelection();
     void createEditDialog();

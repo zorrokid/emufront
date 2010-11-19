@@ -89,6 +89,7 @@ void MediaImagePathMainDialog::beginScanFilePath()
         progressDialog.setWindowModality(Qt::WindowModal);
         progressDialog.show();
 
+        setUIEnabled(false);
         int count = fileUtil.scanFilePath(fpo, l, dbMediaImageContainer, progressDialog);
         progressDialog.hide();
         QMessageBox msgBox;
@@ -99,6 +100,7 @@ void MediaImagePathMainDialog::beginScanFilePath()
     {
         errorMessage->showMessage( s.what() );
     }
+    setUIEnabled(true);
     delete fpo;
     fpo = 0;
 }
