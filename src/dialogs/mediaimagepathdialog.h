@@ -46,6 +46,9 @@ protected slots:
     virtual void acceptChanges();
     //void browseFilePath();
 
+protected:
+    virtual void clear();
+
 private:
     SetupComboBox *setupComBox;
     DbSetup *dbSetup;

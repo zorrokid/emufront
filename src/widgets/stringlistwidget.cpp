@@ -96,3 +96,8 @@ void StringListWidget::setItems(QStringList list)
     foreach(QString s, list)
         if (!s.trimmed().isEmpty()) stringList->addItem(s);
 }
+
+void StringListWidget::clear()
+{
+    stringList->clear();
+}

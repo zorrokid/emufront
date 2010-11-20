@@ -97,3 +97,8 @@ void NameDialog::setDataObject(EmuFrontObject *ob)
     // we'll just refresh the name dialog pointer to a new object
     efObject = ob;
 }
+
+void NameDialog::clear()
+{
+    nameEdit->clear();
+}

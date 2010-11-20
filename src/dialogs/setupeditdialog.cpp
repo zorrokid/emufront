@@ -173,3 +173,10 @@ void SetupEditDialog::updateData()
     platformComBox->updateDataModel();
     mediaTypeComBox->updateDataModel();
 }
+
+void SetupEditDialog::clear()
+{
+    platformComBox->setCurrentIndex(-1);
+    mediaTypeComBox->setCurrentIndex(-1);
+    supportedFileTypesList->clear();
+}

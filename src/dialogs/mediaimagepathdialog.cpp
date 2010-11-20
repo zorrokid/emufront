@@ -156,3 +156,9 @@ void MediaImagePathDialog::updateData()
 {
     setupComBox->updateDataModel();
 }
+
+void MediaImagePathDialog::clear()
+{
+    BrowseFilePathDialog::clear();
+    setupComBox->setCurrentIndex(-1);
+}

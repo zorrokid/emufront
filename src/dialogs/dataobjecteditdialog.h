@@ -41,6 +41,7 @@ protected:
     QDialogButtonBox *buttonBox;
     void setSelected(QComboBox*, const EmuFrontObject*, int idIndex);
     virtual void closeEvent(QCloseEvent *);
+    virtual void clear() = 0;
 
 signals:
     void updateRejected();

@@ -42,6 +42,7 @@ protected slots:
 
 protected:
     virtual void setDataObject(QString name) =0;
+    virtual void clear();
     QLabel *nameLabel;
 	QLineEdit *nameEdit;
 

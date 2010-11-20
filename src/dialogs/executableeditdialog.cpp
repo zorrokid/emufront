@@ -138,6 +138,7 @@ void ExecutableEditDialog::setDataObject(EmuFrontObject *ob)
         qDebug("No executable");
         return;
     }
+    clear();
     if (!ex->getSetup()) {
         qDebug() << "No setup";
         return;
@@ -147,6 +148,14 @@ void ExecutableEditDialog::setDataObject(EmuFrontObject *ob)
     nameEdit->setText(ex->getName());
     execEdit->setText(ex->getExecutable());
     optEdit->setText(ex->getOptions());
+}
+
+void ExecutableEditDialog::clear()
+{
+    nameEdit->clear();
+    execEdit->clear();
+    optEdit->clear();
+    setupComBox->setCurrentIndex(-1);
 }
 
 void ExecutableEditDialog::setSelectedSetup(const Setup *su)

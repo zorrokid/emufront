@@ -41,6 +41,7 @@ protected slots:
 protected:
     void connectSignals();
     void initWidgets();
+    virtual void clear();
     QLabel *filePathLabel;
     QPushButton *filePathButton;
 };

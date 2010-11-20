@@ -32,6 +32,7 @@ public:
     explicit StringListWidget(QWidget *parent = 0, bool sort = true, int sortIndex = 0);
     QStringList getItems();
     void setItems(QStringList);
+    void clear();
 
 signals:
     void stringListUpdated();

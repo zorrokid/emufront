@@ -52,3 +52,8 @@ void BrowseFilePathDialog::browseFilePath()
         if (d.path() != startPath) emit filePathUpdated();
     }
 }
+
+void BrowseFilePathDialog::clear()
+{
+    filePathLabel->clear();
+}

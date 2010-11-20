@@ -39,6 +39,9 @@ public:
 protected slots:
     virtual void acceptChanges();
 
+protected:
+    virtual void clear();
+
 private:
     DbExecutable *dbExecutable;
     DbSetup *dbSetup;
