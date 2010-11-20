@@ -133,8 +133,6 @@ void EmuLauncher::updateMediaImageContainers()
     micTable->hideColumn(DbMediaImageContainer::MIC_MediaTypeName);
     micTable->hideColumn(DbMediaImageContainer::MIC_MediaTypeId);
     micTable->resizeColumnsToContents();
-    platformSelectBox->updateDataModel();
-    mediaTypeSelectBox->updateDataModel();
     execSelectBox->updateToSetup(plfid, mtid);
 }
 

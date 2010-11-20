@@ -28,7 +28,7 @@ class EFComboBox : public QComboBox
 public:
     EFComboBox(DatabaseManager *dbMan, QWidget *parent = 0);
     ~EFComboBox();
-    EmuFrontObject* getSelected() const;
+    EmuFrontObject* getSelected();
     // This will replace DataObjectEditDialog::setSelected!
     void setSelected(const EmuFrontObject*);
     // reset sets the data model to orinal, non filtered setting

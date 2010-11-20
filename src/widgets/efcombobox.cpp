@@ -50,28 +50,26 @@ void EFComboBox::updateDataModel(bool reset)
 
     Throws EmuFrontException
 */
-EmuFrontObject* EFComboBox::getSelected() const
+EmuFrontObject* EFComboBox::getSelected()
 {
     EmuFrontObject *efo = 0;
     int index = currentIndex();
-    qDebug() << "Selected index " << index << ".";
     if (index < 0)
         return 0;
     QSqlQueryModel *qmodel
         = dynamic_cast<QSqlQueryModel*>(model());
     if (!qmodel) {
-        qDebug() << "No data model available!";
-        return 0;
+        throw EmuFrontException(tr("No data model available!"));
     }
     QSqlRecord rec = qmodel->record(index);
     if (rec.isEmpty()) {
-        qDebug() << "No record available!";
-        return efo;
+        throw EmuFrontException(tr("No data available for selected item!"));
     }
-    qDebug() << "Fetching a data object with id "
-        << rec.value(dataModelIndex_id).toInt();
-    EmuFrontObject *o
-        = dbManager->getDataObject(rec.value(dataModelIndex_id).toInt()); /* Throws EmuFrontException */
+    int id = rec.value(dataModelIndex_id).toInt();
+    EmuFrontObject *o = dbManager->getDataObject(id); /* Throws EmuFrontException */
+    dbManager->resetModel();
+    setCurrentIndex(index);
+    if (!o) throw EmuFrontException(tr("Failed creating selected data object!"));
     return o;
 }
 

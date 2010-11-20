@@ -267,7 +267,7 @@ void MainWindow::updateData()
 
 void MainWindow::about()
 {
-    QMessageBox::about(this, aboutTitle, aboutStr );
+    QMessageBox::about(this, aboutTitle, aboutStr);
 }
 
 bool MainWindow::testDB(bool reset)
