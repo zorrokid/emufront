@@ -1,3 +1,12 @@
+emufront (0.1.8) unstable; urgency=low
+
+  * Fixed a bug in the edit dialog fields: the fields were not cleared 
+    if an object was first edited or added and then add dialog was started.
+  * Fixed bug in main window: selected platform and media types remain selected 
+    after update button is pressed.
+    
+ -- Mikko Keinänen <mikko.keinanen@gmail.com>  Fri, 20 Nov 2010 23:16:00 +0200
+
 emufront (0.1.7) unstable; urgency=low
 
   * Database file renamed to 'emufront.db.sqlite'
@@ -10,7 +19,7 @@ emufront (0.1.7) unstable; urgency=low
   * The 'last scanned' time stamp is updated for media image paths after
     scanning
     
- -- Mikko Keinänen <mikko.keinanen@gmail.com>  Fri, 19 Oct 2010 22:52:00 +0200
+ -- Mikko Keinänen <mikko.keinanen@gmail.com>  Fri, 19 Nov 2010 22:52:00 +0200
 
 emufront (0.1.6) unstable; urgency=low
 
@@ -19,16 +28,16 @@ emufront (0.1.6) unstable; urgency=low
   * UI update: Label and tooltip to set up configuration editor.
   * UI update: Added a confirmation dialog to file paths scanning.
 
- -- Mikko Keinänen <mikko.keinanen@gmail.com>  Tue, 16 Oct 2010 00:18:00 +0200
+ -- Mikko Keinänen <mikko.keinanen@gmail.com>  Tue, 16 Nov 2010 00:18:00 +0200
 
 emufront (0.1.5) unstable; urgency=low
 
   * Bug fixed: files were not removed from temporary file directory.
 
- -- Mikko Keinänen <mikko.keinanen@gmail.com>  Sun, 14 Oct 2010 23:22:21 +0200
+ -- Mikko Keinänen <mikko.keinanen@gmail.com>  Sun, 14 Nov 2010 23:22:21 +0200
  
 emufront (0.1.4) unstable; urgency=low
 
   * Initial Official Release.
 
- -- Mikko Keinänen <mikko.keinanen@gmail.com>  Thu, 13 Oct 2010 22:30:31 +0200
+ -- Mikko Keinänen <mikko.keinanen@gmail.com>  Thu, 13 Nov 2010 22:30:31 +0200

@@ -49,7 +49,7 @@ EmuFrontObject& EmuFrontObject::operator =(const EmuFrontObject &ob)
 
 bool EmuFrontObject::operator ==(const EmuFrontObject &sup)
 {
-    return (id >= 0 && id == sup.id);
+    return (id >= 0 && id == sup.id && sup.name == name);
 }
 
 bool EmuFrontObject::operator !=(const EmuFrontObject &sup)

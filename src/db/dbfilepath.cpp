@@ -112,7 +112,8 @@ bool DbFilePath::deleteDataObject(int id) const
 
 QString DbFilePath::constructSelect(QString where) const
 {
-    return QString("SELECT filepath.id AS FilePathId, "
+    return QString("SELECT "
+            "filepath.id AS FilePathId, "
             "filepath.name AS Name, "
             "datetime(filepath.lastscanned, 'unixepoch') AS LastScanned, "
             "setup.id AS SetupId, "
