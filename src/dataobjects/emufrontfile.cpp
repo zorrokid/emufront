@@ -26,7 +26,7 @@ EmuFrontFile::EmuFrontFile(int type) : EmuFrontObject(), type(type) { }
 EmuFrontFile::EmuFrontFile(int id, QString name, QString checksum, int size, int type)
    : EmuFrontObject(id, name), checkSum(checksum), size(size), type(type) { }
 
-EmuFrontFile::EmuFrontFile(EmuFrontFile &eff)
+EmuFrontFile::EmuFrontFile(const EmuFrontFile &eff)
     : EmuFrontObject(eff), checkSum(eff.checkSum), size(eff.size), type(eff.type)
 {}
 
