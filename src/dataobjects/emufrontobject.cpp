@@ -18,6 +18,7 @@
 // along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "emufrontobject.h"
+#include <QDebug>
 
 EmuFrontObject::EmuFrontObject() : id(-1), name("")
 {
@@ -36,6 +37,7 @@ EmuFrontObject::EmuFrontObject(int id, QString name)
 
 EmuFrontObject::~EmuFrontObject()
 {
+    qDebug() << "EmuFrontObject " << name << " dying.";
 }
 
 EmuFrontObject& EmuFrontObject::operator =(const EmuFrontObject &ob)

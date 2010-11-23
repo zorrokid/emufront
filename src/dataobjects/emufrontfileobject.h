@@ -38,7 +38,7 @@ public:
     { this->file = file; }
 
 protected:
-    EmuFrontFile *file;
+    EmuFrontFile *file; // TODO: Should we have stack object instead of a pointer
 };
 
 #endif // EMUFRONTFILEOBJECT_H

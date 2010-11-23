@@ -18,6 +18,7 @@
 // along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "platform.h"
+#include <QDebug>
 
 Platform::Platform() : EmuFrontFileObject() { }
 
@@ -32,5 +33,14 @@ Platform::Platform(int id, QString name, EmuFrontFile *file)
 Platform::Platform(const Platform &p)
         : EmuFrontFileObject(p)
 {
+}
+
+Platform::~Platform()
+{
+    if (file) {
+        qDebug() << "file: " << file->getName();
+    }
+    qDebug() << "Platform " << name << " @ "
+        << this << "dying.";
 }
 

@@ -18,6 +18,7 @@
 // along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "emufrontfile.h"
+#include <QDebug>
 
 EmuFrontFile::EmuFrontFile() : EmuFrontObject() { }
 
@@ -29,6 +30,11 @@ EmuFrontFile::EmuFrontFile(int id, QString name, QString checksum, int size, int
 EmuFrontFile::EmuFrontFile(const EmuFrontFile &eff)
     : EmuFrontObject(eff), checkSum(eff.checkSum), size(eff.size), type(eff.type)
 {}
+
+EmuFrontFile::~EmuFrontFile()
+{
+    qDebug() << "EmuFrontFile " << name << " dying.";
+}
 
 QString EmuFrontFile::getCheckSum() const
 { return checkSum; }
