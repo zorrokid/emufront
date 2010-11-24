@@ -82,7 +82,7 @@ void PlatformTest::equals2()
     // and pointer from p6 would keep pointing to memory area where
     // efA no longer exists:
     //Platform p6(1, "test", efA);
-    Platform p6(1, "test", efA);
+    Platform p6(1, "test", efB);
 
     qDebug() << "efA" << efA->getName();
     qDebug() << "efB" << efB->getName();

@@ -18,6 +18,7 @@
 // along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "emufrontfileobject.h"
+#include <QDebug>
 
 EmuFrontFileObject::EmuFrontFileObject()
     : EmuFrontObject(-1, ""), file(0) { }
@@ -34,7 +35,9 @@ EmuFrontFileObject::EmuFrontFileObject(const EmuFrontFileObject &pl)
 
 EmuFrontFileObject::~EmuFrontFileObject()
 {
-    if (file) delete file;
+    qDebug() << "EmuFrontFileObject " << name << " dying";
+    if (file) qDebug() << "File " << file->getName() << " will also be deleted.";
+    delete file;
 }
 
 EmuFrontFileObject& EmuFrontFileObject::operator =(const EmuFrontFileObject &ob)
@@ -42,7 +45,7 @@ EmuFrontFileObject& EmuFrontFileObject::operator =(const EmuFrontFileObject &ob)
     if (this == &ob) return (*this);
     id = ob.id;
     name = ob.name;
-    if (file) delete file;
+    delete file;
     EmuFrontFile *f = ob.file;
     file = new EmuFrontFile(*f);
     return (*this);

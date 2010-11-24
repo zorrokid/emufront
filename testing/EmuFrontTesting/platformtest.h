@@ -25,8 +25,7 @@ private slots:
 private:
     //EmuFrontFile *ef;
 /*
-    EmuFrontFile *efile;
-    */
+    EmuFrontFile *efile;*/
     //EmuFrontFile *efA;
     //EmuFrontFile *efB;
 

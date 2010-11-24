@@ -34,13 +34,3 @@ Platform::Platform(const Platform &p)
         : EmuFrontFileObject(p)
 {
 }
-
-Platform::~Platform()
-{
-    if (file) {
-        qDebug() << "file: " << file->getName();
-    }
-    qDebug() << "Platform " << name << " @ "
-        << this << "dying.";
-}
-
