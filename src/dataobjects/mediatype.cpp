@@ -20,15 +20,16 @@
 #include "mediatype.h"
 
 MediaType::MediaType() : EmuFrontFileObject()
-{
-}
+{ }
+
+MediaType::MediaType(int id, QString name)
+        : EmuFrontFileObject(id, name)
+{ }
 
 MediaType::MediaType(int id, QString name, EmuFrontFile *file)
         : EmuFrontFileObject(id, name, file)
-{
-}
+{ }
 
 MediaType::MediaType(const MediaType &mt)
         : EmuFrontFileObject(mt)
-{
-}
+{ }

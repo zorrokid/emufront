@@ -3,29 +3,18 @@
 
 void PlatformTest::init()
 {
-    qDebug() << "Creating efA and efB.";
-    //efA = new EmuFrontFile(1, "a", "qa", 1, 2);
-    //efB = new EmuFrontFile(2, "b", "qaa", 2, 3);
 }
 
 void PlatformTest::initTestCase()
 {
-    qDebug() << "Initializing PlatformTest.";
 }
 
 void PlatformTest::cleanup()
 {
-    qDebug() << "cleanup";
-    // The following objects have already been deleted
-    //delete efA;
-    //delete efB;
-    //efA = 0;
-    //efB = 0;
 }
 
 void PlatformTest::cleanupTestCase()
 {
-    qDebug() << "Cleaning up PlatformTest.";
 }
 
 /*void PlatformTest::equals_data()
@@ -67,26 +56,29 @@ void PlatformTest::equals()
 
 void PlatformTest::equals2()
 {
-    qDebug() << "Starting equals2";
-    EmuFrontFile *efA = new EmuFrontFile(1, "a", "qa", 1, 2);
-    EmuFrontFile *efB = new EmuFrontFile(2, "b", "qaa", 2, 3);
-    Platform p1(1, "test");
-    Platform p2(1, "test");
+    qDebug() << "Starting equals2 test, creating EmuFrontFile objects to heap.";
+    EmuFrontFile *efA = new EmuFrontFile(1, "efA", "qa", 1, 2);
+    EmuFrontFile *efB = new EmuFrontFile(2, "efB", "qaa", 2, 3);
+    qDebug() << "Creating Platform test objects p1 and p2";
+    Platform p1(1, "px");
+    Platform p2(1, "px");
     QVERIFY(p1 == p2);
 
-    qDebug() << "efA" << efA->getName();
-    qDebug() << "efB" << efB->getName();
+    qDebug() << efB->getName();
 
-    Platform p5(1, "test", efA);
-    // The following cannot be done, efA dies with p5:
+    qDebug() << "Creating Platform test objects p5 containg member " << efA->getName();
+    Platform p5(1, "p5", efA);
+
+    // The following should not be done, efA dies with p5:
     // and pointer from p6 would keep pointing to memory area where
     // efA no longer exists:
-    //Platform p6(1, "test", efA);
-    Platform p6(1, "test", efB);
+    //Platform p6(1, "p6", efA);
+
+    qDebug() << "Creating Platform test objects p6 containg member " << efB->getName();
+    Platform p6(1, "p6", efB);
 
     qDebug() << "efA" << efA->getName();
     qDebug() << "efB" << efB->getName();
-
 
     qDebug() << "Entering QVERIFY";
     QVERIFY(p5 == p6);
@@ -101,8 +93,6 @@ void PlatformTest::equals2()
 
     qDebug() << "Leaving QVERIFY";
     qDebug() << "Leaving equals2";
-    efA->deleteLater();
-    efB->deleteLater();
 }
 
 /* Platforms are equal if the following fields match:
@@ -110,10 +100,10 @@ void PlatformTest::equals2()
     - name (QString)
     - filename (QString)
 */
-/*void PlatformTest::notEquals()
+void PlatformTest::notEquals()
 {
     Platform p1(1, "testa");
     Platform p2(1, "test");
     // This should return true
     QVERIFY(p1 != p2);
-}*/
+}

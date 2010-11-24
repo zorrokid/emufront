@@ -19,16 +19,9 @@ private slots:
     void initTestCase();
     void cleanupTestCase();
     void equals2();
-  //  void equals();
-  //  void equals_data();
-
-private:
-    //EmuFrontFile *ef;
-/*
-    EmuFrontFile *efile;*/
-    //EmuFrontFile *efA;
-    //EmuFrontFile *efB;
-
+    void notEquals();
+    //void equals();
+    //void equals_data();
 };
 
 #endif // PLATFORMTEST_H

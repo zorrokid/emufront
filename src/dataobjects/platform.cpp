@@ -18,7 +18,6 @@
 // along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "platform.h"
-#include <QDebug>
 
 Platform::Platform() : EmuFrontFileObject() { }
 

@@ -28,6 +28,7 @@ class EmuFrontFileObject : public EmuFrontObject
 public:
     EmuFrontFileObject();
     EmuFrontFileObject(int id, QString name, EmuFrontFile *file);
+    EmuFrontFileObject(int id, QString name);
     EmuFrontFileObject(const EmuFrontFileObject&);
     EmuFrontFileObject& operator=(const EmuFrontFileObject&);
     ~EmuFrontFileObject();
