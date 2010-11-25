@@ -26,11 +26,20 @@ ExecutableComboBox::ExecutableComboBox(DatabaseManager *dbMan, QWidget *parent)
     dataModelIndex_name = DbExecutable::Executable_Name;
     dataModelIndex_id = DbExecutable::Executable_Id;
     setModelColumn(dataModelIndex_name);
+    currentPlatformId = -1;
+    currentMediaTypeId = -1;
 }
 
 void ExecutableComboBox::updateToSetup(int platformId, int mediaTypeId)
 {
+    currentPlatformId = platformId;
+    currentMediaTypeId = mediaTypeId;
+    reset();
+}
+
+void ExecutableComboBox::reset()
+{
     DbExecutable *dbExe = dynamic_cast<DbExecutable *>(dbManager);
-    dbExe->filterByPlatformMediaType(platformId, mediaTypeId);
+    dbExe->filterByPlatformMediaType(currentPlatformId, currentMediaTypeId);
     EFComboBox::updateDataModel(false);
 }

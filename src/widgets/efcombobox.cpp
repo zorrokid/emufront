@@ -67,10 +67,15 @@ EmuFrontObject* EFComboBox::getSelected()
     }
     int id = rec.value(dataModelIndex_id).toInt();
     EmuFrontObject *o = dbManager->getDataObject(id); /* Throws EmuFrontException */
-    dbManager->resetModel();
+    reset();
     setCurrentIndex(index);
     if (!o) throw EmuFrontException(tr("Failed creating selected data object!"));
     return o;
+}
+
+void EFComboBox::reset()
+{
+    dbManager->resetModel();
 }
 
 void EFComboBox::setSelected(const EmuFrontObject *efo)

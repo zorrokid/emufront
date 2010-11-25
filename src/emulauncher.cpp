@@ -88,7 +88,7 @@ void EmuLauncher::layout()
     grid->addWidget(micTable, 1, 0, 1, 4);
     grid->addWidget(execSelectBox, 2, 0);
     grid->addWidget(launchButton, 2, 1);
-    // grid will be implicitily parented to this
+    // grid will be implicitly parented to this
     setLayout(grid);
 }
 
@@ -102,7 +102,6 @@ void EmuLauncher::connectSignals()
 
 void EmuLauncher::updateMediaImageContainers()
 {
-    qDebug() << "updateMediaImageContainers slot";
     int mtid, plfid = -1;
     MediaType *mt = 0;
     Platform *plf = 0;

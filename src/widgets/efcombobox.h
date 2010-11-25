@@ -37,6 +37,7 @@ protected:
     DatabaseManager *dbManager;
     int dataModelIndex_id;
     int dataModelIndex_name;
+    virtual void reset();
 };
 
 #endif // EFCOMBOBOX_H
