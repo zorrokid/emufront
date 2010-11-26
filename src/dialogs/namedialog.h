@@ -45,7 +45,6 @@ protected:
     virtual void clear();
     QLabel *nameLabel;
 	QLineEdit *nameEdit;
-
 private:
 	void connectSignals();
 	void layout();

@@ -34,6 +34,7 @@ public:
 
 protected:
     virtual void setDataObject(QString name);
+    //void keyPressEvent(QKeyEvent *event);
 };
 
 #endif

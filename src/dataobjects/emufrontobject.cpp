@@ -20,7 +20,9 @@
 #include "emufrontobject.h"
 #include <QDebug>
 
-EmuFrontObject::EmuFrontObject() : id(-1), name("")
+const int EmuFrontObject::ID_NOT_SET = -1;
+
+EmuFrontObject::EmuFrontObject() : id(EmuFrontObject::ID_NOT_SET), name("")
 {
 }
 
@@ -51,7 +53,7 @@ EmuFrontObject& EmuFrontObject::operator =(const EmuFrontObject &ob)
 
 bool EmuFrontObject::operator ==(const EmuFrontObject &sup)
 {
-    return (id >= 0 && id == sup.id && sup.name == name);
+    return (id == sup.id && sup.name == name);
 }
 
 bool EmuFrontObject::operator !=(const EmuFrontObject &sup)

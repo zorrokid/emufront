@@ -24,13 +24,16 @@ NameDialog::NameDialog(QWidget *parent, EmuFrontObject *efObj)
         : DataObjectEditDialog(parent, efObj)
 {
 	nameLabel = new QLabel(tr("&Name: "));	
-	nameEdit = new QLineEdit;
-	nameLabel->setBuddy(nameEdit);
+    nameEdit = new QLineEdit;
+    nameLabel->setBuddy(nameEdit);
     connectSignals();
 	layout();
     emit test();
-	setWindowTitle(tr("Set names"));
+    setWindowTitle(tr("Set names"));
+    setFocusProxy(nameEdit);
 }
+
+
 
 NameDialog::~NameDialog()
 {
@@ -57,11 +60,12 @@ void NameDialog::layout()
 
 	QHBoxLayout *bottomLayout = new QHBoxLayout;
     bottomLayout->addWidget(buttonBox);
+    buttonBox->setFocusPolicy(Qt::NoFocus);
 
 	QVBoxLayout *mainLayout = new QVBoxLayout;
 	mainLayout->addLayout(topLayout);
 	mainLayout->addLayout(bottomLayout);
-	setLayout(mainLayout);
+    setLayout(mainLayout);
 }
 
 void NameDialog::acceptChanges()

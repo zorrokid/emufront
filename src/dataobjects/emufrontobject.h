@@ -25,6 +25,7 @@
 class EmuFrontObject : public QObject
 {
 public:
+    static const int ID_NOT_SET;
     EmuFrontObject();
     EmuFrontObject(int id, QString name);
 

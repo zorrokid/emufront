@@ -41,12 +41,17 @@ void PlatformNameDialog::setDataObject(QString name)
 
 void PlatformNameDialog::setDataObject(EmuFrontObject *ob)
 {
+    nameEdit->hide();
     if (!ob) return;
-    efObject = dynamic_cast<Platform*>(ob);    
-    QString name = efObject->getName();
-    nameEdit->setText(name);
-
-    qDebug() << "Setting name to " << efObject->getName();
+    efObject = dynamic_cast<Platform*>(ob);
     nameEdit->setText(efObject->getName());
+    nameEdit->setFocus(Qt::TabFocusReason);
+    nameEdit->show();
 }
+
+/*void PlatformNameDialog::keyPressEvent(QKeyEvent *event)
+{
+    nameEdit->setText( nameEdit->text().append(event->text()) );
+    QDialog::keyPressEvent(event);
+}*/
 
