@@ -39,9 +39,11 @@ void BrowseFilePathDialog::initWidgets()
 
 void BrowseFilePathDialog::browseFilePath()
 {
-    QString startPath = (efObject && !efObject->getName().isEmpty())
-        ? efObject->getName()
-        : QDir::homePath();
+    QString startPath = filePathLabel->text();
+    if (startPath.isEmpty()) {
+        startPath = (efObject && !efObject->getName().isEmpty())
+            ? efObject->getName() : QDir::homePath();
+    }
 
     QString fpath = QFileDialog::getExistingDirectory(this,
         tr("Select a directory"), startPath,
