@@ -68,17 +68,17 @@ void MediaImagePathMainDialog::connectSignals()
 void MediaImagePathMainDialog::showDbUpdating()
 {
     qDebug() << "DB updating";
+    // TODO: the following is not currently working
     progressDialog->setWindowTitle(tr("Updating DB... please wait!"));
     progressDialog->setEnabled(false);
-    // TODO
 }
 
 void MediaImagePathMainDialog::hideDbUpdating()
 {
     qDebug() << "DB update finished";
+    // TODO: the following is not currently working
     progressDialog->setEnabled(true);
     progressDialog->setWindowTitle(tr("Scanning files"));
-    // TODO
 }
 
 
