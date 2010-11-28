@@ -73,6 +73,7 @@ int DbMediaImageContainer::storeMediaImageContainer(EmuFrontObject *efo)
         // File id is used to store the media image container instance to database,
         // file id is also the media image container id
 
+        // TODO: if this fails, the remove the media images in ids
         fileId = insertDataObjectToModel(mic);
 
         //qDebug() << "Inserted media image container to file table with id " << fileId << ".";
