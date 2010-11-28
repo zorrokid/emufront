@@ -109,9 +109,9 @@ int FileUtil::scanFilePath(FilePathObject *fp,
 
                 if (containers.count() >= MIC_BUFFER_SIZE)  {
                     //qDebug() << "We have " << containers.count() << " containers .. storing to db.";
-                    emit dbUpdateInProgress();
+                    showDbUpdating(progressDialog);
                     dbMic->storeContainers(containers, fp);
-                    emit dbUpdateFinished();
+                    hideDbUpdating(progressDialog);
                     qDeleteAll(containers);
                     containers.clear();
                     //qDebug() << "containers now: " << containers.count();
@@ -125,15 +125,14 @@ int FileUtil::scanFilePath(FilePathObject *fp,
         progressDialog->setValue(list.size());
         if (containers.count() > 0) {
             //qDebug() << "Storing the rest " << containers.count() << " containers.";
-            emit dbUpdateInProgress();
+            //emit dbUpdateInProgress();
+            showDbUpdating(progressDialog);
             dbMic->storeContainers(containers, fp);
-            emit dbUpdateFinished();
+            hideDbUpdating(progressDialog);
+            //emit dbUpdateFinished();
             qDeleteAll(containers);
             containers.clear();
-
-        }
-    } catch (EmuFrontException &e) {
-        qDebug() << "Got exception " << e.what() << ", aborting & deleting created data objects.";
+ } } catch (EmuFrontException &e) { qDebug() << "Got exception " << e.what() << ", aborting & deleting created data objects.";
         qDeleteAll(containers);
         throw e;
     }
@@ -168,3 +167,20 @@ bool FileUtil::isSupportedFile(const QString filename, const QStringList support
     QString ext = filename.section('.', -1);
     return supportedFileExtensions.contains(ext, Qt::CaseInsensitive);
 }
+
+void FileUtil::showDbUpdating(QProgressDialog *progressDialog)
+{
+    qDebug() << "DB updating";
+    // TODO: the following is not currently working
+    progressDialog->setWindowTitle(tr("Updating DB... please wait!"));
+    progressDialog->setEnabled(false);
+}
+
+void FileUtil::hideDbUpdating(QProgressDialog *progressDialog)
+{
+    qDebug() << "DB update finished";
+    // TODO: the following is not currently working
+    progressDialog->setEnabled(true);
+    progressDialog->setWindowTitle(tr("Scanning files"));
+}
+

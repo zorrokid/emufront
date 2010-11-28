@@ -43,8 +43,6 @@ protected:
 
 private slots:
     void beginScanFilePath();
-    void showDbUpdating();
-    void hideDbUpdating();
 
 private:
     QPushButton *scanButton;

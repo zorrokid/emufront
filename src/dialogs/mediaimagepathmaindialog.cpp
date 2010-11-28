@@ -43,8 +43,8 @@ MediaImagePathMainDialog::MediaImagePathMainDialog(QWidget *parent)
     hideColumns();
 
     fileUtil = new FileUtil(this);
-
     initProgressDialog();
+
     // do not move to parent class:
     connectSignals();
 }
@@ -61,26 +61,7 @@ void MediaImagePathMainDialog::connectSignals()
 {
     DbObjectDialog::connectSignals();
     connect(scanButton, SIGNAL(clicked()), this, SLOT(beginScanFilePath()));
-    connect(fileUtil, SIGNAL(dbUpdateFinished()), this, SLOT(hideDbUpdating()));
-    connect(fileUtil, SIGNAL(dbUpdateInProgress()), this, SLOT(showDbUpdating()));
 }
-
-void MediaImagePathMainDialog::showDbUpdating()
-{
-    qDebug() << "DB updating";
-    // TODO: the following is not currently working
-    progressDialog->setWindowTitle(tr("Updating DB... please wait!"));
-    progressDialog->setEnabled(false);
-}
-
-void MediaImagePathMainDialog::hideDbUpdating()
-{
-    qDebug() << "DB update finished";
-    // TODO: the following is not currently working
-    progressDialog->setEnabled(true);
-    progressDialog->setWindowTitle(tr("Scanning files"));
-}
-
 
 void MediaImagePathMainDialog::initEditDialog()
 {
@@ -113,7 +94,6 @@ void MediaImagePathMainDialog::beginScanFilePath()
         dbMediaImageContainer->removeFromFilePath(fpo->getId());
 
         progressDialog->show();
-        progressDialog->setEnabled(true);
 
         setUIEnabled(false);
         int count = fileUtil->scanFilePath(fpo, l, dbMediaImageContainer, progressDialog);

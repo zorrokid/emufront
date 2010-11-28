@@ -50,6 +50,9 @@ private:
     bool isSupportedFile(const QString filename, const QStringList supportedFileExtensions);
     static const int MIC_BUFFER_SIZE = 50;
     UnzipHelper *unzipHelper;
+    void showDbUpdating(QProgressDialog*);
+    void hideDbUpdating(QProgressDialog*);
+
 };
 
 #endif // FILEUTIL_H
