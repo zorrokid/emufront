@@ -46,7 +46,7 @@ FileUtil::~FileUtil()
 /* Throws EmuFrontException */
 int FileUtil::scanFilePath(FilePathObject *fp,
     QStringList filters, DbMediaImageContainer *dbMic,
-    QProgressDialog &progressDialog)
+    QProgressDialog *progressDialog)
 {
     if (!fp->getSetup()){
         throw EmuFrontException(tr("Setup not available with %1.").arg(fp->getName()));
@@ -78,12 +78,12 @@ int FileUtil::scanFilePath(FilePathObject *fp,
     //qDebug() << "We have " << list.count() << " files to go through.";
     QList<MediaImageContainer*> containers;
     try {
-        progressDialog.setMinimum(0);
-        progressDialog.setMaximum(list.size());
+        progressDialog->setMinimum(0);
+        progressDialog->setMaximum(list.size());
         for (int i = 0; i < list.size(); ++i)
         {
-            progressDialog.setValue(i);
-            if (progressDialog.wasCanceled())
+            progressDialog->setValue(i);
+            if (progressDialog->wasCanceled())
                 break;
             QFileInfo fileInfo = list.at(i);
             //qDebug() << QString("%1 %2").arg(fileInfo.size(), 10).arg(fileInfo.absoluteFilePath());
@@ -109,7 +109,9 @@ int FileUtil::scanFilePath(FilePathObject *fp,
 
                 if (containers.count() >= MIC_BUFFER_SIZE)  {
                     //qDebug() << "We have " << containers.count() << " containers .. storing to db.";
+                    emit dbUpdateInProgress();
                     dbMic->storeContainers(containers, fp);
+                    emit dbUpdateFinished();
                     qDeleteAll(containers);
                     containers.clear();
                     //qDebug() << "containers now: " << containers.count();
@@ -120,10 +122,12 @@ int FileUtil::scanFilePath(FilePathObject *fp,
                 qDebug() << "No files from container " << fileInfo.absoluteFilePath();
             }
         }
-        progressDialog.setValue(list.size());
+        progressDialog->setValue(list.size());
         if (containers.count() > 0) {
             //qDebug() << "Storing the rest " << containers.count() << " containers.";
+            emit dbUpdateInProgress();
             dbMic->storeContainers(containers, fp);
+            emit dbUpdateFinished();
             qDeleteAll(containers);
             containers.clear();
 

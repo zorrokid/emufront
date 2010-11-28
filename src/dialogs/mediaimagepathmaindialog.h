@@ -23,6 +23,9 @@
 #include "dbobjectdialog.h"
 #include "../db/dbmediaimagecontainer.h"
 
+class FileUtil;
+class QProgressDialog;
+
 class MediaImagePathMainDialog : public DbObjectDialog
 {
     Q_OBJECT
@@ -40,13 +43,18 @@ protected:
 
 private slots:
     void beginScanFilePath();
+    void showDbUpdating();
+    void hideDbUpdating();
 
 private:
     QPushButton *scanButton;
     DbMediaImageContainer *dbMediaImageContainer;
+    FileUtil *fileUtil;
+    QProgressDialog *progressDialog;
 
     //  QString and QStringList are implicitly shared
     void scanFilePath(const QString path, const QStringList filters);
+    void initProgressDialog();
 };
 
 #endif // MEDIAIMAGEPATHMAINDIALOG_H

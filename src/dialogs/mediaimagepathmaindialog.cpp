@@ -42,15 +42,45 @@ MediaImagePathMainDialog::MediaImagePathMainDialog(QWidget *parent)
     hiddenColumns << DbFilePath::FilePath_SetupId;
     hideColumns();
 
+    fileUtil = new FileUtil(this);
+
+    initProgressDialog();
     // do not move to parent class:
     connectSignals();
+}
+
+void MediaImagePathMainDialog::initProgressDialog()
+{
+    progressDialog = new QProgressDialog(this);
+    progressDialog->setWindowTitle(tr("Scanning files"));
+    progressDialog->setCancelButtonText(tr("Abort"));
+    progressDialog->setWindowModality(Qt::WindowModal);
 }
 
 void MediaImagePathMainDialog::connectSignals()
 {
     DbObjectDialog::connectSignals();
     connect(scanButton, SIGNAL(clicked()), this, SLOT(beginScanFilePath()));
+    connect(fileUtil, SIGNAL(dbUpdateFinished()), this, SLOT(hideDbUpdating()));
+    connect(fileUtil, SIGNAL(dbUpdateInProgress()), this, SLOT(showDbUpdating()));
 }
+
+void MediaImagePathMainDialog::showDbUpdating()
+{
+    qDebug() << "DB updating";
+    progressDialog->setWindowTitle(tr("Updating DB... please wait!"));
+    progressDialog->setEnabled(false);
+    // TODO
+}
+
+void MediaImagePathMainDialog::hideDbUpdating()
+{
+    qDebug() << "DB update finished";
+    progressDialog->setEnabled(true);
+    progressDialog->setWindowTitle(tr("Scanning files"));
+    // TODO
+}
+
 
 void MediaImagePathMainDialog::initEditDialog()
 {
@@ -70,7 +100,6 @@ void MediaImagePathMainDialog::beginScanFilePath()
         QMessageBox::Yes, QMessageBox::No, QMessageBox::NoButton ) == QMessageBox::No) {
             return;
         }
-    FileUtil fileUtil(this);
     FilePathObject *fpo = 0;
     try
     {
@@ -83,15 +112,12 @@ void MediaImagePathMainDialog::beginScanFilePath()
 
         dbMediaImageContainer->removeFromFilePath(fpo->getId());
 
-        QProgressDialog progressDialog(this);
-        progressDialog.setWindowTitle("Scanning files...");
-        progressDialog.setCancelButtonText("Abort");
-        progressDialog.setWindowModality(Qt::WindowModal);
-        progressDialog.show();
+        progressDialog->show();
+        progressDialog->setEnabled(true);
 
         setUIEnabled(false);
-        int count = fileUtil.scanFilePath(fpo, l, dbMediaImageContainer, progressDialog);
-        progressDialog.hide();
+        int count = fileUtil->scanFilePath(fpo, l, dbMediaImageContainer, progressDialog);
+        progressDialog->hide();
 
         QMessageBox msgBox;
         msgBox.setText(tr("Scanned %1 files to database.").arg(count));

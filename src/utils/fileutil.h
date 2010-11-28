@@ -33,12 +33,17 @@ class DbMediaImageContainer;
 class UnzipHelper;
 class QProgressDialog;
 
-class FileUtil : QObject
+class FileUtil : public QObject
 {
+    Q_OBJECT
 public:
     FileUtil(QObject *parent);
     ~FileUtil();
-    int scanFilePath(FilePathObject *fpo, const QStringList filters, DbMediaImageContainer *mic, QProgressDialog &);
+    int scanFilePath(FilePathObject *fpo, const QStringList filters, DbMediaImageContainer *mic, QProgressDialog *);
+signals:
+    void dbUpdateInProgress();
+    void dbUpdateFinished();
+
 private:
     char *buf;
     quint32 readCrc32(QString filePath);
