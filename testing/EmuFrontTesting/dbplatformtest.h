@@ -12,6 +12,10 @@ class DbPlatformTest : public QObject
     Q_OBJECT
 
 private slots:
+    void init();
+    void cleanup();
+    void initTestCase();
+    void cleanupTestCase();
 
 /* Test the following operations:
     QSqlQueryModel* getDataModel(bool update = false);
