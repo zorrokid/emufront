@@ -29,7 +29,8 @@ SOURCES += main.cpp \
     ../../src/dialogs/platformnamedialog.cpp \
     mediatypetest.cpp \
     platformnamedialogtest.cpp \
-    emufrontobjecttest.cpp
+    emufrontobjecttest.cpp \
+    dbplatformtest.cpp
 
 HEADERS += \
     platformtest.h \
@@ -44,4 +45,5 @@ HEADERS += \
    ../../src/dialogs/platformnamedialog.h \
    mediatypetest.h \
    platformnamedialogtest.h \
-    emufrontobjecttest.h
+    emufrontobjecttest.h \
+    dbplatformtest.h
