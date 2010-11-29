@@ -1,5 +1,6 @@
 #include "emufrontobjecttest.h"
 #include "platformtest.h"
+#include "dbplatformtest.h"
 #include "mediatypetest.h"
 //#include "platformnamedialogtest.h"
 
@@ -16,6 +17,9 @@ int main(int argc, char *argv[])
 
     MediaTypeTest mtTest;
     QTest::qExec(&mtTest, argc, argv);
+
+    DbPlatformTest dbPlfTest;
+    QTest::qExec(&dbPlfTest, argc, argv);
 
     //PlatformNameDialogTest plfDlgTest;
     //QTest::qExec(&plfDlgTest, argc, argv);
