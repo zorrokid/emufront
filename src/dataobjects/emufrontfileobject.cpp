@@ -38,8 +38,8 @@ EmuFrontFileObject::EmuFrontFileObject(const EmuFrontFileObject &pl)
 
 EmuFrontFileObject::~EmuFrontFileObject()
 {
-    qDebug() << "EmuFrontFileObject " << name << " dying";
-    if (file) qDebug() << "File " << file->getName() << " will also be deleted.";
+    //qDebug() << "EmuFrontFileObject " << name << " dying";
+    //if (file) qDebug() << "File " << file->getName() << " will also be deleted.";
     delete file;
 }
 

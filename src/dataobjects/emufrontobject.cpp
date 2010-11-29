@@ -39,7 +39,7 @@ EmuFrontObject::EmuFrontObject(int id, QString name)
 
 EmuFrontObject::~EmuFrontObject()
 {
-    qDebug() << "EmuFrontObject " << name << " dying.";
+    // qDebug() << "EmuFrontObject " << name << " dying.";
 }
 
 EmuFrontObject& EmuFrontObject::operator =(const EmuFrontObject &ob)
