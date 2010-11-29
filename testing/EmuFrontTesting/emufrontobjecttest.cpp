@@ -59,6 +59,7 @@ void EmuFrontObjectTest::notEquals_data()
     QTest::newRow("id differs")
         << EmuFrontObject(1, "")
         << EmuFrontObject(-1, "");
+
     QTest::newRow("id and name differs")
         << EmuFrontObject(3, "Disk")
         << EmuFrontObject(2, "Disak");
@@ -71,35 +72,85 @@ void EmuFrontObjectTest::notEquals()
     QVERIFY(mt1 != mt2);
 }
 
+void EmuFrontObjectTest::nameTest_data()
+{
+    QTest::addColumn<EmuFrontObject>("efo");
+    QTest::addColumn<QString>("name");
+    QTest::newRow("default constructor, non empty string")
+        << EmuFrontObject()
+        << "Hello";
+    QTest::newRow("default constructor")
+        << EmuFrontObject()
+        << "default constructor, empty string";
+}
+
 void EmuFrontObjectTest::nameTest()
 {
-    EmuFrontObject o;
-    QString n = "hello";
-    o.setName(n);
-    QCOMPARE(n, o.getName());
+    QFETCH(EmuFrontObject, efo);
+    QFETCH(QString, name);
+    efo.setName(name);
+    QCOMPARE(name, efo.getName());
+}
+
+void EmuFrontObjectTest::idTest_data()
+{
+    QTest::addColumn<EmuFrontObject>("efo");
+    QTest::addColumn<int>("id");
+    QTest::newRow("default constructor")
+        << EmuFrontObject()
+        << 998;
+    QTest::newRow("default constructor")
+        << EmuFrontObject()
+        << -12;
 }
 
 void EmuFrontObjectTest::idTest()
 {
-    EmuFrontObject o;
-    int id = 998;
-    o.setId(id);
-    QCOMPARE(id, o.getId());
+    QFETCH(EmuFrontObject, efo);
+    QFETCH(int, id);
+    efo.setId(id);
+    QCOMPARE(id, efo.getId());
+}
+
+void EmuFrontObjectTest::copyTest_data()
+{
+    QTest::addColumn<EmuFrontObject>("o");
+    QTest::addColumn<EmuFrontObject>("b");
+    QTest::newRow("no parameters")
+        << EmuFrontObject(1, "Test")
+        << EmuFrontObject();
+    QTest::newRow("id and empty string as name")
+        << EmuFrontObject(1, "")
+        << EmuFrontObject(2, "zzz");
+    QTest::newRow("id, name")
+        << EmuFrontObject(123, "Tape")
+        << EmuFrontObject(321, "Disk");
 }
 
 void EmuFrontObjectTest::copyTest()
 {
-    EmuFrontObject o(123, "qwerty");
-    EmuFrontObject b(321, "ytrewq");
+    QFETCH(EmuFrontObject, o);
+    QFETCH(EmuFrontObject, b);
     b = o;
     QVERIFY(o.getName() == b.getName()
         && o.getId() == b.getId()
         && (&o != &b));
 }
 
+void EmuFrontObjectTest::copyContructTest_data()
+{
+    QTest::addColumn<EmuFrontObject>("o");
+    QTest::newRow("no parameters")
+        << EmuFrontObject();
+    QTest::newRow("id and empty string as name")
+        << EmuFrontObject(1, "");
+    QTest::newRow("id, name")
+        << EmuFrontObject(321, "Disk");
+}
+
 void EmuFrontObjectTest::copyContructTest()
 {
-    EmuFrontObject o(123, "qwerty");
+    QFETCH(EmuFrontObject, o);
     EmuFrontObject b(o);
     QVERIFY(o.getName() == b.getName()
         && o.getId() == b.getId()

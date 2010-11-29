@@ -17,8 +17,12 @@ private slots:
     void equals();
     void equals_data();
     void idTest();
+    void idTest_data();
     void nameTest();
+    void nameTest_data();
+    void copyTest_data();
     void copyTest();
+    void copyContructTest_data();
     void copyContructTest();
     void constructTest();
     void constructTest_data();
