@@ -56,7 +56,7 @@ DbObjectDialog::~DbObjectDialog()
 
 void DbObjectDialog::connectSignals()
 {
-    connect(buttonBox, SIGNAL(accepted()), this, SLOT(close()));
+    connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
     connect(objectList, SIGNAL(clicked(const QModelIndex &)),
         this, SLOT(listObjectClicked(const QModelIndex &)));
     connect(editButton, SIGNAL(clicked()), this, SLOT(editButtonClicked()));

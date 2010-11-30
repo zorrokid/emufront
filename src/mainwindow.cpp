@@ -21,6 +21,7 @@
 #include "mainwindow.h"
 #include "emulauncher.h"
 #include "dialogs/platformdialog.h"
+#include "dialogs/platformmaindialog.h"
 #include "dialogs/mediatypedialog.h"
 #include "dialogs/mediaimagepathmaindialog.h"
 #include "dialogs/setupmaindialog.h"
@@ -72,7 +73,12 @@ void MainWindow::createActions()
     configPlatformAction = new QAction(tr("&Platforms"), this);
     configPlatformAction->setStatusTip(tr("Configure platforms"));
     connect(configPlatformAction, SIGNAL(triggered()),
-	    this, SLOT(configurePlatforms()));
+        this, SLOT(configurePlatforms()));
+
+    configPlatformsAction = new QAction(tr("&Set Platforms"), this);
+    configPlatformsAction->setStatusTip(tr("Add, edit and delete platforms"));
+    connect(configPlatformsAction, SIGNAL(triggered()),
+        this, SLOT(configurePlatformss()));
 
     configMediaTypeAction = new QAction(tr("&Media Types"), this);
     configMediaTypeAction->setStatusTip(tr("Configure media types"));
@@ -121,6 +127,13 @@ void MainWindow::configurePlatforms()
        connect(platformDialog, SIGNAL(finished(int)), this, SLOT(updateData()));
    }
    activateDialog(platformDialog);
+}
+
+void MainWindow::configurePlatformss()
+{
+    plfDialog = new PlatformMainDialog(this);
+    connect(plfDialog, SIGNAL(finished(int)), this, SLOT(updateData()));
+    activateDialog(plfDialog);
 }
 
 void MainWindow::configureMediaTypes()
@@ -222,6 +235,7 @@ void MainWindow::createMenus()
     configMenu->addAction(configTmpDirAction);
     configMenu->addSeparator();
     configMenu->addAction(configPlatformAction);
+    configMenu->addAction(configPlatformsAction);
     configMenu->addAction(configMediaTypeAction);
     configMenu->addAction(configSetupAction);
     configMenu->addAction(configMediaImagePathAction);

@@ -24,6 +24,7 @@
 
 class QAction;
 class PlatformDialog;
+class PlatformMainDialog;
 class MediaTypeDialog;
 class MediaImagePathMainDialog;
 class SetupMainDialog;
@@ -48,7 +49,8 @@ protected:
 	void closeEvent(QCloseEvent *event);
 
 private slots:
-	void configurePlatforms();
+    void configurePlatforms();
+    void configurePlatformss();
     void configureMediaTypes();
     void configureMediaImagePaths();
     void configureSetups();
@@ -72,7 +74,8 @@ private:
     void activateDialog(EmuFrontDialog*) const;
     bool testDB(bool reset);
     void createDB() const;
-	PlatformDialog *platformDialog;
+    PlatformDialog *platformDialog;
+    PlatformMainDialog *plfDialog;
     MediaTypeDialog *mediaTypeDialog;
     MediaImagePathMainDialog *mediaImagePathDialog;
     SetupMainDialog *setupMainDialog;
@@ -82,6 +85,7 @@ private:
     QMenu *fileMenu;
     QMenu *helpMenu;
     QAction *configPlatformAction;
+    QAction *configPlatformsAction;
     QAction *configMediaTypeAction;
     QAction *configMediaImagePathAction;
     QAction *configSetupAction;
