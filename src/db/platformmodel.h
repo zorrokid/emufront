@@ -20,36 +20,13 @@
 #ifndef PLATFORMMODEL_H
 #define PLATFORMMODEL_H
 
-#include "emufrontquerymodel.h"
+#include "emufrontfileobjectmodel.h"
 
-class PlatformModel : public EmuFrontQueryModel
+class PlatformModel : public EmuFrontFileObjectModel
 {
     Q_OBJECT
 public:
     PlatformModel(QObject *parent = 0);
-    Qt::ItemFlags flags(const QModelIndex &index) const;
-    bool setData(const QModelIndex &index, const QVariant &value, int role);
-    enum {
-        EmuFrontFileObject_Id,
-        EmuFrontFileObject_Name,
-        EmuFrontFileObject_FileId,
-        EmuFrontFileObject_FileName,
-        EmuFrontFileObject_FileType,
-        EmuFrontFileObject_FileCheckSum,
-        EmuFrontFileObject_FileSize,
-        EmuFrontFileObject_FileUpdateTime
-    };
-
-signals:
-
-public slots:
-
-private:
-
-    void refresh();
-    QString constructSelect(QString where = "") const;
-    bool setName(int id, const QString &name);
-
 };
 
 #endif // PLATFORMMODEL_H

@@ -74,7 +74,8 @@ HEADERS += mainwindow.h \
     db/platformmodel.h \
     dialogs/platformmaindialog.h \
     dialogs/emufrontdatadialog.h \
-    db/emufrontquerymodel.h
+    db/emufrontquerymodel.h \
+    db/emufrontfileobjectmodel.h
 SOURCES += main.cpp \
     mainwindow.cpp \
     db/databasemanager.cpp \
@@ -136,7 +137,8 @@ SOURCES += main.cpp \
     db/platformmodel.cpp \
     dialogs/platformmaindialog.cpp \
     dialogs/emufrontdatadialog.cpp \
-    db/emufrontquerymodel.cpp
+    db/emufrontquerymodel.cpp \
+    db/emufrontfileobjectmodel.cpp
 OTHER_FILES +=  
 
 CONFIG += mobility
