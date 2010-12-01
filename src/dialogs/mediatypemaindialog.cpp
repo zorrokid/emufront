@@ -18,15 +18,13 @@
 // along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QtGui>
-#include "platformmaindialog.h"
-#include "db/platformmodel.h"
+#include "mediatypemaindialog.h"
+#include "db/mediatypemodel.h"
 
-PlatformMainDialog::PlatformMainDialog(QWidget *parent) :
+MediaTypeMainDialog::MediaTypeMainDialog(QWidget *parent) :
     EmuFrontFileObjectMainDialog(parent)
 {
-    model = new PlatformModel(this);
+    model = new MediaTypeModel(this);
     objectList->setModel(model);
     postInit();
 }
-
-

@@ -17,16 +17,19 @@
 // You should have received a copy of the GNU General Public License
 // along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <QtGui>
-#include "platformmaindialog.h"
-#include "db/platformmodel.h"
+#ifndef EMUFRONTFILEOBJECTMAINDIALOG_H
+#define EMUFRONTFILEOBJECTMAINDIALOG_H
 
-PlatformMainDialog::PlatformMainDialog(QWidget *parent) :
-    EmuFrontFileObjectMainDialog(parent)
+#include "emufrontdatadialog.h"
+
+class EmuFrontFileObjectMainDialog : public EmuFrontDataDialog
 {
-    model = new PlatformModel(this);
-    objectList->setModel(model);
-    postInit();
-}
+    Q_OBJECT
+public:
+    EmuFrontFileObjectMainDialog(QWidget *parent = 0);
 
+private:
+    virtual void setHiddenColumns();
+};
 
+#endif // EMUFRONTFILEOBJECTMAINDIALOG_H

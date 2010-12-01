@@ -20,9 +20,12 @@
 #include <QtGui>
 #include "mainwindow.h"
 #include "emulauncher.h"
+// TODO: deprecated
 #include "dialogs/platformdialog.h"
 #include "dialogs/platformmaindialog.h"
 #include "dialogs/mediatypedialog.h"
+// TODO: deprecated
+#include "dialogs/mediatypemaindialog.h"
 #include "dialogs/mediaimagepathmaindialog.h"
 #include "dialogs/setupmaindialog.h"
 #include "dialogs/executablemaindialog.h"
@@ -57,8 +60,12 @@ MainWindow::MainWindow(bool reset)
     createMenus();
     createStatusBar();
     readSettings();
+    // TODO: deprecated
     platformDialog = 0;
+    plfDialog = 0;
+    // TODO: deprecated
     mediaTypeDialog = 0;
+    mdtDialog = 0;
     mediaImagePathDialog = 0;
     setupMainDialog = 0;
     executableMainDialog = 0;
@@ -70,6 +77,7 @@ void MainWindow::connectSignals()
 
 void MainWindow::createActions()
 {
+    // TODO: deprecated
     configPlatformAction = new QAction(tr("&Platforms"), this);
     configPlatformAction->setStatusTip(tr("Configure platforms"));
     connect(configPlatformAction, SIGNAL(triggered()),
@@ -80,9 +88,14 @@ void MainWindow::createActions()
     connect(configPlatformsAction, SIGNAL(triggered()),
         this, SLOT(configurePlatformss()));
 
+    // TODO: deprecated
     configMediaTypeAction = new QAction(tr("&Media Types"), this);
     configMediaTypeAction->setStatusTip(tr("Configure media types"));
     connect(configMediaTypeAction, SIGNAL(triggered()), this, SLOT(configureMediaTypes()));
+
+    configMediaTypesAction = new QAction(tr("&Set Media Types"), this);
+    configMediaTypeAction->setStatusTip(tr("Add, edit and delete media types"));
+    connect(configMediaTypesAction, SIGNAL(triggered()), this, SLOT(configureMediaTypess()));
 
     configMediaImagePathAction = new QAction(tr("Media &Image Paths"), this);
     configMediaImagePathAction->setStatusTip(tr("Configure media image file paths."));
@@ -119,6 +132,7 @@ void MainWindow::createActions()
     connect(aboutAction, SIGNAL(triggered()), this, SLOT(about()));
 }
 
+// TODO: deprecated
 void MainWindow::configurePlatforms()
 {
    if (!platformDialog)
@@ -131,11 +145,14 @@ void MainWindow::configurePlatforms()
 
 void MainWindow::configurePlatformss()
 {
-    plfDialog = new PlatformMainDialog(this);
-    connect(plfDialog, SIGNAL(finished(int)), this, SLOT(updateData()));
+    if (!plfDialog) {
+        plfDialog = new PlatformMainDialog(this);
+        connect(plfDialog, SIGNAL(finished(int)), this, SLOT(updateData()));
+    }
     activateDialog(plfDialog);
 }
 
+// TODO: deprecated
 void MainWindow::configureMediaTypes()
 {
     if (!mediaTypeDialog)
@@ -145,6 +162,17 @@ void MainWindow::configureMediaTypes()
    }
    activateDialog(mediaTypeDialog);
 }
+
+void MainWindow::configureMediaTypess()
+{
+    if (!mdtDialog)
+    {
+        mdtDialog = new MediaTypeMainDialog(this);
+        connect(mdtDialog, SIGNAL(finished(int)), this, SLOT(updateData()));
+   }
+   activateDialog(mdtDialog);
+}
+
 
 void MainWindow::configureMediaImagePaths()
 {
@@ -234,9 +262,12 @@ void MainWindow::createMenus()
     configMenu = menuBar()->addMenu(tr("&Config"));
     configMenu->addAction(configTmpDirAction);
     configMenu->addSeparator();
+    // TODO: deprecated
     configMenu->addAction(configPlatformAction);
     configMenu->addAction(configPlatformsAction);
+    // TODO: deprecated
     configMenu->addAction(configMediaTypeAction);
+    configMenu->addAction(configMediaTypesAction);
     configMenu->addAction(configSetupAction);
     configMenu->addAction(configMediaImagePathAction);
     configMenu->addAction(configEmulatorAction);

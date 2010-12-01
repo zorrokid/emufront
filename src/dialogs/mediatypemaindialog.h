@@ -17,16 +17,16 @@
 // You should have received a copy of the GNU General Public License
 // along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <QtGui>
-#include "platformmaindialog.h"
-#include "db/platformmodel.h"
+#ifndef MEDIATYPEMAINDIALOG_H
+#define MEDIATYPEMAINDIALOG_H
 
-PlatformMainDialog::PlatformMainDialog(QWidget *parent) :
-    EmuFrontFileObjectMainDialog(parent)
+#include "emufrontfileobjectmaindialog.h"
+
+class MediaTypeMainDialog : public EmuFrontFileObjectMainDialog
 {
-    model = new PlatformModel(this);
-    objectList->setModel(model);
-    postInit();
-}
+    Q_OBJECT
+public:
+    MediaTypeMainDialog(QWidget *parent = 0);
+};
 
-
+#endif // MEDIATYPEMAINDIALOG_H

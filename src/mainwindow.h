@@ -23,9 +23,13 @@
 #include <QMainWindow>
 
 class QAction;
+// TODO: DEPRECATED
 class PlatformDialog;
 class PlatformMainDialog;
+class MediaTypeMainDialog;
+// TODO: DEPRECATED
 class MediaTypeDialog;
+class MediaTypeMainDialog;
 class MediaImagePathMainDialog;
 class SetupMainDialog;
 class ExecutableMainDialog;
@@ -49,9 +53,12 @@ protected:
 	void closeEvent(QCloseEvent *event);
 
 private slots:
+    // TODO: DEPRECATED
     void configurePlatforms();
     void configurePlatformss();
+    // TODO: DEPRECATED
     void configureMediaTypes();
+    void configureMediaTypess();
     void configureMediaImagePaths();
     void configureSetups();
     void configureEmulators();
@@ -74,9 +81,13 @@ private:
     void activateDialog(EmuFrontDialog*) const;
     bool testDB(bool reset);
     void createDB() const;
+
+    // TODO: deprecated
     PlatformDialog *platformDialog;
     PlatformMainDialog *plfDialog;
+    // TODO: deprecated
     MediaTypeDialog *mediaTypeDialog;
+    MediaTypeMainDialog *mdtDialog;
     MediaImagePathMainDialog *mediaImagePathDialog;
     SetupMainDialog *setupMainDialog;
     ExecutableMainDialog *executableMainDialog;
@@ -84,9 +95,12 @@ private:
 	QMenu *configMenu;
     QMenu *fileMenu;
     QMenu *helpMenu;
+    // TODO: deprecated
     QAction *configPlatformAction;
     QAction *configPlatformsAction;
+    // TODO: deprecated
     QAction *configMediaTypeAction;
+    QAction *configMediaTypesAction;
     QAction *configMediaImagePathAction;
     QAction *configSetupAction;
     QAction *configEmulatorAction;

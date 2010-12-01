@@ -20,17 +20,13 @@
 #ifndef PLATFORMMAINDIALOG_H
 #define PLATFORMMAINDIALOG_H
 
-#include "emufrontdatadialog.h"
+#include "emufrontfileobjectmaindialog.h"
 
-
-class PlatformMainDialog : public EmuFrontDataDialog
+class PlatformMainDialog : public EmuFrontFileObjectMainDialog
 {
     Q_OBJECT
 public:
     PlatformMainDialog(QWidget *parent = 0);
-private:
-    virtual void setHiddenColumns();
-
   };
 
 #endif // PLATFORMMAINDIALOG_H
