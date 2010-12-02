@@ -90,3 +90,21 @@ bool EmuFrontFileObjectModel::setName(int id, const QString &name)
     query.bindValue(":id", id);
     return query.exec();
 }
+
+bool EmuFrontFileObjectModel::insertRows(int row, int count, const QModelIndex &parent)
+{
+    if (parent.isValid())
+        return false;
+    if (rowCount() < row)
+        row = rowCount() + 1;
+    qDebug() << "Inserting " << count << " rows from row " << row;
+    QSqlQuery q;
+    q.prepare(QString("INSERT INTO %1 (id, name, fileid) "
+        " VALUES (NULL, '', NULL) ").arg(tableName));
+    beginInsertRows(QModelIndex(), row, row + count - 1);
+    for (int i = 0; i < count; ++i) {
+        q.exec();
+    }
+    endInsertRows();
+    return true;
+}

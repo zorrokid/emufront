@@ -82,4 +82,14 @@ void EmuFrontDataDialog::deleteButtonClicked()
 void EmuFrontDataDialog::addButtonClicked()
 {
     qDebug() << "Delete button clicked";
+    int row = objectList->currentIndex().row();
+    if (row == -1) row  = 0;
+    model->insertRows(row, 1);
+    QModelIndex ind = model->index(row, 1);
+    if (!ind.isValid()){
+        qDebug() << "Invalid index";
+        return;
+    }
+    objectList->setCurrentIndex(ind);
+    objectList->edit(ind);
 }

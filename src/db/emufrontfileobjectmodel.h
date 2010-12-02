@@ -29,6 +29,7 @@ public:
     EmuFrontFileObjectModel(QObject *parent = 0);
     Qt::ItemFlags flags(const QModelIndex &index) const;
     bool setData(const QModelIndex &index, const QVariant &value, int role);
+    bool insertRows(int row, int count, const QModelIndex &parent);
     enum {
         EmuFrontFileObject_Id,
         EmuFrontFileObject_Name,
