@@ -94,10 +94,9 @@ bool EmuFrontFileObjectModel::setName(int id, const QString &name)
 bool EmuFrontFileObjectModel::insertRows(int row, int count, const QModelIndex &parent)
 {
     if (parent.isValid())
-        return false;
+        return false; // This is a flat model
     if (rowCount() < row)
         row = rowCount() + 1;
-    qDebug() << "Inserting " << count << " rows from row " << row;
     QSqlQuery q;
     q.prepare(QString("INSERT INTO %1 (id, name, fileid) "
         " VALUES (NULL, '', NULL) ").arg(tableName));
