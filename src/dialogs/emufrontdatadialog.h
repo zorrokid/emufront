@@ -36,6 +36,7 @@ private slots:
     void editButtonClicked();
     void addButtonClicked();
     void deleteButtonClicked();
+    void listObjectClicked(const QModelIndex &);
 
 protected:
     EmuFrontQueryModel *model;
@@ -52,6 +53,7 @@ private:
     virtual void setHiddenColumns() = 0;
     void hideColumns();
     virtual void connectSignals();
+    void setButtonsEnabled(bool);
 
 };
 

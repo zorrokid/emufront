@@ -62,8 +62,8 @@ void EmuFrontDataDialog::hideColumns()
 void EmuFrontDataDialog::connectSignals()
 {
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
-    /*connect(objectList, SIGNAL(clicked(const QModelIndex &)),
-        this, SLOT(listObjectClicked(const QModelIndex &)));*/
+    connect(objectList, SIGNAL(clicked(const QModelIndex &)),
+        this, SLOT(listObjectClicked(const QModelIndex &)));
     connect(editButton, SIGNAL(clicked()), this, SLOT(editButtonClicked()));
     connect(addButton, SIGNAL(clicked()), this, SLOT(addButtonClicked()));
     connect(deleteButton, SIGNAL(clicked()), this, SLOT(deleteButtonClicked()));
@@ -71,13 +71,21 @@ void EmuFrontDataDialog::connectSignals()
 
 void EmuFrontDataDialog::editButtonClicked()
 {
+    setButtonsEnabled(false);
     qDebug() << "Edit button clicked";
 }
 
 void EmuFrontDataDialog::deleteButtonClicked()
 {
-    qDebug() << "Delete button clicked";
+    setButtonsEnabled(false);
+    if (!objectList->currentIndex().isValid())
+        return;
+    int row = objectList->currentIndex().row();
+    if ( !model->removeRows(row, 1) ) {
+        errorMessage->showMessage(tr("Failed removing selected item."));
+    }
 }
+
 
 void EmuFrontDataDialog::addButtonClicked()
 {
@@ -90,4 +98,15 @@ void EmuFrontDataDialog::addButtonClicked()
     }
     objectList->setCurrentIndex(ind);
     objectList->edit(ind);
+}
+
+void EmuFrontDataDialog::listObjectClicked(const QModelIndex &index)
+{
+    setButtonsEnabled(index.isValid());
+}
+
+void EmuFrontDataDialog::setButtonsEnabled(bool b)
+{
+    editButton->setEnabled(b);
+    deleteButton->setEnabled(b);
 }

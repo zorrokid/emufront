@@ -105,5 +105,31 @@ bool EmuFrontFileObjectModel::insertRows(int row, int count, const QModelIndex &
         q.exec();
     }
     endInsertRows();
+    refresh();
+    return true;
+}
+
+bool EmuFrontFileObjectModel::removeRows(int row, int count, const QModelIndex &parent)
+{
+     if (parent.isValid()) {
+        return false; // This is a flat model
+    }
+    if (rowCount() < row + count - 1)
+        return false;
+
+    QSqlQuery q;
+    q.prepare(QString("DELETE FROM %1 WHERE id=:id").arg(tableName));
+    QModelIndex primaryIndex;
+    int id = -1;
+    beginRemoveRows(QModelIndex(), row, row + count - 1);
+    for(int i = 0; i < count; ++i) {
+        primaryIndex = QSqlQueryModel::index(row + i, EmuFrontFileObject_Id);
+        id = data(primaryIndex).toInt();
+        qDebug() << "Removing data item with id " << id;
+        q.bindValue(":id", id);
+        q.exec();
+    }
+    endRemoveRows();
+    refresh();
     return true;
 }
