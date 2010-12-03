@@ -31,7 +31,9 @@ class MediaTypeMainDialog;
 class MediaTypeDialog;
 class MediaTypeMainDialog;
 class MediaImagePathMainDialog;
+// TODO: DEPRECATED
 class SetupMainDialog;
+class SetupMainView;
 class ExecutableMainDialog;
 //class TmpFolderEditDialog;
 class QLabel;
@@ -60,7 +62,9 @@ private slots:
     void configureMediaTypes();
     void configureMediaTypess();
     void configureMediaImagePaths();
+    // TODO: DEPRECATED
     void configureSetups();
+    void configureSetupss();
     void configureEmulators();
     void configureTmpDir();
     void resetDb();
@@ -89,7 +93,9 @@ private:
     MediaTypeDialog *mediaTypeDialog;
     MediaTypeMainDialog *mdtDialog;
     MediaImagePathMainDialog *mediaImagePathDialog;
+    // TODO: deprecated
     SetupMainDialog *setupMainDialog;
+    SetupMainView *setupMainView;
     ExecutableMainDialog *executableMainDialog;
     //TmpFolderEditDialog *tmpFolderDialog;
 	QMenu *configMenu;
@@ -102,7 +108,9 @@ private:
     QAction *configMediaTypeAction;
     QAction *configMediaTypesAction;
     QAction *configMediaImagePathAction;
+    // TODO: deprecated
     QAction *configSetupAction;
+    QAction *configSetupsAction;
     QAction *configEmulatorAction;
     QAction *exitAction;
     QAction *resetDbAction;

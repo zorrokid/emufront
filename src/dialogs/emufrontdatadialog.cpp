@@ -110,3 +110,8 @@ void EmuFrontDataDialog::setButtonsEnabled(bool b)
     editButton->setEnabled(b);
     deleteButton->setEnabled(b);
 }
+
+void EmuFrontDataDialog::setHiddenColumns()
+{
+    // default implementation
+}

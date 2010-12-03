@@ -17,35 +17,26 @@
 // You should have received a copy of the GNU General Public License
 // along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef EMUFRONTFILEOBJECTMODEL_H
-#define EMUFRONTFILEOBJECTMODEL_H
+#ifndef SETUPMODEL_H
+#define SETUPMODEL_H
 
 #include "emufrontquerymodel.h"
 
-class EmuFrontFileObjectModel : public EmuFrontQueryModel
+class SetupModel : public EmuFrontQueryModel
 {
     Q_OBJECT
 public:
-    EmuFrontFileObjectModel(QObject *parent = 0);
-    virtual Qt::ItemFlags flags(const QModelIndex &index) const;
-    virtual bool setData(const QModelIndex &index, const QVariant &value, int role);
-    virtual bool insertRows(int row, int count, const QModelIndex &parent);
-    virtual bool removeRows(int row, int count, const QModelIndex &parent);
-    enum {
-        EmuFrontFileObject_Id,
-        EmuFrontFileObject_Name,
-        EmuFrontFileObject_FileId,
-        EmuFrontFileObject_FileName,
-        EmuFrontFileObject_FileType,
-        EmuFrontFileObject_FileCheckSum,
-        EmuFrontFileObject_FileSize,
-        EmuFrontFileObject_FileUpdateTime
-    };
+    SetupModel(QObject *parent = 0);
+    enum { Setup_Id = 0,
+           Setup_PlatformId,
+           Setup_MediaTypeId,
+           Setup_FileTypeExtensions,
+           Setup_Name };
+    static const QString FILE_TYPE_EXTENSION_SEPARATOR;
 
 protected:
     virtual void refresh();
     virtual QString constructSelect(QString where = "") const;
-    virtual bool setName(int id, const QString &name);
 };
 
-#endif // EMUFRONTFILEOBJECTMODEL_H
+#endif // SETUPMODEL_H

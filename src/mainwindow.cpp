@@ -27,7 +27,9 @@
 // TODO: deprecated
 #include "dialogs/mediatypemaindialog.h"
 #include "dialogs/mediaimagepathmaindialog.h"
+// TODO: deprecated
 #include "dialogs/setupmaindialog.h"
+#include "dialogs/setupmainview.h"
 #include "dialogs/executablemaindialog.h"
 #include "utils/datfileutil.h"
 #include "db/databasemanager.h"
@@ -67,7 +69,9 @@ MainWindow::MainWindow(bool reset)
     mediaTypeDialog = 0;
     mdtDialog = 0;
     mediaImagePathDialog = 0;
+    // TODO: deprecated
     setupMainDialog = 0;
+    setupMainView = 0;
     executableMainDialog = 0;
 }
 
@@ -102,9 +106,14 @@ void MainWindow::createActions()
     connect(configMediaImagePathAction, SIGNAL(triggered()),
         this, SLOT(configureMediaImagePaths()));
 
+    // TODO: deprecated
     configSetupAction = new QAction(tr("S&etups"), this);
     configSetupAction->setStatusTip(tr("Configure set ups"));
     connect(configSetupAction, SIGNAL(triggered()), this, SLOT(configureSetups()));
+
+    configSetupsAction = new QAction(tr("Configure S&etups"), this);
+    configSetupsAction->setStatusTip(tr("Add, edit and delete setups"));
+    connect(configSetupsAction, SIGNAL(triggered()), this, SLOT(configureSetupss()));
 
     configEmulatorAction = new QAction(tr("Em&ulators"), this);
     configEmulatorAction->setStatusTip(tr("Configure emulators"));
@@ -183,16 +192,25 @@ void MainWindow::configureMediaImagePaths()
     activateDialog(mediaImagePathDialog);
 }
 
+// TODO: deprecated
 void MainWindow::configureSetups()
 {
     if (!setupMainDialog)
     {
-        qDebug() << "MainWindow: Creating a setup main dialog.";
         setupMainDialog = new SetupMainDialog(this);
     }
     activateDialog(setupMainDialog);
     setupMainDialog->refreshDataModel();
 }
+
+void MainWindow::configureSetupss()
+{
+    if (!setupMainView) {
+        setupMainView = new SetupMainView(this);
+    }
+    activateDialog(setupMainView);
+}
+
 
 void MainWindow::configureEmulators()
 {
@@ -268,7 +286,9 @@ void MainWindow::createMenus()
     // TODO: deprecated
     configMenu->addAction(configMediaTypeAction);
     configMenu->addAction(configMediaTypesAction);
+    // TODO: deprecated
     configMenu->addAction(configSetupAction);
+    configMenu->addAction(configSetupsAction);
     configMenu->addAction(configMediaImagePathAction);
     configMenu->addAction(configEmulatorAction);
     configMenu->addSeparator();

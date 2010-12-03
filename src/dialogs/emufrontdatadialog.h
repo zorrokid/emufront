@@ -50,7 +50,7 @@ private:
     QPushButton *addButton;
     QPushButton *deleteButton;
     void layout();
-    virtual void setHiddenColumns() = 0;
+    virtual void setHiddenColumns();
     void hideColumns();
     virtual void connectSignals();
     void setButtonsEnabled(bool);
