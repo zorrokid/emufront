@@ -20,7 +20,7 @@
 #include <QSqlRelationalTableModel>
 #include <QSqlRecord>
 #include <QSqlQuery>
-#include "../dataobjects/filepathobject.h"
+#include "filepathobject.h"
 #include "dbfilepath.h"
 #include "dbsetup.h"
 

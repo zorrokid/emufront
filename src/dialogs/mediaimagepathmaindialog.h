@@ -21,7 +21,7 @@
 #define MEDIAIMAGEPATHMAINDIALOG_H
 
 #include "dbobjectdialog.h"
-#include "../db/dbmediaimagecontainer.h"
+#include "dbmediaimagecontainer.h"
 
 class FileUtil;
 class QProgressDialog;

@@ -20,8 +20,8 @@
 #include <QtGui>
 #include "executablemaindialog.h"
 #include "executableeditdialog.h"
-#include "../db/dbexecutable.h"
-#include "../dataobjects/executable.h"
+#include "dbexecutable.h"
+#include "executable.h"
 
 ExecutableMainDialog::ExecutableMainDialog(QWidget *parent)
     : DbObjectDialog(parent)

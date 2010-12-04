@@ -21,7 +21,7 @@
 #define PLATFORMNAMEDIALOG_H
 
 #include "namedialog.h"
-#include "../dataobjects/platform.h"
+#include "platform.h"
 
 class PlatformNameDialog : public NameDialog
 {

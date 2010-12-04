@@ -21,7 +21,7 @@
 #define MEDIATYPENAMEDIALOG_H
 
 #include "namedialog.h"
-#include "../dataobjects/mediatype.h"
+#include "mediatype.h"
 
 class MediaTypeNameDialog : public NameDialog
 {

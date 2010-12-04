@@ -22,7 +22,7 @@
 
 #include <QObject>
 #include <QSqlDatabase>
-#include "../exceptions/emufrontexception.h"
+#include "emufrontexception.h"
 
 class QSqlError;
 class QFile;

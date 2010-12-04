@@ -21,8 +21,8 @@
 #define FILEUTIL_H
 
 #include <QObject>
-#include "../dataobjects/emufrontfileobject.h"
-#include "../dataobjects/filepathobject.h"
+#include "emufrontfileobject.h"
+#include "filepathobject.h"
 
 #define READ_BUFFER (256*1024)
 

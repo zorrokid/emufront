@@ -19,10 +19,10 @@
 
 #include <QtGui>
 
-#include "../dataobjects/filepathobject.h"
-#include "../dataobjects/emufrontfileobject.h"
-#include "../db/dbfilepath.h"
-#include "../utils/fileutil.h"
+#include "filepathobject.h"
+#include "emufrontfileobject.h"
+#include "dbfilepath.h"
+#include "fileutil.h"
 #include "mediaimagepathmaindialog.h"
 #include "mediaimagepathdialog.h"
 

@@ -21,7 +21,7 @@
 #define DBFILE_H
 
 #include "dbquerymodelmanager.h"
-#include "../dataobjects/emufrontfile.h"
+#include "emufrontfile.h"
 
 class DbFile : public DbQueryModelManager
 {

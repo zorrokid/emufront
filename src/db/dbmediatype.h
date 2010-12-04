@@ -21,7 +21,7 @@
 #define DBMEDIATYPE_H
 
 #include "dbemufrontfileobject.h"
-#include "../dataobjects/mediatype.h"
+#include "mediatype.h"
 
 class DbMediaType : public DbEmuFrontFileObject
 {

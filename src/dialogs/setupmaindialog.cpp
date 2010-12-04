@@ -20,7 +20,7 @@
 #include <QtGui>
 #include "setupmaindialog.h"
 #include "setupeditdialog.h"
-#include "../db/dbsetup.h"
+#include "dbsetup.h"
 
 SetupMainDialog::SetupMainDialog(QWidget *parent)
     : DbObjectDialog(parent)

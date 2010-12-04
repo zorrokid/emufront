@@ -22,8 +22,8 @@
 
 #include "emufrontdialog.h"
 #include "dataobjecteditdialog.h"
-#include "../db/databasemanager.h"
-#include "../dataobjects/emufrontobject.h"
+#include "databasemanager.h"
+#include "emufrontobject.h"
 
 class QPushButton;
 class QModelIndex;

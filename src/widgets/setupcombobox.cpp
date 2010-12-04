@@ -18,7 +18,7 @@
 // along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "setupcombobox.h"
-#include "../db/dbsetup.h"
+#include "dbsetup.h"
 
 SetupComboBox::SetupComboBox(DatabaseManager *dbMan, QWidget *parent)
     : EFComboBox(dbMan, parent)

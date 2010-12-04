@@ -1,6 +1,6 @@
 #include <QtGui>
 #include "emufrontfileobjectdialog.h"
-#include "../db/dbemufrontfileobject.h"
+#include "dbemufrontfileobject.h"
 
 EmuFrontFileObjectDialog::EmuFrontFileObjectDialog(QWidget *parent) :
     DbObjectDialog(parent)

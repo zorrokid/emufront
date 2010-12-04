@@ -27,7 +27,7 @@
 #include <QDebug>
 #include <exception>
 #include "dbcreator.h"
-#include "../exceptions/emufrontexception.h"
+#include "emufrontexception.h"
 
 using namespace std;
 

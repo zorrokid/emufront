@@ -21,8 +21,8 @@
 #include <QAbstractItemView>
 #include <QSqlTableModel>
 #include <QTextStream>
-#include "../db/dbmediatype.h"
-#include "../dataobjects/mediatype.h"
+#include "dbmediatype.h"
+#include "mediatype.h"
 #include "mediatypedialog.h"
 #include "mediatypenamedialog.h"
 

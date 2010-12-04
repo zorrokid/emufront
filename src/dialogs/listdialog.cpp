@@ -19,7 +19,7 @@
 
 #include "listdialog.h"
 #include <QtGui>
-#include "../dataobjects/emufrontobject.h"
+#include "emufrontobject.h"
 
 ListDialog::ListDialog(QWidget *parent)
     : QDialog(parent)

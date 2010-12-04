@@ -19,12 +19,12 @@
 
 #include <QtGui>
 #include "executableeditdialog.h"
-#include "../db/dbexecutable.h"
-#include "../db/dbsetup.h"
-#include "../dataobjects/executable.h"
-#include "../dataobjects/setup.h"
-#include "../widgets/setupcombobox.h"
-#include "../exceptions/emufrontexception.h"
+#include "dbexecutable.h"
+#include "dbsetup.h"
+#include "executable.h"
+#include "setup.h"
+#include "setupcombobox.h"
+#include "emufrontexception.h"
 
 ExecutableEditDialog::ExecutableEditDialog(QWidget *parent, EmuFrontObject *obj)
     : DataObjectEditDialog(parent, obj)

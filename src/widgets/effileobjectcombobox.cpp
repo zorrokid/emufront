@@ -18,7 +18,7 @@
 // along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "effileobjectcombobox.h"
-#include "../db/dbemufrontfileobject.h"
+#include "dbemufrontfileobject.h"
 
 EFFileObjectComboBox::EFFileObjectComboBox(DatabaseManager *dbMan, QWidget *parent)
     : EFComboBox(dbMan, parent)

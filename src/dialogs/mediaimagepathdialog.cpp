@@ -21,9 +21,9 @@
 #include <QSqlTableModel>
 #include <QSqlRecord>
 #include "mediaimagepathdialog.h"
-#include "../db/dbsetup.h"
-#include "../dataobjects/filepathobject.h"
-#include "../widgets/setupcombobox.h"
+#include "dbsetup.h"
+#include "filepathobject.h"
+#include "setupcombobox.h"
 
 MediaImagePathDialog::MediaImagePathDialog(QWidget *parent, EmuFrontObject *efObject)
     : BrowseFilePathDialog(parent, efObject, Qt::Horizontal)

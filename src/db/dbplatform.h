@@ -21,7 +21,7 @@
 #define DBPLATFORM_H
 
 #include "dbemufrontfileobject.h"
-#include "../dataobjects/platform.h"
+#include "platform.h"
 
 class QModelIndex;
 

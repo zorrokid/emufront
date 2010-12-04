@@ -18,8 +18,8 @@
 // along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QtGui>
-#include "../db/dbplatform.h"
-#include "../dataobjects/platform.h"
+#include "dbplatform.h"
+#include "platform.h"
 #include "platformdialog.h"
 #include "platformnamedialog.h"
 

@@ -20,7 +20,7 @@
 #include <QtGui>
 #include <QSqlTableModel>
 #include "dbobjectdialog.h"
-#include "../db/databasemanager.h"
+#include "databasemanager.h"
 
 DbObjectDialog::DbObjectDialog(QWidget *parent)
     : EmuFrontDialog(parent)

@@ -25,15 +25,15 @@
 class QAction;
 // TODO: DEPRECATED
 class PlatformDialog;
-class PlatformMainDialog;
-class MediaTypeMainDialog;
+class PlatformEditView;
+class MediaTypeEditView;
 // TODO: DEPRECATED
 class MediaTypeDialog;
-class MediaTypeMainDialog;
+class MediaTypeEditView;
 class MediaImagePathMainDialog;
 // TODO: DEPRECATED
 class SetupMainDialog;
-class SetupMainView;
+class SetupEditView;
 class ExecutableMainDialog;
 //class TmpFolderEditDialog;
 class QLabel;
@@ -88,14 +88,14 @@ private:
 
     // TODO: deprecated
     PlatformDialog *platformDialog;
-    PlatformMainDialog *plfDialog;
+    PlatformEditView *plfDialog;
     // TODO: deprecated
     MediaTypeDialog *mediaTypeDialog;
-    MediaTypeMainDialog *mdtDialog;
+    MediaTypeEditView *mdtDialog;
     MediaImagePathMainDialog *mediaImagePathDialog;
     // TODO: deprecated
     SetupMainDialog *setupMainDialog;
-    SetupMainView *setupMainView;
+    SetupEditView *setupMainView;
     ExecutableMainDialog *executableMainDialog;
     //TmpFolderEditDialog *tmpFolderDialog;
 	QMenu *configMenu;

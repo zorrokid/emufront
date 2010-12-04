@@ -20,9 +20,9 @@
 #include <QFileInfo>
 #include <QDebug>
 #include "unziphelper.h"
-#include "../dataobjects/mediaimage.h"
-#include "../dataobjects/filepathobject.h"
-#include "../exceptions/emufrontexception.h"
+#include "mediaimage.h"
+#include "filepathobject.h"
+#include "emufrontexception.h"
 
 const QString UnzipHelper::UNZIP_COMMAND = "unzip ";
 const QString UnzipHelper::UNZIP_LIST_ARGS = "-lv ";

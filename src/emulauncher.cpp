@@ -22,15 +22,15 @@
 #include <QSqlTableModel>
 #include <QItemSelectionModel>
 #include "emulauncher.h"
-#include "db/dbmediatype.h"
-#include "db/dbplatform.h"
-#include "db/dbexecutable.h"
-#include "db/dbmediaimagecontainer.h"
-#include "widgets/effileobjectcombobox.h"
-#include "widgets/executablecombobox.h"
-#include "dataobjects/executable.h"
-#include "utils/emuhelper.h"
-#include "dialogs/emufrontinputdialog.h"
+#include "dbmediatype.h"
+#include "dbplatform.h"
+#include "dbexecutable.h"
+#include "dbmediaimagecontainer.h"
+#include "effileobjectcombobox.h"
+#include "executablecombobox.h"
+#include "executable.h"
+#include "emuhelper.h"
+#include "emufrontinputdialog.h"
 
 EmuLauncher::EmuLauncher(QErrorMessage *errorMessage, QWidget *parent, QString tmp) :
     QWidget(parent), tmpDirPath(tmp), errorMessage(errorMessage)

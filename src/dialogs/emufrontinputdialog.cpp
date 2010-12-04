@@ -1,6 +1,6 @@
 #include "emufrontinputdialog.h"
 #include <QMap>
-#include "../dataobjects/emufrontobject.h"
+#include "emufrontobject.h"
 
 EmuFrontInputDialog::EmuFrontInputDialog(QWidget *parent, Qt::WindowFlags flags)
         : QInputDialog(parent, flags)

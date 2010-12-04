@@ -22,7 +22,7 @@
 
 #include "dbquerymodelmanager.h"
 #include "dbfile.h"
-#include "../dataobjects/emufrontfileobject.h"
+#include "emufrontfileobject.h"
 
 class DbEmuFrontFileObject : public DbQueryModelManager
 {

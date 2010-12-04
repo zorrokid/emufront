@@ -20,7 +20,7 @@
 #ifndef EMUFRONTDIALOG_H
 #define EMUFRONTDIALOG_H
 #include <QDialog>
-#include "../exceptions/emufrontexception.h"
+#include "emufrontexception.h"
 
 class QErrorMessage;
 

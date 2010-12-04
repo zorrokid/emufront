@@ -21,7 +21,7 @@
 #define DBMEDIAIMAGE_H
 
 #include "dbfile.h"
-#include "../dataobjects/mediaimage.h"
+#include "mediaimage.h"
 #include <QMap>
 
 class DbMediaImage : public DbFile

@@ -24,7 +24,7 @@
 #include <QSqlRelationalTableModel>
 #include "dbexecutable.h"
 #include "dbsetup.h"
-#include "../dataobjects/executable.h"
+#include "executable.h"
 
 
 DbExecutable::DbExecutable(QObject *parent)

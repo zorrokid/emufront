@@ -18,7 +18,7 @@
 // along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "executablecombobox.h"
-#include "../db/dbexecutable.h"
+#include "dbexecutable.h"
 
 ExecutableComboBox::ExecutableComboBox(DatabaseManager *dbMan, QWidget *parent)
     : EFComboBox(dbMan, parent)

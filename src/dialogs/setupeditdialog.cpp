@@ -21,11 +21,11 @@
 #include <QSqlTableModel>
 #include <QSqlRecord>
 #include "setupeditdialog.h"
-#include "../widgets/fileextensionwidget.h"
-#include "../widgets/effileobjectcombobox.h"
-#include "../db/dbmediatype.h"
-#include "../db/dbplatform.h"
-#include "../db/dbsetup.h"
+#include "fileextensionwidget.h"
+#include "effileobjectcombobox.h"
+#include "dbmediatype.h"
+#include "dbplatform.h"
+#include "dbsetup.h"
 
 SetupEditDialog::SetupEditDialog(QWidget *parent, EmuFrontObject* obj)
     : DataObjectEditDialog(parent, obj)

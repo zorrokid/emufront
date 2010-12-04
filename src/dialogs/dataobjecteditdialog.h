@@ -21,7 +21,7 @@
 #define DATAOBJECTEDITDIALOG_H
 
 #include "emufrontdialog.h"
-#include "../dataobjects/emufrontobject.h"
+#include "emufrontobject.h"
 
 class QDialogButtonBox;
 class QComboBox;

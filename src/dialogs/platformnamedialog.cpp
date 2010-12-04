@@ -19,7 +19,7 @@
 
 #include <QtGui>
 #include "platformnamedialog.h"
-#include "../db/databasemanager.h"
+#include "databasemanager.h"
 
 PlatformNameDialog::PlatformNameDialog(QWidget *parent, Platform *efObj)
     : NameDialog(parent, efObj)

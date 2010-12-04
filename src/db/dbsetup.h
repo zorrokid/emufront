@@ -21,7 +21,7 @@
 #define DBSETUP_H
 
 #include "dbquerymodelmanager.h"
-#include "../dataobjects/setup.h"
+#include "setup.h"
 #include "dbplatform.h"
 #include "dbmediatype.h"
 

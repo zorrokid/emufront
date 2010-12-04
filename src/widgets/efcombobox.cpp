@@ -18,8 +18,8 @@
 // along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "efcombobox.h"
-#include "../exceptions/emufrontexception.h"
-#include "../dataobjects/emufrontobject.h"
+#include "emufrontexception.h"
+#include "emufrontobject.h"
 #include <QSqlQueryModel>
 #include <QSqlRecord>
 #include <QDebug>

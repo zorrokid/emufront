@@ -20,7 +20,7 @@
 #ifndef NAMEDIALOG_H
 #define NAMEDIALOG_H
 
-#include "../dataobjects/emufrontobject.h"
+#include "emufrontobject.h"
 #include "dataobjecteditdialog.h"
 
 class QLabel;

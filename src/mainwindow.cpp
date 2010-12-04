@@ -21,20 +21,20 @@
 #include "mainwindow.h"
 #include "emulauncher.h"
 // TODO: deprecated
-#include "dialogs/platformdialog.h"
-#include "dialogs/platformmaindialog.h"
-#include "dialogs/mediatypedialog.h"
+#include "platformdialog.h"
+#include "platformeditview.h"
+#include "mediatypedialog.h"
 // TODO: deprecated
-#include "dialogs/mediatypemaindialog.h"
-#include "dialogs/mediaimagepathmaindialog.h"
+#include "mediatypeeditview.h"
+#include "mediaimagepathmaindialog.h"
 // TODO: deprecated
-#include "dialogs/setupmaindialog.h"
-#include "dialogs/setupmainview.h"
-#include "dialogs/executablemaindialog.h"
-#include "utils/datfileutil.h"
-#include "db/databasemanager.h"
-#include "db/dbcreator.h"
-#include "db/dbconfig.h"
+#include "setupmaindialog.h"
+#include "setupeditview.h"
+#include "executablemaindialog.h"
+#include "datfileutil.h"
+#include "databasemanager.h"
+#include "dbcreator.h"
+#include "dbconfig.h"
 
 QString MainWindow::aboutStr = trUtf8(
         "<h2>EmuFront</h2>"
@@ -155,7 +155,7 @@ void MainWindow::configurePlatforms()
 void MainWindow::configurePlatformss()
 {
     if (!plfDialog) {
-        plfDialog = new PlatformMainDialog(this);
+        plfDialog = new PlatformEditView(this);
         connect(plfDialog, SIGNAL(finished(int)), this, SLOT(updateData()));
     }
     activateDialog(plfDialog);
@@ -176,7 +176,7 @@ void MainWindow::configureMediaTypess()
 {
     if (!mdtDialog)
     {
-        mdtDialog = new MediaTypeMainDialog(this);
+        mdtDialog = new MediaTypeEditView(this);
         connect(mdtDialog, SIGNAL(finished(int)), this, SLOT(updateData()));
    }
    activateDialog(mdtDialog);
@@ -206,7 +206,7 @@ void MainWindow::configureSetups()
 void MainWindow::configureSetupss()
 {
     if (!setupMainView) {
-        setupMainView = new SetupMainView(this);
+        setupMainView = new SetupEditView(this);
     }
     activateDialog(setupMainView);
 }

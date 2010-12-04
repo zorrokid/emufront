@@ -23,13 +23,13 @@
 #include <QProgressDialog>
 #include "fileutil.h"
 #include "zlib.h" /* crc32 */
-#include "../exceptions/emufrontexception.h"
-#include "../dataobjects/setup.h"
-#include "../dataobjects/mediaimage.h"
-#include "../dataobjects/mediaimagecontainer.h"
-#include "../dataobjects/mediatype.h"
-#include "../dataobjects/platform.h"
-#include "../db/dbmediaimagecontainer.h"
+#include "emufrontexception.h"
+#include "setup.h"
+#include "mediaimage.h"
+#include "mediaimagecontainer.h"
+#include "mediatype.h"
+#include "platform.h"
+#include "dbmediaimagecontainer.h"
 #include "unziphelper.h"
 
 FileUtil::FileUtil(QObject *parent) : QObject(parent)

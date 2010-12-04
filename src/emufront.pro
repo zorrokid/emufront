@@ -4,11 +4,23 @@
 TEMPLATE = app
 TARGET = 
 DEPENDPATH += . \
+    exceptions \
+    dataobjects \
     db \
-    dialogs
+    dialogs \
+    models \
+    utils \
+    widgets \
+    views
 INCLUDEPATH += . \
     db \
-    dialogs
+    exceptions \
+    dataobjects \
+    dialogs \
+    models \
+    utils \
+    widgets \
+    views
 QT += sql
 QT += xml
 
@@ -39,8 +51,6 @@ HEADERS += mainwindow.h \
     utils/fileutil.h \
     dataobjects/setup.h \
     db/dbsetup.h \
-    db/dbtablemodelmanager.h \
-    db/dbquerymodelmanager.h \
     dialogs/setupmaindialog.h \
     dialogs/setupeditdialog.h \
     widgets/stringlistwidget.h \
@@ -71,16 +81,16 @@ HEADERS += mainwindow.h \
     db/dbconfig.h \
     utils/datfileutil.h \
     widgets/fileextensionwidget.h \
-    db/platformmodel.h \
-    dialogs/platformmaindialog.h \
-    dialogs/emufrontdatadialog.h \
-    db/emufrontquerymodel.h \
-    db/emufrontfileobjectmodel.h \
-    db/mediatypemodel.h \
-    dialogs/emufrontfileobjectmaindialog.h \
-    dialogs/mediatypemaindialog.h \
-    db/setupmodel.h \
-    dialogs/setupmainview.h
+    models/setupmodel.h \
+    models/platformmodel.h \
+    models/mediatypemodel.h \
+    models/emufrontquerymodel.h \
+    models/emufrontfileobjectmodel.h \
+    views/setupeditview.h \
+    views/platformeditview.h \
+    views/mediatypeeditview.h \
+    views/emufrontfileobjecteditview.h \
+    views/emufronteditview.h
 SOURCES += main.cpp \
     mainwindow.cpp \
     db/databasemanager.cpp \
@@ -139,16 +149,16 @@ SOURCES += main.cpp \
     db/dbconfig.cpp \
     utils/datfileutil.cpp \
     widgets/fileextensionwidget.cpp \
-    db/platformmodel.cpp \
-    dialogs/platformmaindialog.cpp \
-    dialogs/emufrontdatadialog.cpp \
-    db/emufrontquerymodel.cpp \
-    db/emufrontfileobjectmodel.cpp \
-    db/mediatypemodel.cpp \
-    dialogs/emufrontfileobjectmaindialog.cpp \
-    dialogs/mediatypemaindialog.cpp \
-    db/setupmodel.cpp \
-    dialogs/setupmainview.cpp
+    models/setupmodel.cpp \
+    models/platformmodel.cpp \
+    models/mediatypemodel.cpp \
+    models/emufrontquerymodel.cpp \
+    models/emufrontfileobjectmodel.cpp \
+    views/setupeditview.cpp \
+    views/platformeditview.cpp \
+    views/mediatypeeditview.cpp \
+    views/emufrontfileobjecteditview.cpp \
+    views/emufronteditview.cpp
 OTHER_FILES +=  
 
 CONFIG += mobility

@@ -22,8 +22,8 @@
 
 #include "dbmediaimage.h"
 #include "dbfile.h"
-#include "../dataobjects/mediaimagecontainer.h"
-#include "../dataobjects/filepathobject.h"
+#include "mediaimagecontainer.h"
+#include "filepathobject.h"
 
 class DbMediaImageContainer;
 class DbMediaImage;

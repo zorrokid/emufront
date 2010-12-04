@@ -23,9 +23,9 @@
 #include <QMessageBox>
 #include "emuhelper.h"
 #include "unziphelper.h"
-#include "../dataobjects/mediaimagecontainer.h"
-#include "../dataobjects/executable.h"
-#include "../exceptions/emufrontexception.h"
+#include "mediaimagecontainer.h"
+#include "executable.h"
+#include "emufrontexception.h"
 
 EmuHelper::EmuHelper(QObject *parent) :
     ProcessHelper(parent)

@@ -21,7 +21,7 @@
 #define EFCOMBOBOX_H
 
 #include <QComboBox>
-#include "../db/databasemanager.h"
+#include "databasemanager.h"
 
 class EFComboBox : public QComboBox
 {
