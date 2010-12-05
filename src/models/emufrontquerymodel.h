@@ -22,11 +22,14 @@
 
 #include <QSqlQueryModel>
 
+class EmuFrontObject;
+
 class EmuFrontQueryModel : public QSqlQueryModel
 {
     Q_OBJECT
 public:
     EmuFrontQueryModel(QObject *parent = 0);
+    EmuFrontObject* getObject(int id) const;
 
 signals:
 

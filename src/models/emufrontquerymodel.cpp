@@ -18,8 +18,15 @@
 // along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "emufrontquerymodel.h"
+#include "emufrontobject.h"
 
 EmuFrontQueryModel::EmuFrontQueryModel(QObject *parent) :
     QSqlQueryModel(parent)
 {
+}
+
+EmuFrontObject* EmuFrontQueryModel::getObject(int id) const
+{
+    // TODO
+    return 0;
 }
