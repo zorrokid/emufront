@@ -9,11 +9,12 @@ class ComboBoxDelegate : public QStyledItemDelegate
 {
     Q_OBJECT
 public:
-    ComboBoxDelegate(int column,
+    ComboBoxDelegate(
         QSqlQueryModel *,
         int cbmodelIdColumn,
         int cbmodelDisplayColumn,
-        QWidget *parent = 0);
+        QWidget *parent = 0
+    );
 
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
     //QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const;
@@ -22,9 +23,8 @@ public:
     void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const;
 
 private slots:
-    void commitAndCloseEditor();
+    void commitAndCloseEditor(int);
 private:
-    int viewColumn;
     QSqlQueryModel *cbmodel;
     int cbmodelIdColumn;
     int cbmodelDisplayColumn;

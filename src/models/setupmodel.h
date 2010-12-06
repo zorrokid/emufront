@@ -40,6 +40,7 @@ protected:
     virtual void refresh();
     virtual QString constructSelect(QString where = "") const;
     virtual bool setPlatform(int id, int platformId);
+    virtual bool setMediaType(int id, int platformId);
 };
 
 #endif // SETUPMODEL_H

@@ -22,6 +22,7 @@
 #include "setupmodel.h"
 #include "comboboxdelegate.h"
 #include "platformmodel.h"
+#include "mediatypemodel.h"
 #include <QSqlTableModel>
 
 SetupEditView::SetupEditView(QWidget *parent) :
@@ -29,11 +30,21 @@ SetupEditView::SetupEditView(QWidget *parent) :
 {
     model = new SetupModel(this);
     objectList->setModel(model);
-    /*QSqlTableModel *platformModel = new QSqlTableModel(this);
-    platformModel->setTable("platform");
-    platformModel->removeColumn(Plat)*/
     PlatformModel *plfModel = new PlatformModel(this);
-    ComboBoxDelegate *platformDelegate = new ComboBoxDelegate(SetupModel::Setup_PlatformId, plfModel, PlatformModel::EmuFrontFileObject_Id, PlatformModel::EmuFrontFileObject_Name, this);
-    objectList->setItemDelegate(platformDelegate);
+    ComboBoxDelegate *platformDelegate = new ComboBoxDelegate(
+            plfModel,
+            PlatformModel::EmuFrontFileObject_Id,
+            PlatformModel::EmuFrontFileObject_Name,
+            this
+        );
+    objectList->setItemDelegateForColumn(SetupModel::Setup_PlatformId, platformDelegate);
+    MediaTypeModel *mdtModel = new MediaTypeModel(this);
+    ComboBoxDelegate *mediatypeDelegate = new ComboBoxDelegate(
+            mdtModel,
+            MediaTypeModel::EmuFrontFileObject_Id,
+            MediaTypeModel::EmuFrontFileObject_Name,
+            this
+        );
+    objectList->setItemDelegateForColumn(SetupModel::Setup_MediaTypeId, mediatypeDelegate);
     postInit();
 }

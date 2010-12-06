@@ -54,7 +54,7 @@ QString SetupModel::constructSelect(QString where) const
 Qt::ItemFlags SetupModel::flags(const QModelIndex &index) const
 {
     Qt::ItemFlags flags = QSqlQueryModel::flags(index);
-    if (index.column() == Setup_PlatformId) {
+    if (index.column() == Setup_PlatformId || index.column() == Setup_MediaTypeId) {
         flags |= Qt::ItemIsEditable;
     }
     return flags;
@@ -62,7 +62,7 @@ Qt::ItemFlags SetupModel::flags(const QModelIndex &index) const
 
 bool SetupModel::setData(const QModelIndex &index, const QVariant &value, int /*role*/)
 {
-    if(index.column() != Setup_PlatformId)
+    if(index.column() != Setup_PlatformId && index.column() != Setup_MediaTypeId)
         return false;
 
     QModelIndex primaryKeyIndex
@@ -72,22 +72,34 @@ bool SetupModel::setData(const QModelIndex &index, const QVariant &value, int /*
     clear();
 
     bool ok;
-    if (index.column() == Setup_PlatformId) {
-        ok = setPlatform(id, value.toInt());
-    }
+    switch(index.column()) {
 
+    case Setup_PlatformId:
+        ok = setPlatform(id, value.toInt());
+        break;
+
+    case Setup_MediaTypeId:
+        ok = setMediaType(id, value.toInt());
+        break;
+    };
     refresh();
     return ok;
 }
 
 bool SetupModel::setPlatform(int id, int platformId)
 {
-    qDebug() << "updating setup " << id << " to platform " << platformId;
     QSqlQuery query;
     query.prepare(QString("update setup set platformid = :platformid where id = :id"));
     query.bindValue(":platformid", platformId);
     query.bindValue(":id", id);
-    qDebug() << query.lastQuery();
-    qDebug() << query.lastError();
+    return query.exec();
+}
+
+bool SetupModel::setMediaType(int id, int mediaTypeId)
+{
+    QSqlQuery query;
+    query.prepare(QString("update setup set mediatypeid = :mediatypeid where id = :id"));
+    query.bindValue(":mediatypeid", mediaTypeId);
+    query.bindValue(":id", id);
     return query.exec();
 }
