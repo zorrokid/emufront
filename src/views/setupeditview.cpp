@@ -20,11 +20,20 @@
 #include <QtGui>
 #include "setupeditview.h"
 #include "setupmodel.h"
+#include "comboboxdelegate.h"
+#include "platformmodel.h"
+#include <QSqlTableModel>
 
 SetupEditView::SetupEditView(QWidget *parent) :
     EmuFrontEditView(parent)
 {
     model = new SetupModel(this);
     objectList->setModel(model);
+    /*QSqlTableModel *platformModel = new QSqlTableModel(this);
+    platformModel->setTable("platform");
+    platformModel->removeColumn(Plat)*/
+    PlatformModel *plfModel = new PlatformModel(this);
+    ComboBoxDelegate *platformDelegate = new ComboBoxDelegate(SetupModel::Setup_PlatformId, plfModel, PlatformModel::EmuFrontFileObject_Id, PlatformModel::EmuFrontFileObject_Name, this);
+    objectList->setItemDelegate(platformDelegate);
     postInit();
 }

@@ -18,6 +18,7 @@
 // along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "setupmodel.h"
+#include <QtSql>
 
 SetupModel::SetupModel(QObject *parent) :
     EmuFrontQueryModel(parent)
@@ -48,4 +49,45 @@ QString SetupModel::constructSelect(QString where) const
         "INNER JOIN mediatype ON setup.mediatypeid=mediatype.id %1 "
         "ORDER BY SetupName"
         ).arg(where);
+}
+
+Qt::ItemFlags SetupModel::flags(const QModelIndex &index) const
+{
+    Qt::ItemFlags flags = QSqlQueryModel::flags(index);
+    if (index.column() == Setup_PlatformId) {
+        flags |= Qt::ItemIsEditable;
+    }
+    return flags;
+}
+
+bool SetupModel::setData(const QModelIndex &index, const QVariant &value, int /*role*/)
+{
+    if(index.column() != Setup_PlatformId)
+        return false;
+
+    QModelIndex primaryKeyIndex
+        = QSqlQueryModel::index(index.row(), Setup_Id);
+
+    int id = data(primaryKeyIndex).toInt();
+    clear();
+
+    bool ok;
+    if (index.column() == Setup_PlatformId) {
+        ok = setPlatform(id, value.toInt());
+    }
+
+    refresh();
+    return ok;
+}
+
+bool SetupModel::setPlatform(int id, int platformId)
+{
+    qDebug() << "updating setup " << id << " to platform " << platformId;
+    QSqlQuery query;
+    query.prepare(QString("update setup set platformid = :platformid where id = :id"));
+    query.bindValue(":platformid", platformId);
+    query.bindValue(":id", id);
+    qDebug() << query.lastQuery();
+    qDebug() << query.lastError();
+    return query.exec();
 }

@@ -11,6 +11,7 @@ DEPENDPATH += . \
     models \
     utils \
     widgets \
+    delegates \
     views
 INCLUDEPATH += . \
     db \
@@ -20,6 +21,7 @@ INCLUDEPATH += . \
     models \
     utils \
     widgets \
+    delegates \
     views
 QT += sql
 QT += xml

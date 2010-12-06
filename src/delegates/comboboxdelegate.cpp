@@ -4,8 +4,8 @@
 #include "emufrontquerymodel.h"
 #include "emufrontobject.h"
 
-ComboBoxDelegate::ComboBoxDelegate(int viewColumn, QSqlQueryModel *model, int modelIdColumn, int modelDisplayColumn, QWidget *parent) :
-    QStyledItemDelegate(parent), viewColumn(viewColumn), model(model), modelIdColumn(modelIdColumn), modelDisplayColumn(modelDisplayColumn)
+ComboBoxDelegate::ComboBoxDelegate(int viewColumn, QSqlQueryModel *cbmodel, int cbmodelIdColumn, int cbmodelDisplayColumn, QWidget *parent) :
+    QStyledItemDelegate(parent), viewColumn(viewColumn), cbmodel(cbmodel), cbmodelIdColumn(cbmodelIdColumn), cbmodelDisplayColumn(cbmodelDisplayColumn)
 { }
 
 void ComboBoxDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
@@ -19,15 +19,16 @@ void ComboBoxDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
     int objid = index.model()->data(index,  Qt::DisplayRole).toInt();
 
     // find matching object from QComboBox's model
-    QModelIndex startInd = model->index(0, modelIdColumn);
-    QModelIndexList indList = model->match(startInd, Qt::DisplayRole, objid);
+    QModelIndex startInd = cbmodel->index(0, cbmodelIdColumn);
+    QModelIndexList indList = cbmodel->match(startInd, Qt::DisplayRole, objid);
+
 
     QModelIndex ind = indList.empty() ?
         QModelIndex() :
-        model->index(startInd.row(), modelDisplayColumn);
+        cbmodel->index(indList.first().row(), cbmodelDisplayColumn);
 
     QString txt = ind.isValid() ?
-        model->data(ind).toString() : "";
+        cbmodel->data(ind).toString() : "";
 
     painter->save();
     //initStyleOption(&option, index);
@@ -45,7 +46,8 @@ QWidget* ComboBoxDelegate::createEditor(QWidget *parent, const QStyleOptionViewI
 
     QComboBox *editor = new QComboBox(parent);
     editor->setEditable(false);
-    editor->setModel(model);
+    editor->setModel(cbmodel);
+    editor->setModelColumn(cbmodelDisplayColumn);
     connect(editor, SIGNAL(editingFinished()), this, SLOT(commitAndCloseEditor()));
     return editor;
 }
@@ -61,9 +63,9 @@ void ComboBoxDelegate::setEditorData(QWidget *editor, const QModelIndex &index) 
     int id = index.model()->data(index, Qt::DisplayRole).toInt();
     QComboBox *cbox = qobject_cast<QComboBox *>(editor);
     // create a start index from combobox model
-    QModelIndex startInd = model->index(0, modelIdColumn);
+    QModelIndex startInd = cbmodel->index(0, cbmodelIdColumn);
     // search an index for selected item in parent view
-    QModelIndexList indList = model->match(startInd, Qt::DisplayRole, id);
+    QModelIndexList indList = cbmodel->match(startInd, Qt::DisplayRole, id);
     // if no match set no item selected
     int ind = indList.empty() ? -1 : indList.first().row();
     cbox->setCurrentIndex(ind);
@@ -76,8 +78,8 @@ void ComboBoxDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, 
     }
     QComboBox *cbox = qobject_cast<QComboBox *>(editor);
     if (cbox->currentIndex() == -1) return;
-    QModelIndex mi = model->index(cbox->currentIndex(), modelIdColumn);
-    int id = model->data(mi).toInt();
+    QModelIndex mi = cbmodel->index(cbox->currentIndex(), cbmodelIdColumn);
+    int id = cbmodel->data(mi).toInt();
     model->setData(index, id);
 }
 

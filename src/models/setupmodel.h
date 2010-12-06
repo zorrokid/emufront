@@ -27,6 +27,8 @@ class SetupModel : public EmuFrontQueryModel
     Q_OBJECT
 public:
     SetupModel(QObject *parent = 0);
+    virtual Qt::ItemFlags flags(const QModelIndex &index) const;
+    virtual bool setData(const QModelIndex &index, const QVariant &value, int role);
     enum { Setup_Id = 0,
            Setup_PlatformId,
            Setup_MediaTypeId,
@@ -37,6 +39,7 @@ public:
 protected:
     virtual void refresh();
     virtual QString constructSelect(QString where = "") const;
+    virtual bool setPlatform(int id, int platformId);
 };
 
 #endif // SETUPMODEL_H
