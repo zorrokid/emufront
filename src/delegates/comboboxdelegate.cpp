@@ -32,16 +32,19 @@ void ComboBoxDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
     // get the item id from the hosting view's model
     int objid = index.model()->data(index,  Qt::DisplayRole).toInt();
 
-    // find matching object from QComboBox's model
+    // find a matching object from the editor's model
     QModelIndex startInd = cbmodel->index(0, cbmodelIdColumn);
     QModelIndexList indList = cbmodel->match(startInd, Qt::DisplayRole, objid);
+    // If an object was found in the editor's model create an index to the editor's model
     QModelIndex ind = indList.empty() ?
         QModelIndex() :
         cbmodel->index(indList.first().row(), cbmodelDisplayColumn);
 
+    // Get the name field of an object using the created index
     QString txt = ind.isValid() ?
         cbmodel->data(ind).toString() : "";
 
+    // Render the name text
     painter->save();
     painter->drawText(option.rect, txt);
     painter->restore();

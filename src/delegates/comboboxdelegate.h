@@ -24,6 +24,12 @@
 
 class QSqlQueryModel;
 
+/*
+* This delegate is for a certain column in a host view in which the model provides
+* an id of a data object. This delegate renders a name of that data object instead of id in the model.
+* In addition this delegate provides a QComboBox editor for selecting an object of featured type in
+* the column in question.
+*/
 class ComboBoxDelegate : public QStyledItemDelegate
 {
     Q_OBJECT
@@ -44,6 +50,7 @@ public:
 private slots:
     void commitAndCloseEditor(int);
 private:
+    // This model is for the editor data - objects in editor list (this is not a pointer to view's model)
     QSqlQueryModel *cbmodel;
     int cbmodelIdColumn;
     int cbmodelDisplayColumn;
