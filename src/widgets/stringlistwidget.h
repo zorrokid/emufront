@@ -23,6 +23,7 @@
 #include <QWidget>
 
 class QListWidget;
+class QListWidgetItem;
 class QPushButton;
 
 class StringListWidget : public QWidget
@@ -43,6 +44,7 @@ protected:
 private slots:
     void addClicked();
     void removeClicked();
+    void itemUpdated(QListWidgetItem *);
 
 private:
     void initUi();

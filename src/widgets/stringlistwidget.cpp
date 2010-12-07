@@ -30,8 +30,8 @@ StringListWidget::StringListWidget(QWidget *parent, bool sort, int sortIndex) :
 void StringListWidget::initUi()
 {
     stringList = new QListWidget(this);
-    btnAdd = new QPushButton(tr("&Add"), this);
-    btnRemove = new QPushButton(tr("&Remove"), this);
+    btnAdd = new QPushButton(tr("&+"), this);
+    btnRemove = new QPushButton(tr("&-"), this);
 
     QVBoxLayout *rightLayout = new QVBoxLayout;
     rightLayout->addWidget(btnAdd);
@@ -49,20 +49,16 @@ void StringListWidget::connectSignals()
 {
     connect(btnAdd, SIGNAL(clicked()), this, SLOT(addClicked()));
     connect(btnRemove, SIGNAL(clicked()), this, SLOT(removeClicked()));
+    connect(stringList, SIGNAL(itemChanged(QListWidgetItem*)), this, SLOT(itemUpdated(QListWidgetItem *)));
 }
 
 void StringListWidget::addClicked()
 {
-    QString input = QInputDialog::getText(this, tr("Add"), tr("Add new item"));
-    input = input.trimmed();
-    if (input.isEmpty()) return;
-    if (!confirmInput(input)) {
-       QMessageBox::information(this, tr("Input failed!"), ("Input was not accepted."));
-       return;
-    }
-    stringList->addItem(input);
-    stringList->sortItems();
-    emit stringListUpdated();
+    QListWidgetItem *item = new QListWidgetItem;
+    item->setText("");
+    item->setFlags(item->flags() | Qt::ItemIsEditable);
+    stringList->insertItem(0, item);
+    stringList->editItem(item);
 }
 
 bool StringListWidget::confirmInput(const QString &) const
@@ -100,4 +96,9 @@ void StringListWidget::setItems(QStringList list)
 void StringListWidget::clear()
 {
     stringList->clear();
+}
+
+void StringListWidget::itemUpdated(QListWidgetItem *)
+{
+    emit stringListUpdated();
 }
