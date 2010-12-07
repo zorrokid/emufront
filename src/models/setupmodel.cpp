@@ -20,6 +20,8 @@
 #include "setupmodel.h"
 #include <QtSql>
 
+const QString SetupModel::FILE_TYPE_EXTENSION_SEPARATOR = QString("|");
+
 SetupModel::SetupModel(QObject *parent) :
     EmuFrontQueryModel(parent)
 {
@@ -54,7 +56,10 @@ QString SetupModel::constructSelect(QString where) const
 Qt::ItemFlags SetupModel::flags(const QModelIndex &index) const
 {
     Qt::ItemFlags flags = QSqlQueryModel::flags(index);
-    if (index.column() == Setup_PlatformId || index.column() == Setup_MediaTypeId) {
+    int col = index.column();
+    if (col == Setup_PlatformId ||
+        col == Setup_MediaTypeId ||
+        col == Setup_FileTypeExtensions) {
         flags |= Qt::ItemIsEditable;
     }
     return flags;
@@ -62,7 +67,10 @@ Qt::ItemFlags SetupModel::flags(const QModelIndex &index) const
 
 bool SetupModel::setData(const QModelIndex &index, const QVariant &value, int /*role*/)
 {
-    if(index.column() != Setup_PlatformId && index.column() != Setup_MediaTypeId)
+    int col = index.column();
+    if(col != Setup_PlatformId &&
+        col != Setup_MediaTypeId &&
+        col != Setup_FileTypeExtensions)
         return false;
 
     QModelIndex primaryKeyIndex
@@ -81,6 +89,13 @@ bool SetupModel::setData(const QModelIndex &index, const QVariant &value, int /*
     case Setup_MediaTypeId:
         ok = setMediaType(id, value.toInt());
         break;
+
+    case Setup_FileTypeExtensions:
+        ok = setSupportedExtensions(id, value.toString());
+        break;
+
+    default:
+        qDebug() << "Setup model, this shouldn't be happening!";
     };
     refresh();
     return ok;
@@ -103,3 +118,14 @@ bool SetupModel::setMediaType(int id, int mediaTypeId)
     query.bindValue(":id", id);
     return query.exec();
 }
+
+bool SetupModel::setSupportedExtensions(int id, QString exts)
+{
+    QSqlQuery query;
+    query.prepare(QString("update setup set filetypeextensions = :exts where id = :id"));
+    query.bindValue(":exts", exts);
+    query.bindValue(":id", id);
+    return query.exec();
+}
+
+

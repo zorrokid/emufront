@@ -41,6 +41,7 @@ protected:
     virtual QString constructSelect(QString where = "") const;
     virtual bool setPlatform(int id, int platformId);
     virtual bool setMediaType(int id, int platformId);
+    virtual bool setSupportedExtensions(int id, QString);
 };
 
 #endif // SETUPMODEL_H

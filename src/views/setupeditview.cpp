@@ -21,6 +21,7 @@
 #include "setupeditview.h"
 #include "setupmodel.h"
 #include "comboboxdelegate.h"
+#include "stringlistdelegate.h"
 #include "platformmodel.h"
 #include "mediatypemodel.h"
 #include <QSqlTableModel>
@@ -46,5 +47,8 @@ SetupEditView::SetupEditView(QWidget *parent) :
             this
         );
     objectList->setItemDelegateForColumn(SetupModel::Setup_MediaTypeId, mediatypeDelegate);
+
+    StringListDelegate *fileTypeDelegate = new StringListDelegate(SetupModel::FILE_TYPE_EXTENSION_SEPARATOR, this);
+    objectList->setItemDelegateForColumn(SetupModel::Setup_FileTypeExtensions, fileTypeDelegate);
     postInit();
 }
