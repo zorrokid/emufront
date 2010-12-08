@@ -94,7 +94,8 @@ HEADERS += mainwindow.h \
     views/emufrontfileobjecteditview.h \
     views/emufronteditview.h \
     delegates/comboboxdelegate.h \
-    delegates/stringlistdelegate.h
+    delegates/stringlistdelegate.h \
+    models/filepathmodel.h
 SOURCES += main.cpp \
     mainwindow.cpp \
     db/databasemanager.cpp \
@@ -164,7 +165,8 @@ SOURCES += main.cpp \
     views/emufrontfileobjecteditview.cpp \
     views/emufronteditview.cpp \
     delegates/comboboxdelegate.cpp \
-    delegates/stringlistdelegate.cpp
+    delegates/stringlistdelegate.cpp \
+    models/filepathmodel.cpp
 OTHER_FILES +=  
 
 CONFIG += mobility
