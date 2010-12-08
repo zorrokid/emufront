@@ -18,6 +18,7 @@
 // along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "setupmodel.h"
+#include "emufrontexception.h"
 #include <QtSql>
 
 const QString SetupModel::FILE_TYPE_EXTENSION_SEPARATOR = QString("|");
@@ -128,4 +129,50 @@ bool SetupModel::setSupportedExtensions(int id, QString exts)
     return query.exec();
 }
 
+bool SetupModel::insertRows(int row, int count, const QModelIndex &parent)
+{
+    if (parent.isValid())
+        return false; // This is a flat model
+    if (rowCount() < row)
+        row = rowCount() + 1;
+    // we need a default value for platformid and mediatypeid and if none is yet
+    // available an error message must be shown!
+    int plfId = -1;
+    int mdtId = -1;
+    QSqlQuery q;
+    q.exec(QString("SELECT id FROM platform ORDER BY name LIMIT 1"));
+    if (q.first()){
+        qDebug() << "Got id " << plfId << " for default platform.";
+        plfId = q.value(0).toInt();
+    }
+    else {
+        throw EmuFrontException(tr("No platforms yet available for setup configuration!"));
+    }
+    q.exec(QString("SELECT id FROM mediatype ORDER BY name LIMIT 1"));
+    if (q.first()) {
+        qDebug() << "Got id " << mdtId << " for default media type.";
+        mdtId = q.value(0).toInt();
+    }
+    else {
+        throw EmuFrontException(tr("No media types yet available for setup configuration!"));
+    }
+    q.prepare(QString("INSERT INTO setup (id, platformid, mediatypeid, filetypeextensions) "
+        " VALUES (NULL, :plfid, :mdtid, '') "));
+    beginInsertRows(QModelIndex(), row, row + count - 1);
+    for (int i = 0; i < count; ++i) {
+        q.bindValue(":plfid", plfId);
+        q.bindValue(":mdtid", mdtId);
+        if (!q.exec()) {
+            throw EmuFrontException(tr("Failed creating new setup: %1").
+                arg(q.lastError().text()));
+        }
+    }
+    endInsertRows();
+    refresh();
+    return true;
+}
+
+bool SetupModel::removeRows(int row, int count, const QModelIndex &parent)
+{
+}
 

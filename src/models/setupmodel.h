@@ -29,6 +29,8 @@ public:
     SetupModel(QObject *parent = 0);
     virtual Qt::ItemFlags flags(const QModelIndex &index) const;
     virtual bool setData(const QModelIndex &index, const QVariant &value, int role);
+    virtual bool insertRows(int row, int count, const QModelIndex &parent);
+    virtual bool removeRows(int row, int count, const QModelIndex &parent);
     enum { Setup_Id = 0,
            Setup_PlatformId,
            Setup_MediaTypeId,

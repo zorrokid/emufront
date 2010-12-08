@@ -1,0 +1,20 @@
+Setupview
+---------
+
+Test 1:
+- Add new setup when no platform or media types are yet added
+Result:
+- Shows error that no platform or media types are not added
+- New row is not created
+
+Test 2:
+- Add new setup when any platforms are not yet added
+Result:
+- Shows error that any platform is not available 
+- New row is not created
+
+Test 3:
+- Add new setup when any media types are not yet added
+Result:
+- Shows error that any media type is not available 
+- New row is not created

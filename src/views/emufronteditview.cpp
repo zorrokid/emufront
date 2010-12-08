@@ -91,7 +91,12 @@ void EmuFrontEditView::addButtonClicked()
 {
     int row = objectList->currentIndex().isValid() ?
         objectList->currentIndex().row() : 0;
-    model->insertRows(row, 1);
+    try {
+        model->insertRows(row, 1);
+    } catch(EmuFrontException e) {
+        errorMessage->showMessage(tr("Failed inserting rows: %1").arg(e.what()));
+        return;
+    }
     QModelIndex ind = model->index(row, 1);
     if (!ind.isValid()){
         return;
