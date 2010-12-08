@@ -34,8 +34,19 @@ void FilePathModel::refresh()
 
 QString FilePathModel::constructSelect(QString where) const
 {
-    // TODO
-    return QString();
+    return QString("SELECT "
+                   "filepath.id AS FilePathId, "
+                   "filepath.name AS Name, "
+                   "datetime(filepath.lastscanned, 'unixepoch') AS LastScanned, "
+                   "setup.id AS SetupId, "
+                   "platform.name || ' ' || mediatype.name AS SetupName, "
+                   "filepath.filetypeid "
+                   "FROM filepath "
+                   "INNER JOIN setup ON filepath.setupid=setup.id  "
+                   "INNER JOIN platform ON setup.platformid=platform.id "
+                   "INNER JOIN mediatype ON setup.mediatypeid=mediatype.id "
+                   "%1 "
+                   "ORDER BY SetupName").arg(where);
 }
 
 Qt::ItemFlags FilePathModel::flags(const QModelIndex &index) const

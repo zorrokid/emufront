@@ -31,6 +31,13 @@ public:
     virtual bool setData(const QModelIndex &index, const QVariant &value, int role);
     virtual bool insertRows(int row, int count, const QModelIndex &parent);
     virtual bool removeRows(int row, int count, const QModelIndex &parent);
+    enum { FilePath_Id = 0,
+           FilePath_Name,
+           FilePath_LastScanned,
+           FilePath_SetupId,
+           FilePath_SetupName,
+           FilePath_FileTypeId
+       };
 
 protected:
     virtual void refresh();
