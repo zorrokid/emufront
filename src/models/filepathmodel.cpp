@@ -18,6 +18,8 @@
 // along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "filepathmodel.h"
+#include "emufrontfile.h"
+#include "emufrontexception.h"
 #include <QtSql>
 
 FilePathModel::FilePathModel(QObject *parent) :
@@ -56,24 +58,122 @@ QString FilePathModel::constructSelect(QString where) const
 Qt::ItemFlags FilePathModel::flags(const QModelIndex &index) const
 {
     Qt::ItemFlags flags = QSqlQueryModel::flags(index);
-    // TODO
+    int col = index.column();
+    if (col == FilePath_SetupId ||
+        col == FilePath_Name) {
+        flags |= Qt::ItemIsEditable;
+    }
     return flags;
 }
 
 bool FilePathModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
-    // TODO
-    return false;
+    int col = index.column();
+    if (col != FilePath_SetupId &&
+        col != FilePath_Name) {
+        return false;
+    }
+
+    QModelIndex primaryKeyIndex = QSqlQueryModel::index(index.row(), FilePath_Id);
+
+    int id = data(primaryKeyIndex).toInt();
+    clear();
+
+    bool ok;
+    switch(index.column()) {
+    case FilePath_SetupId:
+        ok = setSetup(id, value.toInt());
+        break;
+    case FilePath_Name:
+        ok = setFilePath(id, value.toString());
+        break;
+    default:
+        qDebug() << "File path model, this shouldn't be happening!";
+    }
+    refresh();
+    return ok;
 }
 
 bool FilePathModel::insertRows(int row, int count, const QModelIndex &parent)
 {
-    // TODO
-    return false;
+    if (parent.isValid())
+        return false; // This is a flat model
+    if (rowCount() < row)
+        row = rowCount() + 1;
+    int supId = -1;
+    QSqlQuery q;
+    q.exec(QString("SELECT setup.id, "
+           // The following is to get the correct order:
+           "platform.name || ' ' || mediatype.name AS SetupName "
+           "FROM setup "
+           "INNER JOIN platform ON setup.platformid=platform.id "
+           "INNER JOIN mediatype ON setup.mediatypeid=mediatype.id "
+           "ORDER BY SetupName "
+           "LIMIT 1"));
+    if (q.first()) {
+        supId = q.value(0).toInt();
+        qDebug() << "Got id " << supId << " for default setup.";
+    }
+    else {
+        throw EmuFrontException(tr("No setups yet available for file path configuration!"));
+    }
+    q.prepare(QString("INSERT INTO filepath "
+        "(id, name, filetypeid, setupid, lastscanned) "
+        "VALUES (NULL, '', :filetype, :setupid, :lastscanned )"));
+    beginInsertRows(QModelIndex(), row, row + count - 1);
+    for(int i = 0; i < count; ++i) {
+        q.bindValue(":filetype", EmuFrontFile::FileType_MediaImage);
+        q.bindValue(":setupid", supId);
+        q.bindValue(":lastscanned", 0);
+        if (!q.exec()) {
+            throw EmuFrontException(tr("Failed creating new filepath row: %1").
+                                    arg(q.lastError().text()));
+        }
+    }
+    endInsertRows();
+    refresh();
+    return true;
 }
 
 bool FilePathModel::removeRows(int row, int count, const QModelIndex &parent)
 {
-    // TODO
-    return false;
+    if (parent.isValid()) {
+        return false; // This is a flat model
+    }
+    if (rowCount() < row + count - 1)
+        return false;
+
+    QSqlQuery q;
+    q.prepare(QString("DELETE FROM filepath WHERE id=:id"));
+    QModelIndex primaryIndex;
+    int id = -1;
+    beginRemoveRows(QModelIndex(), row, row + count - 1);
+    for(int i = 0; i < count; ++i) {
+        primaryIndex = QSqlQueryModel::index(row + i, FilePath_Id);
+        id = data(primaryIndex).toInt();
+        qDebug() << "Removing data item with id " << id;
+        q.bindValue(":id", id);
+        q.exec();
+    }
+    endRemoveRows();
+    refresh();
+    return true;
+}
+
+bool FilePathModel::setSetup(int id, int setupId)
+{
+    QSqlQuery q;
+    q.prepare(QString("UPDATE filepath SET setupid = :setupid WHERE id = :id"));
+    q.bindValue(":setupid", setupId);
+    q.bindValue(":id", id);
+    return q.exec();
+}
+
+bool FilePathModel::setFilePath(int id, QString filePath)
+{
+    QSqlQuery q;
+    q.prepare(QString("UPDATE filepath SET name = :name WHERE id = :id"));
+    q.bindValue(":name", filePath);
+    q.bindValue(":id", id);
+    return q.exec();
 }

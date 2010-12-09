@@ -142,16 +142,16 @@ bool SetupModel::insertRows(int row, int count, const QModelIndex &parent)
     QSqlQuery q;
     q.exec(QString("SELECT id FROM platform ORDER BY name LIMIT 1"));
     if (q.first()){
-        qDebug() << "Got id " << plfId << " for default platform.";
         plfId = q.value(0).toInt();
+        qDebug() << "Got id " << plfId << " for default platform.";
     }
     else {
         throw EmuFrontException(tr("No platforms yet available for setup configuration!"));
     }
     q.exec(QString("SELECT id FROM mediatype ORDER BY name LIMIT 1"));
     if (q.first()) {
-        qDebug() << "Got id " << mdtId << " for default media type.";
         mdtId = q.value(0).toInt();
+        qDebug() << "Got id " << mdtId << " for default media type.";
     }
     else {
         throw EmuFrontException(tr("No media types yet available for setup configuration!"));

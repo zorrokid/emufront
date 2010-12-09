@@ -28,13 +28,13 @@ FilePathEditView::FilePathEditView(QWidget *parent) :
 {
     model = new FilePathModel(this);
     objectList->setModel(model);
-    /*SetupModel *stupMdl = new SetupModel(this);
+    SetupModel *stupMdl = new SetupModel(this);
     ComboBoxDelegate *setupDelegate = new ComboBoxDelegate(
         stupMdl,
         SetupModel::Setup_Id,
         SetupModel::Setup_Name,
         this
     );
-    objectList->setItemDelegateForColumn(FilePathModel::FilePath_SetupId, setupDelegate);*/
+    objectList->setItemDelegateForColumn(FilePathModel::FilePath_SetupId, setupDelegate);
     postInit();
 }

@@ -39,9 +39,15 @@ public:
            FilePath_FileTypeId
        };
 
+    enum {
+        FileType_MediaImage
+    };
+
 protected:
     virtual void refresh();
     virtual QString constructSelect(QString where = "") const;
+    virtual bool setFilePath(int id, QString filePath);
+    virtual bool setSetup(int isd, int setupId);
 };
 
 #endif // FILEPATHMODEL_H
