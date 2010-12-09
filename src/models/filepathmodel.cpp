@@ -28,8 +28,12 @@ FilePathModel::FilePathModel(QObject *parent) :
 
 void FilePathModel::refresh()
 {
-
-    // TODO
+    setQuery(constructSelect());
+    setHeaderData(FilePath_Id, Qt::Horizontal, tr("Id"));
+    setHeaderData(FilePath_Name, Qt::Horizontal, tr("Name"));
+    setHeaderData(FilePath_LastScanned, Qt::Horizontal, tr("Last scanned"));
+    setHeaderData(FilePath_SetupId, Qt::Horizontal, tr("Set up id"));
+    setHeaderData(FilePath_SetupName, Qt::Horizontal, tr("Set up"));
 }
 
 QString FilePathModel::constructSelect(QString where) const

@@ -26,7 +26,9 @@
 #include "mediatypedialog.h"
 // TODO: deprecated
 #include "mediatypeeditview.h"
+// TODO: DEPRECATED
 #include "mediaimagepathmaindialog.h"
+#include "filepatheditview.h"
 // TODO: deprecated
 #include "setupmaindialog.h"
 #include "setupeditview.h"
@@ -68,7 +70,9 @@ MainWindow::MainWindow(bool reset)
     // TODO: deprecated
     mediaTypeDialog = 0;
     mdtDialog = 0;
+    // TODO: DEPRECATED
     mediaImagePathDialog = 0;
+    mediaImagePathView = 0;
     // TODO: deprecated
     setupMainDialog = 0;
     setupMainView = 0;
@@ -101,10 +105,16 @@ void MainWindow::createActions()
     configMediaTypeAction->setStatusTip(tr("Add, edit and delete media types"));
     connect(configMediaTypesAction, SIGNAL(triggered()), this, SLOT(configureMediaTypess()));
 
+    // TODO: DEPRECATED
     configMediaImagePathAction = new QAction(tr("Media &Image Paths"), this);
     configMediaImagePathAction->setStatusTip(tr("Configure media image file paths."));
     connect(configMediaImagePathAction, SIGNAL(triggered()),
         this, SLOT(configureMediaImagePaths()));
+
+    configMediaImagePathsAction = new QAction(tr("Set media &image paths"), this);
+    configMediaImagePathsAction->setStatusTip(tr("Add, edit and delete media image file paths."));
+    connect(configMediaImagePathsAction, SIGNAL(triggered()),
+        this, SLOT(configureMediaImagePathss()));
 
     // TODO: deprecated
     configSetupAction = new QAction(tr("S&etups"), this);
@@ -183,6 +193,7 @@ void MainWindow::configureMediaTypess()
 }
 
 
+// TODO: DEPRECATED
 void MainWindow::configureMediaImagePaths()
 {
     if (!mediaImagePathDialog)
@@ -190,6 +201,15 @@ void MainWindow::configureMediaImagePaths()
         mediaImagePathDialog = new MediaImagePathMainDialog(this);
     }
     activateDialog(mediaImagePathDialog);
+}
+
+void MainWindow::configureMediaImagePathss()
+{
+    if (!mediaImagePathView)
+    {
+        mediaImagePathView = new FilePathEditView(this);
+    }
+    activateDialog(mediaImagePathView);
 }
 
 // TODO: deprecated
@@ -289,7 +309,9 @@ void MainWindow::createMenus()
     // TODO: deprecated
     configMenu->addAction(configSetupAction);
     configMenu->addAction(configSetupsAction);
+    // TODO: DEPRECATED
     configMenu->addAction(configMediaImagePathAction);
+    configMenu->addAction(configMediaImagePathsAction);
     configMenu->addAction(configEmulatorAction);
     configMenu->addSeparator();
     configMenu->addAction(manageDatFilesAction);

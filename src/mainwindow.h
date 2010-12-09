@@ -30,7 +30,9 @@ class MediaTypeEditView;
 // TODO: DEPRECATED
 class MediaTypeDialog;
 class MediaTypeEditView;
+// TODO: DEPRECATED
 class MediaImagePathMainDialog;
+class FilePathEditView;
 // TODO: DEPRECATED
 class SetupMainDialog;
 class SetupEditView;
@@ -61,7 +63,9 @@ private slots:
     // TODO: DEPRECATED
     void configureMediaTypes();
     void configureMediaTypess();
+    // TODO: DEPRECATED
     void configureMediaImagePaths();
+    void configureMediaImagePathss();
     // TODO: DEPRECATED
     void configureSetups();
     void configureSetupss();
@@ -92,7 +96,9 @@ private:
     // TODO: deprecated
     MediaTypeDialog *mediaTypeDialog;
     MediaTypeEditView *mdtDialog;
+    // TODO: DEPRECATED
     MediaImagePathMainDialog *mediaImagePathDialog;
+    FilePathEditView *mediaImagePathView;
     // TODO: deprecated
     SetupMainDialog *setupMainDialog;
     SetupEditView *setupMainView;
@@ -107,7 +113,9 @@ private:
     // TODO: deprecated
     QAction *configMediaTypeAction;
     QAction *configMediaTypesAction;
+    // TODO: DEPRECATED
     QAction *configMediaImagePathAction;
+    QAction *configMediaImagePathsAction;
     // TODO: deprecated
     QAction *configSetupAction;
     QAction *configSetupsAction;
