@@ -96,7 +96,9 @@ HEADERS += mainwindow.h \
     delegates/comboboxdelegate.h \
     delegates/stringlistdelegate.h \
     models/filepathmodel.h \
-    views/filepatheditview.h
+    views/filepatheditview.h \
+    delegates/filesystembrowsedelegate.h \
+    widgets/filepathselectorwidget.h
 SOURCES += main.cpp \
     mainwindow.cpp \
     db/databasemanager.cpp \
@@ -168,7 +170,9 @@ SOURCES += main.cpp \
     delegates/comboboxdelegate.cpp \
     delegates/stringlistdelegate.cpp \
     models/filepathmodel.cpp \
-    views/filepatheditview.cpp
+    views/filepatheditview.cpp \
+    delegates/filesystembrowsedelegate.cpp \
+    widgets/filepathselectorwidget.cpp
 OTHER_FILES +=  
 
 CONFIG += mobility

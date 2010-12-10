@@ -21,6 +21,7 @@
 #include "filepathmodel.h"
 #include "setupmodel.h"
 #include "comboboxdelegate.h"
+#include "filesystembrowsedelegate.h"
 #include <QtGui>
 
 FilePathEditView::FilePathEditView(QWidget *parent) :
@@ -36,5 +37,7 @@ FilePathEditView::FilePathEditView(QWidget *parent) :
         this
     );
     objectList->setItemDelegateForColumn(FilePathModel::FilePath_SetupId, setupDelegate);
+    FileSystemBrowseDelegate *fsBrowseDelegate = new FileSystemBrowseDelegate(this);
+    objectList->setItemDelegateForColumn(FilePathModel::FilePath_Name, fsBrowseDelegate);
     postInit();
 }
