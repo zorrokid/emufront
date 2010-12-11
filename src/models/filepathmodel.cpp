@@ -122,7 +122,7 @@ bool FilePathModel::insertRows(int row, int count, const QModelIndex &parent)
         "VALUES (NULL, '', :filetype, :setupid, :lastscanned )"));
     beginInsertRows(QModelIndex(), row, row + count - 1);
     for(int i = 0; i < count; ++i) {
-        q.bindValue(":filetype", EmuFrontFile::FileType_MediaImage);
+        q.bindValue(":filetype", EmuFrontFile::FileType_MediaImageContainer);
         q.bindValue(":setupid", supId);
         q.bindValue(":lastscanned", 0);
         if (!q.exec()) {
