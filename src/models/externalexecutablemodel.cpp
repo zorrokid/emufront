@@ -24,6 +24,10 @@
 ExternalExecutableModel::ExternalExecutableModel(QObject *parent) :
     EmuFrontQueryModel(parent)
 {
+    editableColumns << Executable_Name;
+    editableColumns << Executable_Options;
+    editableColumns << Executable_Executable;
+    editableColumns << Executable_SetupId;
     refresh();
 }
 
@@ -61,10 +65,7 @@ Qt::ItemFlags ExternalExecutableModel::flags(const QModelIndex &index) const
 {
     Qt::ItemFlags flags = QSqlQueryModel::flags(index);
     int col = index.column();
-    if (col == Executable_Name ||
-        col == Executable_Options ||
-        col == Executable_Executable ||
-        col == Executable_SetupId) {
+    if (editableColumns.contains(index.column())) {
        flags  |= Qt::ItemIsEditable;
     }
     return flags;
@@ -72,8 +73,14 @@ Qt::ItemFlags ExternalExecutableModel::flags(const QModelIndex &index) const
 
 bool ExternalExecutableModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
-    // TODO
-    return false;
+    if (!editableColumns.contains(index.column()))
+        return false;
+
+    QModelIndex primaryKeyIndex = QSqlQueryModel::index(index.row(), Executable_Id);
+    int id = data(primaryKeyIndex).toInt();
+    clear();
+    bool ok;
+    return ok;
 }
 
 bool ExternalExecutableModel::insertRows(int row, int count, const QModelIndex &parent)

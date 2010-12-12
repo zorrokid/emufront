@@ -90,6 +90,7 @@ bool FilePathModel::setData(const QModelIndex &index, const QVariant &value, int
         ok = setFilePath(id, value.toString());
         break;
     default:
+        ok = false;
         qDebug() << "File path model, this shouldn't be happening!";
     }
     refresh();

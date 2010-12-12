@@ -37,6 +37,7 @@ public slots:
 
 protected:
     QString tableName;
+    QList<int> editableColumns;
 };
 
 #endif // EMUFRONTQUERYMODEL_H

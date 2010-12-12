@@ -97,6 +97,7 @@ bool SetupModel::setData(const QModelIndex &index, const QVariant &value, int /*
         break;
 
     default:
+        ok = false;
         qDebug() << "Setup model, this shouldn't be happening!";
     };
     refresh();
