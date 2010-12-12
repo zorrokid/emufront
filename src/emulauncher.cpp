@@ -190,9 +190,9 @@ void EmuLauncher::launchEmu()
         if (!micTable || !micTable->model()) {
             throw EmuFrontException(tr("No search results available!"));
         }
-        /*if (!execSelectBox || execSelectBox->currentIndex() == -1) {
+        if (!execSelectBox || execSelectBox->currentIndex() == -1) {
             throw EmuFrontException(tr("Emulator not selected!"));
-        }*/
+        }
         QItemSelectionModel *selModel = micTable->selectionModel();
         QModelIndexList listMIndex =  selModel->selectedIndexes();
         if (listMIndex.count() < 1) {
@@ -200,6 +200,7 @@ void EmuLauncher::launchEmu()
         }
         qDebug() << listMIndex.count() << " items selected.";
 
+        // TODO: write a method to ExternalExecutable to return an Executable object of a selected row.
         /*EmuFrontObject *obExe = execSelectBox->getSelected();
         if (!obExe) {
             throw EmuFrontException(tr("Failed fetching selected emulator!"));
