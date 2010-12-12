@@ -20,6 +20,9 @@
 */
 
 #include "externalexecutablemodel.h"
+#include "executable.h"
+#include "emufrontexception.h"
+#include <QtSql>
 
 ExternalExecutableModel::ExternalExecutableModel(QObject *parent) :
     EmuFrontQueryModel(parent)
@@ -103,36 +106,104 @@ bool ExternalExecutableModel::setData(const QModelIndex &index, const QVariant &
 
 bool ExternalExecutableModel::insertRows(int row, int count, const QModelIndex &parent)
 {
-    // TODO
-    return false;
+    if (parent.isValid())
+        return false; // This is a flat model
+    if (rowCount() < row)
+        row = rowCount() + 1;
+
+    // Fetch a setup for an initial selection
+    int supId = -1;
+    QSqlQuery q;
+    q.exec(QString("SELECT setup.id, "
+           // The following is to get the correct order:
+           "platform.name || ' ' || mediatype.name AS SetupName "
+           "FROM setup "
+           "INNER JOIN platform ON setup.platformid=platform.id "
+           "INNER JOIN mediatype ON setup.mediatypeid=mediatype.id "
+           "ORDER BY SetupName "
+           "LIMIT 1"));
+    if (q.first()) {
+        supId = q.value(0).toInt();
+        qDebug() << "Got id " << supId << " for default setup.";
+    }
+    else {
+        throw EmuFrontException(tr("No setups yet available for file path configuration!"));
+    }
+    q.prepare(QString("INSERT INTO executable "
+        "(id, name, executable, options, type, setupid) "
+        "VALUES (NULL, '', '', '', :type, :supid)"
+    ));
+    beginInsertRows(QModelIndex(), row, row + count - 1);
+    for(int i = 0; i < count; ++i) {
+        q.bindValue(":supid", supId);
+        q.bindValue(":type", Executable::ExecutableType_Emulator);
+        if (!q.exec()) {
+            throw EmuFrontException(tr("Failed creating new external executable row: %1").
+                                    arg(q.lastError().text()));
+        }
+    }
+    endInsertRows();
+    refresh();
+    return true;
 }
 
 bool ExternalExecutableModel::removeRows(int row, int count, const QModelIndex &parent)
 {
-    // TODO
-    return false;
+    if (parent.isValid()) {
+        return false; // This is a flat model
+    }
+    if (rowCount() < row + count - 1)
+        return false;
+
+    QSqlQuery q;
+    q.prepare(QString("DELETE FROM executable WHERE id=:id"));
+    QModelIndex primaryIndex;
+    int id = -1;
+    beginRemoveRows(QModelIndex(), row, row + count - 1);
+    for(int i = 0; i < count; ++i) {
+        primaryIndex = QSqlQueryModel::index(row + i, Executable_Id);
+        id = data(primaryIndex).toInt();
+        qDebug() << "Removing data item with id " << id;
+        q.bindValue(":id", id);
+        q.exec();
+    }
+    endRemoveRows();
+    refresh();
+    return true;
 }
 
-bool ExternalExecutableModel::setSetup(int isd, int setupId)
+bool ExternalExecutableModel::setSetup(int id, int setupId)
 {
-    // TODO
-    return false;
+    QSqlQuery q;
+    q.prepare(QString("UPDATE executable SET setupid = :supid WHERE id = :id"));
+    q.bindValue(":supid", setupId);
+    q.bindValue(":id", id);
+    return q.exec();
 }
 
 bool ExternalExecutableModel::setExecutable(int id, QString name)
 {
-    // TODO
-    return false;
+    QSqlQuery q;
+    q.prepare(QString("UPDATE executable SET executable = :exec WHERE id = :id"));
+    q.bindValue(":exec", name);
+    q.bindValue(":id", id);
+    return q.exec();
 }
 
 bool ExternalExecutableModel::setOptions(int id, QString options)
 {
-    // TODO
-    return false;
+    QSqlQuery q;
+    q.prepare(QString("UPDATE executable SET options = :opts WHERE id = :id"));
+    q.bindValue(":opts", options);
+    q.bindValue(":id", id);
+    return q.exec();
 }
 
 bool ExternalExecutableModel::setExecutableName(int id, QString name)
 {
-    // TODO
-    return false;
+    QSqlQuery q;
+    q.prepare(QString("UPDATE executable SET name = :name WHERE id = :id"));
+    q.bindValue(":name", name);
+    q.bindValue(":id", id);
+    return q.exec();
 }

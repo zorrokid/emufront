@@ -42,6 +42,9 @@ public:
     void setSetup(Setup*);
     int getType() const;
     void setType(int);
+    enum {
+        ExecutableType_Emulator
+    };
 private:
     QString executable;
     QString options;
