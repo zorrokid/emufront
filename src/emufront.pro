@@ -98,7 +98,8 @@ HEADERS += mainwindow.h \
     models/filepathmodel.h \
     views/filepatheditview.h \
     delegates/filesystembrowsedelegate.h \
-    widgets/filepathselectorwidget.h
+    widgets/filepathselectorwidget.h \
+    models/externalexecutablemodel.h
 SOURCES += main.cpp \
     mainwindow.cpp \
     db/databasemanager.cpp \
@@ -172,7 +173,8 @@ SOURCES += main.cpp \
     models/filepathmodel.cpp \
     views/filepatheditview.cpp \
     delegates/filesystembrowsedelegate.cpp \
-    widgets/filepathselectorwidget.cpp
+    widgets/filepathselectorwidget.cpp \
+    models/externalexecutablemodel.cpp
 OTHER_FILES +=  
 
 CONFIG += mobility
