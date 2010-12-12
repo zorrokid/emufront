@@ -47,6 +47,9 @@ protected:
     virtual void refresh();
     virtual QString constructSelect(QString where = "") const;
     virtual bool setSetup(int isd, int setupId);
+    virtual bool setExecutableName(int id, QString name);
+    virtual bool setExecutable(int id, QString name);
+    virtual bool setOptions(int id, QString options);
 };
 
 #endif // EXTERNALEXECUTABLEMODEL_H

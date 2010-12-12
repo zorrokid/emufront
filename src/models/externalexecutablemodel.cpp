@@ -80,6 +80,24 @@ bool ExternalExecutableModel::setData(const QModelIndex &index, const QVariant &
     int id = data(primaryKeyIndex).toInt();
     clear();
     bool ok;
+    switch(index.column())
+    {
+        case Executable_Name:
+            ok = setExecutableName(id, value.toString());
+            break;
+        case Executable_Executable:
+            ok = setExecutable(id, value.toString());
+            break;
+        case Executable_Options:
+            ok = setOptions(id, value.toString());
+            break;
+        case Executable_SetupId:
+            ok = setSetup(id, value.toInt());
+            break;
+        default:
+            ok = false;
+    }
+    refresh();
     return ok;
 }
 
@@ -96,6 +114,24 @@ bool ExternalExecutableModel::removeRows(int row, int count, const QModelIndex &
 }
 
 bool ExternalExecutableModel::setSetup(int isd, int setupId)
+{
+    // TODO
+    return false;
+}
+
+bool ExternalExecutableModel::setExecutable(int id, QString name)
+{
+    // TODO
+    return false;
+}
+
+bool ExternalExecutableModel::setOptions(int id, QString options)
+{
+    // TODO
+    return false;
+}
+
+bool ExternalExecutableModel::setExecutableName(int id, QString name)
 {
     // TODO
     return false;
