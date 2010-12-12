@@ -18,21 +18,25 @@
 ** You should have received a copy of the GNU General Public License
 ** along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef FILEPATHEDITVIEW_H
-#define FILEPATHEDITVIEW_H
 
-#include "emufronteditview.h"
+#include "externalexecutableeditview.h"
+#include "externalexecutablemodel.h"
+#include "setupmodel.h"
+#include "comboboxdelegate.h"
+#include <QtGui>
 
-class FilePathEditView : public EmuFrontEditView
+ExternalExecutableEditView::ExternalExecutableEditView(QWidget *parent) :
+    EmuFrontEditView(parent)
 {
-    Q_OBJECT
-public:
-    FilePathEditView(QWidget *parent = 0);
-
-signals:
-
-public slots:
-
-};
-
-#endif // FILEPATHEDITVIEW_H
+    model = new ExternalExecutableModel(this);
+    objectList->setModel(model);
+    SetupModel *stupMdl = new SetupModel(this);
+    ComboBoxDelegate *setupDelegate = new ComboBoxDelegate(
+        stupMdl,
+        SetupModel::Setup_Id,
+        SetupModel::Setup_Name,
+        this
+    );
+    objectList->setItemDelegateForColumn(ExternalExecutableModel::Executable_SetupId, setupDelegate);
+    postInit();
+}

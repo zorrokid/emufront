@@ -18,16 +18,17 @@
 ** You should have received a copy of the GNU General Public License
 ** along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef FILEPATHEDITVIEW_H
-#define FILEPATHEDITVIEW_H
+
+#ifndef EXTERNALEXECUTABLEEDITVIEW_H
+#define EXTERNALEXECUTABLEEDITVIEW_H
 
 #include "emufronteditview.h"
 
-class FilePathEditView : public EmuFrontEditView
+class ExternalExecutableEditView : public EmuFrontEditView
 {
     Q_OBJECT
 public:
-    FilePathEditView(QWidget *parent = 0);
+    explicit ExternalExecutableEditView(QWidget *parent = 0);
 
 signals:
 
@@ -35,4 +36,4 @@ public slots:
 
 };
 
-#endif // FILEPATHEDITVIEW_H
+#endif // EXTERNALEXECUTABLEEDITVIEW_H

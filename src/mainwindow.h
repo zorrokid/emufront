@@ -36,7 +36,9 @@ class FilePathEditView;
 // TODO: DEPRECATED
 class SetupMainDialog;
 class SetupEditView;
+// TODO: DEPRECATED
 class ExecutableMainDialog;
+class ExternalExecutableEditView;
 //class TmpFolderEditDialog;
 class QLabel;
 class DatabaseManager;
@@ -69,7 +71,9 @@ private slots:
     // TODO: DEPRECATED
     void configureSetups();
     void configureSetupss();
+    // TODO: DEPRECATED
     void configureEmulators();
+    void configureEmulatorss();
     void configureTmpDir();
     void resetDb();
     void updateData();
@@ -102,7 +106,9 @@ private:
     // TODO: deprecated
     SetupMainDialog *setupMainDialog;
     SetupEditView *setupMainView;
+    // TODO: deprecated
     ExecutableMainDialog *executableMainDialog;
+    ExternalExecutableEditView *emulatorEditView;
     //TmpFolderEditDialog *tmpFolderDialog;
 	QMenu *configMenu;
     QMenu *fileMenu;
@@ -119,7 +125,9 @@ private:
     // TODO: deprecated
     QAction *configSetupAction;
     QAction *configSetupsAction;
+    // TODO: deprecated
     QAction *configEmulatorAction;
+    QAction *configEmulatorsAction;
     QAction *exitAction;
     QAction *resetDbAction;
     QAction *aboutAction;

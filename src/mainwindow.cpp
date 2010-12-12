@@ -33,7 +33,9 @@
 // TODO: deprecated
 #include "setupmaindialog.h"
 #include "setupeditview.h"
+// TODO: deprecated
 #include "executablemaindialog.h"
+#include "externalexecutableeditview.h"
 #include "datfileutil.h"
 #include "databasemanager.h"
 #include "dbcreator.h"
@@ -77,7 +79,9 @@ MainWindow::MainWindow(bool reset)
     // TODO: deprecated
     setupMainDialog = 0;
     setupMainView = 0;
+    // TODO: deprecated
     executableMainDialog = 0;
+    emulatorEditView = 0;
 }
 
 void MainWindow::connectSignals()
@@ -129,6 +133,11 @@ void MainWindow::createActions()
     configEmulatorAction = new QAction(tr("Em&ulators"), this);
     configEmulatorAction->setStatusTip(tr("Configure emulators"));
     connect(configEmulatorAction, SIGNAL(triggered()), this, SLOT(configureEmulators()));
+
+    configEmulatorsAction = new QAction(tr("Configure Em&ulators"), this);
+    configEmulatorsAction->setStatusTip(tr("Add, edit and delete emulator configurations"));
+    connect(configEmulatorsAction, SIGNAL(triggered()), this, SLOT(configureEmulatorss()));
+
 
     configTmpDirAction = new QAction(tr("&Temp dir"), this);
     configTmpDirAction->setStatusTip(tr("Configure directory for temporary files."));
@@ -233,6 +242,7 @@ void MainWindow::configureSetupss()
 }
 
 
+// TODO: deprecated
 void MainWindow::configureEmulators()
 {
     if (!executableMainDialog) {
@@ -241,6 +251,15 @@ void MainWindow::configureEmulators()
     }
     activateDialog(executableMainDialog);
     executableMainDialog->refreshDataModel();
+}
+
+void MainWindow::configureEmulatorss()
+{
+    if (!emulatorEditView) {
+        emulatorEditView = new ExternalExecutableEditView(this);
+        connect(emulatorEditView, SIGNAL(finished(int)), this, SLOT(updateData()));
+    }
+    activateDialog(emulatorEditView);
 }
 
 void MainWindow::configureTmpDir()
@@ -313,7 +332,9 @@ void MainWindow::createMenus()
     // TODO: DEPRECATED
     configMenu->addAction(configMediaImagePathAction);
     configMenu->addAction(configMediaImagePathsAction);
+    // TODO: DEPRECATED
     configMenu->addAction(configEmulatorAction);
+    configMenu->addAction(configEmulatorsAction);
     configMenu->addSeparator();
     configMenu->addAction(manageDatFilesAction);
 
