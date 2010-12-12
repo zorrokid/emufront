@@ -61,6 +61,35 @@ Qt::ItemFlags ExternalExecutableModel::flags(const QModelIndex &index) const
 {
     Qt::ItemFlags flags = QSqlQueryModel::flags(index);
     int col = index.column();
-    // TODO
+    if (col == Executable_Name ||
+        col == Executable_Options ||
+        col == Executable_Executable ||
+        col == Executable_SetupId) {
+       flags  |= Qt::ItemIsEditable;
+    }
     return flags;
+}
+
+bool ExternalExecutableModel::setData(const QModelIndex &index, const QVariant &value, int role)
+{
+    // TODO
+    return false;
+}
+
+bool ExternalExecutableModel::insertRows(int row, int count, const QModelIndex &parent)
+{
+    // TODO
+    return false;
+}
+
+bool ExternalExecutableModel::removeRows(int row, int count, const QModelIndex &parent)
+{
+    // TODO
+    return false;
+}
+
+bool ExternalExecutableModel::setSetup(int isd, int setupId)
+{
+    // TODO
+    return false;
 }
