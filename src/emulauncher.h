@@ -25,13 +25,14 @@
 
 class QTableView;
 class QPushButton;
+class QComboBox;
 class QErrorMessage;
-class DbMediaType;
-class DbPlatform;
+//class DbMediaType;
+//class DbPlatform;
 class DbMediaImageContainer;
-class DbExecutable;
-class EFFileObjectComboBox;
-class ExecutableComboBox;
+//class DbExecutable;
+//class EFFileObjectComboBox;
+//class ExecutableComboBox;
 class Executable;
 class MediaImageContainer;
 class EmuHelper;
@@ -55,21 +56,25 @@ private slots:
 
 private:
     QTableView *micTable;
-    EFFileObjectComboBox *platformSelectBox;
+    /*EFFileObjectComboBox *platformSelectBox;
     EFFileObjectComboBox *mediaTypeSelectBox;
-    ExecutableComboBox *execSelectBox;
+    ExecutableComboBox *execSelectBox;*/
+    QComboBox *platformSelectBox;
+    QComboBox *mediaTypeSelectBox;
+    QComboBox *execSelectBox;
+
     QPushButton *selectButton;
     QPushButton *launchButton;
-    DbPlatform *dbPlatform;
-    DbMediaType *dbMediaType;
+    //DbPlatform *dbPlatform;
+    //DbMediaType *dbMediaType;
     DbMediaImageContainer *dbMic;
-    DbExecutable *dbExec;
+    //DbExecutable *dbExec;
     EmuHelper *emuHelper;
     void initWidgets();
     void layout();
     void connectSignals();
-    void populatePlatformSelectBox();
-    void populateMediaTypeSelectBox();
+    //void populatePlatformSelectBox();
+    //void populateMediaTypeSelectBox();
     void launch(const Executable*, const MediaImageContainer*);
     void cleanTmp();
     QString tmpDirPath;

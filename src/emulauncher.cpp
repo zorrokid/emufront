@@ -23,22 +23,27 @@
 #include <QSqlTableModel>
 #include <QItemSelectionModel>
 #include "emulauncher.h"
-#include "dbmediatype.h"
-#include "dbplatform.h"
-#include "dbexecutable.h"
+//#include "dbmediatype.h"
+#include "mediatypemodel.h"
+//#include "dbplatform.h"
+#include "platformmodel.h"
+//#include "dbexecutable.h"
+#include "externalexecutablemodel.h"
 #include "dbmediaimagecontainer.h"
 #include "effileobjectcombobox.h"
 #include "executablecombobox.h"
 #include "executable.h"
 #include "emuhelper.h"
 #include "emufrontinputdialog.h"
+#include "mediatype.h"
+#include "platform.h"
 
 EmuLauncher::EmuLauncher(QErrorMessage *errorMessage, QWidget *parent, QString tmp) :
     QWidget(parent), tmpDirPath(tmp), errorMessage(errorMessage)
 {
-    dbPlatform = new DbPlatform(this);
-    dbMediaType = new DbMediaType(this);
-    dbExec = new DbExecutable(this);
+    //dbPlatform = new DbPlatform(this);
+    //dbMediaType = new DbMediaType(this);
+    //dbExec = new DbExecutable(this);
     dbMic = 0;
     emuHelper = new EmuHelper(this);
     initWidgets();
@@ -58,8 +63,8 @@ EmuLauncher::~EmuLauncher()
 
 void EmuLauncher::updateData()
 {
-    platformSelectBox->updateDataModel();
-    mediaTypeSelectBox->updateDataModel();
+    //platformSelectBox->updateDataModel();
+    //mediaTypeSelectBox->updateDataModel();
     //execSelectBox->updateDataModel();
 }
 
@@ -71,9 +76,25 @@ void EmuLauncher::initWidgets()
     micTable->verticalHeader()->setVisible(false);
     //micTable->horizontalHeader()->setDisabled(true);
     micTable->horizontalHeader()->setClickable(false);
-    mediaTypeSelectBox = new EFFileObjectComboBox(dbMediaType, this);
-    platformSelectBox = new EFFileObjectComboBox(dbPlatform, this);
-    execSelectBox = new ExecutableComboBox(dbExec, this);
+    //mediaTypeSelectBox = new EFFileObjectComboBox(dbMediaType, this);
+    //platformSelectBox = new EFFileObjectComboBox(dbPlatform, this);
+    //execSelectBox = new ExecutableComboBox(dbExec, this);
+
+    MediaTypeModel *mtModel = new MediaTypeModel(this);
+    mediaTypeSelectBox = new QComboBox(this);
+    mediaTypeSelectBox->setModel(mtModel);
+    mediaTypeSelectBox->setModelColumn(MediaTypeModel::EmuFrontFileObject_Name);
+
+    PlatformModel *plfModel = new PlatformModel(this);
+    platformSelectBox = new QComboBox(this);
+    platformSelectBox->setModel(plfModel);
+    platformSelectBox->setModelColumn(PlatformModel::EmuFrontFileObject_Name);
+
+    ExternalExecutableModel *emuModel = new ExternalExecutableModel(this);
+    execSelectBox = new QComboBox(this);
+    execSelectBox->setModel(emuModel);
+    execSelectBox->setModelColumn(ExternalExecutableModel::Executable_Name);
+
     selectButton = new QPushButton(tr("&Update"), this);
     launchButton = new QPushButton(tr("&Launch"), this);
 }
@@ -103,21 +124,43 @@ void EmuLauncher::connectSignals()
 
 void EmuLauncher::updateMediaImageContainers()
 {
+    if (platformSelectBox->currentIndex() == -1 ||
+        mediaTypeSelectBox->currentIndex() == -1)
+        return;
+
     int mtid, plfid = -1;
-    MediaType *mt = 0;
-    Platform *plf = 0;
-    try {
+
+    //MediaType *mt = 0;
+    //Platform *plf = 0;
+
+    // TODO: maybe rewrite EFFileObjectComboBox and put the following there:
+    QAbstractItemModel *plfAbsModel = platformSelectBox->model();
+    PlatformModel *plfModel = qobject_cast<PlatformModel *>(plfAbsModel);
+    if (!plfModel) return;
+    QModelIndex plfInd =
+        plfModel->index(platformSelectBox->currentIndex(), PlatformModel::EmuFrontFileObject_Id);
+    plfid = plfModel->data(plfInd).toInt();
+
+    // TODO: maybe rewrite EFFileObjectComboBox and put the following there:
+    QAbstractItemModel *mtAbsModel = mediaTypeSelectBox->model();
+    MediaTypeModel *mtModel = qobject_cast<MediaTypeModel *>(mtAbsModel);
+    if (!mtModel) return;
+    QModelIndex mtInd =
+        mtModel->index(mediaTypeSelectBox->currentIndex(), MediaTypeModel::EmuFrontFileObject_Id);
+    mtid = mtModel->data(mtInd).toInt();
+
+    /*try {
         mt = dynamic_cast<MediaType*>(mediaTypeSelectBox->getSelected());
         plf = dynamic_cast<Platform*>(platformSelectBox->getSelected());
     }
     catch(EmuFrontException &e){
         errorMessage->showMessage(e.what());
         return;
-    }
-    mtid = mt ? mt->getId() : -1;
+    }*/
+    /*mtid = mt ? mt->getId() : -1;
     plfid = plf ? plf->getId() : -1;
     if (mt) delete mt;
-    if (plf) delete plf;
+    if (plf) delete plf;*/
 
     if (!dbMic) dbMic = new DbMediaImageContainer(this);
     dbMic->filter(mtid, plfid);
@@ -133,7 +176,7 @@ void EmuLauncher::updateMediaImageContainers()
     micTable->hideColumn(DbMediaImageContainer::MIC_MediaTypeName);
     micTable->hideColumn(DbMediaImageContainer::MIC_MediaTypeId);
     micTable->resizeColumnsToContents();
-    execSelectBox->updateToSetup(plfid, mtid);
+    //execSelectBox->updateToSetup(plfid, mtid);
 }
 
 void EmuLauncher::launchEmu()
@@ -147,9 +190,9 @@ void EmuLauncher::launchEmu()
         if (!micTable || !micTable->model()) {
             throw EmuFrontException(tr("No search results available!"));
         }
-        if (!execSelectBox || execSelectBox->currentIndex() == -1) {
+        /*if (!execSelectBox || execSelectBox->currentIndex() == -1) {
             throw EmuFrontException(tr("Emulator not selected!"));
-        }
+        }*/
         QItemSelectionModel *selModel = micTable->selectionModel();
         QModelIndexList listMIndex =  selModel->selectedIndexes();
         if (listMIndex.count() < 1) {
@@ -157,14 +200,14 @@ void EmuLauncher::launchEmu()
         }
         qDebug() << listMIndex.count() << " items selected.";
 
-        EmuFrontObject *obExe = execSelectBox->getSelected();
+        /*EmuFrontObject *obExe = execSelectBox->getSelected();
         if (!obExe) {
             throw EmuFrontException(tr("Failed fetching selected emulator!"));
         }
         exe = dynamic_cast<Executable*>(obExe);
         if (!exe) {
             throw EmuFrontException(tr("Failed creating Emulator object!"));
-        }
+        }*/
 
         qDebug() << "File types; " << exe->getSetup()->getSupportedFileTypeExtensions().count();
 
