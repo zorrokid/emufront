@@ -22,19 +22,18 @@
 #include "mainwindow.h"
 #include "emulauncher.h"
 // TODO: deprecated
-#include "platformdialog.h"
+//#include "platformdialog.h"
 #include "platformeditview.h"
-#include "mediatypedialog.h"
-// TODO: deprecated
+//#include "mediatypedialog.h"
 #include "mediatypeeditview.h"
 // TODO: DEPRECATED
-#include "mediaimagepathmaindialog.h"
+//#include "mediaimagepathmaindialog.h"
 #include "filepatheditview.h"
 // TODO: deprecated
-#include "setupmaindialog.h"
+//#include "setupmaindialog.h"
 #include "setupeditview.h"
 // TODO: deprecated
-#include "executablemaindialog.h"
+//#include "executablemaindialog.h"
 #include "externalexecutableeditview.h"
 #include "datfileutil.h"
 #include "databasemanager.h"
@@ -68,19 +67,19 @@ MainWindow::MainWindow(bool reset)
     createStatusBar();
     readSettings();
     // TODO: deprecated
-    platformDialog = 0;
+    //platformDialog = 0;
     plfDialog = 0;
     // TODO: deprecated
-    mediaTypeDialog = 0;
+    //mediaTypeDialog = 0;
     mdtDialog = 0;
     // TODO: DEPRECATED
-    mediaImagePathDialog = 0;
+    //mediaImagePathDialog = 0;
     mediaImagePathView = 0;
     // TODO: deprecated
-    setupMainDialog = 0;
+    //setupMainDialog = 0;
     setupMainView = 0;
     // TODO: deprecated
-    executableMainDialog = 0;
+    //executableMainDialog = 0;
     emulatorEditView = 0;
 }
 
@@ -91,10 +90,10 @@ void MainWindow::connectSignals()
 void MainWindow::createActions()
 {
     // TODO: deprecated
-    configPlatformAction = new QAction(tr("&Platforms"), this);
+    /*configPlatformAction = new QAction(tr("&Platforms"), this);
     configPlatformAction->setStatusTip(tr("Configure platforms"));
     connect(configPlatformAction, SIGNAL(triggered()),
-        this, SLOT(configurePlatforms()));
+        this, SLOT(configurePlatforms()));*/
 
     configPlatformsAction = new QAction(tr("&Set Platforms"), this);
     configPlatformsAction->setStatusTip(tr("Add, edit and delete platforms"));
@@ -102,19 +101,19 @@ void MainWindow::createActions()
         this, SLOT(configurePlatformss()));
 
     // TODO: deprecated
-    configMediaTypeAction = new QAction(tr("&Media Types"), this);
+    /*configMediaTypeAction = new QAction(tr("&Media Types"), this);
     configMediaTypeAction->setStatusTip(tr("Configure media types"));
-    connect(configMediaTypeAction, SIGNAL(triggered()), this, SLOT(configureMediaTypes()));
+    connect(configMediaTypeAction, SIGNAL(triggered()), this, SLOT(configureMediaTypes()));*/
 
     configMediaTypesAction = new QAction(tr("&Set Media Types"), this);
-    configMediaTypeAction->setStatusTip(tr("Add, edit and delete media types"));
+    configMediaTypesAction->setStatusTip(tr("Add, edit and delete media types"));
     connect(configMediaTypesAction, SIGNAL(triggered()), this, SLOT(configureMediaTypess()));
 
     // TODO: DEPRECATED
-    configMediaImagePathAction = new QAction(tr("Media &Image Paths"), this);
+    /*configMediaImagePathAction = new QAction(tr("Media &Image Paths"), this);
     configMediaImagePathAction->setStatusTip(tr("Configure media image file paths."));
     connect(configMediaImagePathAction, SIGNAL(triggered()),
-        this, SLOT(configureMediaImagePaths()));
+        this, SLOT(configureMediaImagePaths()));*/
 
     configMediaImagePathsAction = new QAction(tr("Set media &image paths"), this);
     configMediaImagePathsAction->setStatusTip(tr("Add, edit and delete media image file paths."));
@@ -122,17 +121,17 @@ void MainWindow::createActions()
         this, SLOT(configureMediaImagePathss()));
 
     // TODO: deprecated
-    configSetupAction = new QAction(tr("S&etups"), this);
+    /*configSetupAction = new QAction(tr("S&etups"), this);
     configSetupAction->setStatusTip(tr("Configure set ups"));
-    connect(configSetupAction, SIGNAL(triggered()), this, SLOT(configureSetups()));
+    connect(configSetupAction, SIGNAL(triggered()), this, SLOT(configureSetups()));*/
 
     configSetupsAction = new QAction(tr("Configure S&etups"), this);
     configSetupsAction->setStatusTip(tr("Add, edit and delete setups"));
     connect(configSetupsAction, SIGNAL(triggered()), this, SLOT(configureSetupss()));
 
-    configEmulatorAction = new QAction(tr("Em&ulators"), this);
+    /*configEmulatorAction = new QAction(tr("Em&ulators"), this);
     configEmulatorAction->setStatusTip(tr("Configure emulators"));
-    connect(configEmulatorAction, SIGNAL(triggered()), this, SLOT(configureEmulators()));
+    connect(configEmulatorAction, SIGNAL(triggered()), this, SLOT(configureEmulators()));*/
 
     configEmulatorsAction = new QAction(tr("Configure Em&ulators"), this);
     configEmulatorsAction->setStatusTip(tr("Add, edit and delete emulator configurations"));
@@ -162,7 +161,7 @@ void MainWindow::createActions()
 }
 
 // TODO: deprecated
-void MainWindow::configurePlatforms()
+/*void MainWindow::configurePlatforms()
 {
    if (!platformDialog)
    {
@@ -170,7 +169,7 @@ void MainWindow::configurePlatforms()
        connect(platformDialog, SIGNAL(finished(int)), this, SLOT(updateData()));
    }
    activateDialog(platformDialog);
-}
+}*/
 
 void MainWindow::configurePlatformss()
 {
@@ -182,7 +181,7 @@ void MainWindow::configurePlatformss()
 }
 
 // TODO: deprecated
-void MainWindow::configureMediaTypes()
+/*void MainWindow::configureMediaTypes()
 {
     if (!mediaTypeDialog)
     {
@@ -190,7 +189,7 @@ void MainWindow::configureMediaTypes()
         connect(mediaTypeDialog, SIGNAL(finished(int)), this, SLOT(updateData()));
    }
    activateDialog(mediaTypeDialog);
-}
+}*/
 
 void MainWindow::configureMediaTypess()
 {
@@ -204,14 +203,14 @@ void MainWindow::configureMediaTypess()
 
 
 // TODO: DEPRECATED
-void MainWindow::configureMediaImagePaths()
+/*void MainWindow::configureMediaImagePaths()
 {
     if (!mediaImagePathDialog)
     {
         mediaImagePathDialog = new MediaImagePathMainDialog(this);
     }
     activateDialog(mediaImagePathDialog);
-}
+}*/
 
 void MainWindow::configureMediaImagePathss()
 {
@@ -223,7 +222,7 @@ void MainWindow::configureMediaImagePathss()
 }
 
 // TODO: deprecated
-void MainWindow::configureSetups()
+/*void MainWindow::configureSetups()
 {
     if (!setupMainDialog)
     {
@@ -231,7 +230,7 @@ void MainWindow::configureSetups()
     }
     activateDialog(setupMainDialog);
     setupMainDialog->refreshDataModel();
-}
+}*/
 
 void MainWindow::configureSetupss()
 {
@@ -243,7 +242,7 @@ void MainWindow::configureSetupss()
 
 
 // TODO: deprecated
-void MainWindow::configureEmulators()
+/*void MainWindow::configureEmulators()
 {
     if (!executableMainDialog) {
         executableMainDialog = new ExecutableMainDialog(this);
@@ -251,7 +250,7 @@ void MainWindow::configureEmulators()
     }
     activateDialog(executableMainDialog);
     executableMainDialog->refreshDataModel();
-}
+}*/
 
 void MainWindow::configureEmulatorss()
 {
@@ -321,19 +320,19 @@ void MainWindow::createMenus()
     configMenu->addAction(configTmpDirAction);
     configMenu->addSeparator();
     // TODO: deprecated
-    configMenu->addAction(configPlatformAction);
+    //configMenu->addAction(configPlatformAction);
     configMenu->addAction(configPlatformsAction);
     // TODO: deprecated
-    configMenu->addAction(configMediaTypeAction);
+    //configMenu->addAction(configMediaTypeAction);
     configMenu->addAction(configMediaTypesAction);
     // TODO: deprecated
-    configMenu->addAction(configSetupAction);
+    //configMenu->addAction(configSetupAction);
     configMenu->addAction(configSetupsAction);
     // TODO: DEPRECATED
-    configMenu->addAction(configMediaImagePathAction);
+    //configMenu->addAction(configMediaImagePathAction);
     configMenu->addAction(configMediaImagePathsAction);
     // TODO: DEPRECATED
-    configMenu->addAction(configEmulatorAction);
+    //configMenu->addAction(configEmulatorAction);
     configMenu->addAction(configEmulatorsAction);
     configMenu->addSeparator();
     configMenu->addAction(manageDatFilesAction);
