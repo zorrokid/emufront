@@ -201,6 +201,7 @@ void EmuLauncher::launchEmu()
         qDebug() << listMIndex.count() << " items selected.";
 
         // TODO: write a method to ExternalExecutable to return an Executable object of a selected row.
+        // TODO2: rewrite ExecutableComboBox and reimplement getSelected?
         /*EmuFrontObject *obExe = execSelectBox->getSelected();
         if (!obExe) {
             throw EmuFrontException(tr("Failed fetching selected emulator!"));
