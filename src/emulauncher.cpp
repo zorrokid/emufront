@@ -24,10 +24,11 @@
 #include <QItemSelectionModel>
 #include "emulauncher.h"
 //#include "dbmediatype.h"
-#include "mediatypemodel.h"
+//#include "mediatypemodel.h"
 //#include "dbplatform.h"
-#include "platformmodel.h"
+//#include "platformmodel.h"
 //#include "dbexecutable.h"
+#include "setupmodel.h"
 #include "externalexecutablemodel.h"
 #include "dbmediaimagecontainer.h"
 #include "effileobjectcombobox.h"
@@ -35,8 +36,8 @@
 #include "executable.h"
 #include "emuhelper.h"
 #include "emufrontinputdialog.h"
-#include "mediatype.h"
-#include "platform.h"
+//#include "mediatype.h"
+//#include "platform.h"
 
 EmuLauncher::EmuLauncher(QErrorMessage *errorMessage, QWidget *parent, QString tmp) :
     QWidget(parent), tmpDirPath(tmp), errorMessage(errorMessage)
@@ -80,7 +81,7 @@ void EmuLauncher::initWidgets()
     //platformSelectBox = new EFFileObjectComboBox(dbPlatform, this);
     //execSelectBox = new ExecutableComboBox(dbExec, this);
 
-    MediaTypeModel *mtModel = new MediaTypeModel(this);
+    /*MediaTypeModel *mtModel = new MediaTypeModel(this);
     mediaTypeSelectBox = new QComboBox(this);
     mediaTypeSelectBox->setModel(mtModel);
     mediaTypeSelectBox->setModelColumn(MediaTypeModel::EmuFrontFileObject_Name);
@@ -88,7 +89,12 @@ void EmuLauncher::initWidgets()
     PlatformModel *plfModel = new PlatformModel(this);
     platformSelectBox = new QComboBox(this);
     platformSelectBox->setModel(plfModel);
-    platformSelectBox->setModelColumn(PlatformModel::EmuFrontFileObject_Name);
+    platformSelectBox->setModelColumn(PlatformModel::EmuFrontFileObject_Name);*/
+
+    SetupModel *supModel = new SetupModel(this);
+    setupSelectBox = new QComboBox(this);
+    setupSelectBox->setModel(supModel);
+    setupSelectBox->setModelColumn(SetupModel::Setup_Name);
 
     ExternalExecutableModel *emuModel = new ExternalExecutableModel(this);
     execSelectBox = new QComboBox(this);
@@ -102,8 +108,9 @@ void EmuLauncher::initWidgets()
 void EmuLauncher::layout()
 {
     QGridLayout *grid = new QGridLayout;
-    grid->addWidget(platformSelectBox, 0, 0);
-    grid->addWidget(mediaTypeSelectBox, 0, 1);
+    //grid->addWidget(platformSelectBox, 0, 0);
+    //grid->addWidget(mediaTypeSelectBox, 0, 1);
+    grid->addWidget(setupSelectBox, 0, 0, 1, 2);
     grid->addWidget(selectButton, 0, 2);
     grid->setColumnStretch(3, 1);
 
@@ -124,17 +131,20 @@ void EmuLauncher::connectSignals()
 
 void EmuLauncher::updateMediaImageContainers()
 {
-    if (platformSelectBox->currentIndex() == -1 ||
+    /*if (platformSelectBox->currentIndex() == -1 ||
         mediaTypeSelectBox->currentIndex() == -1)
         return;
+        */
 
-    int mtid, plfid = -1;
+    if (setupSelectBox->currentIndex() == -1) return;
+
+    //int mtid, plfid = -1;
 
     //MediaType *mt = 0;
     //Platform *plf = 0;
 
     // TODO: maybe rewrite EFFileObjectComboBox and put the following there:
-    QAbstractItemModel *plfAbsModel = platformSelectBox->model();
+    /*QAbstractItemModel *plfAbsModel = platformSelectBox->model();
     PlatformModel *plfModel = qobject_cast<PlatformModel *>(plfAbsModel);
     if (!plfModel) return;
     QModelIndex plfInd =
@@ -147,7 +157,7 @@ void EmuLauncher::updateMediaImageContainers()
     if (!mtModel) return;
     QModelIndex mtInd =
         mtModel->index(mediaTypeSelectBox->currentIndex(), MediaTypeModel::EmuFrontFileObject_Id);
-    mtid = mtModel->data(mtInd).toInt();
+    mtid = mtModel->data(mtInd).toInt();*/
 
     /*try {
         mt = dynamic_cast<MediaType*>(mediaTypeSelectBox->getSelected());
@@ -163,7 +173,7 @@ void EmuLauncher::updateMediaImageContainers()
     if (plf) delete plf;*/
 
     if (!dbMic) dbMic = new DbMediaImageContainer(this);
-    dbMic->filter(mtid, plfid);
+    //dbMic->filter(mtid, plfid);
     micTable->setModel(dbMic->getDataModel());
     micTable->hideColumn(DbMediaImageContainer::MIC_FileId);
     micTable->hideColumn(DbMediaImageContainer::MIC_FileSize);

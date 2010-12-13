@@ -59,8 +59,9 @@ private:
     /*EFFileObjectComboBox *platformSelectBox;
     EFFileObjectComboBox *mediaTypeSelectBox;
     ExecutableComboBox *execSelectBox;*/
-    QComboBox *platformSelectBox;
-    QComboBox *mediaTypeSelectBox;
+    //QComboBox *platformSelectBox;
+    //QComboBox *mediaTypeSelectBox;
+    QComboBox *setupSelectBox;
     QComboBox *execSelectBox;
 
     QPushButton *selectButton;
