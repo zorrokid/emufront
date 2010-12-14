@@ -21,6 +21,8 @@
 
 #include "externalexecutablemodel.h"
 #include "executable.h"
+#include "setup.h"
+#include "setupmodel.h"
 #include "emufrontexception.h"
 #include <QtSql>
 
@@ -60,7 +62,7 @@ QString ExternalExecutableModel::constructSelect(QString where) const
                    "INNER JOIN setup ON executable.setupid = setup.id "
                    "INNER JOIN platform ON setup.platformid=platform.id "
                    "INNER JOIN mediatype ON setup.mediatypeid=mediatype.id "
-                   "%1 "
+                   " %1 "
                    "ORDER BY executable.name").arg(where);
 }
 
@@ -206,4 +208,34 @@ bool ExternalExecutableModel::setExecutableName(int id, QString name)
     q.bindValue(":name", name);
     q.bindValue(":id", id);
     return q.exec();
+}
+
+void ExternalExecutableModel::filterBySetup(int setupid)
+{
+    QList<QString> filters;
+    filters.append(QString("executable.setupid=%1").arg(setupid));
+    filterDataObjects(filters);
+}
+
+// Implemented for EmuFrontQueryModel:
+EmuFrontObject* ExternalExecutableModel::recordToDataObject(const QSqlRecord* rec)
+{
+    Executable *ex = 0;
+    if (!rec) return ex;
+    int id = rec->value(Executable_Id).toInt();
+    int supid = rec->value(Executable_SetupId).toInt();
+    SetupModel supModel;
+    EmuFrontObject *ob = supModel.getDataObject(supid);
+    Setup *sup = dynamic_cast<Setup*>(ob);
+    QString name = rec->value(Executable_Name).toString();
+    QString exec = rec->value(Executable_Executable).toString();
+    QString opts = rec->value(Executable_Options).toString();
+    int type = rec->value(Executable_TypeId).toInt();
+    ex = new Executable(id, name, exec, opts, sup, type);
+    return ex;
+}
+
+QString ExternalExecutableModel::constructFilterById(int id) const
+{
+    return QString("executable.id=%1").arg(id);
 }

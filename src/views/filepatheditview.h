@@ -23,16 +23,29 @@
 
 #include "emufronteditview.h"
 
+class FileUtil;
+class QProgressDialog;
+class DbMediaImageContainer;
+
 class FilePathEditView : public EmuFrontEditView
 {
     Q_OBJECT
 public:
     FilePathEditView(QWidget *parent = 0);
 
-signals:
+protected:
+    virtual void connectSignals();
 
-public slots:
+private slots:
+    void beginScanFilePath();
 
+private:
+    QPushButton* scanButton;
+    FileUtil *fileUtil;
+    DbMediaImageContainer *dbMediaImageContainer;
+    QProgressDialog *progressDialog;
+    void scanFilePath(const QString path, const QStringList filters);
+    void initProgressDialog();
 };
 
 #endif // FILEPATHEDITVIEW_H

@@ -44,6 +44,7 @@ protected:
     QDialogButtonBox *buttonBox;
     QTableView *objectList;
     void postInit();
+    virtual void connectSignals();
 
 private:
     QPushButton *editButton;
@@ -52,7 +53,6 @@ private:
     void layout();
     virtual void setHiddenColumns();
     void hideColumns();
-    virtual void connectSignals();
     void setButtonsEnabled(bool);
 
 };

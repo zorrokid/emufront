@@ -22,6 +22,8 @@
 
 #include "emufrontquerymodel.h"
 
+class EmuFrontFile;
+
 class EmuFrontFileObjectModel : public EmuFrontQueryModel
 {
     Q_OBJECT
@@ -46,6 +48,13 @@ protected:
     virtual void refresh();
     virtual QString constructSelect(QString where = "") const;
     virtual bool setName(int id, const QString &name);
+    // Implemented for EmuFrontQueryModel:
+    virtual EmuFrontObject* recordToDataObject(const QSqlRecord* );
+    virtual QString constructFilterById(int id) const;
+
+private:
+    virtual EmuFrontObject* createEmuFrontFileObject(int id, QString name, EmuFrontFile *f) = 0;
+
 };
 
 #endif // EMUFRONTFILEOBJECTMODEL_H

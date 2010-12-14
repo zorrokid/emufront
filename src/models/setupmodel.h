@@ -22,6 +22,8 @@
 
 #include "emufrontquerymodel.h"
 
+class SetupLt;
+
 class SetupModel : public EmuFrontQueryModel
 {
     Q_OBJECT
@@ -31,12 +33,14 @@ public:
     virtual bool setData(const QModelIndex &index, const QVariant &value, int role);
     virtual bool insertRows(int row, int count, const QModelIndex &parent);
     virtual bool removeRows(int row, int count, const QModelIndex &parent);
+    //virtual EmuFrontObject* getObject(int row) const;
     enum { Setup_Id = 0,
            Setup_PlatformId,
            Setup_MediaTypeId,
            Setup_FileTypeExtensions,
            Setup_Name };
     static const QString FILE_TYPE_EXTENSION_SEPARATOR;
+    SetupLt* getCurrentItem();
 
 protected:
     virtual void refresh();
@@ -44,6 +48,10 @@ protected:
     virtual bool setPlatform(int id, int platformId);
     virtual bool setMediaType(int id, int platformId);
     virtual bool setSupportedExtensions(int id, QString);
+
+    // Implemented for EmuFrontQueryModel:
+    virtual EmuFrontObject* recordToDataObject(const QSqlRecord* );
+    virtual QString constructFilterById(int id) const;
 };
 
 #endif // SETUPMODEL_H

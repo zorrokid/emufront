@@ -18,7 +18,12 @@
 ** You should have received a copy of the GNU General Public License
 ** along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
 */
+#include "setup.h"
 #include "setupmodel.h"
+#include "platform.h"
+#include "mediatype.h"
+#include "platformmodel.h"
+#include "mediatypemodel.h"
 #include "emufrontexception.h"
 #include <QtSql>
 
@@ -197,5 +202,35 @@ bool SetupModel::removeRows(int row, int count, const QModelIndex &parent)
     endRemoveRows();
     refresh();
     return true;
+}
+
+// Implemented for EmuFrontQueryModel:
+EmuFrontObject* SetupModel::recordToDataObject(const QSqlRecord *rec)
+{
+    Setup *s = 0;
+    if (!rec) return s;
+
+    int id = rec->value(Setup_Id).toInt();
+    QString extensions = rec->value(Setup_FileTypeExtensions).toString().trimmed();
+    QStringList list;
+    if (!extensions.isEmpty())
+        list = extensions.split(FILE_TYPE_EXTENSION_SEPARATOR);
+    int plfId = rec->value(Setup_PlatformId).toInt();
+    int mtId = rec->value(Setup_MediaTypeId).toInt();
+    PlatformModel plfModel;
+    EmuFrontObject *efo_plf = plfModel.getDataObject(plfId);
+    Platform *plf = dynamic_cast<Platform*>(efo_plf);
+
+    MediaTypeModel mdtModel;
+    EmuFrontObject *efo_mdt = mdtModel.getDataObject(mtId);
+    MediaType *mt = dynamic_cast<MediaType*>(efo_mdt);
+
+    s = new Setup(id, plf, mt, list);
+    return s;
+}
+
+QString SetupModel::constructFilterById(int id) const
+{
+     return QString("setup.id = %1").arg(id);
 }
 

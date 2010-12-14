@@ -23,21 +23,34 @@
 #include <QSqlQueryModel>
 
 class EmuFrontObject;
+class Platform;
+class MediaType;
 
 class EmuFrontQueryModel : public QSqlQueryModel
 {
     Q_OBJECT
+
 public:
     EmuFrontQueryModel(QObject *parent = 0);
-    EmuFrontObject* getObject(int id) const;
-
-signals:
-
-public slots:
+    EmuFrontObject* getDataObject(int id);
+    EmuFrontObject* getDataObject(const QModelIndex &index);
+    EmuFrontObject* getObject(int row) const;
+    static int getCurrentTimeStamp();
 
 protected:
     QString tableName;
     QList<int> editableColumns;
+    void filterDataObjects(QList<QString> filter);
+    QString constructWhereByFilters(QList<QString> filters);
+    EmuFrontObject* getDataObject(QString filter);
+    virtual void filterById(int id);
+    void clearFilters();
+    virtual EmuFrontObject* recordToDataObject(const QSqlRecord* ) = 0;
+    virtual QString constructFilterById(int id) const = 0;
+    virtual QString constructSelect(QString whereClause = "") const = 0;
+
+private:
+    EmuFrontObject* getFilteredDataObject();
 };
 
 #endif // EMUFRONTQUERYMODEL_H

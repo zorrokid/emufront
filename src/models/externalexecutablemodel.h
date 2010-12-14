@@ -33,6 +33,7 @@ public:
     virtual bool setData(const QModelIndex &index, const QVariant &value, int role);
     virtual bool insertRows(int row, int count, const QModelIndex &parent);
     virtual bool removeRows(int row, int count, const QModelIndex &parent);
+    void filterBySetup(int setupId);
     enum {
         Executable_Id = 0,
         Executable_Name,
@@ -50,6 +51,11 @@ protected:
     virtual bool setExecutableName(int id, QString name);
     virtual bool setExecutable(int id, QString name);
     virtual bool setOptions(int id, QString options);
+
+    // Implemented for EmuFrontQueryModel:
+    virtual EmuFrontObject* recordToDataObject(const QSqlRecord* );
+    virtual QString constructFilterById(int id) const;
+
 };
 
 #endif // EXTERNALEXECUTABLEMODEL_H

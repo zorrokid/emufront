@@ -23,6 +23,7 @@
 #define FILEPATHMODEL_H
 
 #include "emufrontquerymodel.h"
+class FilePathObject;
 
 class FilePathModel : public EmuFrontQueryModel
 {
@@ -40,12 +41,18 @@ public:
            FilePath_SetupName,
            FilePath_FileTypeId
        };
+    FilePathObject* getFilePathObject(const QModelIndex &index);
+    virtual bool setScanned(int id);
 
 protected:
     virtual void refresh();
     virtual QString constructSelect(QString where = "") const;
     virtual bool setFilePath(int id, QString filePath);
     virtual bool setSetup(int isd, int setupId);
+
+    // Implemented for EmuFrontQueryModel:
+    virtual EmuFrontObject* recordToDataObject(const QSqlRecord* );
+    virtual QString constructFilterById(int id) const;
 };
 
 #endif // FILEPATHMODEL_H

@@ -17,16 +17,22 @@
 **
 ** You should have received a copy of the GNU General Public License
 ** along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
-*/#ifndef MEDIATYPEMODEL_H
+*/
+#ifndef MEDIATYPEMODEL_H
 #define MEDIATYPEMODEL_H
 
 #include "emufrontfileobjectmodel.h"
+
+class EmuFrontObject;
+class EmuFrontFile;
 
 class MediaTypeModel : public EmuFrontFileObjectModel
 {
     Q_OBJECT
 public:
     MediaTypeModel(QObject *parent = 0);
+private:
+    EmuFrontObject* createEmuFrontFileObject(int id, QString name, EmuFrontFile *f);
 };
 
 #endif // MEDIATYPEMODEL_H

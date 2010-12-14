@@ -23,11 +23,6 @@
 #include <QSqlTableModel>
 #include <QItemSelectionModel>
 #include "emulauncher.h"
-//#include "dbmediatype.h"
-//#include "mediatypemodel.h"
-//#include "dbplatform.h"
-//#include "platformmodel.h"
-//#include "dbexecutable.h"
 #include "setupmodel.h"
 #include "externalexecutablemodel.h"
 #include "dbmediaimagecontainer.h"
@@ -36,15 +31,10 @@
 #include "executable.h"
 #include "emuhelper.h"
 #include "emufrontinputdialog.h"
-//#include "mediatype.h"
-//#include "platform.h"
 
 EmuLauncher::EmuLauncher(QErrorMessage *errorMessage, QWidget *parent, QString tmp) :
     QWidget(parent), tmpDirPath(tmp), errorMessage(errorMessage)
 {
-    //dbPlatform = new DbPlatform(this);
-    //dbMediaType = new DbMediaType(this);
-    //dbExec = new DbExecutable(this);
     dbMic = 0;
     emuHelper = new EmuHelper(this);
     initWidgets();
@@ -64,9 +54,6 @@ EmuLauncher::~EmuLauncher()
 
 void EmuLauncher::updateData()
 {
-    //platformSelectBox->updateDataModel();
-    //mediaTypeSelectBox->updateDataModel();
-    //execSelectBox->updateDataModel();
 }
 
 void EmuLauncher::initWidgets()
@@ -75,21 +62,7 @@ void EmuLauncher::initWidgets()
     micTable->setSelectionMode(QAbstractItemView::ExtendedSelection);
     micTable->setCornerButtonEnabled(false);
     micTable->verticalHeader()->setVisible(false);
-    //micTable->horizontalHeader()->setDisabled(true);
     micTable->horizontalHeader()->setClickable(false);
-    //mediaTypeSelectBox = new EFFileObjectComboBox(dbMediaType, this);
-    //platformSelectBox = new EFFileObjectComboBox(dbPlatform, this);
-    //execSelectBox = new ExecutableComboBox(dbExec, this);
-
-    /*MediaTypeModel *mtModel = new MediaTypeModel(this);
-    mediaTypeSelectBox = new QComboBox(this);
-    mediaTypeSelectBox->setModel(mtModel);
-    mediaTypeSelectBox->setModelColumn(MediaTypeModel::EmuFrontFileObject_Name);
-
-    PlatformModel *plfModel = new PlatformModel(this);
-    platformSelectBox = new QComboBox(this);
-    platformSelectBox->setModel(plfModel);
-    platformSelectBox->setModelColumn(PlatformModel::EmuFrontFileObject_Name);*/
 
     SetupModel *supModel = new SetupModel(this);
     setupSelectBox = new QComboBox(this);
@@ -108,8 +81,6 @@ void EmuLauncher::initWidgets()
 void EmuLauncher::layout()
 {
     QGridLayout *grid = new QGridLayout;
-    //grid->addWidget(platformSelectBox, 0, 0);
-    //grid->addWidget(mediaTypeSelectBox, 0, 1);
     grid->addWidget(setupSelectBox, 0, 0, 1, 2);
     grid->addWidget(selectButton, 0, 2);
     grid->setColumnStretch(3, 1);
@@ -131,49 +102,24 @@ void EmuLauncher::connectSignals()
 
 void EmuLauncher::updateMediaImageContainers()
 {
-    /*if (platformSelectBox->currentIndex() == -1 ||
-        mediaTypeSelectBox->currentIndex() == -1)
-        return;
-        */
-
     if (setupSelectBox->currentIndex() == -1) return;
 
-    //int mtid, plfid = -1;
-
-    //MediaType *mt = 0;
-    //Platform *plf = 0;
-
-    // TODO: maybe rewrite EFFileObjectComboBox and put the following there:
-    /*QAbstractItemModel *plfAbsModel = platformSelectBox->model();
-    PlatformModel *plfModel = qobject_cast<PlatformModel *>(plfAbsModel);
-    if (!plfModel) return;
+    // 1. get selected platform and media type id
+    QAbstractItemModel *setupAbsModel = setupSelectBox->model();
+    SetupModel *supModel = qobject_cast<SetupModel *>(setupAbsModel);
+    if (!supModel) return;
     QModelIndex plfInd =
-        plfModel->index(platformSelectBox->currentIndex(), PlatformModel::EmuFrontFileObject_Id);
-    plfid = plfModel->data(plfInd).toInt();
-
-    // TODO: maybe rewrite EFFileObjectComboBox and put the following there:
-    QAbstractItemModel *mtAbsModel = mediaTypeSelectBox->model();
-    MediaTypeModel *mtModel = qobject_cast<MediaTypeModel *>(mtAbsModel);
-    if (!mtModel) return;
+        supModel->index(setupSelectBox->currentIndex(), SetupModel::Setup_PlatformId);
+    int plfid = supModel->data(plfInd).toInt();
     QModelIndex mtInd =
-        mtModel->index(mediaTypeSelectBox->currentIndex(), MediaTypeModel::EmuFrontFileObject_Id);
-    mtid = mtModel->data(mtInd).toInt();*/
+        supModel->index(setupSelectBox->currentIndex(), SetupModel::Setup_MediaTypeId);
+    int mtid = supModel->data(mtInd).toInt();
 
-    /*try {
-        mt = dynamic_cast<MediaType*>(mediaTypeSelectBox->getSelected());
-        plf = dynamic_cast<Platform*>(platformSelectBox->getSelected());
-    }
-    catch(EmuFrontException &e){
-        errorMessage->showMessage(e.what());
-        return;
-    }*/
-    /*mtid = mt ? mt->getId() : -1;
-    plfid = plf ? plf->getId() : -1;
-    if (mt) delete mt;
-    if (plf) delete plf;*/
+    if (mtid < 0 || plfid < 0) return;
 
+    // 2. fetch available media image containers
     if (!dbMic) dbMic = new DbMediaImageContainer(this);
-    //dbMic->filter(mtid, plfid);
+    dbMic->filter(mtid, plfid);
     micTable->setModel(dbMic->getDataModel());
     micTable->hideColumn(DbMediaImageContainer::MIC_FileId);
     micTable->hideColumn(DbMediaImageContainer::MIC_FileSize);
@@ -186,7 +132,15 @@ void EmuLauncher::updateMediaImageContainers()
     micTable->hideColumn(DbMediaImageContainer::MIC_MediaTypeName);
     micTable->hideColumn(DbMediaImageContainer::MIC_MediaTypeId);
     micTable->resizeColumnsToContents();
-    //execSelectBox->updateToSetup(plfid, mtid);
+
+    // 3. filter available emulators
+    QModelIndex supInd =
+            supModel->index(setupSelectBox->currentIndex(), SetupModel::Setup_Id);
+    int supid = supModel->data(supInd).toInt();
+    QAbstractItemModel *execAbsModel = execSelectBox->model();
+    ExternalExecutableModel *execModel = qobject_cast<ExternalExecutableModel*>(execAbsModel);
+    if (!execModel) return;
+    execModel->filterBySetup(supid);
 }
 
 void EmuLauncher::launchEmu()

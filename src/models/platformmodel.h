@@ -22,11 +22,15 @@
 
 #include "emufrontfileobjectmodel.h"
 
+class EmuFrontObject;
+class EmuFrontFile;
 class PlatformModel : public EmuFrontFileObjectModel
 {
     Q_OBJECT
 public:
     PlatformModel(QObject *parent = 0);
+private:
+    EmuFrontObject* createEmuFrontFileObject(int id, QString name, EmuFrontFile *f);
 };
 
 #endif // PLATFORMMODEL_H

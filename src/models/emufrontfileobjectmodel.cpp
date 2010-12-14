@@ -21,6 +21,8 @@
 
 #include <QtSql>
 #include "emufrontfileobjectmodel.h"
+#include "emufrontfile.h"
+#include "emufrontfileobject.h"
 
 EmuFrontFileObjectModel::EmuFrontFileObjectModel(QObject *parent) :
     EmuFrontQueryModel(parent)
@@ -134,4 +136,26 @@ bool EmuFrontFileObjectModel::removeRows(int row, int count, const QModelIndex &
     endRemoveRows();
     refresh();
     return true;
+}
+
+// Implemented for EmuFrontQueryModel:
+EmuFrontObject* EmuFrontFileObjectModel::recordToDataObject(const QSqlRecord* record)
+{
+    int id = record->value(EmuFrontFileObject_Id).toInt();
+    QString name = record->value(EmuFrontFileObject_Name).toString();
+    int fileId = record->value(EmuFrontFileObject_FileId).toInt();
+    EmuFrontFile *f = 0;
+    /*if (fileId > 0)
+    {
+        // TODO: need fileModel
+        EmuFrontObject *o = fileModel.getDataObject(fileId);
+        f = dynamic_cast<EmuFrontFile*>(o);
+    }*/
+    EmuFrontObject *efo = createEmuFrontFileObject(id, name, f);
+    return efo;
+}
+
+QString EmuFrontFileObjectModel::constructFilterById(int id) const
+{
+    return QString("maintbl.id = %1").arg(id);
 }

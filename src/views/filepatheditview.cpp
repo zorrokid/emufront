@@ -20,14 +20,23 @@
 */
 #include "filepatheditview.h"
 #include "filepathmodel.h"
+#include "fileutil.h"
 #include "setupmodel.h"
 #include "comboboxdelegate.h"
 #include "filesystembrowsedelegate.h"
+#include "dbmediaimagecontainer.h"
 #include <QtGui>
 
 FilePathEditView::FilePathEditView(QWidget *parent) :
     EmuFrontEditView(parent)
 {
+    scanButton = new QPushButton(tr("&Scan"));
+    buttonBox->addButton(scanButton, QDialogButtonBox::ActionRole);
+    fileUtil = new FileUtil(this);
+    initProgressDialog();
+
+    dbMediaImageContainer = new DbMediaImageContainer(this);
+
     model = new FilePathModel(this);
     objectList->setModel(model);
     SetupModel *stupMdl = new SetupModel(this);
@@ -42,3 +51,65 @@ FilePathEditView::FilePathEditView(QWidget *parent) :
     objectList->setItemDelegateForColumn(FilePathModel::FilePath_Name, fsBrowseDelegate);
     postInit();
 }
+
+void FilePathEditView::initProgressDialog()
+{
+    progressDialog = new QProgressDialog(this);
+    progressDialog->setWindowTitle(tr("Scanning files"));
+    progressDialog->setCancelButtonText(tr("Abort"));
+    progressDialog->setWindowModality(Qt::WindowModal);
+}
+
+void FilePathEditView::connectSignals()
+{
+    EmuFrontEditView::connectSignals();
+    connect(scanButton, SIGNAL(clicked()), this, SLOT(beginScanFilePath()));
+}
+
+void FilePathEditView::beginScanFilePath()
+{
+    QModelIndex index = objectList->currentIndex();
+    if (!index.isValid()) return;
+
+    if (QMessageBox::question(this,
+        tr("Confirm"),
+        tr("Do you want to continue? "
+        "If you have tons of huge files this may take even hours! "
+        "If you are low on battery power, consider carefully!"),
+        QMessageBox::Yes, QMessageBox::No, QMessageBox::NoButton ) == QMessageBox::No)
+    { return; }
+
+    FilePathModel *fpModel = qobject_cast<FilePathModel*>(model);
+    FilePathObject *fpo = fpModel->getFilePathObject(index);
+    if (!fpo) {
+        errorMessage->showMessage(tr("Failed creating a file path object of selected file path."));
+        return;
+    }
+    try
+    {
+        QStringList l;
+        l << "*.zip"; // TODO set filters in a global constant class
+
+        // Remove old instances scanned from this file path
+        dbMediaImageContainer->removeFromFilePath(fpo->getId());
+
+        progressDialog->show();
+
+        //setUIEnabled(false);
+        int count = fileUtil->scanFilePath(fpo, l, dbMediaImageContainer, progressDialog);
+        progressDialog->hide();
+
+        QMessageBox msgBox;
+        msgBox.setText(tr("Scanned %1 files to database.").arg(count)); msgBox.exec();
+        fpModel->setScanned(fpo->getId());
+        //updateList();
+    }
+    catch (EmuFrontException s)
+    {
+        errorMessage->showMessage( s.what() );
+    }
+    //setUIEnabled(true);
+    delete fpo;
+    fpo = 0;
+}
+

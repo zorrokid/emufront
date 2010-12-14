@@ -22,6 +22,9 @@
 #include "filepathmodel.h"
 #include "emufrontfile.h"
 #include "emufrontexception.h"
+#include "filepathobject.h"
+#include "setup.h"
+#include "setupmodel.h"
 #include <QtSql>
 
 FilePathModel::FilePathModel(QObject *parent) :
@@ -179,4 +182,37 @@ bool FilePathModel::setFilePath(int id, QString filePath)
     q.bindValue(":name", filePath);
     q.bindValue(":id", id);
     return q.exec();
+}
+
+bool FilePathModel::setScanned(int id)
+{
+    QSqlQuery q;
+    q.prepare(QString("UPDATE filepath SET lastscanned = :timestamp WHERE id = :id"));
+    q.bindValue(":timestamp", getCurrentTimeStamp());
+    q.bindValue(":id", id);
+    return q.exec();
+}
+
+FilePathObject* FilePathModel::getFilePathObject(const QModelIndex &index)
+{
+    if (!index.isValid()) return 0;
+    EmuFrontObject *efo = getDataObject(index);
+    return dynamic_cast<FilePathObject *>(efo);
+}
+
+EmuFrontObject* FilePathModel::recordToDataObject(const QSqlRecord* rec)
+{
+    int id = rec->value(FilePath_Id).toInt();
+    QString fpath = rec->value(FilePath_Name).toString();
+    int setupId = rec->value(FilePath_SetupId).toInt();
+    int fileType = rec->value(FilePath_FileTypeId).toInt();
+    SetupModel supModel;
+    EmuFrontObject *efo = supModel.getDataObject(setupId);
+    Setup *sup = dynamic_cast<Setup*>(efo);
+    return new FilePathObject(id, fpath, fileType, sup);
+}
+
+QString FilePathModel::constructFilterById(int id) const
+{
+    return QString("filepath.id = %1").arg(id);
 }

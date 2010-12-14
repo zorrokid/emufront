@@ -18,6 +18,7 @@
 ** You should have received a copy of the GNU General Public License
 ** along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
 */
+#include "platform.h"
 #include "platformmodel.h"
 
 PlatformModel::PlatformModel(QObject *parent) :
@@ -26,3 +27,7 @@ PlatformModel::PlatformModel(QObject *parent) :
     tableName = "platform";
     refresh();
 }
+
+EmuFrontObject* PlatformModel::createEmuFrontFileObject(int id, QString name, EmuFrontFile *f)
+{   return new Platform(id, name, f); }
+

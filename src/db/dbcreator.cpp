@@ -94,7 +94,16 @@ bool DbCreator::createDB()
 
         if (!ret) throw QString("tbl config");
 
-        ret = query.exec("CREATE TABLE IF NOT EXISTS file"
+        ret = query.exec(
+            "CREATE TABLE IF NOT EXISTS titlename "
+            "(id INTEGER PRIMARY KEY, "
+            " name TEXT)"
+            // TODO: more fields here...
+        );
+
+        if (!ret) throw QString("tbl titlename");
+
+        ret = query.exec("CREATE TABLE IF NOT EXISTS file "
                         "(id INTEGER PRIMARY KEY, "
                         "name TEXT, "
                         "type INTEGER, "
@@ -104,6 +113,12 @@ bool DbCreator::createDB()
                         "extname TEXT)");
 
         if (!ret) throw QString("tbl file");
+
+        ret = query.exec(
+            "CREATE TABLE IF NOT EXISTS file titlename_file "
+            "(titlenameid INTEGER REFERENCES titlename(id), "
+            "fileid INTEGER REFERENCES file(id))"
+        );
 
         qDebug() << "Creating TABLE platform";
 

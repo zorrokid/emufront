@@ -19,6 +19,7 @@
 ** along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include "mediatype.h"
 #include "mediatypemodel.h"
 
 MediaTypeModel::MediaTypeModel(QObject *parent) :
@@ -27,3 +28,7 @@ MediaTypeModel::MediaTypeModel(QObject *parent) :
     tableName = "mediatype";
     refresh();
 }
+
+EmuFrontObject* MediaTypeModel::createEmuFrontFileObject(int id, QString name, EmuFrontFile *f)
+{   return new MediaType(id, name, f); }
+
