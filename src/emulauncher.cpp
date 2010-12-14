@@ -164,18 +164,13 @@ void EmuLauncher::launchEmu()
         }
         qDebug() << listMIndex.count() << " items selected.";
 
-        // TODO: write a method to ExternalExecutable to return an Executable object of a selected row.
-        // TODO2: rewrite ExecutableComboBox and reimplement getSelected?
-        /*EmuFrontObject *obExe = execSelectBox->getSelected();
-        if (!obExe) {
-            throw EmuFrontException(tr("Failed fetching selected emulator!"));
-        }
-        exe = dynamic_cast<Executable*>(obExe);
+        QAbstractItemModel *absModel = execSelectBox->model();
+        ExternalExecutableModel *extModel = qobject_cast<ExternalExecutableModel*>(absModel);
+        exe = extModel->getExecutable(execSelectBox->currentIndex());
         if (!exe) {
-            throw EmuFrontException(tr("Failed creating Emulator object!"));
-        }*/
-
-        qDebug() << "File types; " << exe->getSetup()->getSupportedFileTypeExtensions().count();
+            errorMessage->showMessage(tr("Failed creating an executable object from selection."));
+            return;
+        }
 
         bool mame = exe->getSetup()->getSupportedFileTypeExtensions().isEmpty();
 

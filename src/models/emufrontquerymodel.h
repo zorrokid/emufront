@@ -34,7 +34,7 @@ public:
     EmuFrontQueryModel(QObject *parent = 0);
     EmuFrontObject* getDataObject(int id);
     EmuFrontObject* getDataObject(const QModelIndex &index);
-    EmuFrontObject* getObject(int row) const;
+    EmuFrontObject* getObject(int row);
     static int getCurrentTimeStamp();
 
 protected:

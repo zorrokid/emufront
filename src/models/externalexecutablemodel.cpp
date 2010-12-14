@@ -239,3 +239,10 @@ QString ExternalExecutableModel::constructFilterById(int id) const
 {
     return QString("executable.id=%1").arg(id);
 }
+
+Executable* ExternalExecutableModel::getExecutable(int row)
+{
+    if (row < 0) return 0;
+    EmuFrontObject *efo = getObject(row);
+    return dynamic_cast<Executable*>(efo);
+}

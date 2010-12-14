@@ -24,6 +24,8 @@
 
 #include "emufrontquerymodel.h"
 
+class Executable;
+
 class ExternalExecutableModel : public EmuFrontQueryModel
 {
     Q_OBJECT
@@ -34,6 +36,7 @@ public:
     virtual bool insertRows(int row, int count, const QModelIndex &parent);
     virtual bool removeRows(int row, int count, const QModelIndex &parent);
     void filterBySetup(int setupId);
+    Executable* getExecutable(int row);
     enum {
         Executable_Id = 0,
         Executable_Name,

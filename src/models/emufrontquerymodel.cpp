@@ -26,18 +26,15 @@
 
 EmuFrontQueryModel::EmuFrontQueryModel(QObject *parent) :
     QSqlQueryModel(parent)
-{
-}
+{ }
 
-EmuFrontObject* EmuFrontQueryModel::getObject(int row) const
+EmuFrontObject* EmuFrontQueryModel::getObject(int row)
 {
-    // TODO
-    return 0;
+    if (row < 0 || row > rowCount() - 1)
+        return 0;
+    QSqlRecord rec = record(row);
+    return recordToDataObject(&rec);
 }
-
-/*Platform* EmuFrontQueryModel::getPlatform(int id) const
-{
-}*/
 
 EmuFrontObject* EmuFrontQueryModel::getDataObject(int id)
 {
