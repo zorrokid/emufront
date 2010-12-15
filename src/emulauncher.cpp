@@ -18,14 +18,18 @@
 ** You should have received a copy of the GNU General Public License
 ** along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
 */
+
 #include <QtGui>
 #include <QProcess>
 #include <QSqlTableModel>
 #include <QItemSelectionModel>
 #include "emulauncher.h"
+#include "setup.h"
 #include "setupmodel.h"
 #include "externalexecutablemodel.h"
-#include "dbmediaimagecontainer.h"
+//#include "dbmediaimagecontainer.h"
+#include "mediaimagecontainer.h"
+#include "mediaimagecontainermodel.h"
 #include "effileobjectcombobox.h"
 #include "executablecombobox.h"
 #include "executable.h"
@@ -35,7 +39,6 @@
 EmuLauncher::EmuLauncher(QErrorMessage *errorMessage, QWidget *parent, QString tmp) :
     QWidget(parent), tmpDirPath(tmp), errorMessage(errorMessage)
 {
-    dbMic = 0;
     emuHelper = new EmuHelper(this);
     initWidgets();
     layout();
@@ -63,6 +66,9 @@ void EmuLauncher::initWidgets()
     micTable->setCornerButtonEnabled(false);
     micTable->verticalHeader()->setVisible(false);
     micTable->horizontalHeader()->setClickable(false);
+
+    MediaImageContainerModel *micModel = new MediaImageContainerModel(this);
+    micTable->setModel(micModel);
 
     SetupModel *supModel = new SetupModel(this);
     setupSelectBox = new QComboBox(this);
@@ -108,39 +114,35 @@ void EmuLauncher::updateMediaImageContainers()
     QAbstractItemModel *setupAbsModel = setupSelectBox->model();
     SetupModel *supModel = qobject_cast<SetupModel *>(setupAbsModel);
     if (!supModel) return;
-    QModelIndex plfInd =
-        supModel->index(setupSelectBox->currentIndex(), SetupModel::Setup_PlatformId);
-    int plfid = supModel->data(plfInd).toInt();
-    QModelIndex mtInd =
-        supModel->index(setupSelectBox->currentIndex(), SetupModel::Setup_MediaTypeId);
-    int mtid = supModel->data(mtInd).toInt();
 
-    if (mtid < 0 || plfid < 0) return;
+    QModelIndex supInd =
+        supModel->index(setupSelectBox->currentIndex(), SetupModel::Setup_Id);
+    int supId = supModel->data(supInd).toInt();
+    if (supId < 0) return;
 
     // 2. fetch available media image containers
-    if (!dbMic) dbMic = new DbMediaImageContainer(this);
-    dbMic->filter(mtid, plfid);
-    micTable->setModel(dbMic->getDataModel());
-    micTable->hideColumn(DbMediaImageContainer::MIC_FileId);
-    micTable->hideColumn(DbMediaImageContainer::MIC_FileSize);
-    micTable->hideColumn(DbMediaImageContainer::MIC_FileCheckSum);
-    micTable->hideColumn(DbMediaImageContainer::MIC_FilePathId);
-    micTable->hideColumn(DbMediaImageContainer::MIC_FilePathName);
-    micTable->hideColumn(DbMediaImageContainer::MIC_SetupId);
-    micTable->hideColumn(DbMediaImageContainer::MIC_PlatformName);
-    micTable->hideColumn(DbMediaImageContainer::MIC_PlatformId);
-    micTable->hideColumn(DbMediaImageContainer::MIC_MediaTypeName);
-    micTable->hideColumn(DbMediaImageContainer::MIC_MediaTypeId);
+
+    QAbstractItemModel *absModel = micTable->model();
+    MediaImageContainerModel *micModel = qobject_cast<MediaImageContainerModel*>(absModel);
+    micModel->filterBySetup(supId);
+
+    micTable->hideColumn(MediaImageContainerModel::MIC_FileId);
+    micTable->hideColumn(MediaImageContainerModel::MIC_FileSize);
+    micTable->hideColumn(MediaImageContainerModel::MIC_FileCheckSum);
+    micTable->hideColumn(MediaImageContainerModel::MIC_FilePathId);
+    micTable->hideColumn(MediaImageContainerModel::MIC_FilePathName);
+    micTable->hideColumn(MediaImageContainerModel::MIC_SetupId);
+    micTable->hideColumn(MediaImageContainerModel::MIC_PlatformName);
+    micTable->hideColumn(MediaImageContainerModel::MIC_PlatformId);
+    micTable->hideColumn(MediaImageContainerModel::MIC_MediaTypeName);
+    micTable->hideColumn(MediaImageContainerModel::MIC_MediaTypeId);
     micTable->resizeColumnsToContents();
 
     // 3. filter available emulators
-    QModelIndex supInd =
-            supModel->index(setupSelectBox->currentIndex(), SetupModel::Setup_Id);
-    int supid = supModel->data(supInd).toInt();
     QAbstractItemModel *execAbsModel = execSelectBox->model();
     ExternalExecutableModel *execModel = qobject_cast<ExternalExecutableModel*>(execAbsModel);
     if (!execModel) return;
-    execModel->filterBySetup(supid);
+    execModel->filterBySetup(supId);
 }
 
 void EmuLauncher::launchEmu()
@@ -184,9 +186,17 @@ void EmuLauncher::launchEmu()
         // Now we have one or more media image containers and an emulator selected,
         // let's fetch the media image container data.
 
+        QAbstractItemModel *micAbsModel = micTable->model();
+        MediaImageContainerModel *micModel = qobject_cast<MediaImageContainerModel *>(micAbsModel);
+        if (!micModel) {
+            throw new EmuFrontException(tr("Failed creating data model for media image containers."));
+        }
+
         foreach(QModelIndex mind, listMIndex) {
             if (!mind.isValid()) continue;
-            EmuFrontObject *obImg = dbMic->getDataObjectFromModel(&mind); // throws EmuFrontException
+
+            EmuFrontObject *obImg = micModel->getDataObject(mind);
+
             if (!obImg) {
                 qDebug() << "Failed creating media image container at row " << mind.row();
                 continue;

@@ -17,7 +17,9 @@
 **
 ** You should have received a copy of the GNU General Public License
 ** along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
-*/#ifndef EMUFRONTQUERYMODEL_H
+*/
+
+#ifndef EMUFRONTQUERYMODEL_H
 #define EMUFRONTQUERYMODEL_H
 
 #include <QSqlQueryModel>

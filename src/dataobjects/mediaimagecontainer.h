@@ -17,13 +17,16 @@
 **
 ** You should have received a copy of the GNU General Public License
 ** along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
-*/#ifndef MEDIAIMAGECONTAINER_H
+*/
+
+#ifndef MEDIAIMAGECONTAINER_H
 #define MEDIAIMAGECONTAINER_H
 
 #include "emufrontfileobject.h"
 #include "mediaimage.h"
 #include "setup.h"
 #include "filepathobject.h"
+#include <QMap>
 
 class MediaImageContainer : public EmuFrontFile
 {

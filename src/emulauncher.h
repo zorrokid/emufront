@@ -17,7 +17,9 @@
 **
 ** You should have received a copy of the GNU General Public License
 ** along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
-*/#ifndef EMULAUNCHER_H
+*/
+
+#ifndef EMULAUNCHER_H
 #define EMULAUNCHER_H
 
 #include <QWidget>
@@ -27,7 +29,7 @@ class QTableView;
 class QPushButton;
 class QComboBox;
 class QErrorMessage;
-class DbMediaImageContainer;
+//class DbMediaImageContainer;
 class Executable;
 class MediaImageContainer;
 class EmuHelper;
@@ -55,7 +57,7 @@ private:
     QComboBox *execSelectBox;
     QPushButton *selectButton;
     QPushButton *launchButton;
-    DbMediaImageContainer *dbMic;
+    //DbMediaImageContainer *dbMic;
     EmuHelper *emuHelper;
     void initWidgets();
     void layout();

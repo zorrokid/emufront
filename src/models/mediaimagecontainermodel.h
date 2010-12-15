@@ -19,37 +19,37 @@
 ** along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SETUPMODEL_H
-#define SETUPMODEL_H
+#ifndef MEDIAIMAGECONTAINERMODEL_H
+#define MEDIAIMAGECONTAINERMODEL_H
 
 #include "emufrontquerymodel.h"
 
-class SetupModel : public EmuFrontQueryModel
+class MediaImageContainerModel : public EmuFrontQueryModel
 {
     Q_OBJECT
 public:
-    SetupModel(QObject *parent = 0);
-    virtual Qt::ItemFlags flags(const QModelIndex &index) const;
-    virtual bool setData(const QModelIndex &index, const QVariant &value, int role);
-    virtual bool insertRows(int row, int count, const QModelIndex &parent);
-    virtual bool removeRows(int row, int count, const QModelIndex &parent);
-    enum { Setup_Id = 0,
-           Setup_PlatformId,
-           Setup_MediaTypeId,
-           Setup_FileTypeExtensions,
-           Setup_Name };
-    static const QString FILE_TYPE_EXTENSION_SEPARATOR;
+    MediaImageContainerModel(QObject *parent = 0);
+    void filterBySetup(int setupId);
+    enum {
+        MIC_FileId,
+        MIC_FileName,
+        MIC_FileCheckSum,
+        MIC_FileSize,
+        MIC_FilePathId,
+        MIC_FilePathName,
+        MIC_SetupId,
+        MIC_PlatformId,
+        MIC_PlatformName,
+        MIC_MediaTypeId,
+        MIC_MediaTypeName
+    };
 
 protected:
     virtual void refresh();
     virtual QString constructSelect(QString where = "") const;
-    virtual bool setPlatform(int id, int platformId);
-    virtual bool setMediaType(int id, int platformId);
-    virtual bool setSupportedExtensions(int id, QString);
-
     // Implemented for EmuFrontQueryModel:
     virtual EmuFrontObject* recordToDataObject(const QSqlRecord* );
     virtual QString constructFilterById(int id) const;
 };
 
-#endif // SETUPMODEL_H
+#endif // MEDIAIMAGECONTAINERMODEL_H

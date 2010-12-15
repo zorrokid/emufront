@@ -19,40 +19,30 @@
 ** along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef DBFILE_H
-#define DBFILE_H
+#ifndef FILEMODEL_H
+#define FILEMODEL_H
 
-#include "dbquerymodelmanager.h"
-#include "emufrontfile.h"
+#include "emufrontquerymodel.h"
 
-class DbFile : public DbQueryModelManager
+class FileModel : public EmuFrontQueryModel
 {
+    Q_OBJECT
 public:
-    DbFile(QObject*);
-    virtual bool updateDataObjectToModel(const EmuFrontObject*);
-    int insertDataObjectToModel(const EmuFrontObject*);
-    bool deleteDataObjectFromModel(QModelIndex*);
-    EmuFrontObject* getFileByChecksum(QString checksum);
-    //int insertFile(const EmuFrontFile *);
+    FileModel(QObject *parent = 0);
 
     enum {
-        File_Id = 0,
+        File_Id,
         File_Name,
         File_FileType,
         File_CheckSum,
         File_FileSize,
-        File_UpdateTime };
-
+        File_UpdateTime
+    };
 protected:
-    virtual EmuFrontObject* recordToDataObject(const QSqlRecord*);
-    virtual QString constructSelectById(int id) const;
+    virtual QString constructSelect(QString where = "") const;
+    // Implemented for EmuFrontQueryModel:
+    virtual EmuFrontObject* recordToDataObject(const QSqlRecord* );
     virtual QString constructFilterById(int id) const;
-    virtual QString constructSelect(QString whereClause = "") const;
-    virtual bool deleteDataObject(int id) const;
-    int type;
-    virtual QSqlQueryModel* getData();
-private:
-    virtual QString getCountRefsSelect(int) const;
 };
 
-#endif // DBFILE_H
+#endif // FILEMODEL_H
