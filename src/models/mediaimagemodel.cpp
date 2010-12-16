@@ -55,3 +55,38 @@ QMap<QString, EmuFrontObject*> MediaImageModel::getMediaImages(int micId)
     }
     return list;
 }
+
+/* Stores a list of media images to the database.
+   Returns a list of media image id corresponding to the given list of media
+   images inserted to the database or already in the database.
+*/
+QList<int> MediaImageModel::storeMediaImages(QMap<QString, EmuFrontObject*> images)
+{
+    QList<int> ids  = QList<int>();
+    QMapIterator<QString, EmuFrontObject*> it(images);
+    MediaImage *mi = 0;
+    while(it.hasNext())
+    {
+        it.next();
+        mi = dynamic_cast<MediaImage*>(it.value());
+        int id = insertDataObject(mi);
+        if (id < 0) {
+            // TODO: Build an error message of failed inserts
+            qDebug() << "Failed inserting media image" << mi->getName();
+        }
+        else if (id >= 0) {
+            ids.append(id);
+            mi->setId(id);
+        }
+    }
+    return ids;
+}
+
+void MediaImageModel::removeOrphanedMediaImages(QList<int> ids)
+{
+    // TODO
+    // go through the list of media image ids,
+    // if the media image with curr id doesn't have a container, delete it
+}
+
+

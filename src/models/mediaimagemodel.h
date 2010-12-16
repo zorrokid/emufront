@@ -31,6 +31,8 @@ class MediaImageModel : public FileModel
 public:
     MediaImageModel(QObject *parent = 0);
     QMap<QString, EmuFrontObject*> getMediaImages(int id);
+    QList<int> storeMediaImages(QMap<QString, EmuFrontObject*> images);
+    void removeOrphanedMediaImages(QList<int> ids);
 
 protected:
     //virtual void refresh();

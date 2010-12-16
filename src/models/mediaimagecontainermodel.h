@@ -22,14 +22,20 @@
 #ifndef MEDIAIMAGECONTAINERMODEL_H
 #define MEDIAIMAGECONTAINERMODEL_H
 
-#include "emufrontquerymodel.h"
+#include "filemodel.h"
 
-class MediaImageContainerModel : public EmuFrontQueryModel
+class MediaImage;
+class MediaImageContainer;
+class FilePathObject;
+
+class MediaImageContainerModel : public FileModel
 {
     Q_OBJECT
 public:
     MediaImageContainerModel(QObject *parent = 0);
     void filterBySetup(int setupId);
+    void storeContainers(QList<MediaImageContainer*>, FilePathObject*);
+    bool removeFromFilePath(int filePathId) const;
     enum {
         MIC_FileId,
         MIC_FileName,
@@ -50,6 +56,11 @@ protected:
     // Implemented for EmuFrontQueryModel:
     virtual EmuFrontObject* recordToDataObject(const QSqlRecord* );
     virtual QString constructFilterById(int id) const;
+private:
+    int storeMediaImageContainer(EmuFrontObject *efo);
+    void linkMediaImagesWithContainer(int, QList<EmuFrontObject*>);
+    bool linkMediaImageContainerToPath(const MediaImageContainer*) const;
+    bool linkMediaImageToMediaImageContainer(const MediaImage*, int micId) const;
 };
 
 #endif // MEDIAIMAGECONTAINERMODEL_H

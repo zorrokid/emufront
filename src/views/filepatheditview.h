@@ -18,6 +18,7 @@
 ** You should have received a copy of the GNU General Public License
 ** along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
 */
+
 #ifndef FILEPATHEDITVIEW_H
 #define FILEPATHEDITVIEW_H
 
@@ -25,7 +26,6 @@
 
 class FileUtil;
 class QProgressDialog;
-class DbMediaImageContainer;
 
 class FilePathEditView : public EmuFrontEditView
 {
@@ -42,7 +42,6 @@ private slots:
 private:
     QPushButton* scanButton;
     FileUtil *fileUtil;
-    DbMediaImageContainer *dbMediaImageContainer;
     QProgressDialog *progressDialog;
     void scanFilePath(const QString path, const QStringList filters);
     void initProgressDialog();

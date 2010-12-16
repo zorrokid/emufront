@@ -97,7 +97,7 @@ void MediaImagePathMainDialog::beginScanFilePath()
         progressDialog->show();
 
         setUIEnabled(false);
-        int count = fileUtil->scanFilePath(fpo, l, dbMediaImageContainer, progressDialog);
+        int count = fileUtil->scanFilePath(fpo, l, progressDialog);
         progressDialog->hide();
 
         QMessageBox msgBox;

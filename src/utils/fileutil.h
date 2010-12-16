@@ -17,7 +17,9 @@
 **
 ** You should have received a copy of the GNU General Public License
 ** along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
-*/#ifndef FILEUTIL_H
+*/
+
+#ifndef FILEUTIL_H
 #define FILEUTIL_H
 
 #include <QObject>
@@ -39,7 +41,7 @@ class FileUtil : public QObject
 public:
     FileUtil(QObject *parent);
     ~FileUtil();
-    int scanFilePath(FilePathObject *fpo, const QStringList filters, DbMediaImageContainer *mic, QProgressDialog *);
+    int scanFilePath(FilePathObject *fpo, const QStringList filters, QProgressDialog *);
 signals:
     void dbUpdateInProgress();
     void dbUpdateFinished();

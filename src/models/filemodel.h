@@ -24,6 +24,8 @@
 
 #include "emufrontquerymodel.h"
 
+class EmuFrontFile;
+
 class FileModel : public EmuFrontQueryModel
 {
     Q_OBJECT
@@ -43,6 +45,8 @@ protected:
     // Implemented for EmuFrontQueryModel:
     virtual EmuFrontObject* recordToDataObject(const QSqlRecord* );
     virtual QString constructFilterById(int id) const;
+    virtual int insertDataObject(const EmuFrontFile *ob);
+    bool deleteDataObject(int id) const;
 };
 
 #endif // FILEMODEL_H

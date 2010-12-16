@@ -18,13 +18,13 @@
 ** You should have received a copy of the GNU General Public License
 ** along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
 */
+
 #include "filepatheditview.h"
 #include "filepathmodel.h"
 #include "fileutil.h"
 #include "setupmodel.h"
 #include "comboboxdelegate.h"
 #include "filesystembrowsedelegate.h"
-#include "dbmediaimagecontainer.h"
 #include <QtGui>
 
 FilePathEditView::FilePathEditView(QWidget *parent) :
@@ -34,8 +34,6 @@ FilePathEditView::FilePathEditView(QWidget *parent) :
     buttonBox->addButton(scanButton, QDialogButtonBox::ActionRole);
     fileUtil = new FileUtil(this);
     initProgressDialog();
-
-    dbMediaImageContainer = new DbMediaImageContainer(this);
 
     model = new FilePathModel(this);
     objectList->setModel(model);
@@ -74,6 +72,7 @@ void FilePathEditView::beginScanFilePath()
     if (QMessageBox::question(this,
         tr("Confirm"),
         tr("Do you want to continue? "
+        "Re-scanning file path removes old entries for selected path. "
         "If you have tons of huge files this may take even hours! "
         "If you are low on battery power, consider carefully!"),
         QMessageBox::Yes, QMessageBox::No, QMessageBox::NoButton ) == QMessageBox::No)
@@ -90,13 +89,9 @@ void FilePathEditView::beginScanFilePath()
         QStringList l;
         l << "*.zip"; // TODO set filters in a global constant class
 
-        // Remove old instances scanned from this file path
-        dbMediaImageContainer->removeFromFilePath(fpo->getId());
-
         progressDialog->show();
-
         //setUIEnabled(false);
-        int count = fileUtil->scanFilePath(fpo, l, dbMediaImageContainer, progressDialog);
+        int count = fileUtil->scanFilePath(fpo, l, progressDialog);
         progressDialog->hide();
 
         QMessageBox msgBox;

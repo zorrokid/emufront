@@ -18,6 +18,7 @@
 ** You should have received a copy of the GNU General Public License
 ** along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
 */
+
 #include <QDir>
 #include <QDebug>
 #include <QProcess>
@@ -30,7 +31,7 @@
 #include "mediaimagecontainer.h"
 #include "mediatype.h"
 #include "platform.h"
-#include "dbmediaimagecontainer.h"
+#include "mediaimagecontainermodel.h"
 #include "unziphelper.h"
 
 FileUtil::FileUtil(QObject *parent) : QObject(parent)
@@ -45,9 +46,7 @@ FileUtil::~FileUtil()
 }
 
 /* Throws EmuFrontException */
-int FileUtil::scanFilePath(FilePathObject *fp,
-    QStringList filters, DbMediaImageContainer *dbMic,
-    QProgressDialog *progressDialog)
+int FileUtil::scanFilePath(FilePathObject *fp, QStringList filters, QProgressDialog *progressDialog)
 {
     if (!fp->getSetup()){
         throw EmuFrontException(tr("Setup not available with %1.").arg(fp->getName()));
@@ -60,6 +59,11 @@ int FileUtil::scanFilePath(FilePathObject *fp,
         throw EmuFrontException(tr("No media type available with %1.")
             .arg(fp->getSetup()->getName()));
     }
+
+    MediaImageContainerModel micModel;
+
+    // Remove old instances scanned from this file path
+    micModel.removeFromFilePath(fp->getId());
 
     int count = 0;
     /*qDebug() << QString("We have a platform %1, media type %2")
@@ -111,7 +115,7 @@ int FileUtil::scanFilePath(FilePathObject *fp,
                 if (containers.count() >= MIC_BUFFER_SIZE)  {
                     //qDebug() << "We have " << containers.count() << " containers .. storing to db.";
                     showDbUpdating(progressDialog);
-                    dbMic->storeContainers(containers, fp);
+                    micModel.storeContainers(containers, fp);
                     hideDbUpdating(progressDialog);
                     qDeleteAll(containers);
                     containers.clear();
@@ -128,7 +132,7 @@ int FileUtil::scanFilePath(FilePathObject *fp,
             //qDebug() << "Storing the rest " << containers.count() << " containers.";
             //emit dbUpdateInProgress();
             showDbUpdating(progressDialog);
-            dbMic->storeContainers(containers, fp);
+            micModel.storeContainers(containers, fp);
             hideDbUpdating(progressDialog);
             //emit dbUpdateFinished();
             qDeleteAll(containers);

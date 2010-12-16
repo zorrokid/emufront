@@ -57,3 +57,30 @@ EmuFrontObject* FileModel::recordToDataObject(const QSqlRecord *record)
     int type = record->value(File_FileType).toInt();
     return new EmuFrontFile(id, name, checksum, size, type);
 }
+
+/* Returns id of inserted data item after succesful insert, -1 if insert failed */
+int FileModel::insertDataObject(const EmuFrontFile *fi)
+{
+    QSqlQuery q;
+    q.prepare("INSERT INTO file "
+              "(id, name, type, checksum, size, updatetime) "
+              "VALUES (NULL, :name, :type, :checksum, :size, :updatetime)");
+    q.bindValue(":name", fi->getName());
+    q.bindValue(":type", fi->getType());
+    q.bindValue(":checksum", fi->getCheckSum());
+    q.bindValue(":size", fi->getSize());
+    q.bindValue(":updatetime", getCurrentTimeStamp());
+    int id = -1;
+    if (q.exec())
+        id = q.lastInsertId().toInt();
+    return id;
+}
+
+bool FileModel::deleteDataObject(int id) const
+{
+    QSqlQuery q;
+    q.prepare(QString("DELETE FROM file WHERE id=:id"));
+    q.bindValue(":id", id);
+    return q.exec();
+}
+

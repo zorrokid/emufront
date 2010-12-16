@@ -402,7 +402,7 @@ bool MainWindow::testDB(bool reset)
             else throw EmuFrontException("The current database is not compatible!"
                                          " Cannot continue.");
         }
-
+    
         if (reset) {
             createDB();
         }
