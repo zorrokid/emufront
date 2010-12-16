@@ -236,6 +236,7 @@ void MainWindow::configureSetupss()
 {
     if (!setupMainView) {
         setupMainView = new SetupEditView(this);
+        connect(setupMainView, SIGNAL(finished(int)), this, SLOT(updateData()));
     }
     activateDialog(setupMainView);
 }

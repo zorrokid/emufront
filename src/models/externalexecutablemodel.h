@@ -46,9 +46,9 @@ public:
         Executable_SetupId,
         Executable_SetupName
     };
+    virtual void refresh();
 
 protected:
-    virtual void refresh();
     virtual QString constructSelect(QString where = "") const;
     virtual bool setSetup(int isd, int setupId);
     virtual bool setExecutableName(int id, QString name);

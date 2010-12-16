@@ -49,9 +49,9 @@ public:
         MIC_MediaTypeId,
         MIC_MediaTypeName
     };
+    virtual void refresh();
 
 protected:
-    virtual void refresh();
     virtual QString constructSelect(QString where = "") const;
     // Implemented for EmuFrontQueryModel:
     virtual EmuFrontObject* recordToDataObject(const QSqlRecord* );

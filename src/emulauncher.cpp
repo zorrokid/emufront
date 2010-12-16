@@ -57,6 +57,11 @@ EmuLauncher::~EmuLauncher()
 
 void EmuLauncher::updateData()
 {
+    qDebug() << "EmuLauncher::updateData";
+    micModel->refresh();
+    emuModel->refresh();
+    supModel->refresh();
+    //setupSelectBox->update();
 }
 
 void EmuLauncher::initWidgets()
@@ -67,15 +72,15 @@ void EmuLauncher::initWidgets()
     micTable->verticalHeader()->setVisible(false);
     micTable->horizontalHeader()->setClickable(false);
 
-    MediaImageContainerModel *micModel = new MediaImageContainerModel(this);
+    micModel = new MediaImageContainerModel(this);
     micTable->setModel(micModel);
 
-    SetupModel *supModel = new SetupModel(this);
+    supModel = new SetupModel(this);
     setupSelectBox = new QComboBox(this);
     setupSelectBox->setModel(supModel);
     setupSelectBox->setModelColumn(SetupModel::Setup_Name);
 
-    ExternalExecutableModel *emuModel = new ExternalExecutableModel(this);
+    emuModel = new ExternalExecutableModel(this);
     execSelectBox = new QComboBox(this);
     execSelectBox->setModel(emuModel);
     execSelectBox->setModelColumn(ExternalExecutableModel::Executable_Name);

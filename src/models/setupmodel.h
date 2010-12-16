@@ -39,9 +39,9 @@ public:
            Setup_FileTypeExtensions,
            Setup_Name };
     static const QString FILE_TYPE_EXTENSION_SEPARATOR;
+    virtual void refresh();
 
 protected:
-    virtual void refresh();
     virtual QString constructSelect(QString where = "") const;
     virtual bool setPlatform(int id, int platformId);
     virtual bool setMediaType(int id, int platformId);

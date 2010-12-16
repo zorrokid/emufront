@@ -33,6 +33,9 @@ class QErrorMessage;
 class Executable;
 class MediaImageContainer;
 class EmuHelper;
+class SetupModel;
+class ExternalExecutableModel;
+class MediaImageContainerModel;
 
 class EmuLauncher : public QWidget
 {
@@ -66,6 +69,9 @@ private:
     void cleanTmp();
     QString tmpDirPath;
     QErrorMessage *errorMessage;
+    SetupModel *supModel;
+    MediaImageContainerModel *micModel;
+    ExternalExecutableModel *emuModel;
 };
 
 #endif // EMULAUNCHER_H
