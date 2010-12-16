@@ -46,6 +46,7 @@ class EmuFrontDialog;
 class EmuLauncher;
 class DatFileUtil;
 class QErrorMessage;
+class SetupModel;
 
 class MainWindow : public QMainWindow
 {
@@ -138,6 +139,7 @@ private:
     EmuLauncher *launcher;
     QString tmpDirFilePath;
     QErrorMessage *errorMessage;
+    SetupModel *supModel;
 };
 
 #endif

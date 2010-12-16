@@ -39,6 +39,7 @@
 #include "databasemanager.h"
 #include "dbcreator.h"
 #include "dbconfig.h"
+#include "setupmodel.h"
 
 QString MainWindow::aboutStr = trUtf8(
         "<h2>EmuFront</h2>"
@@ -60,7 +61,8 @@ MainWindow::MainWindow(bool reset)
     if (tmpDirFilePath.isEmpty())
         tmpDirFilePath = QDir::homePath();
     qDebug() << "Temporary dir is " << tmpDirFilePath;
-    launcher = new EmuLauncher(errorMessage, this, tmpDirFilePath);
+    supModel = new SetupModel(this);
+    launcher = new EmuLauncher(errorMessage, supModel, this, tmpDirFilePath);
     setCentralWidget(launcher);
     createActions();
     createMenus();
@@ -234,9 +236,10 @@ void MainWindow::configureMediaImagePathss()
 
 void MainWindow::configureSetupss()
 {
+    //TODO: maybe a common setup model in MainWindow, so the data would be in sync without refresh with updateData!
     if (!setupMainView) {
-        setupMainView = new SetupEditView(this);
-        connect(setupMainView, SIGNAL(finished(int)), this, SLOT(updateData()));
+        setupMainView = new SetupEditView(supModel, this);
+        //connect(setupMainView, SIGNAL(finished(int)), this, SLOT(updateData()));
     }
     activateDialog(setupMainView);
 }

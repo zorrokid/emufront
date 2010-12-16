@@ -27,10 +27,11 @@
 #include "mediatypemodel.h"
 #include <QSqlTableModel>
 
-SetupEditView::SetupEditView(QWidget *parent) :
-    EmuFrontEditView(parent)
+SetupEditView::SetupEditView(SetupModel *supModel, QWidget *parent) :
+    EmuFrontEditView(parent)//, model(supModel)
 {
-    model = new SetupModel(this);
+    model = supModel;
+    //model = new SetupModel(this);
     objectList->setModel(model);
     PlatformModel *plfModel = new PlatformModel(this);
     ComboBoxDelegate *platformDelegate = new ComboBoxDelegate(

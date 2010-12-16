@@ -22,15 +22,19 @@
 
 #include "emufronteditview.h"
 
+class SetupModel;
+
 class SetupEditView : public EmuFrontEditView
 {
     Q_OBJECT
 public:
-    SetupEditView(QWidget *parent = 0);
+    SetupEditView(SetupModel *supModel, QWidget *parent = 0);
 
 signals:
 
 public slots:
+
+private:
 
 };
 

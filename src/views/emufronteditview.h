@@ -17,7 +17,8 @@
 **
 ** You should have received a copy of the GNU General Public License
 ** along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
-*/#ifndef EMUFRONTDATADIALOG_H
+*/
+#ifndef EMUFRONTDATADIALOG_H
 #define EMUFRONTDATADIALOG_H
 
 #include "emufrontdialog.h"

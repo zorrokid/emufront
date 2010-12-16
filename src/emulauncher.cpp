@@ -36,8 +36,8 @@
 #include "emuhelper.h"
 #include "emufrontinputdialog.h"
 
-EmuLauncher::EmuLauncher(QErrorMessage *errorMessage, QWidget *parent, QString tmp) :
-    QWidget(parent), tmpDirPath(tmp), errorMessage(errorMessage)
+EmuLauncher::EmuLauncher(QErrorMessage *errorMessage, SetupModel *supModel, QWidget *parent, QString tmp) :
+    QWidget(parent), supModel(supModel), tmpDirPath(tmp), errorMessage(errorMessage)
 {
     emuHelper = new EmuHelper(this);
     initWidgets();
@@ -75,7 +75,7 @@ void EmuLauncher::initWidgets()
     micModel = new MediaImageContainerModel(this);
     micTable->setModel(micModel);
 
-    supModel = new SetupModel(this);
+    //supModel = new SetupModel(this);
     setupSelectBox = new QComboBox(this);
     setupSelectBox->setModel(supModel);
     setupSelectBox->setModelColumn(SetupModel::Setup_Name);
@@ -117,8 +117,8 @@ void EmuLauncher::updateMediaImageContainers()
 
     // 1. get selected platform and media type id
     QAbstractItemModel *setupAbsModel = setupSelectBox->model();
-    SetupModel *supModel = qobject_cast<SetupModel *>(setupAbsModel);
-    if (!supModel) return;
+    //SetupModel *supModel = qobject_cast<SetupModel *>(setupAbsModel);
+    //if (!supModel) return;
 
     QModelIndex supInd =
         supModel->index(setupSelectBox->currentIndex(), SetupModel::Setup_Id);

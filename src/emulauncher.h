@@ -41,7 +41,7 @@ class EmuLauncher : public QWidget
 {
 Q_OBJECT
 public:
-    EmuLauncher(QErrorMessage *, QWidget *parent = 0, QString tmp = ".");
+    EmuLauncher(QErrorMessage *, SetupModel *supModel, QWidget *parent = 0, QString tmp = ".");
     ~EmuLauncher();
     void updateData();
     void setTmpDirPath(QString);
