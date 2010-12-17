@@ -25,10 +25,10 @@
 #include "comboboxdelegate.h"
 #include <QtGui>
 
-ExternalExecutableEditView::ExternalExecutableEditView(QWidget *parent) :
+ExternalExecutableEditView::ExternalExecutableEditView(ExternalExecutableModel *emuModel, QWidget *parent) :
     EmuFrontEditView(parent)
 {
-    model = new ExternalExecutableModel(this);
+    model = emuModel; // new ExternalExecutableModel(this);
     objectList->setModel(model);
     SetupModel *stupMdl = new SetupModel(this);
     ComboBoxDelegate *setupDelegate = new ComboBoxDelegate(

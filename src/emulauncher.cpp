@@ -27,7 +27,6 @@
 #include "setup.h"
 #include "setupmodel.h"
 #include "externalexecutablemodel.h"
-//#include "dbmediaimagecontainer.h"
 #include "mediaimagecontainer.h"
 #include "mediaimagecontainermodel.h"
 #include "effileobjectcombobox.h"
@@ -36,8 +35,9 @@
 #include "emuhelper.h"
 #include "emufrontinputdialog.h"
 
-EmuLauncher::EmuLauncher(QErrorMessage *errorMessage, SetupModel *supModel, QWidget *parent, QString tmp) :
-    QWidget(parent), supModel(supModel), tmpDirPath(tmp), errorMessage(errorMessage)
+EmuLauncher::EmuLauncher(QErrorMessage *errorMessage, SetupModel *supModel, ExternalExecutableModel
+		*emuModel, QWidget *parent, QString tmp) :
+    QWidget(parent), supModel(supModel), emuModel(emuModel), tmpDirPath(tmp), errorMessage(errorMessage)
 {
     emuHelper = new EmuHelper(this);
     initWidgets();
@@ -60,8 +60,6 @@ void EmuLauncher::updateData()
     qDebug() << "EmuLauncher::updateData";
     micModel->refresh();
     emuModel->refresh();
-    supModel->refresh();
-    //setupSelectBox->update();
 }
 
 void EmuLauncher::initWidgets()
@@ -80,7 +78,7 @@ void EmuLauncher::initWidgets()
     setupSelectBox->setModel(supModel);
     setupSelectBox->setModelColumn(SetupModel::Setup_Name);
 
-    emuModel = new ExternalExecutableModel(this);
+    //emuModel = new ExternalExecutableModel(this);
     execSelectBox = new QComboBox(this);
     execSelectBox->setModel(emuModel);
     execSelectBox->setModelColumn(ExternalExecutableModel::Executable_Name);

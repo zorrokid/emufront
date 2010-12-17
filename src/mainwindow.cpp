@@ -18,6 +18,7 @@
 ** You should have received a copy of the GNU General Public License
 ** along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
 */
+
 #include <QtGui>
 #include "mainwindow.h"
 #include "emulauncher.h"
@@ -35,6 +36,7 @@
 // TODO: deprecated
 //#include "executablemaindialog.h"
 #include "externalexecutableeditview.h"
+#include "externalexecutablemodel.h"
 #include "datfileutil.h"
 #include "databasemanager.h"
 #include "dbcreator.h"
@@ -62,7 +64,8 @@ MainWindow::MainWindow(bool reset)
         tmpDirFilePath = QDir::homePath();
     qDebug() << "Temporary dir is " << tmpDirFilePath;
     supModel = new SetupModel(this);
-    launcher = new EmuLauncher(errorMessage, supModel, this, tmpDirFilePath);
+	emuModel = new ExternalExecutableModel(this);
+    launcher = new EmuLauncher(errorMessage, supModel, emuModel, this, tmpDirFilePath);
     setCentralWidget(launcher);
     createActions();
     createMenus();
@@ -259,8 +262,8 @@ void MainWindow::configureSetupss()
 void MainWindow::configureEmulatorss()
 {
     if (!emulatorEditView) {
-        emulatorEditView = new ExternalExecutableEditView(this);
-        connect(emulatorEditView, SIGNAL(finished(int)), this, SLOT(updateData()));
+        emulatorEditView = new ExternalExecutableEditView(emuModel, this);
+        //connect(emulatorEditView, SIGNAL(finished(int)), this, SLOT(updateData()));
     }
     activateDialog(emulatorEditView);
 }

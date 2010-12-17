@@ -29,7 +29,6 @@ class QTableView;
 class QPushButton;
 class QComboBox;
 class QErrorMessage;
-//class DbMediaImageContainer;
 class Executable;
 class MediaImageContainer;
 class EmuHelper;
@@ -41,7 +40,9 @@ class EmuLauncher : public QWidget
 {
 Q_OBJECT
 public:
-    EmuLauncher(QErrorMessage *, SetupModel *supModel, QWidget *parent = 0, QString tmp = ".");
+    EmuLauncher(QErrorMessage *, SetupModel *supModel, 
+			ExternalExecutableModel *emuModel, 
+			QWidget *parent = 0, QString tmp = ".");
     ~EmuLauncher();
     void updateData();
     void setTmpDirPath(QString);
@@ -60,7 +61,6 @@ private:
     QComboBox *execSelectBox;
     QPushButton *selectButton;
     QPushButton *launchButton;
-    //DbMediaImageContainer *dbMic;
     EmuHelper *emuHelper;
     void initWidgets();
     void layout();

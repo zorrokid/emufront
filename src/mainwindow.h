@@ -1,5 +1,4 @@
-/*
-** EmuFront
+/* ** EmuFront
 ** Copyright 2010 Mikko Keinänen
 **
 ** This file is part of EmuFront.
@@ -17,7 +16,9 @@
 **
 ** You should have received a copy of the GNU General Public License
 ** along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
-*/#ifndef MAINWINDOW_H
+*/
+
+#ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
 #include <QMainWindow>
@@ -47,6 +48,7 @@ class EmuLauncher;
 class DatFileUtil;
 class QErrorMessage;
 class SetupModel;
+class ExternalExecutableModel;
 
 class MainWindow : public QMainWindow
 {
@@ -140,6 +142,7 @@ private:
     QString tmpDirFilePath;
     QErrorMessage *errorMessage;
     SetupModel *supModel;
+	ExternalExecutableModel *emuModel;
 };
 
 #endif
