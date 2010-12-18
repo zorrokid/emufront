@@ -30,6 +30,7 @@
 SetupEditView::SetupEditView(SetupModel *supModel, QWidget *parent) :
     EmuFrontEditView(parent)//, model(supModel)
 {
+    setWindowTitle(tr("Setups"));
     model = supModel;
     //model = new SetupModel(this);
     objectList->setModel(model);

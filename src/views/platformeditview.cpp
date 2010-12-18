@@ -25,6 +25,7 @@
 PlatformEditView::PlatformEditView(QWidget *parent) :
     EmuFrontFileObjectEditView(parent)
 {
+    setWindowTitle(tr("Set emulated platforms"));
     model = new PlatformModel(this);
     objectList->setModel(model);
     postInit();

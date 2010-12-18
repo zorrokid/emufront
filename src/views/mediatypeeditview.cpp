@@ -25,6 +25,7 @@
 MediaTypeEditView::MediaTypeEditView(QWidget *parent) :
     EmuFrontFileObjectEditView(parent)
 {
+    setWindowTitle(tr("Set media types"));
     model = new MediaTypeModel(this);
     objectList->setModel(model);
     postInit();

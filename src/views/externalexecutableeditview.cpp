@@ -28,6 +28,7 @@
 ExternalExecutableEditView::ExternalExecutableEditView(ExternalExecutableModel *emuModel, QWidget *parent) :
     EmuFrontEditView(parent)
 {
+    setWindowTitle(tr("Set emulators"));
     model = emuModel; // new ExternalExecutableModel(this);
     objectList->setModel(model);
     SetupModel *stupMdl = new SetupModel(this);

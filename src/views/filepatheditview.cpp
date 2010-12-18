@@ -30,6 +30,7 @@
 FilePathEditView::FilePathEditView(QWidget *parent) :
     EmuFrontEditView(parent)
 {
+    setWindowTitle(tr("Set media image paths"));
     scanButton = new QPushButton(tr("&Scan"));
     buttonBox->addButton(scanButton, QDialogButtonBox::ActionRole);
     fileUtil = new FileUtil(this);
