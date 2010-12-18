@@ -270,19 +270,22 @@ void MainWindow::configureEmulatorss()
 
 void MainWindow::configureTmpDir()
 {
-    /*if (!tmpFolderDialog) {
-        tmpFolderDialog = new TmpFolderEditDialog(this, tmpDirFilePath);
-    }
-    activateDialog(tmpFolderDialog);*/
-
     QString fpath = QFileDialog::getExistingDirectory(this,
         tr("Select a directory"), tmpDirFilePath,
         QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
     QDir d(fpath);
     if (d.exists() && d.isReadable()) {
         tmpDirFilePath = fpath;
-        DbConfig::setTmpDir(tmpDirFilePath);
-        launcher->setTmpDirPath(tmpDirFilePath);
+        if (DbConfig::setTmpDir(tmpDirFilePath)) {
+            QMessageBox::information(
+                this,
+                tr("Temp dir updated"),
+                tr("The directory for temporary files "
+                    "has been updated to '%1'.")
+                    .arg(tmpDirFilePath)
+            );
+            launcher->setTmpDirPath(tmpDirFilePath);
+        }
     }
 }
 

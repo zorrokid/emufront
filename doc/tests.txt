@@ -1,19 +1,41 @@
-Setupview
----------
+1. Start EmuFront
+-----------------
+- if database already exists move/remove it:
 
-Test 1:
+	$ mv ~/emufront.db.sqlite ~/emufront.db.sqlite.bak
+
+- start EmuFront from command line
+
+	$ emufront
+
+> EmuFront main window opens
+	> File, Config & Help menu is shown
+	> empty combo box for selecting setups and emulators is shown
+	> empty area for filtered media image containers is shown
+
+2. Set temporary directory
+--------------------------
+- Select 'Config->Temp dir'
+> A file selector is opened, only folders can be selected
+- Select a folder
+> A messagebox is shown telling that the Temporary directory has been updated to selected folder.
+
+X. Setupview
+------------
+
+1:
 - Add new setup when no platform or media types are yet added
 Result:
 - Shows error that no platform or media types are not added
 - New row is not created
 
-Test 2:
+2:
 - Add new setup when any platforms are not yet added
 Result:
 - Shows error that any platform is not available 
 - New row is not created
 
-Test 3:
+3:
 - Add new setup when any media types are not yet added
 Result:
 - Shows error that any media type is not available 
