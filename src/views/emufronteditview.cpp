@@ -81,6 +81,9 @@ void EmuFrontEditView::deleteButtonClicked()
     setButtonsEnabled(false);
     if (!objectList->currentIndex().isValid())
         return;
+    QString msg = tr("Are you sure you want to delete the selected item? If other data objects are assigned to the selected item, they will be also removed!");
+    if (!confirm(msg))
+        return;
     int row = objectList->currentIndex().row();
     if ( !model->removeRows(row, 1) ) {
         errorMessage->showMessage(tr("Failed removing selected item."));
@@ -121,3 +124,13 @@ void EmuFrontEditView::setHiddenColumns()
 {
     // default implementation
 }
+
+bool EmuFrontEditView::confirm(QString &msg)
+{
+    int r = QMessageBox::warning(this, tr("Confirm"), msg, QMessageBox::Yes | QMessageBox::No);
+    if ( r == QMessageBox::No )
+        return false;
+    return true;
+}
+
+

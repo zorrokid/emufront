@@ -55,6 +55,7 @@ private:
     virtual void setHiddenColumns();
     void hideColumns();
     void setButtonsEnabled(bool);
+    bool confirm(QString &msg);
 
 };
 

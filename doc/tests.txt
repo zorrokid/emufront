@@ -20,6 +20,182 @@
 - Select a folder
 > A messagebox is shown telling that the Temporary directory has been updated to selected folder.
 
+3. Platform
+-----------
+
+3.1. Add platform
+-----------------
+- Select 'Config->Set platforms'
+> New view is opened with a title describing about setting platforms
+	> 'Add' and 'OK' buttons active
+	> 'Edit' and 'Delete' buttons disabled
+- Click 'Add' button
+> New entry is created to the platform table view
+	> The name field in the new row is activated for editing
+- Type a platform name, e.g. 'Commodore 128' and press enter
+> The name field presents the platform name
+	>editing is disabled 
+- Add a couple of more platforms (>= 3)
+
+3.2. Edit platform
+----------------
+
+3.2.1. Edit platform by double clicking first row
+-----------------------------------------------
+- double click a platform name in the first row 
+> The name field in the first row is activated for editing
+- Change the name, eg. 'Commodore 128' -> 'Commodore 64' and press enter
+> The name field presents the platform name
+	>editing is disabled 
+
+3.2.2. Edit platform by double clicking 2nd row
+---------------------------------------------
+- double click a platform name in the second row 
+> The name field in the second row is activated for editing
+- Change the name, eg. 'Commodore 128' -> 'Commodore 64' and press enter
+> The name field presents the platform name
+	>editing is disabled 
+
+3.2.3. Edit platform by double clicking last row
+----------------------------------------------
+- double click a platform name in the last row 
+> The name field in the last row is activated for editing
+- Change the name, eg. 'Commodore 128' -> 'Commodore 64' and press enter
+> The name field presents the platform name
+	>editing is disabled 
+
+3.2.4. Edit platform using 'Edit' button, 1st row
+-----------------------------------------------
+- Select first row 
+> Selected row is highlighted
+> Edit button is activated
+- Click edit button
+> The name field in the selected is activated for editing
+- Change the name, eg. 'Commodore 128' -> 'Commodore 64' and press enter
+> The name field in the selected row presents the platform name
+	>editing is disabled 
+
+3.2.5. Edit platform using 'Edit' button, 2nd row
+-----------------------------------------------
+- Select 2nd row 
+> Selected row is highlighted
+> Edit button is activated
+- Click edit button
+> The name field in the selected row is activated for editing
+- Change the name, eg. 'Commodore 128' -> 'Commodore 64' and press enter
+> The name field in the selected row presents the platform name
+	>editing is disabled 
+
+3.2.6. Edit platform using 'Edit' button, last row
+-----------------------------------------------
+- Select last row 
+> Selected row is highlighted
+> Edit button is activated
+- Click edit button
+> The name field in the selected row is activated for editing
+- Change the name, eg. 'Commodore 128' -> 'Commodore 64' and press enter
+> The name field in the selected row presents the platform name
+	>editing is disabled 
+
+3.3. Delete platform
+--------------------
+
+3.3.1. Delete platform, 2nd row
+-------------------------------
+- Select 2nd row 
+> Selected row is highlighted
+> Delete button is activated
+- Click Delete button
+> Confirmation dialog is presented
+- Select 'No'
+> Deleting is aborted and the platform entry remains
+- Select the same row, click delete button, answer 'Yes'
+> Platform was removed from the table view
+
+3.3.1. Delete platform, last row
+-------------------------------
+- Select last row 
+> Selected row is highlighted
+> Delete button is activated
+- Click Delete button
+> Confirmation dialog is presented
+- Select 'No'
+> Deleting is aborted and the platform entry remains
+- Select the same row, click delete button, answer 'Yes'
+> Platform was removed from the table view
+
+3.3.1. Delete platform, 1st row
+-------------------------------
+- Select first row 
+> Selected row is highlighted
+> Delete button is activated
+- Click Delete button
+> Confirmation dialog is presented
+- Select 'No'
+> Deleting is aborted and the platform entry remains
+- Select the same row, click delete button, answer 'Yes'
+> Platform was removed from the table view
+
+
+
+4.1. Edit platform by double clicking first row
+-----------------------------------------------
+- double click a platform name in the first row 
+> The name field in the first row is activated for editing
+- Change the name, eg. 'Commodore 128' -> 'Commodore 64' and press enter
+> The name field presents the platform name
+	>editing is disabled 
+
+4.2. Edit platform by double clicking 2nd row
+---------------------------------------------
+- double click a platform name in the second row 
+> The name field in the second row is activated for editing
+- Change the name, eg. 'Commodore 128' -> 'Commodore 64' and press enter
+> The name field presents the platform name
+	>editing is disabled 
+
+4.3. Edit platform by double clicking last row
+----------------------------------------------
+- double click a platform name in the last row 
+> The name field in the last row is activated for editing
+- Change the name, eg. 'Commodore 128' -> 'Commodore 64' and press enter
+> The name field presents the platform name
+	>editing is disabled 
+
+4.4. Edit platform using 'Edit' button, 1st row
+-----------------------------------------------
+- Select first row 
+> Selected row is highlighted
+> Edit button is activated
+- Click edit button
+> The name field in the selected is activated for editing
+- Change the name, eg. 'Commodore 128' -> 'Commodore 64' and press enter
+> The name field in the selected row presents the platform name
+	>editing is disabled 
+
+4.5. Edit platform using 'Edit' button, 2nd row
+-----------------------------------------------
+- Select 2nd row 
+> Selected row is highlighted
+> Edit button is activated
+- Click edit button
+> The name field in the selected row is activated for editing
+- Change the name, eg. 'Commodore 128' -> 'Commodore 64' and press enter
+> The name field in the selected row presents the platform name
+	>editing is disabled 
+
+4.6. Edit platform using 'Edit' button, last row
+-----------------------------------------------
+- Select last row 
+> Selected row is highlighted
+> Edit button is activated
+- Click edit button
+> The name field in the selected row is activated for editing
+- Change the name, eg. 'Commodore 128' -> 'Commodore 64' and press enter
+> The name field in the selected row presents the platform name
+	>editing is disabled 
+
+
 X. Setupview
 ------------
 
