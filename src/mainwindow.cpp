@@ -225,7 +225,7 @@ void MainWindow::configureMediaImagePathss()
 {
     if (!mediaImagePathView)
     {
-        mediaImagePathView = new FilePathEditView(this);
+        mediaImagePathView = new FilePathEditView(supModel, this);
     }
     activateDialog(mediaImagePathView);
 }
@@ -264,8 +264,7 @@ void MainWindow::configureSetupss()
 void MainWindow::configureEmulatorss()
 {
     if (!emulatorEditView) {
-        emulatorEditView = new ExternalExecutableEditView(emuModel, this);
-        //connect(emulatorEditView, SIGNAL(finished(int)), this, SLOT(updateData()));
+        emulatorEditView = new ExternalExecutableEditView(supModel, emuModel, this);
     }
     activateDialog(emulatorEditView);
 }

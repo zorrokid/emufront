@@ -25,11 +25,13 @@
 #include "emufronteditview.h"
 
 class ExternalExecutableModel;
+class SetupModel;
+
 class ExternalExecutableEditView : public EmuFrontEditView
 {
     Q_OBJECT
 public:
-    ExternalExecutableEditView(ExternalExecutableModel *emuModel, QWidget *parent = 0);
+    ExternalExecutableEditView(SetupModel *supModel, ExternalExecutableModel *emuModel, QWidget *parent = 0);
 };
 
 #endif // EXTERNALEXECUTABLEEDITVIEW_H

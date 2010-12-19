@@ -27,7 +27,7 @@
 #include "filesystembrowsedelegate.h"
 #include <QtGui>
 
-FilePathEditView::FilePathEditView(QWidget *parent) :
+FilePathEditView::FilePathEditView(SetupModel *supModel, QWidget *parent) :
     EmuFrontEditView(parent)
 {
     setWindowTitle(tr("Set media image paths"));
@@ -38,9 +38,8 @@ FilePathEditView::FilePathEditView(QWidget *parent) :
 
     model = new FilePathModel(this);
     objectList->setModel(model);
-    SetupModel *stupMdl = new SetupModel(this);
     ComboBoxDelegate *setupDelegate = new ComboBoxDelegate(
-        stupMdl,
+        supModel,
         SetupModel::Setup_Id,
         SetupModel::Setup_Name,
         this

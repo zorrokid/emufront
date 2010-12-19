@@ -26,12 +26,13 @@
 
 class FileUtil;
 class QProgressDialog;
+class SetupModel;
 
 class FilePathEditView : public EmuFrontEditView
 {
     Q_OBJECT
 public:
-    FilePathEditView(QWidget *parent = 0);
+    FilePathEditView(SetupModel *supModel, QWidget *parent = 0);
 
 protected:
     virtual void connectSignals();
