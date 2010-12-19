@@ -53,11 +53,11 @@ protected:
 	void closeEvent(QCloseEvent *event);
 
 private slots:
-    void configurePlatformss();
-    void configureMediaTypess();
-    void configureMediaImagePathss();
-    void configureSetupss();
-    void configureEmulatorss();
+    void configurePlatforms();
+    void configureMediaTypes();
+    void configureMediaImagePaths();
+    void configureSetups();
+    void configureEmulators();
     void configureTmpDir();
     void resetDb();
     void updateData();

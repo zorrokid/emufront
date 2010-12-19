@@ -82,24 +82,24 @@ void MainWindow::createActions()
     configPlatformsAction = new QAction(tr("&Set Platforms"), this);
     configPlatformsAction->setStatusTip(tr("Add, edit and delete platforms"));
     connect(configPlatformsAction, SIGNAL(triggered()),
-        this, SLOT(configurePlatformss()));
+        this, SLOT(configurePlatforms()));
 
     configMediaTypesAction = new QAction(tr("&Set Media Types"), this);
     configMediaTypesAction->setStatusTip(tr("Add, edit and delete media types"));
-    connect(configMediaTypesAction, SIGNAL(triggered()), this, SLOT(configureMediaTypess()));
+    connect(configMediaTypesAction, SIGNAL(triggered()), this, SLOT(configureMediaTypes()));
 
     configMediaImagePathsAction = new QAction(tr("Set media &image paths"), this);
     configMediaImagePathsAction->setStatusTip(tr("Add, edit and delete media image file paths."));
     connect(configMediaImagePathsAction, SIGNAL(triggered()),
-        this, SLOT(configureMediaImagePathss()));
+        this, SLOT(configureMediaImagePaths()));
 
     configSetupsAction = new QAction(tr("Configure S&etups"), this);
     configSetupsAction->setStatusTip(tr("Add, edit and delete setups"));
-    connect(configSetupsAction, SIGNAL(triggered()), this, SLOT(configureSetupss()));
+    connect(configSetupsAction, SIGNAL(triggered()), this, SLOT(configureSetups()));
 
     configEmulatorsAction = new QAction(tr("Configure Em&ulators"), this);
     configEmulatorsAction->setStatusTip(tr("Add, edit and delete emulator configurations"));
-    connect(configEmulatorsAction, SIGNAL(triggered()), this, SLOT(configureEmulatorss()));
+    connect(configEmulatorsAction, SIGNAL(triggered()), this, SLOT(configureEmulators()));
 
     configTmpDirAction = new QAction(tr("&Temp dir"), this);
     configTmpDirAction->setStatusTip(tr("Configure directory for temporary files."));
@@ -123,7 +123,7 @@ void MainWindow::createActions()
     connect(aboutAction, SIGNAL(triggered()), this, SLOT(about()));
 }
 
-void MainWindow::configurePlatformss()
+void MainWindow::configurePlatforms()
 {
     if (!plfDialog) {
         plfDialog = new PlatformEditView(plfModel, this);
@@ -132,7 +132,7 @@ void MainWindow::configurePlatformss()
     activateDialog(plfDialog);
 }
 
-void MainWindow::configureMediaTypess()
+void MainWindow::configureMediaTypes()
 {
     if (!mdtDialog)
     {
@@ -142,7 +142,7 @@ void MainWindow::configureMediaTypess()
    activateDialog(mdtDialog);
 }
 
-void MainWindow::configureMediaImagePathss()
+void MainWindow::configureMediaImagePaths()
 {
     if (!mediaImagePathView)
     {
@@ -151,7 +151,7 @@ void MainWindow::configureMediaImagePathss()
     activateDialog(mediaImagePathView);
 }
 
-void MainWindow::configureSetupss()
+void MainWindow::configureSetups()
 {
     if (!setupMainView) {
         setupMainView = new SetupEditView(plfModel, mdtModel, supModel, this);
@@ -159,7 +159,7 @@ void MainWindow::configureSetupss()
     activateDialog(setupMainView);
 }
 
-void MainWindow::configureEmulatorss()
+void MainWindow::configureEmulators()
 {
     if (!emulatorEditView) {
         emulatorEditView = new ExternalExecutableEditView(supModel, emuModel, this);
