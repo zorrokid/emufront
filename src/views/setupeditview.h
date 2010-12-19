@@ -22,20 +22,23 @@
 
 #include "emufronteditview.h"
 
+class PlatformModel;
+class MediaTypeModel;
 class SetupModel;
 
 class SetupEditView : public EmuFrontEditView
 {
     Q_OBJECT
 public:
-    SetupEditView(SetupModel *supModel, QWidget *parent = 0);
+    SetupEditView(PlatformModel *plfModel, MediaTypeModel *mdtModel, SetupModel *supModel, QWidget *parent = 0);
 
 signals:
 
 public slots:
 
 private:
-
+    PlatformModel *plfModel;
+    MediaTypeModel *mdtModel;
 };
 
 #endif // SETUPMAINVIEW_H

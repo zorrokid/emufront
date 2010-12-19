@@ -42,6 +42,8 @@
 #include "dbcreator.h"
 #include "dbconfig.h"
 #include "setupmodel.h"
+#include "platformmodel.h"
+#include "mediatypemodel.h"
 
 QString MainWindow::aboutStr = trUtf8(
         "<h2>EmuFront</h2>"
@@ -64,6 +66,8 @@ MainWindow::MainWindow(bool reset)
         tmpDirFilePath = QDir::homePath();
     qDebug() << "Temporary dir is " << tmpDirFilePath;
     supModel = new SetupModel(this);
+    plfModel = new PlatformModel(this);
+    mdtModel = new MediaTypeModel(this);
 	emuModel = new ExternalExecutableModel(this);
     launcher = new EmuLauncher(errorMessage, supModel, emuModel, this, tmpDirFilePath);
     setCentralWidget(launcher);
@@ -179,7 +183,7 @@ void MainWindow::createActions()
 void MainWindow::configurePlatformss()
 {
     if (!plfDialog) {
-        plfDialog = new PlatformEditView(this);
+        plfDialog = new PlatformEditView(plfModel, this);
         connect(plfDialog, SIGNAL(finished(int)), this, SLOT(updateData()));
     }
     activateDialog(plfDialog);
@@ -200,7 +204,7 @@ void MainWindow::configureMediaTypess()
 {
     if (!mdtDialog)
     {
-        mdtDialog = new MediaTypeEditView(this);
+        mdtDialog = new MediaTypeEditView(mdtModel, this);
         connect(mdtDialog, SIGNAL(finished(int)), this, SLOT(updateData()));
    }
    activateDialog(mdtDialog);
@@ -239,10 +243,8 @@ void MainWindow::configureMediaImagePathss()
 
 void MainWindow::configureSetupss()
 {
-    //TODO: maybe a common setup model in MainWindow, so the data would be in sync without refresh with updateData!
     if (!setupMainView) {
-        setupMainView = new SetupEditView(supModel, this);
-        //connect(setupMainView, SIGNAL(finished(int)), this, SLOT(updateData()));
+        setupMainView = new SetupEditView(plfModel, mdtModel, supModel, this);
     }
     activateDialog(setupMainView);
 }

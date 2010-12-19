@@ -22,11 +22,13 @@
 
 #include "emufrontfileobjecteditview.h"
 
+class MediaTypeModel;
+
 class MediaTypeEditView : public EmuFrontFileObjectEditView
 {
     Q_OBJECT
 public:
-    MediaTypeEditView(QWidget *parent = 0);
+    MediaTypeEditView(MediaTypeModel *mdtModel, QWidget *parent = 0);
 };
 
 #endif // MEDIATYPEMAINDIALOG_H

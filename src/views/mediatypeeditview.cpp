@@ -22,11 +22,11 @@
 #include "mediatypeeditview.h"
 #include "mediatypemodel.h"
 
-MediaTypeEditView::MediaTypeEditView(QWidget *parent) :
+MediaTypeEditView::MediaTypeEditView(MediaTypeModel *mdtModel, QWidget *parent) :
     EmuFrontFileObjectEditView(parent)
 {
     setWindowTitle(tr("Set media types"));
-    model = new MediaTypeModel(this);
+    model = mdtModel;
     objectList->setModel(model);
     postInit();
 }

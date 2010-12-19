@@ -18,15 +18,16 @@
 ** You should have received a copy of the GNU General Public License
 ** along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
 */
+
 #include <QtGui>
 #include "platformeditview.h"
 #include "platformmodel.h"
 
-PlatformEditView::PlatformEditView(QWidget *parent) :
+PlatformEditView::PlatformEditView(PlatformModel *plfModel, QWidget *parent) :
     EmuFrontFileObjectEditView(parent)
 {
     setWindowTitle(tr("Set emulated platforms"));
-    model = new PlatformModel(this);
+    model = plfModel;
     objectList->setModel(model);
     postInit();
 }

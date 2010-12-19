@@ -27,14 +27,12 @@
 #include "mediatypemodel.h"
 #include <QSqlTableModel>
 
-SetupEditView::SetupEditView(SetupModel *supModel, QWidget *parent) :
-    EmuFrontEditView(parent)//, model(supModel)
+SetupEditView::SetupEditView(PlatformModel *plfModel, MediaTypeModel *mdtModel, SetupModel *supModel, QWidget *parent) :
+    EmuFrontEditView(parent), plfModel(plfModel), mdtModel(mdtModel)
 {
     setWindowTitle(tr("Setups"));
     model = supModel;
-    //model = new SetupModel(this);
     objectList->setModel(model);
-    PlatformModel *plfModel = new PlatformModel(this);
     ComboBoxDelegate *platformDelegate = new ComboBoxDelegate(
             plfModel,
             PlatformModel::EmuFrontFileObject_Id,
@@ -42,7 +40,6 @@ SetupEditView::SetupEditView(SetupModel *supModel, QWidget *parent) :
             this
         );
     objectList->setItemDelegateForColumn(SetupModel::Setup_PlatformId, platformDelegate);
-    MediaTypeModel *mdtModel = new MediaTypeModel(this);
     ComboBoxDelegate *mediatypeDelegate = new ComboBoxDelegate(
             mdtModel,
             MediaTypeModel::EmuFrontFileObject_Id,

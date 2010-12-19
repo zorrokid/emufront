@@ -17,16 +17,20 @@
 **
 ** You should have received a copy of the GNU General Public License
 ** along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
-*/#ifndef PLATFORMMAINDIALOG_H
+*/
+
+#ifndef PLATFORMMAINDIALOG_H
 #define PLATFORMMAINDIALOG_H
 
 #include "emufrontfileobjecteditview.h"
+
+class PlatformModel;
 
 class PlatformEditView : public EmuFrontFileObjectEditView
 {
     Q_OBJECT
 public:
-    PlatformEditView(QWidget *parent = 0);
+    PlatformEditView(PlatformModel *plfModel, QWidget *parent = 0);
   };
 
 #endif // PLATFORMMAINDIALOG_H

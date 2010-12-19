@@ -1,5 +1,5 @@
 1. Start EmuFront
------------------
+=================
 - if database already exists move/remove it:
 
 	$ mv ~/emufront.db.sqlite ~/emufront.db.sqlite.bak
@@ -14,14 +14,14 @@
 	> empty area for filtered media image containers is shown
 
 2. Set temporary directory
---------------------------
+==========================
 - Select 'Config->Temp dir'
 > A file selector is opened, only folders can be selected
 - Select a folder
 > A messagebox is shown telling that the Temporary directory has been updated to selected folder.
 
 3. Platform
------------
+===========
 
 3.1 Open platform editor
 ------------------------
@@ -200,7 +200,41 @@ Add a four platforms according to instructions in part 3.2
 > Platform was removed from the table view
 
 4. Media Types
---------------
+==============
+
+5. Setups
+=========
+
+Delete all the platforms and media types first.
+
+5.1 Open setup editor
+---------------------
+- Select 'Config->Configure setups'
+> New view is opened with a title describing about setting setups 
+	> 'Add' and 'OK' buttons active
+	> 'Edit' and 'Delete' buttons disabled
+
+5.2 Add setup
+-------------
+
+5.2.1 Add setup with no platforms and media types configured
+------------------------------------------------------------
+- Click Add button
+> 
+
+5.2.2 Add setup with no platforms configured
+--------------------------------------------
+
+5.2.3 Add setup with no media types configured
+----------------------------------------------
+
+5.2.3 Add setup with a single media type and a single platform configured
+-------------------------------------------------------------------------
+
+5.2.3 Add setup with multiple media types and platforms configured
+------------------------------------------------------------------
+
+
 
 
 

@@ -49,6 +49,8 @@ class DatFileUtil;
 class QErrorMessage;
 class SetupModel;
 class ExternalExecutableModel;
+class PlatformModel;
+class MediaTypeModel;
 
 class MainWindow : public QMainWindow
 {
@@ -142,7 +144,9 @@ private:
     QString tmpDirFilePath;
     QErrorMessage *errorMessage;
     SetupModel *supModel;
-	ExternalExecutableModel *emuModel;
+    ExternalExecutableModel *emuModel;
+    PlatformModel *plfModel;
+    MediaTypeModel *mdtModel;
 };
 
 #endif
