@@ -24,23 +24,12 @@
 #include <QMainWindow>
 
 class QAction;
-// TODO: DEPRECATED
-//class PlatformDialog;
 class PlatformEditView;
 class MediaTypeEditView;
-// TODO: DEPRECATED
-//class MediaTypeDialog;
 class MediaTypeEditView;
-// TODO: DEPRECATED
-//class MediaImagePathMainDialog;
 class FilePathEditView;
-// TODO: DEPRECATED
-//class SetupMainDialog;
 class SetupEditView;
-// TODO: DEPRECATED
-//class ExecutableMainDialog;
 class ExternalExecutableEditView;
-//class TmpFolderEditDialog;
 class QLabel;
 class DatabaseManager;
 class EmuFrontDialog;
@@ -64,20 +53,10 @@ protected:
 	void closeEvent(QCloseEvent *event);
 
 private slots:
-    // TODO: DEPRECATED
-    //void configurePlatforms();
     void configurePlatformss();
-    // TODO: DEPRECATED
-    //void configureMediaTypes();
     void configureMediaTypess();
-    // TODO: DEPRECATED
-    //void configureMediaImagePaths();
     void configureMediaImagePathss();
-    // TODO: DEPRECATED
-    //void configureSetups();
     void configureSetupss();
-    // TODO: DEPRECATED
-    //void configureEmulators();
     void configureEmulatorss();
     void configureTmpDir();
     void resetDb();
@@ -99,39 +78,18 @@ private:
     bool testDB(bool reset);
     void createDB() const;
 
-    // TODO: deprecated
-    //PlatformDialog *platformDialog;
     PlatformEditView *plfDialog;
-    // TODO: deprecated
-    //MediaTypeDialog *mediaTypeDialog;
     MediaTypeEditView *mdtDialog;
-    // TODO: DEPRECATED
-    //MediaImagePathMainDialog *mediaImagePathDialog;
     FilePathEditView *mediaImagePathView;
-    // TODO: deprecated
-    //SetupMainDialog *setupMainDialog;
     SetupEditView *setupMainView;
-    // TODO: deprecated
-    //ExecutableMainDialog *executableMainDialog;
     ExternalExecutableEditView *emulatorEditView;
-    //TmpFolderEditDialog *tmpFolderDialog;
 	QMenu *configMenu;
     QMenu *fileMenu;
     QMenu *helpMenu;
-    // TODO: deprecated
-    //QAction *configPlatformAction;
     QAction *configPlatformsAction;
-    // TODO: deprecated
-    //QAction *configMediaTypeAction;
     QAction *configMediaTypesAction;
-    // TODO: DEPRECATED
-    //QAction *configMediaImagePathAction;
     QAction *configMediaImagePathsAction;
-    // TODO: deprecated
-    //QAction *configSetupAction;
     QAction *configSetupsAction;
-    // TODO: deprecated
-    //QAction *configEmulatorAction;
     QAction *configEmulatorsAction;
     QAction *exitAction;
     QAction *resetDbAction;
