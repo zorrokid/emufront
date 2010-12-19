@@ -23,49 +23,85 @@
 3. Platform
 -----------
 
-3.1. Add platform
------------------
+3.1 Open platform editor
+------------------------
 - Select 'Config->Set platforms'
 > New view is opened with a title describing about setting platforms
 	> 'Add' and 'OK' buttons active
 	> 'Edit' and 'Delete' buttons disabled
+
+3.2. Add platform
+-----------------
+
+3.2.1 Add platform (Legal input)
+--------------------------------
 - Click 'Add' button
 > New entry is created to the platform table view
 	> The name field in the new row is activated for editing
 - Type a platform name, e.g. 'Commodore 128' and press enter
 > The name field presents the platform name
-	>editing is disabled 
-- Add a couple of more platforms (>= 3)
+	> editing is disabled 
 
-3.2. Edit platform
-----------------
+3.2.2 Add platform (Equal name)
+-------------------------------
+- Click 'Add' button
+> New entry is created to the platform table view
+	> The name field in the new row is activated for editing
+- Type exactly the same platform name as in 3.2.1 press enter
+> The input was not accepted 
+	> a message was shown telling that the name already exists
+	> The row being added is removed
 
-3.2.1. Edit platform by double clicking first row
+3.2.3 Add platform (Empty name)
+-------------------------------
+- Click 'Add' button
+> New entry is created to the platform table view
+	> The name field in the new row is activated for editing
+- press enter without entering any character
+> The input was not accepted 
+	> a message was shown telling that empty name is not accepted 
+	> The row being added is removed
+
+3.2.4 Add platform (name with space chars only)
 -----------------------------------------------
+- Click 'Add' button
+> New entry is created to the platform table view
+	> The name field in the new row is activated for editing
+- Type an empty space for name and press enter
+> The input was not accepted
+	> message was shown telling that empty name is not accepted 
+	> The row being added is removed
+
+3.3. Edit platform
+------------------
+Add a four platforms according to instructions in part 3.2
+
+3.3.1. Edit platform by double clicking first row
+-------------------------------------------------
 - double click a platform name in the first row 
 > The name field in the first row is activated for editing
 - Change the name, eg. 'Commodore 128' -> 'Commodore 64' and press enter
 > The name field presents the platform name
 	>editing is disabled 
 
-3.2.2. Edit platform by double clicking 2nd row
----------------------------------------------
+3.3.2. Edit platform by double clicking 2nd row
+-----------------------------------------------
 - double click a platform name in the second row 
 > The name field in the second row is activated for editing
 - Change the name, eg. 'Commodore 128' -> 'Commodore 64' and press enter
 > The name field presents the platform name
 	>editing is disabled 
 
-3.2.3. Edit platform by double clicking last row
-----------------------------------------------
+3.3.3. Edit platform by double clicking last row
+------------------------------------------------
 - double click a platform name in the last row 
 > The name field in the last row is activated for editing
 - Change the name, eg. 'Commodore 128' -> 'Commodore 64' and press enter
 > The name field presents the platform name
 	>editing is disabled 
 
-3.2.4. Edit platform using 'Edit' button, 1st row
------------------------------------------------
+3.3.4. Edit platform using 'Edit' button, 1st row
+-------------------------------------------------
 - Select first row 
 > Selected row is highlighted
 > Edit button is activated
@@ -75,8 +111,8 @@
 > The name field in the selected row presents the platform name
 	>editing is disabled 
 
-3.2.5. Edit platform using 'Edit' button, 2nd row
------------------------------------------------
+3.3.5. Edit platform using 'Edit' button, 2nd row
+-------------------------------------------------
 - Select 2nd row 
 > Selected row is highlighted
 > Edit button is activated
@@ -86,8 +122,8 @@
 > The name field in the selected row presents the platform name
 	>editing is disabled 
 
-3.2.6. Edit platform using 'Edit' button, last row
------------------------------------------------
+3.3.6. Edit platform using 'Edit' button, last row
+--------------------------------------------------
 - Select last row 
 > Selected row is highlighted
 > Edit button is activated
@@ -97,7 +133,34 @@
 > The name field in the selected row presents the platform name
 	>editing is disabled 
 
-3.3. Delete platform
+3.3.1. Edit platform by entering empty name 
+-------------------------------------------
+- double click a platform name
+> The name field in the first row is activated for editing
+- clear all the characters from name, press enter
+> The input was not accepted 
+	> a message was shown telling that empty name is not accepted 
+	> The original name is restored 
+
+3.3.1. Edit platform by entering name  with spaces only
+-------------------------------------------------------
+- double click a platform name
+> The name field in the first row is activated for editing
+- clear all the characters from name and enter an empty space for the name, press enter
+> The input was not accepted 
+	> a message was shown telling that empty name is not accepted 
+	> The original name is restored 
+
+3.3.1. Edit platform by entering an equal name to existing name
+---------------------------------------------------------------
+- double click a platform name
+> The name field in the first row is activated for editing
+- Change the name to match an existing name in another row, press enter
+> The input was not accepted 
+	> a message was shown telling that the name already exists
+	> The original name is restored 
+
+3.4. Delete platform
 --------------------
 
 3.3.1. Delete platform, 2nd row
@@ -113,7 +176,7 @@
 > Platform was removed from the table view
 
 3.3.1. Delete platform, last row
--------------------------------
+--------------------------------
 - Select last row 
 > Selected row is highlighted
 > Delete button is activated
