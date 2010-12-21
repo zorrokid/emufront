@@ -32,4 +32,7 @@ void EmuFrontFileObjectEditView::setHiddenColumns()
     hiddenColumns << EmuFrontFileObjectModel::EmuFrontFileObject_FileId;
     hiddenColumns << EmuFrontFileObjectModel::EmuFrontFileObject_FileType;
     hiddenColumns << EmuFrontFileObjectModel::EmuFrontFileObject_FileCheckSum;
+	hiddenColumns << EmuFrontFileObjectModel::EmuFrontFileObject_FileName;
+	hiddenColumns << EmuFrontFileObjectModel::EmuFrontFileObject_FileUpdateTime;
+	hiddenColumns << EmuFrontFileObjectModel::EmuFrontFileObject_FileSize;
 }
