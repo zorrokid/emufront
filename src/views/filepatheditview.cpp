@@ -108,3 +108,9 @@ void FilePathEditView::beginScanFilePath()
     fpo = 0;
 }
 
+void FilePathEditView::setHiddenColumns()
+{
+	hiddenColumns << FilePathModel::FilePath_FileTypeId;
+	hiddenColumns << FilePathModel::FilePath_Id;
+	hiddenColumns << FilePathModel::FilePath_SetupName;
+}

@@ -46,6 +46,7 @@ private:
     QProgressDialog *progressDialog;
     void scanFilePath(const QString path, const QStringList filters);
     void initProgressDialog();
+    virtual void setHiddenColumns();
 };
 
 #endif // FILEPATHEDITVIEW_H

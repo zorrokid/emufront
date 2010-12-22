@@ -32,6 +32,8 @@ class ExternalExecutableEditView : public EmuFrontEditView
     Q_OBJECT
 public:
     ExternalExecutableEditView(SetupModel *supModel, ExternalExecutableModel *emuModel, QWidget *parent = 0);
+private:
+    virtual void setHiddenColumns();
 };
 
 #endif // EXTERNALEXECUTABLEEDITVIEW_H

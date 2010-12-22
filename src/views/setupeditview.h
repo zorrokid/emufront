@@ -17,7 +17,9 @@
 **
 ** You should have received a copy of the GNU General Public License
 ** along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
-*/#ifndef SETUPMAINVIEW_H
+*/
+
+#ifndef SETUPMAINVIEW_H
 #define SETUPMAINVIEW_H
 
 #include "emufronteditview.h"
@@ -32,11 +34,8 @@ class SetupEditView : public EmuFrontEditView
 public:
     SetupEditView(PlatformModel *plfModel, MediaTypeModel *mdtModel, SetupModel *supModel, QWidget *parent = 0);
 
-signals:
-
-public slots:
-
 private:
+    virtual void setHiddenColumns();
     PlatformModel *plfModel;
     MediaTypeModel *mdtModel;
 };

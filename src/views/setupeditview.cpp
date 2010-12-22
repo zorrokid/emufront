@@ -52,3 +52,11 @@ SetupEditView::SetupEditView(PlatformModel *plfModel, MediaTypeModel *mdtModel, 
     objectList->setItemDelegateForColumn(SetupModel::Setup_FileTypeExtensions, fileTypeDelegate);
     postInit();
 }
+
+void SetupEditView::setHiddenColumns()
+{
+	hiddenColumns << SetupModel::Setup_Id;
+	hiddenColumns << SetupModel::Setup_Name; 
+}
+
+
