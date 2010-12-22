@@ -44,6 +44,10 @@ public:
     FilePathObject* getFilePathObject(const QModelIndex &index);
     virtual bool setScanned(int id);
 
+signals:
+	void dataChanged();
+
+
 protected:
     virtual void refresh();
     virtual QString constructSelect(QString where = "") const;

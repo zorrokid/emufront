@@ -48,6 +48,9 @@ public:
     };
     virtual void refresh();
 
+signals:
+	void dataChanged();
+
 protected:
     virtual QString constructSelect(QString where = "") const;
     virtual bool setSetup(int isd, int setupId);

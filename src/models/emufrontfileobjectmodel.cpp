@@ -54,6 +54,7 @@ bool EmuFrontFileObjectModel::setData(const QModelIndex &index, const QVariant &
     }
 
     refresh();
+	if (ok) emit dataChanged();
     return ok;
 }
 

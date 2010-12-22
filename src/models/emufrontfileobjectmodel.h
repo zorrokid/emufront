@@ -44,6 +44,9 @@ public:
         EmuFrontFileObject_FileUpdateTime
     };
 
+signals:
+	void dataChanged();
+
 protected:
     virtual void refresh();
     virtual QString constructSelect(QString where = "") const;

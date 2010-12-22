@@ -41,6 +41,9 @@ public:
     static const QString FILE_TYPE_EXTENSION_SEPARATOR;
     virtual void refresh();
 
+signals:
+	void dataChanged();
+
 protected:
     virtual QString constructSelect(QString where = "") const;
     virtual bool setPlatform(int id, int platformId);

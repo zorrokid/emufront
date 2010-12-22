@@ -38,6 +38,7 @@ private slots:
     void addButtonClicked();
     void deleteButtonClicked();
     void listObjectClicked(const QModelIndex &);
+	void onDataChanged();
 
 protected:
     EmuFrontQueryModel *model;

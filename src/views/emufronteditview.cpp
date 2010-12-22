@@ -65,6 +65,7 @@ void EmuFrontEditView::connectSignals()
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
     connect(objectList, SIGNAL(clicked(const QModelIndex &)),
         this, SLOT(listObjectClicked(const QModelIndex &)));
+	connect(model, SIGNAL(dataChanged()), this, SLOT(onDataChanged()));
     connect(editButton, SIGNAL(clicked()), this, SLOT(editButtonClicked()));
     connect(addButton, SIGNAL(clicked()), this, SLOT(addButtonClicked()));
     connect(deleteButton, SIGNAL(clicked()), this, SLOT(deleteButtonClicked()));
@@ -133,4 +134,7 @@ bool EmuFrontEditView::confirm(QString &msg)
     return true;
 }
 
-
+void EmuFrontEditView::onDataChanged()
+{
+	qDebug() << "Data changed";
+}

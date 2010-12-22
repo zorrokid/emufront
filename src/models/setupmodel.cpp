@@ -105,6 +105,7 @@ bool SetupModel::setData(const QModelIndex &index, const QVariant &value, int /*
         ok = false;
         qDebug() << "Setup model, this shouldn't be happening!";
     };
+	if (ok) emit dataChanged();
     refresh();
     return ok;
 }

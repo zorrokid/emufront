@@ -103,6 +103,7 @@ bool ExternalExecutableModel::setData(const QModelIndex &index, const QVariant &
             ok = false;
     }
     refresh();
+	if (ok) emit dataChanged();
     return ok;
 }
 
