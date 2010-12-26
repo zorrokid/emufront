@@ -50,7 +50,8 @@ SetupEditView::SetupEditView(PlatformModel *plfModel, MediaTypeModel *mdtModel, 
 
     StringListDelegate *fileTypeDelegate = new StringListDelegate(SetupModel::FILE_TYPE_EXTENSION_SEPARATOR, this);
     objectList->setItemDelegateForColumn(SetupModel::Setup_FileTypeExtensions, fileTypeDelegate);
-	objectList->setColumnWidth(SetupModel::Setup_FileTypeExtensions, StringListDelegate::WIDTH);
+	//objectList->setColumnWidth(SetupModel::Setup_FileTypeExtensions, StringListDelegate::WIDTH);
+	objectList->resizeColumnToContents(SetupModel::Setup_FileTypeExtensions);
     postInit();
 }
 
