@@ -20,6 +20,8 @@
 */
 #include "stringlistdelegate.h"
 #include "fileextensionwidget.h"
+#include <QPainter>
+#include <QDebug>
 
 StringListDelegate::StringListDelegate(QString separator, QObject *parent) :
     QStyledItemDelegate(parent), separator(separator)
@@ -35,6 +37,7 @@ StringListDelegate::StringListDelegate(QString separator, QObject *parent) :
 QWidget* StringListDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     StringListWidget *editor = new StringListWidget(parent);
+	editor->setFixedSize(WIDTH, HEIGHT);
     QString str = index.model()->data(index, Qt::DisplayRole).toString();
     editor->setItems(str.split(separator, QString::SkipEmptyParts));
     connect(editor, SIGNAL(stringListUpdated()), this, SLOT(commitAndCloseEditor()));
@@ -64,6 +67,23 @@ void StringListDelegate::commitAndCloseEditor()
 
 QSize StringListDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-    QSize sz(300,300);
+    QSize sz(WIDTH, HEIGHT);
     return sz;
+}
+
+void StringListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
+{
+	if (option.state & QStyle::State_Editing) {
+		QRect rc(option.rect.x(), option.rect.y(), WIDTH, HEIGHT);
+		painter->fillRect(rc, option.palette.highlight());
+	}
+	else {
+		painter->save();
+		QRect rc(option.rect.x(), option.rect.y(), WIDTH, HEIGHT);
+		painter->fillRect(rc, (option.state & QStyle::State_Selected) ? option.palette.highlight() : option.palette.light() );
+		QString str = index.model()->data(index, Qt::DisplayRole).toString();
+		painter->setBrush(option.palette.foreground());
+		painter->drawText(rc, str);
+		painter->restore();
+	}
 }

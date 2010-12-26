@@ -220,13 +220,17 @@ Delete all the platforms and media types first.
 5.2.1 Add setup with no platforms and media types configured
 ------------------------------------------------------------
 - Click Add button
-> 
+> An error message is shown that no platform and/or media types are configured. 
 
 5.2.2 Add setup with no platforms configured
 --------------------------------------------
+- Click Add button
+> An error message is shown that no platform and/or media types are configured. 
 
 5.2.3 Add setup with no media types configured
 ----------------------------------------------
+- Click Add button
+> An error message is shown that no platform and/or media types are configured. 
 
 5.2.3 Add setup with a single media type and a single platform configured
 -------------------------------------------------------------------------
