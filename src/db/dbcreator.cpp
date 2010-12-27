@@ -66,6 +66,8 @@ bool DbCreator::createDB()
 
         */
 
+		query.exec("DROP TABLE IF EXISTS titlename_file");
+		query.exec("DROP TABLE IF EXISTS titlename");
         query.exec("DROP TABLE IF EXISTS mediaimagecontainer_mediaimage");
         query.exec("DROP TABLE IF EXISTS mediaimagecontainer_filepath");
         query.exec("DROP TABLE IF EXISTS filepath");
@@ -114,6 +116,7 @@ bool DbCreator::createDB()
 
         if (!ret) throw QString("tbl file");
 
+		// Each media image container is linked to 1...n titlename
         ret = query.exec(
             "CREATE TABLE IF NOT EXISTS file titlename_file "
             "(titlenameid INTEGER REFERENCES titlename(id), "
