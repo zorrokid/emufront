@@ -74,8 +74,10 @@ void EmuFrontEditView::connectSignals()
 
 void EmuFrontEditView::editButtonClicked()
 {
+    if (!objectList->currentIndex().isValid())
+        return;
     setButtonsEnabled(false);
-    qDebug() << "Edit button clicked";
+	objectList->edit(objectList->currentIndex());
 }
 
 void EmuFrontEditView::deleteButtonClicked()
