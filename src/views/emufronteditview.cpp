@@ -44,6 +44,7 @@ void EmuFrontEditView::postInit()
     connectSignals();
     setHiddenColumns();
     hideColumns();
+	objectList->resizeColumnsToContents();
 }
 
 void EmuFrontEditView::layout()

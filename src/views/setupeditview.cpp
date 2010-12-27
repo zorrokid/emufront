@@ -49,10 +49,15 @@ SetupEditView::SetupEditView(PlatformModel *plfModel, MediaTypeModel *mdtModel, 
     objectList->setItemDelegateForColumn(SetupModel::Setup_MediaTypeId, mediatypeDelegate);
 
     StringListDelegate *fileTypeDelegate = new StringListDelegate(SetupModel::FILE_TYPE_EXTENSION_SEPARATOR, this);
-    objectList->setItemDelegateForColumn(SetupModel::Setup_FileTypeExtensions, fileTypeDelegate);
-	//objectList->setColumnWidth(SetupModel::Setup_FileTypeExtensions, StringListDelegate::WIDTH);
-	objectList->resizeColumnToContents(SetupModel::Setup_FileTypeExtensions);
-    postInit();
+	objectList->setItemDelegateForColumn(SetupModel::Setup_FileTypeExtensions, fileTypeDelegate);
+	postInit();
+	objectList->resizeColumnsToContents();
+	// TODO: the following would be nice to have set more dynamically:
+	objectList->verticalHeader()->setDefaultSectionSize(StringListDelegate::HEIGHT);
+	/*objectList->resizeRowsToContents();
+	objectList->verticalHeader()->resizeSections(QHeaderView::Fixed);
+	objectList->horizontalHeader()->resizeSections(QHeaderView::Fixed);*/
+	//objectList->resizeColumnToContents(SetupModel::Setup_FileTypeExtensions);
 }
 
 void SetupEditView::setHiddenColumns()
