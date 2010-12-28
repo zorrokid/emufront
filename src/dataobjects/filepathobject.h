@@ -17,7 +17,9 @@
 **
 ** You should have received a copy of the GNU General Public License
 ** along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
-*/#ifndef FILEPATHOBJECT_H
+*/
+
+#ifndef FILEPATHOBJECT_H
 #define FILEPATHOBJECT_H
 
 #include "emufrontfileobject.h"

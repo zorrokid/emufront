@@ -17,7 +17,9 @@
 **
 ** You should have received a copy of the GNU General Public License
 ** along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
-*/#ifndef SETUP_H
+*/
+
+#ifndef SETUP_H
 #define SETUP_H
 #include <QStringList>
 #include "emufrontobject.h"

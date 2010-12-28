@@ -17,7 +17,9 @@
 **
 ** You should have received a copy of the GNU General Public License
 ** along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
-*/#ifndef PLATFORM_H
+*/
+
+#ifndef PLATFORM_H
 #define PLATFORM_H
 
 #include "emufrontfileobject.h"
