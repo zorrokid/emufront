@@ -34,6 +34,10 @@ EmuFrontObject::EmuFrontObject(const EmuFrontObject &ob)
     // http://doc.trolltech.com/4.0/shclass.html
 }
 
+EmuFrontObject::EmuFrontObject(QString name)
+	: id(EmuFrontObject::ID_NOT_SET), name(name)
+{}
+
 EmuFrontObject::EmuFrontObject(int id, QString name)
     : id(id), name(name)
 {}

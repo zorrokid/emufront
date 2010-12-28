@@ -19,37 +19,17 @@
 ** along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef EMUFRONTOBJECT_H
-#define EMUFRONTOBJECT_H
+#ifndef TITLENAME_H
+#define TITLENAME_H
 
-#include <QObject>
+#include "emufrontobject.h"
 
-class EmuFrontObject : public QObject
+class TitleName : public EmuFrontObject
 {
 public:
-    static const int ID_NOT_SET;
-    EmuFrontObject();
-    EmuFrontObject(int id, QString name);
-	EmuFrontObject(QString name);
-
-    EmuFrontObject(const EmuFrontObject &);
-    ~EmuFrontObject();
-    EmuFrontObject &operator=(const EmuFrontObject &);
-    bool operator==(const EmuFrontObject &);
-    bool operator!=(const EmuFrontObject &);
-
-    virtual const QString getName() const
-    { return name; }
-    virtual int getId() const
-    { return id; }
-    virtual void setName(QString name)
-    { this->name = name; }
-    virtual void setId(int id)
-    { this->id = id; }
-
-protected:
-    int id;
-    QString name;
+    TitleName();
+	TitleName(QString name);
+    TitleName(int id, QString name);
 };
 
-#endif // EMUFRONTOBJECT_H
+#endif // TITLENAME_H

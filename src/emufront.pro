@@ -103,7 +103,9 @@ HEADERS += mainwindow.h \
     views/externalexecutableeditview.h \
     models/mediaimagecontainermodel.h \
     models/mediaimagemodel.h \
-    models/filemodel.h
+    models/filemodel.h \
+    dataobjects/titlename.h
+
 SOURCES += main.cpp \
     mainwindow.cpp \
     db/databasemanager.cpp \
@@ -182,7 +184,9 @@ SOURCES += main.cpp \
     views/externalexecutableeditview.cpp \
     models/mediaimagecontainermodel.cpp \
     models/mediaimagemodel.cpp \
-    models/filemodel.cpp
+    models/filemodel.cpp \
+    dataobjects/titlename.cpp
+
 OTHER_FILES +=  
 
 CONFIG += mobility
