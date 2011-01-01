@@ -1,3 +1,9 @@
+emufront (0.2) unstable; urgency=low
+
+  * Using new models, delegates and views
+    
+ -- Mikko Keinänen <mikko.keinanen@gmail.com>  Sat, 1 Jan 2011 14:05:00 +0200
+
 emufront (0.1.8) unstable; urgency=low
 
   * Fixed a bug in the edit dialog fields: the fields were not cleared 
