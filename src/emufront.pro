@@ -132,7 +132,6 @@ SOURCES += main.cpp \
     utils/fileutil.cpp \
     dataobjects/setup.cpp \
     db/dbsetup.cpp \
-    db/dbtablemodelmanager.cpp \
     db/dbquerymodelmanager.cpp \
     dialogs/setupmaindialog.cpp \
     dialogs/setupeditdialog.cpp \
