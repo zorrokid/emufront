@@ -1,6 +1,6 @@
 /*
 ** EmuFront
-** Copyright 2010 Mikko Keinänen
+** Copyright 2010-2011 Mikko Keinänen
 **
 ** This file is part of EmuFront.
 **
@@ -17,7 +17,9 @@
 **
 ** You should have received a copy of the GNU General Public License
 ** along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
-*/#ifndef DBEXECUTABLE_H
+*/
+
+#ifndef DBEXECUTABLE_H
 #define DBEXECUTABLE_H
 
 #include "dbquerymodelmanager.h"
