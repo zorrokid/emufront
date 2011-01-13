@@ -17,7 +17,9 @@
 **
 ** You should have received a copy of the GNU General Public License
 ** along with EmuFront.  If not, see <http://www.gnu.org/licenses/>.
-*/#ifndef DBCREATOR_H
+*/
+
+#ifndef DBCREATOR_H
 #define DBCREATOR_H
 
 #include <QObject>
