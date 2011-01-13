@@ -32,53 +32,29 @@ HEADERS += mainwindow.h \
     db/databasemanager.h \
     dialogs/dbobjectdialog.h \
     dialogs/namedialog.h \
-    dialogs/platformdialog.h \
-    dialogs/platformnamedialog.h \
     dialogs/emufrontdialog.h \
     dataobjects/emufrontobject.h \
     dataobjects/platform.h \
-    db/dbplatform.h \
     db/dbcreator.h \
-    dialogs/mediatypedialog.h \
     dataobjects/emufrontfileobject.h \
     dataobjects/mediatype.h \
-    db/dbmediatype.h \
-    dialogs/mediatypenamedialog.h \
     dataobjects/filepathobject.h \
-    dialogs/mediaimagepathdialog.h \
-    dialogs/mediaimagepathmaindialog.h \
     dialogs/dataobjecteditdialog.h \
-    db/dbfilepath.h \
-    utils/ziputil.h \
     utils/fileutil.h \
     dataobjects/setup.h \
-    db/dbsetup.h \
-    dialogs/setupmaindialog.h \
-    dialogs/setupeditdialog.h \
     widgets/stringlistwidget.h \
     exceptions/emufrontexception.h \
     dataobjects/mediaimage.h \
     dataobjects/mediaimagecontainer.h \
     dataobjects/emufrontfile.h \
-    db/dbfile.h \
-    db/dbemufrontfileobject.h \
-    db/dbmediaimagecontainer.h \
-    db/dbmediaimage.h \
     emulauncher.h \
     widgets/efcombobox.h \
-    widgets/effileobjectcombobox.h \
-    widgets/setupcombobox.h \
     dataobjects/executable.h \
-    db/dbexecutable.h \
-    dialogs/executablemaindialog.h \
-    dialogs/executableeditdialog.h \
-    widgets/executablecombobox.h \
     utils/processhelper.h \
     utils/unziphelper.h \
     utils/emuhelper.h \
     dialogs/listdialog.h \
     dialogs/emufrontinputdialog.h \
-    dialogs/emufrontfileobjectdialog.h \
     dialogs/browsefilepathdialog.h \
     db/dbconfig.h \
     utils/datfileutil.h \
@@ -111,54 +87,29 @@ SOURCES += main.cpp \
     db/databasemanager.cpp \
     dialogs/dbobjectdialog.cpp \
     dialogs/namedialog.cpp \
-    dialogs/platformdialog.cpp \
-    dialogs/platformnamedialog.cpp \
     dialogs/emufrontdialog.cpp \
     dataobjects/emufrontobject.cpp \
     dataobjects/platform.cpp \
-    db/dbplatform.cpp \
     db/dbcreator.cpp \
-    dialogs/mediatypedialog.cpp \
     dataobjects/emufrontfileobject.cpp \
     dataobjects/mediatype.cpp \
-    db/dbmediatype.cpp \
-    dialogs/mediatypenamedialog.cpp \
     dataobjects/filepathobject.cpp \
-    dialogs/mediaimagepathdialog.cpp \
-    dialogs/mediaimagepathmaindialog.cpp \
     dialogs/dataobjecteditdialog.cpp \
-    db/dbfilepath.cpp \
-    utils/ziputil.cpp \
     utils/fileutil.cpp \
     dataobjects/setup.cpp \
-    db/dbsetup.cpp \
-    db/dbquerymodelmanager.cpp \
-    dialogs/setupmaindialog.cpp \
-    dialogs/setupeditdialog.cpp \
     widgets/stringlistwidget.cpp \
     exceptions/emufrontexception.cpp \
     dataobjects/mediaimage.cpp \
     dataobjects/mediaimagecontainer.cpp \
     dataobjects/emufrontfile.cpp \
-    db/dbfile.cpp \
-    db/dbemufrontfileobject.cpp \
-    db/dbmediaimagecontainer.cpp \
-    db/dbmediaimage.cpp \
     emulauncher.cpp \
     widgets/efcombobox.cpp \
-    widgets/effileobjectcombobox.cpp \
-    widgets/setupcombobox.cpp \
     dataobjects/executable.cpp \
-    db/dbexecutable.cpp \
-    dialogs/executablemaindialog.cpp \
-    dialogs/executableeditdialog.cpp \
-    widgets/executablecombobox.cpp \
     utils/processhelper.cpp \
     utils/unziphelper.cpp \
     utils/emuhelper.cpp \
     dialogs/listdialog.cpp \
     dialogs/emufrontinputdialog.cpp \
-    dialogs/emufrontfileobjectdialog.cpp \
     dialogs/browsefilepathdialog.cpp \
     db/dbconfig.cpp \
     utils/datfileutil.cpp \

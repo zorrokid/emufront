@@ -144,7 +144,7 @@ EmuFrontObject* EmuFrontFileObjectModel::recordToDataObject(const QSqlRecord* re
 {
     int id = record->value(EmuFrontFileObject_Id).toInt();
     QString name = record->value(EmuFrontFileObject_Name).toString();
-    int fileId = record->value(EmuFrontFileObject_FileId).toInt();
+    //int fileId = record->value(EmuFrontFileObject_FileId).toInt();
     EmuFrontFile *f = 0;
     /*if (fileId > 0)
     {

@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
     QStringList arglst = app.arguments();
-    bool reset = arglst.contains("reset", Qt::CaseInsensitive);
+    //bool reset = arglst.contains("reset", Qt::CaseInsensitive);
     MainWindow mw;
     mw.show();
     return app.exec();

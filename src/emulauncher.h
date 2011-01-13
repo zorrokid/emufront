@@ -67,11 +67,11 @@ private:
     void connectSignals();
     void launch(const Executable*, const MediaImageContainer*);
     void cleanTmp();
-    QString tmpDirPath;
     QErrorMessage *errorMessage;
     SetupModel *supModel;
     MediaImageContainerModel *micModel;
     ExternalExecutableModel *emuModel;
+    QString tmpDirPath;
 };
 
 #endif // EMULAUNCHER_H

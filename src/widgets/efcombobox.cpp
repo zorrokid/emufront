@@ -53,7 +53,7 @@ void EFComboBox::updateDataModel(bool reset)
 */
 EmuFrontObject* EFComboBox::getSelected()
 {
-    EmuFrontObject *efo = 0;
+    //EmuFrontObject *efo = 0;
     int index = currentIndex();
     if (index < 0)
         return 0;

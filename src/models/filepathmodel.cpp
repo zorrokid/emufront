@@ -71,7 +71,7 @@ Qt::ItemFlags FilePathModel::flags(const QModelIndex &index) const
     return flags;
 }
 
-bool FilePathModel::setData(const QModelIndex &index, const QVariant &value, int role)
+bool FilePathModel::setData(const QModelIndex &index, const QVariant &value, int /*role*/)
 {
     int col = index.column();
     if (col != FilePath_SetupId &&

@@ -53,7 +53,7 @@ void ComboBoxDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
 
 //QSize ComboBoxDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const { }
 
-QWidget* ComboBoxDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
+QWidget* ComboBoxDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &/*option*/, const QModelIndex &/*index*/) const
 {
     QComboBox *editor = new QComboBox(parent);
     editor->setEditable(false);

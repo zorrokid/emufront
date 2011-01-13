@@ -29,15 +29,14 @@
 #include "externalexecutablemodel.h"
 #include "mediaimagecontainer.h"
 #include "mediaimagecontainermodel.h"
-#include "effileobjectcombobox.h"
-#include "executablecombobox.h"
 #include "executable.h"
 #include "emuhelper.h"
 #include "emufrontinputdialog.h"
+#include "emufrontexception.h"
 
 EmuLauncher::EmuLauncher(QErrorMessage *errorMessage, SetupModel *supModel, ExternalExecutableModel
 		*emuModel, QWidget *parent, QString tmp) :
-    QWidget(parent), supModel(supModel), emuModel(emuModel), tmpDirPath(tmp), errorMessage(errorMessage)
+    QWidget(parent), errorMessage(errorMessage), supModel(supModel), emuModel(emuModel), tmpDirPath(tmp)
 {
     emuHelper = new EmuHelper(this);
     initWidgets();
@@ -114,7 +113,7 @@ void EmuLauncher::updateMediaImageContainers()
     if (setupSelectBox->currentIndex() == -1) return;
 
     // 1. get selected platform and media type id
-    QAbstractItemModel *setupAbsModel = setupSelectBox->model();
+    //QAbstractItemModel *setupAbsModel = setupSelectBox->model();
     //SetupModel *supModel = qobject_cast<SetupModel *>(setupAbsModel);
     //if (!supModel) return;
 

@@ -26,7 +26,8 @@ FileSystemBrowseDelegate::FileSystemBrowseDelegate(QWidget *parent) :
 {
 }
 
-QWidget* FileSystemBrowseDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
+QWidget* FileSystemBrowseDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &/*option*/,
+    const QModelIndex &/*index*/) const
 {
     FilePathSelectorWidget *editor = new FilePathSelectorWidget(parent);
     connect(editor, SIGNAL(filePathUpdated()), this, SLOT(commitAndCloseEditor()));

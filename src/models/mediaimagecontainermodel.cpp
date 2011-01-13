@@ -113,10 +113,10 @@ bool MediaImageContainerModel::removeFromFilePath(int filePathId) const
     return q.exec();
 }
 
-void MediaImageContainerModel::storeContainers(QList<MediaImageContainer *> lst, FilePathObject *fpo)
+void MediaImageContainerModel::storeContainers(QList<MediaImageContainer *> lst, FilePathObject */*fpo*/)
 {
     foreach(MediaImageContainer *mic, lst) {
-        int micFileId = storeMediaImageContainer(mic);
+        /*int micFileId = */ storeMediaImageContainer(mic);
     }
 }
 

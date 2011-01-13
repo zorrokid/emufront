@@ -319,7 +319,7 @@ void DbObjectDialog::hideColumns()
 }
 
 /* Enables UI. Deletes nameDialog object and current data object */
-void DbObjectDialog::closeEvent(QCloseEvent *ev)
+void DbObjectDialog::closeEvent(QCloseEvent */*ev*/)
 {
     qDebug() << "DbObjectDialog closing!";
     setUIEnabled(true);

@@ -43,7 +43,7 @@ QMap<QString, EmuFrontObject*> MediaImageModel::getMediaImages(int micId)
     QSqlRecord rec;
     int id, size;
     QString name, checksum;
-    MediaImage *mi = 0;
+    //MediaImage *mi = 0;
     while(q.next()) {
         // TODO: checks?
         rec = q.record();
@@ -82,7 +82,7 @@ QList<int> MediaImageModel::storeMediaImages(QMap<QString, EmuFrontObject*> imag
     return ids;
 }
 
-void MediaImageModel::removeOrphanedMediaImages(QList<int> ids)
+void MediaImageModel::removeOrphanedMediaImages(QList<int> /*ids*/)
 {
     // TODO
     // go through the list of media image ids,

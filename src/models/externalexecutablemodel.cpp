@@ -69,14 +69,14 @@ QString ExternalExecutableModel::constructSelect(QString where) const
 Qt::ItemFlags ExternalExecutableModel::flags(const QModelIndex &index) const
 {
     Qt::ItemFlags flags = QSqlQueryModel::flags(index);
-    int col = index.column();
+    //int col = index.column();
     if (editableColumns.contains(index.column())) {
        flags  |= Qt::ItemIsEditable;
     }
     return flags;
 }
 
-bool ExternalExecutableModel::setData(const QModelIndex &index, const QVariant &value, int role)
+bool ExternalExecutableModel::setData(const QModelIndex &index, const QVariant &value, int /*role*/)
 {
     if (!editableColumns.contains(index.column()))
         return false;

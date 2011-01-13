@@ -28,7 +28,7 @@ StringListDelegate::StringListDelegate(QString separator, QObject *parent) :
 {
 }
 
-QWidget* StringListDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
+QWidget* StringListDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &/*option*/, const QModelIndex &index) const
 {
     StringListWidget *editor = new StringListWidget(parent);
 	editor->setFixedSize(WIDTH, HEIGHT);
@@ -59,7 +59,7 @@ void StringListDelegate::commitAndCloseEditor()
     emit closeEditor(editor);
 }
 
-QSize StringListDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
+QSize StringListDelegate::sizeHint(const QStyleOptionViewItem &/*option*/, const QModelIndex &/*index*/) const
 {
 	
 	qDebug() << "sizeHinta";
