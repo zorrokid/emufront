@@ -78,6 +78,7 @@ void EmuFrontEditView::editButtonClicked()
     if (!objectList->currentIndex().isValid())
         return;
     setButtonsEnabled(false);
+    lastIndex = objectList->currentIndex();
 	objectList->edit(objectList->currentIndex());
 }
 
@@ -111,12 +112,14 @@ void EmuFrontEditView::addButtonClicked()
         return;
     }
     objectList->setCurrentIndex(ind);
+    lastIndex = ind;
     objectList->edit(ind);
 }
 
 void EmuFrontEditView::listObjectClicked(const QModelIndex &index)
 {
     setButtonsEnabled(index.isValid());
+    lastIndex = index;
 }
 
 void EmuFrontEditView::setButtonsEnabled(bool b)
@@ -130,6 +133,12 @@ void EmuFrontEditView::setHiddenColumns()
     // default implementation
 }
 
+bool EmuFrontEditView::validateData(QModelIndex /*index*/)
+{
+    // default implememtation
+    return false;
+}
+
 bool EmuFrontEditView::confirm(QString &msg)
 {
     int r = QMessageBox::warning(this, tr("Confirm"), msg, QMessageBox::Yes | QMessageBox::No);
@@ -140,5 +149,12 @@ bool EmuFrontEditView::confirm(QString &msg)
 
 void EmuFrontEditView::onDataChanged()
 {
-	qDebug() << "Data changed";
+    qDebug() << "Data changed";
+    if (lastIndex.isValid() && !validateData(lastIndex))
+    {
+        if ( !model->removeRow(lastIndex.row()) ) {
+            errorMessage->showMessage(tr("Failed removing selected item."));
+        }
+    }
+
 }

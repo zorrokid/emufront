@@ -20,6 +20,7 @@
 */
 #include "emufrontfileobjecteditview.h"
 #include "emufrontfileobjectmodel.h"
+#include "emufrontfileobject.h"
 
 EmuFrontFileObjectEditView::EmuFrontFileObjectEditView(QWidget *parent) :
     EmuFrontEditView(parent)
@@ -35,4 +36,14 @@ void EmuFrontFileObjectEditView::setHiddenColumns()
 	hiddenColumns << EmuFrontFileObjectModel::EmuFrontFileObject_FileName;
 	hiddenColumns << EmuFrontFileObjectModel::EmuFrontFileObject_FileUpdateTime;
 	hiddenColumns << EmuFrontFileObjectModel::EmuFrontFileObject_FileSize;
+}
+
+
+bool EmuFrontFileObjectEditView::validateData(QModelIndex index)
+{
+    EmuFrontObject* obj = model->getDataObject(index);
+    EmuFrontFileObject* fobjs = dynamic_cast<EmuFrontFileObject *>(obj);
+    if (fobjs == 0 || fobjs->getName().isEmpty())
+        return false;
+    return true;
 }

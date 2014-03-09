@@ -52,8 +52,10 @@ private:
     QPushButton *editButton;
     QPushButton *addButton;
     QPushButton *deleteButton;
+    QModelIndex lastIndex;
     void layout();
     virtual void setHiddenColumns();
+    virtual bool validateData(QModelIndex index);
     void hideColumns();
     void setButtonsEnabled(bool);
     bool confirm(QString &msg);
