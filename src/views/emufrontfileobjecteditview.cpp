@@ -38,12 +38,12 @@ void EmuFrontFileObjectEditView::setHiddenColumns()
 	hiddenColumns << EmuFrontFileObjectModel::EmuFrontFileObject_FileSize;
 }
 
-
-bool EmuFrontFileObjectEditView::validateData(QModelIndex index)
-{
-    EmuFrontObject* obj = model->getDataObject(index);
-    EmuFrontFileObject* fobjs = dynamic_cast<EmuFrontFileObject *>(obj);
-    if (fobjs == 0 || fobjs->getName().isEmpty())
-        return false;
-    return true;
-}
+// Currently the default implementation is ok:
+//bool EmuFrontFileObjectEditView::validateData(QModelIndex index)
+//{
+//    EmuFrontObject* obj = model->getDataObject(index);
+//    EmuFrontFileObject* fobjs = dynamic_cast<EmuFrontFileObject *>(obj);
+//    if (fobjs == 0 || fobjs->getName().isEmpty())
+//        return false;
+//    return true;
+//}

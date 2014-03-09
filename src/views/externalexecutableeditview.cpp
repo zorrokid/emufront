@@ -47,3 +47,4 @@ void ExternalExecutableEditView::setHiddenColumns()
 	hiddenColumns << ExternalExecutableModel::Executable_SetupName;
 	hiddenColumns << ExternalExecutableModel::Executable_TypeId;
 }
+

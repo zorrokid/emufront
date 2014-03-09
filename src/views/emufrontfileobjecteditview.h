@@ -30,7 +30,7 @@ public:
 
 private:
     virtual void setHiddenColumns();
-    virtual bool validateData(QModelIndex index);
+    //virtual bool validateData(QModelIndex index);
 };
 
 #endif // EMUFRONTFILEOBJECTMAINDIALOG_H

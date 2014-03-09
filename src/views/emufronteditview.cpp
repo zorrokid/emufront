@@ -20,6 +20,7 @@
 */
 #include <QtGui>
 #include "emufronteditview.h"
+#include "emufrontobject.h"
 
 EmuFrontEditView::EmuFrontEditView(QWidget *parent) :
     EmuFrontDialog(parent)
@@ -133,11 +134,14 @@ void EmuFrontEditView::setHiddenColumns()
     // default implementation
 }
 
-bool EmuFrontEditView::validateData(QModelIndex /*index*/)
+bool EmuFrontEditView::validateData(QModelIndex index)
 {
-    // default implememtation
-    return false;
+    EmuFrontObject* obj = model->getDataObject(index);
+    if (obj == 0 || obj->getName().isEmpty())
+        return false;
+    return true;
 }
+
 
 bool EmuFrontEditView::confirm(QString &msg)
 {
