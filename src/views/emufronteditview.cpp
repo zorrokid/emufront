@@ -44,7 +44,8 @@ void EmuFrontEditView::postInit()
     connectSignals();
     setHiddenColumns();
     hideColumns();
-	objectList->resizeColumnsToContents();
+    objectList->resizeColumnsToContents();
+    objectList->horizontalHeader()->setStretchLastSection(true);
 }
 
 void EmuFrontEditView::layout()
